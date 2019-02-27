@@ -1,0 +1,22 @@
+{
+  "name": "sprint1",
+  "version": "1.0.0",
+  "description": "crud for Admin part",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "index": "nodemon index.js"
+  },
+  "author": "youssef mohamed ahmed",
+  "license": "MIT",
+  "dependencies": {
+    "body-parser": "^1.18.3",
+    "concurrently": "^4.1.0",
+    "express": "^4.16.4",
+    "joi": "^14.3.1",
+    "uuid": "^3.3.2"
+  },
+  "devDependencies": {
+    "nodemon": "^1.18.10"
+  }
+}
