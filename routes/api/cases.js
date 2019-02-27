@@ -34,31 +34,37 @@ router.post('/', (req, res) => {
 router.delete('/:caseID', (req, res) => {
     const caseID = req.params.id
     const cas = cases.find(cas => cas.caseID === caseID)
-    const index = cases.indexOf(cas)
+	const index = cases.indexOf(cas)
     cases.splice(index,1)
     res.send(cases)
 });
 
 //update
 
-router.put('/:caseID' , (req,res) => {
-	console.log("HERE")
-	const caseID = req.params.id
-	const cas = cases.find(cas => cas.caseID === caseID )
-	
+router.put('/update/:caseID' , (req,res) => {
+
+	const caseID = req.params.caseID
+	// const Case = cases.find(Case => Case.caseID === caseID )
+	var Case=null;
+	for(let i=0;i<cases.length;i++)
+		if(cases[i].caseID === caseID)
+			Case = cases[i];
+	if(Case === null)
+		return res.status(400).send({ err: 'Can not find the Case ID' });
+		
 	//check here again for the updates
-	const caseStatus=req.body.caseStatus;
-	const companyType = req.body.companyType;
-	const assigneeID = req.body.assigneeID;
+	const Update_caseStatus = req.body.caseStatus;
+	const Update_companyType = req.body.companyType;
+	const Update_assigneeID = req.body.assigneeID;
 	
-	if(caseStatus)
-		cas.caseStatus=caseStatus
-	if(companyType)
-		cas.companyType = companyType
-	if(assigneeID)
-		cas.assigneeID = assigneeID
+	if(Update_caseStatus)
+		Case.caseStatus=Update_caseStatus;
+	if(Update_companyType)
+		Case.companyType =Update_companyType;
+	if(Update_assigneeID)
+		Case.assigneeID = Update_assigneeID;
 	
-	res.send(cas)
+	res.send(cases);
 });
 
 module.exports = router;
