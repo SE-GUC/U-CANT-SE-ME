@@ -4,7 +4,7 @@ const router = express.Router();
 
 const Case = require('../../models/Case');
 const cases = [ 
-	new Case('hello', 'hello','SPC','hello')
+	new Case('hello', 'hello','SPC')
 ];
 
 //get all cases , NOT THE ENTIRE READ CASE
