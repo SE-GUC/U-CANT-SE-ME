@@ -39,4 +39,25 @@ router.delete('/:caseID', (req, res) => {
     res.send(cases)
 });
 
+//update
+
+router.put('/:caseID' , (req,res) => {
+	const caseID = req.params.id
+	const cas = cases.find(cas => cas.caseID === caseID )
+	
+	//check here again for the updates
+	const caseStatus=req.body.caseStatus;
+	const companyType = req.body.companyType;
+	const assigneeID = req.body.assigneeID;
+	
+	if(caseStatus)
+		cas.caseStatus=caseStatus
+	if(companyType)
+		cas.companyType = companyType
+	if(assigneeID)
+		cas.assigneeID = assigneeID
+	
+	res.send(cas)
+});
+
 module.exports = router;
