@@ -42,6 +42,7 @@ router.delete('/:caseID', (req, res) => {
 //update
 
 router.put('/:caseID' , (req,res) => {
+	console.log("HERE")
 	const caseID = req.params.id
 	const cas = cases.find(cas => cas.caseID === caseID )
 	
