@@ -25,13 +25,9 @@ router.post('/', (req, res) => {
 	if (companyType !== 'SPC' && companyType !== 'SSC') return res.status(400).send({ err: 'Invalid value for company type' });
 	if (!assigneeID) return res.status(400).send({ err: 'Assigned employee field is required' });
 	if (typeof assigneeID !== 'string');
-	const newCase = {
-		investorID,
-		organizationID,
-		companyType,
-		assigneeID,
-		caseID: uuid.v4(),
-	};
+	
+	const newCase = new Case(investorID,organizationID,companyType,assigneeID);
+	
 	cases.push(newCase)
 	return res.json({ data: newCase });
 });
