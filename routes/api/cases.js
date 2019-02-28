@@ -15,15 +15,15 @@ router.get('/', (req, res) => res.json({ data: cases }));
 
 router.post('/', (req, res) => {
 	const investorID = req.body.investorID;
-	const organizationID = req.body.organizationID;
+	const lawyerID = req.body.lawyerID;
 	const companyType = req.body.companyType;
 
-	if (!investorID && !organizationID) return res.status(400).send({ err: 'There must be an organization ID or an investor ID' });
-	if (typeof investorID !== 'string' || typeof organizationID !== 'string') return res.status(400).send({ err: 'Invalid value for ID' });
+	if (!investorID && !lawyerID) return res.status(400).send({ err: 'There must be a lawyer ID or an investor ID' });
+	if (typeof investorID !== 'string' || typeof lawyerID !== 'string') return res.status(400).send({ err: 'Invalid value for ID' });
 	if (!companyType) return res.status(400).send({ err: 'Company type field is required' });
 	if (companyType !== 'SPC' && companyType !== 'SSC') return res.status(400).send({ err: 'Invalid value for company type' });
 	
-	const newCase = new Case(investorID,organizationID,companyType);
+	const newCase = new Case(investorID,lawyerID,companyType);
 	
 	cases.push(newCase)
 	return res.json({ data: newCase });
