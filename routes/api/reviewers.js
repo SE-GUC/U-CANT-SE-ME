@@ -24,34 +24,6 @@ router.get('/:id',(req,res)  => {
     const reviewer = Reviewers.find(reviewer => reviewer.id === reviewerId)
     res.send(reviewer)
 })
-// router.put('/updatecases/:id',(req,res)=>{
-  
-//     var  reviewerId= req.params.id;
-//     const reviewer = Reviewers.find(reviewer => reviewer.id === reviewerId)
-//     if(!reviewer){ res.status(404).send('this reviewer is not found ');
-//     return;
-// }
-// else{
-//     reviewer.activeCases.push(req.body.activeCases);
-//     res.send(reviewer);
-// }
-// });
-// router.put('/update/cases/:id', (req, res) => {
-//     const schema = {
-// 		activeCases:string().min(1)
-//     }
-//     const result = Joi.validate(req.body, schema);
-//     if (result.error) return res.status(400).send({ error: result.error.details[0].message });
-//     const reviewerId = req.params.id 
-//     const activeCases = req.body.activeCases
-//     const reviewer = Reviewers.find(reviewer => reviewer.id === reviewerId)
-//     if(activeCases)
-//         reviewer.activeCases.push(activeCases);
-        
-    
-    
-//     res.send(Reviewers)
-// })
 
 router.put('/update/:id', (req, res) => {
     const schema = {
