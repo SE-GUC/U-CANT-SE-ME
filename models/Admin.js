@@ -1,4 +1,4 @@
-const uuid = require('uuid')
+const uuid = require('uuid');
 
 // The Admin Model
 //should we add any more attributes?

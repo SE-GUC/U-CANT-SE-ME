@@ -19,29 +19,15 @@ const admins = [
 // Get all admins
 router.get('/', (req, res) => res.json({ data: admins }));
 
-// Create a new admin in 2 different ways , we will choose yet ,so which one ?
-//what should we add any more requirments for the entered data as constraints ?
-router.post('/', (req, res) => {
-    const userName = req.body.userName;
-    const fullName = req.body.fullName;
-	const password = req.body.password;
 
-	if (!userName) return res.status(400).send({ err: 'userName field is required' });
-	if (typeof userName !== 'string') return res.status(400).send({ err: 'Invalid value for userName' });
-	if (!fullName) return res.status(400).send({ err: 'fullName field is required' });
-    if (typeof fullName !== 'string') return res.status(400).send({ err: 'Invalid value for fullName' });
-    if (!password) return res.status(400).send({ err: 'password field is required' });
-    if (typeof password !== 'string') return res.status(400).send({ err: 'Invalid value for password' });
+// Get certain admin
+router.get('/:id',(req,res)  => {
+    const adminId = req.params.id
+    const admin = admins.find(admin => admin.id === adminId)
+    res.send(admin)
+})
 
-	const newAdmin = {
-		userName,
-        fullName,
-        password,
-		id: uuid.v4(),
-	};
-	return res.json({ data: newAdmin });
-});
-
+//create admin
 router.post('/joi', (req, res) => {
     const userName = req.body.userName;
     const fullName = req.body.fullName;
@@ -58,23 +44,27 @@ router.post('/joi', (req, res) => {
 
 	if (result.error) return res.status(400).send({ error: result.error.details[0].message });
 
-	const newAdmin = {
+	const newAdmin = new Admin (
 		userName,
         fullName,
-        password,
-		id: uuid.v4(),
-	};
-	return res.json({ data: newAdmin });
+        password
+		
+);
+    admins.push(newAdmin)
+    return res.json({ data: newAdmin });
+
 });
 
 //update Admin password , should we allow updating sometinhg else ?
-router.put('/api/admins/:id', (req, res) => {
+router.put('/update/:id', (req, res) => {
     const adminId = req.params.id 
     const updatedpassword = req.body.password
-    const admin = admin.find(admin => admin.id === adminId)
+    const admin = admins.find(admin => admin.id === adminId)
     admin.password = updatedpassword
     res.send(admins)
 })
+
+
 
 
 module.exports = router;

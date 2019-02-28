@@ -13,7 +13,7 @@ app.get('/', (req, res) => {
 app.use('/api/admins', admins)
 
 
-// Handling 404
+//Handling 404
 app.use((req, res) => {
     res.status(404).send({err: 'We can not find what you are looking for'});
  })
