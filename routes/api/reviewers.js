@@ -24,7 +24,25 @@ router.get('/:id',(req,res)  => {
     const reviewer = Reviewers.find(reviewer => reviewer.id === reviewerId)
     res.send(reviewer)
 })
-
+router.delete('/activecase/:id/:id2',(req,res)=>{
+    var reviewerId = req.params.id;
+    var caseId=req.params.id2;
+    const reviewer = Reviewers.find(reviewer => reviewer.id === reviewerId)
+    if(!reviewer){ res.status(404).send('no reviwer with this ID');
+    return;
+}
+else{
+    const caseno=reviewer.activeCases.find(caseno => caseno===caseId)
+    if(!caseno){
+        res.status(404).send('NO case with this ID');
+    }
+    else{
+        const index =reviewer.activeCases.indexOf(caseno+"")
+        reviewer.activeCases.splice(index,1)
+        res.send(reviewer)
+    }
+}
+});
 router.put('/update/:id', (req, res) => {
     const schema = {
 		userName: Joi.string().min(2),
