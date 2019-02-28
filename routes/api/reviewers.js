@@ -7,14 +7,14 @@ const router = express.Router();
 const Reviewer = require('../../models/Reviewer');
 
 let Reviewers = [
-    new Reviewer(uuid.v4(),'ahmed1 mohamed sami','Male','02/02/1998','New Cairo','010893792348','782973','ahmed.mohamed@gmail.com'),
-    new Reviewer(uuid.v4(),'ahmed2 mohamed sami','Male','02/02/1998','New Cairo','010893792348','782973','ahmed.mohamed@gmail.com'),
-    new Reviewer(uuid.v4(),'ahmed3 mohamed sami','Male','02/02/1998','New Cairo','010893792348','782973','ahmed.mohamed@gmail.com'),
-    new Reviewer(uuid.v4(),'ahmed4 mohamed sami','Male','02/02/1998','New Cairo','010893792348','782973','ahmed.mohamed@gmail.com'),
-    new Reviewer(uuid.v4(),'ahmed5 mohamed sami','Male','02/02/1998','New Cairo','010893792348','782973','ahmed.mohamed@gmail.com'),
-    new Reviewer(uuid.v4(),'ahmed6 mohamed sami','Male','02/02/1998','New Cairo','010893792348','782973','ahmed.mohamed@gmail.com'),
-    new Reviewer(uuid.v4(),'ahmed7 mohamed sami','Male','02/02/1998','New Cairo','010893792348','782973','ahmed.mohamed@gmail.com'),
-    new Reviewer(uuid.v4(),'ahmed8 mohamed sami','Male','02/02/1998','New Cairo','010893792348','782973','ahmed.mohamed@gmail.com')
+    new Reviewer(uuid.v4(),'john1','782973','john1 samir',["123","123"],'ahmed.mohamed@gmail.com'),
+    new Reviewer(uuid.v4(),'john2','782973','john2 samir',["123","123"],'ahmed.mohamed@gmail.com'),
+    new Reviewer(uuid.v4(),'john3','782973','john3 samir',["123","123"],'ahmed.mohamed@gmail.com'),
+    new Reviewer(uuid.v4(),'john4','782973','john4 samir',["123","123"],'ahmed.mohamed@gmail.com'),
+    new Reviewer(uuid.v4(),'john5','782973','john5 samir',["123","123"],'ahmed.mohamed@gmail.com'),
+    new Reviewer(uuid.v4(),'john6','782973','john6 samir',["123","123"],'ahmed.mohamed@gmail.com'),
+    new Reviewer(uuid.v4(),'john7','782973','john7 samir',["123","123"],'ahmed.mohamed@gmail.com'),
+    new Reviewer(uuid.v4(),'john8','782973','john8 samir',["123","123"],'ahmed.mohamed@gmail.com')
 ];
 
 router.get('/', (req, res) => res.json({ data: Reviewers }));
@@ -24,100 +24,93 @@ router.get('/:id',(req,res)  => {
     const reviewer = Reviewers.find(reviewer => reviewer.id === reviewerId)
     res.send(reviewer)
 })
+// router.put('/updatecases/:id',(req,res)=>{
+  
+//     var  reviewerId= req.params.id;
+//     const reviewer = Reviewers.find(reviewer => reviewer.id === reviewerId)
+//     if(!reviewer){ res.status(404).send('this reviewer is not found ');
+//     return;
+// }
+// else{
+//     reviewer.activeCases.push(req.body.activeCases);
+//     res.send(reviewer);
+// }
+// });
+// router.put('/update/cases/:id', (req, res) => {
+//     const schema = {
+// 		activeCases:string().min(1)
+//     }
+//     const result = Joi.validate(req.body, schema);
+//     if (result.error) return res.status(400).send({ error: result.error.details[0].message });
+//     const reviewerId = req.params.id 
+//     const activeCases = req.body.activeCases
+//     const reviewer = Reviewers.find(reviewer => reviewer.id === reviewerId)
+//     if(activeCases)
+//         reviewer.activeCases.push(activeCases);
+        
+    
+    
+//     res.send(Reviewers)
+// })
 
 router.put('/update/:id', (req, res) => {
     const schema = {
-		fullName: Joi.string().min(6),
-        gender: Joi.string(),
-        dateOfBirth: Joi.date(),
-        ressidenceAddress: Joi.string().min(4),
-        telephoneNumber: Joi.string(),
-        fax: Joi.string(),
-        email: Joi.string().min(10),
-		password: Joi.string().min(3),
+		userName: Joi.string().min(2),
+        fullName: Joi.string().min(7),
+        activeCases: Joi.string().min(1),
+		password: Joi.string().min(3)
     }
     const result = Joi.validate(req.body, schema);
     if (result.error) return res.status(400).send({ error: result.error.details[0].message });
-
     const reviewerId = req.params.id 
+    const userName = req.body.userName
     const fullName = req.body.fullName
-    const gender = req.body.gender
-    const dateOfBirth = req.body.dateOfBirth
-    const ressidenceAddress = req.body.ressidenceAddress
-    const telephoneNumber = req.body.telephoneNumber
-    const fax = req.body.fax
-    const email = req.body.email
+    const activeCases=req.body.activeCases
     const password = req.body.password
     const reviewer = Reviewers.find(reviewer => reviewer.id === reviewerId)
+    if(fullName)
+        reviewer.fullName = fullName
+    if(userName)
+        reviewer.userName = userName
+    if(password)
+        reviewer.password = password
+    if(activeCases)
+        reviewer.activeCases.push(activeCases);
     
-    reviewer.fullName = fullName
-    reviewer.gender = gender
-    reviewer.dateOfBirth = dateOfBirth
-    reviewer.ressidenceAddress = ressidenceAddress
-    reviewer.telephoneNumber = telephoneNumber
-    reviewer.fax = fax
-    reviewer.email = email
-    reviewer.password = password
     
-    
-    res.send(Reviewers)
+    res.send(reviewer)
 })
 
 router.post('/create', (req, res) => {
 	const schema = {
-		fullName: Joi.string().min(6).required(),
-        gender: Joi.string().required(),
-        dateOfBirth: Joi.date().required(),
-        ressidenceAddress: Joi.string().min(4).required(),
-        telephoneNumber: Joi.string().required(),
-        fax: Joi.string(),
-        email: Joi.string().min(10).required(),
+		userName: Joi.string().min(2).required(),
+        fullName: Joi.string().min(7).required(),
 		password: Joi.string().min(3).required(),
+        email: Joi.string().min(10).required()
 	}
 
 	const result = Joi.validate(req.body, schema);
 
 	if (result.error) return res.status(400).send({ error: result.error.details[0].message });
-
-    const fullName = req.body.fullName
-    const gender = req.body.gender
-    const dateOfBirth = req.body.dateOfBirth
-    const ressidenceAddress = req.body.ressidenceAddress
-    const telephoneNumber = req.body.telephoneNumber
-    const fax = req.body.fax
-    const email = req.body.email
+    const id=uuid.v4()
+    const userName = req.body.userName
     const password = req.body.password
+    const fullName = req.body.fullName
+    const activeCases=new Array()
+    const email = req.body.email
 
 	const newReviewer = {
-		id: uuid.v4(),
+        id,
+        userName,
+        password,
 		fullName,
-        gender,
-        dateOfBirth,
-        ressidenceAddress,
-        telephoneNumber,
-        fax,
-        email,
-        password
+        activeCases,
+        email
     };
     
     Reviewers.push(newReviewer);
 
 	return res.json({ data: newReviewer });
-});
-
-router.delete('/joi', (req,res) => {
-    const reviewerID = req.body.reviewerID;
-    let reviewerExists = false;
-    for(let i=0;i<Reviewers.length;i++)
-        if(Reviewers[i].id===reviewerID)
-        {
-            Reviewers.splice(i,1);
-            reviewerExists = true;
-            break;
-        }   
-    if(!reviewerExists)
-        return res.status(404).send({ error: "Admin doesnt exist" });
-    return res.json({ data: Reviewers});
 });
 
 module.exports = router; 

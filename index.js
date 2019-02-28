@@ -6,7 +6,7 @@ const app = express()
 app.use(express.json())
 
 app.get('/', (req, res) => {
-    res.send(`<h1>Welcome to SUMERGE</h1>
+    res.send(`<h1>Welcome to Reviewers</h1>
     <a href="/api/reviewers">Reviewers</a>
     `);
 })

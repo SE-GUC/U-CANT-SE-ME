@@ -1,12 +1,11 @@
+const uuid = require('uuid')
 class Reviewer{
-    constructor(id,fullName,gender,dateOfBitrh,ressidenceAddress,telephoneNumber,fax,email) {
-        this.id = id;
+    constructor(id,userName,password,fullName,activeCases,email) {
+        this.id =id;
+        this.userName = userName;
+        this.password = password;
         this.fullName = fullName;
-        this.gender = gender;
-        this.dateOfBitrh = dateOfBitrh;
-	this.ressidenceAddress = ressidenceAddress;
-        this.telephoneNumber = telephoneNumber;
-        this.fax = fax;
+        this.activeCases = activeCases;
         this.email = email;
     };
 }
