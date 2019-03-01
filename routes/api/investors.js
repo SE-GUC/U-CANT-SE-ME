@@ -174,4 +174,23 @@ function validateInvestor(investor) {
   return Joi.validate(investor, schema);
 }
 
+
+router.delete('/', (req,res) =>{
+  const id = req.body.companyName;
+  let investorExists = false;
+  for(let i=0;i<investors.length;i++){
+      if(investors[i].ID === id){
+          investors.splice(i,1);
+          investorExists = true;
+          break;
+      }
+  }
+
+  if(!investorExists)
+      return res.status(404).send({error: "Investor doesn't exist"});
+  
+  return res.json({ data : investors });
+
+});
+
 module.exports = router;
