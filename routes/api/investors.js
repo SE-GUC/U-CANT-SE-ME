@@ -54,7 +54,7 @@ let investors = [
 router.get("/", (req, res) => res.send(investors));
 
 router.get("/:id", (req, res) => {
-  const investor = investors.find(i => i.id === req.params.id);
+  const investor = investors.find(inv => inv.id === req.params.id);
   if (!investor) return res.status(404).send("Investor not Found");
   res.send(investor);
 });
@@ -82,6 +82,30 @@ router.post("/", (req, res) => {
     inv.fax
   );
   investors.push(investor);
+  res.send(investor);
+});
+
+
+//UPDATE
+router.put("/:id", (req, res) => {
+  const investor = investors.find(inv => inv.id === req.params.id);
+  if(!investor) return res.status(404).send('Investor not Found');
+
+  const { error } = validateInvestor(req.body);
+  if(error) return res.status(400).send(error.details[0].message);
+
+  investor.email = req.body.email;
+  investor.password = req.body.password;
+  investor.fullName = req.body.fullName;
+  investor.type = req.body.type;
+  investor.gender = req.body.gender;
+  investor.nationality = req.body.nationality;
+  investor.methodOfIdentification = req.body.methodOfIdentification;
+  investor.identificationNumber = req.body.identificationNumber;
+  investor.dateOfBirth = req.body.dateOfBirth;
+  investor.ressidenceAddress = req.body.ressidenceAddress;
+  investor.telephoneNumber = req.body.telephoneNumber;
+  investor.fax = req.body.fax;
   res.send(investor);
 });
 
