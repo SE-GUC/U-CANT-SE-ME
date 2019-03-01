@@ -77,7 +77,7 @@ router.post("/", (req, res) => {
     inv.methodOfIdentification,
     inv.identificationNumber,
     inv.dateOfBirth,
-    inv.ressidenceAddress,
+    inv.residenceAddress,
     inv.telephoneNumber,
     inv.fax
   );
@@ -91,6 +91,42 @@ router.put("/:id", (req, res) => {
   const investor = investors.find(inv => inv.id === req.params.id);
   if(!investor) return res.status(404).send('Investor not Found');
 
+  if(!req.body.email)
+    req.body.email = investor.email;
+
+  if(!req.body.password)
+    req.body.password = investor.password;
+
+  if(!req.body.fullName)
+    req.body.fullName = investor.fullName;
+
+  if(!req.body.type)
+    req.body.type = investor.type;
+
+  if(!req.body.gender)
+    req.body.gender = investor.gender;
+
+  if(!req.body.nationality)
+    req.body.nationality = investor.nationality;
+
+  if(!req.body.methodOfIdentification)
+    req.body.methodOfIdentification = investor.methodOfIdentification;
+
+  if(!req.body.identificationNumber)
+    req.body.identificationNumber = investor.identificationNumber;
+
+  if(!req.body.dateOfBirth)
+    req.body.dateOfBirth = investor.dateOfBirth;
+
+  if(!req.body.residenceAddress)
+    req.body.residenceAddress = investor.residenceAddress;
+
+  if(!req.body.telephoneNumber)
+    req.body.telephoneNumber = investor.telephoneNumber;
+
+  if(!req.body.residenceAddress)
+    req.body.fax = investor.fax;
+
   const { error } = validateInvestor(req.body);
   if(error) return res.status(400).send(error.details[0].message);
 
@@ -103,7 +139,7 @@ router.put("/:id", (req, res) => {
   investor.methodOfIdentification = req.body.methodOfIdentification;
   investor.identificationNumber = req.body.identificationNumber;
   investor.dateOfBirth = req.body.dateOfBirth;
-  investor.ressidenceAddress = req.body.ressidenceAddress;
+  investor.residenceAddress = req.body.residenceAddress;
   investor.telephoneNumber = req.body.telephoneNumber;
   investor.fax = req.body.fax;
   res.send(investor);
@@ -130,7 +166,7 @@ function validateInvestor(investor) {
     methodOfIdentification: Joi.string().required(), //Input will come from a list
     identificationNumber: Joi.string().required(),
     dateOfBirth: Joi.date().max(earliestBirthDate),
-    ressidenceAddress: Joi.string().required(),
+    residenceAddress: Joi.string().required(),
     telephoneNumber: Joi.string().optional(),
     fax: Joi.string().optional()
   };

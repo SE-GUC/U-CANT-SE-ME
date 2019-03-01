@@ -11,7 +11,7 @@ class Investor {
     methodOfIdentification,
     identificationNumber,
     dateOfBirth,
-    ressidenceAddress,
+    residenceAddress,
     telephoneNumber,
     fax
   ) {
@@ -25,7 +25,7 @@ class Investor {
     this.methodOfIdentification = methodOfIdentification;
     this.identificationNumber = identificationNumber;
     this.dateOfBirth = dateOfBirth;
-    this.ressidenceAddress = ressidenceAddress;
+    this.residenceAddress = residenceAddress;
     this.telephoneNumber = telephoneNumber;
     this.fax = fax;
   }
