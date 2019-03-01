@@ -1,0 +1,28 @@
+{
+  "name": "u-cant-se-me",
+  "version": "1.0.0",
+  "description": "A Remote Company Establishment System",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "dev": "nodemon index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SE-GUC/U-CANT-SE-ME.git"
+  },
+  "author": "U-CANT-SE-ME",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/SE-GUC/U-CANT-SE-ME/issues"
+  },
+  "homepage": "https://github.com/SE-GUC/U-CANT-SE-ME#readme",
+  "dependencies": {
+    "express": "^4.16.4",
+    "joi": "^14.3.1",
+    "uuid": "^3.3.2"
+  },
+  "devDependencies": {
+    "nodemon": "^1.18.10"
+  }
+}
