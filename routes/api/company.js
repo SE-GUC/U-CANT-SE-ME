@@ -6,12 +6,12 @@ const router = express.Router()
 const Company = require('../../models/Company.js')
 
 const companies = [
-    new Company(1, 1, 'MantaHabd', 'SPC', 'in creation', '1-1-2019'),
-    new Company(2, 2, 'abo fatma for electronics', 'SPC', 'created', '1-1-1111'),
-    new Company(3, 3, 'The Company Of SE', 'SSC', 'Destroyed', '4-4-1944'),
-	new Company(4, 4, 'malahy moe', 'SSC', 'lovely', '1-1-1111'),
-	new Company(5, 100, '3am saad', 'SPC', 'in creation', '6-9-1969'),
-	new Company(6, 6, 'the hood', 'SPC', 'boom', '1-1-1111')
+    new Company(1, 1, 'MantaHabd', 'SPC', 'in creation', '1-1-2019',1),
+    new Company(2, 2, 'abo fatma for electronics', 'SPC', 'created', '1-1-1111',2),
+    new Company(3, 3, 'The Company Of SE', 'SSC', 'Destroyed', '4-4-1944',3),
+	new Company(4, 4, 'malahy moe', 'SSC', 'lovely', '1-1-1111',5),
+	new Company(5, 100, '3am saad', 'SPC', 'in creation', '6-9-1969',6),
+	new Company(6, 6, 'the hood', 'SPC', 'boom', '1-1-1111',7)
 ];
 
 router.post('/joi', (req, res) => {
@@ -21,6 +21,7 @@ router.post('/joi', (req, res) => {
     const companyStatus = req.body.companyStatus
     const dateOfCreation = req.body.dateOfCreation
     const companyName = req.body.companyName
+    const caseID = req.body.caseID
     let flagCompanyName = false
     let flagValidSSC = false
 
@@ -42,11 +43,12 @@ router.post('/joi', (req, res) => {
         companyStatus : Joi.string().min(3).required(),
         dateOfCreation : Joi.date(),
         companyName : Joi.string().min(3).required(),
+        caseID : Joi.string().required()
     }
 	const result = Joi.validate(req.body, schema);
 
     if (result.error) return res.status(400).send({ error: result.error.details[0].message });
-    const newCompany = new Company(socialInsuranceNumber, investorID, companyName, companyType, companyStatus, dateOfCreation)
+    const newCompany = new Company(socialInsuranceNumber, investorID, companyName, companyType, companyStatus, dateOfCreation, caseID)
     companies.push(newCompany)
 	return res.json({ data: newCompany })
 });
