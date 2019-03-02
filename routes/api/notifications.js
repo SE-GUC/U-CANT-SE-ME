@@ -11,6 +11,33 @@ const notifications = [
     new Notification("fourth message","caseFier","Cena@yahoo.com","7amada","3"),
 ];
 
+//Create Notification
+router.post('/joi', (req, res) => {
+
+    const RecepientID = req.body.RecepientID
+    const emailOfRecepient = req.body.emailOfRecepient
+    const message = req.body.message
+    const caseID = req.body.caseID
+
+    const schema = 
+    {
+        RecepientID: Joi.number().required(),
+        emailOfRecepient: Joi.string().email().required(),
+        message: Joi.string().required(),
+        caseID: Joi.number().required()
+    }
+
+    const result = Joi.validate(req.body, schema);
+
+    if(result.error) return res.status(400).send({ error: result.error.details[0].message });
+
+    const newNotification = new Notifications(RecepientID, emailOfRecepient, message, caseID);
+    
+    notifications.push(newNotification);
+    
+    return res.json({ data: notifications });
+});
+
 // Read Notifications
 router.get('/', (req, res) => res.json({ data: notifications }));
 // Read a specific Notification
