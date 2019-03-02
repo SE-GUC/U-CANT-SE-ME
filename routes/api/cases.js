@@ -3,9 +3,8 @@ const uuid = require('uuid');
 const router = express.Router();
 
 const Case = require('../../models/Case');
-const cases = [ new Case('hello','hello','hello') ];
-
-//get all cases , NOT THE ENTIRE READ CASE
+const cases = [];
+//get all cases
 
 router.get('/', (req, res) => res.json({ data: cases }));
 
@@ -17,8 +16,6 @@ router.get('/:id', (req, res) => {
     } 
     return res.status(404).send({ error: "ERROR 404: Case does not exist" }); 
 })
-
-//create case
 
 router.post('/', (req, res) => {
 	const investorID = req.body.investorID;

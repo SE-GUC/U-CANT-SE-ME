@@ -14,6 +14,18 @@ const companies = [
 	new Company(6, 6, 'the hood', 'SPC', 'boom', '1-1-1111',7)
 ];
 
+router.get('/', (req, res) => res.json({ data: companies }))
+
+router.get('/:companyName', (req, res) => {
+    const companyName = req.params.companyName
+    //console.log(companyName)
+    for(let i=0;i<companies.length;i++) {
+        if(companies[i].companyName===companyName)
+            return res.json({ data: companies[i] })
+    } 
+    return res.status(404).send({ error: "ERROR 404: Company does not exist" })
+ })
+
 router.post('/joi', (req, res) => {
     const socialInsuranceNumber = req.body.socialInsuranceNumber
 	const investorID = req.body.investorID

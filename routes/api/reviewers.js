@@ -95,7 +95,7 @@ router.delete('/joi/:id', (req,res) => {
             break;
         }   
     if(!reviewerExists)
-        return res.status(404).send({ error: "Admin doesnt exist" });
+        return res.status(404).send({ error: "Reviewer doesnt exist" });
     return res.json({ data: Reviewers});
 });
 
