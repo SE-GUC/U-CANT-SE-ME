@@ -5,7 +5,7 @@ const uuid = require('uuid');
 const router = express.Router();
 
 // module Lawyer
-const Lawyer=require('../../Model/Lawyer');
+const Lawyer=require('../../models/Lawyer');
 
 const lawyerss = [
      new Lawyer('ahmedmohameasdas','email@yahoo.com','dondo98','password1'),

@@ -97,3 +97,5 @@ router.put('/:id', (req, res) => {
   }
   res.json({data: External_Entity});
 });
+
+module.exports = router;
