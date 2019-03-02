@@ -2,8 +2,8 @@ const express = require('express');
 
 //Require Route Handlers
 const investors = require('./routes/api/investors');
-const notifications = require('./routes/api/notifications')
-
+const notifications = require('./routes/api/notifications');
+const companies = require('./routes/api/company.js');
 
 const app = express();
 
@@ -17,6 +17,7 @@ app.get('/', (req, res) => res.send('HomePage'));
 
 //Use Route Handlers
 app.use('/api/investors', investors);
+app.use('/api/company', companies)
 app.use('/api/notifications', notifications);
 
 // Handling 404
