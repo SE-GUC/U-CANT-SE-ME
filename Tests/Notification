@@ -31,5 +31,20 @@ Create Notification: localhost:3000/api/notifications
             "caseID": "caseIdisAString",
             "recipientID": "123"
   }
+Update Notification: localhost:3000/api/notifications/0
+ {
+            "emailOfRecipient": "wrondemail@gmail",
+            "message": "testing date seen",
+            "caseID": "111111111",
+            "recipientID": "123-22",
+            "dateSeen": "2008-09-15"
+  }
 
-  
+Update Notification: localhost:3000/api/notifications/0
+ {
+            "emailOfRecipient": "wrondemail@gmail",
+            "message": "testing date seen",
+            "caseID": "111111111",
+            "recipientID": "123-22",
+            "dateSeen": "yyyy-mm-dd"
+  }

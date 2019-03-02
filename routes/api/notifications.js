@@ -76,11 +76,13 @@ router.put('/:id', (req, res) => {
         const caseID=req.body.caseID;
         const emailOfRecipient = req.body.emailOfRecipient;
         const recipientID =req.body.recipientID;
+        const dateSeen= req.body.dateSeen;
         const schema = {
             message: Joi.string(),
             caseID: Joi.string(),
             emailOfRecipient: Joi.string().email().lowercase(),
-            recipientID: Joi.string()
+            recipientID: Joi.string(),
+            dateSeen: Joi.string().isoDate()
         }
     
         const result = Joi.validate(req.body, schema);
@@ -94,6 +96,8 @@ router.put('/:id', (req, res) => {
             notification.emailOfRecipient=emailOfRecipient;
         if(recipientID)
             notification.recipientID=recipientID;  
+        if(dateSeen)
+            notification.dateSeen=dateSeen;
         res.json({ data: notification })
     }
    
