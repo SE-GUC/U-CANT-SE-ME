@@ -59,7 +59,6 @@ router.get("/:id", (req, res) => {
   res.send(investor);
 });
 
-
 //CREATE
 router.post("/", (req, res) => {
   const inv = req.body;
@@ -85,50 +84,41 @@ router.post("/", (req, res) => {
   res.send(investor);
 });
 
-
 //UPDATE
 router.put("/:id", (req, res) => {
   const investor = investors.find(inv => inv.id === req.params.id);
-  if(!investor) return res.status(404).send('Investor not Found');
+  if (!investor) return res.status(404).send("Investor not Found");
 
-  if(!req.body.email)
-    req.body.email = investor.email;
+  if (!req.body.email) req.body.email = investor.email;
 
-  if(!req.body.password)
-    req.body.password = investor.password;
+  if (!req.body.password) req.body.password = investor.password;
 
-  if(!req.body.fullName)
-    req.body.fullName = investor.fullName;
+  if (!req.body.fullName) req.body.fullName = investor.fullName;
 
-  if(!req.body.type)
-    req.body.type = investor.type;
+  if (!req.body.type) req.body.type = investor.type;
 
-  if(!req.body.gender)
-    req.body.gender = investor.gender;
+  if (!req.body.gender) req.body.gender = investor.gender;
 
-  if(!req.body.nationality)
-    req.body.nationality = investor.nationality;
+  if (!req.body.nationality) req.body.nationality = investor.nationality;
 
-  if(!req.body.methodOfIdentification)
+  if (!req.body.methodOfIdentification)
     req.body.methodOfIdentification = investor.methodOfIdentification;
 
-  if(!req.body.identificationNumber)
+  if (!req.body.identificationNumber)
     req.body.identificationNumber = investor.identificationNumber;
 
-  if(!req.body.dateOfBirth)
-    req.body.dateOfBirth = investor.dateOfBirth;
+  if (!req.body.dateOfBirth) req.body.dateOfBirth = investor.dateOfBirth;
 
-  if(!req.body.residenceAddress)
+  if (!req.body.residenceAddress)
     req.body.residenceAddress = investor.residenceAddress;
 
-  if(!req.body.telephoneNumber)
+  if (!req.body.telephoneNumber)
     req.body.telephoneNumber = investor.telephoneNumber;
 
-  if(!req.body.residenceAddress)
-    req.body.fax = investor.fax;
+  if (!req.body.residenceAddress) req.body.fax = investor.fax;
 
   const { error } = validateInvestor(req.body);
-  if(error) return res.status(400).send(error.details[0].message);
+  if (error) return res.status(400).send(error.details[0].message);
 
   investor.email = req.body.email;
   investor.password = req.body.password;
@@ -144,7 +134,6 @@ router.put("/:id", (req, res) => {
   investor.fax = req.body.fax;
   res.send(investor);
 });
-
 
 function validateInvestor(investor) {
   const now = Date.now();
@@ -174,22 +163,21 @@ function validateInvestor(investor) {
   return Joi.validate(investor, schema);
 }
 
-router.delete('/', (req,res) =>{
+router.delete("/", (req, res) => {
   const id = req.body.id;
   let investorExists = false;
-  for(let i=0;i<investors.length;i++){
-      if(investors[i].id === id){
-          investors.splice(i,1);
-          investorExists = true;
-          break;
-      }
+  for (let i = 0; i < investors.length; i++) {
+    if (investors[i].id === id) {
+      investors.splice(i, 1);
+      investorExists = true;
+      break;
+    }
   }
 
-  if(!investorExists)
-      return res.status(404).send({error: "Investor doesn't exist"});
-  
-  return res.json({ data : investors });
+  if (!investorExists)
+    return res.status(404).send({ error: "Investor doesn't exist" });
 
+  return res.json({ data: investors });
 });
 
 module.exports = router;
