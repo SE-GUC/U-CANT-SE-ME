@@ -108,12 +108,20 @@ router.post('/', (req, res) => {
 
 //delete case
 
-router.delete('/:caseID', (req, res) => {
-    const caseID = req.params.id
-    const cas = cases.find(cas => cas.caseID === caseID)
-	const index = cases.indexOf(cas)
-    cases.splice(index,1)
-    res.send(cases)
+router.delete('/:caseID', (req,res) => {
+    const id = req.params.caseID;
+    let caseExists = false;
+	for(let i=0;i<cases.length;i++){
+        if(cases[i].caseID===id)
+        {
+            cases.splice(i,1);
+            caseExists = true;
+            break;
+		} 
+	}
+		if(!caseExists)
+        	return res.status(404).send({ error: "case not there" });
+    return res.json({ data: cases});
 });
 
 //update
