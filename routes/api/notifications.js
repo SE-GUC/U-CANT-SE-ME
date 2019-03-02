@@ -13,7 +13,7 @@ const notifications = [
 
 //Create Notification
 router.post('/', (req, res) => {
-
+    
     const recipientID = req.body.recipientID
     const emailOfRecipient = req.body.emailOfRecipient
     const message = req.body.message
@@ -21,12 +21,12 @@ router.post('/', (req, res) => {
 
     const schema = 
     {
-        recipientID: Joi.number().required(),
+        recipientID: Joi.string().required(),
         emailOfRecipient: Joi.string().email().required(),
         message: Joi.string().required(),
         caseID: Joi.string().required()
     }
-
+    
     const result = Joi.validate(req.body, schema);
 
     if(result.error) return res.status(400).send({ error: result.error.details[0].message });
