@@ -123,7 +123,7 @@ router.delete("/", (req, res) => {
   if (!entityExists)
     return res.status(404).send({ error: "Entity doesn't exist" });
 
-  return res.json({ data: investor });
+  return res.json({ data: externalEntities });
 });
 
 module.exports = router;
