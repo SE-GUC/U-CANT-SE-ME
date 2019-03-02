@@ -65,7 +65,20 @@ router.put('/update/:id', (req, res) => {
 })
 
 
-
+router.delete('/joi/:id', (req,res) => {
+    const adminID = req.params.id;
+    let adminExists = false;
+    for(let i=0;i<admins.length;i++)
+        if(admins[i].id===adminID)
+        {
+            admins.splice(i,1);
+            adminExists = true;
+            break;
+        }   
+    if(!adminExists)
+        return res.status(404).send({ error: "Admin doesnt exist" });
+    return res.json({ data: admins});
+});
 
 
 
