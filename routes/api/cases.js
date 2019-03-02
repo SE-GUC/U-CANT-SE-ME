@@ -44,7 +44,7 @@ router.post('/', (req, res) => {
 	const managerDateOfBirth=req.body.managerDateOfBirth;
 	const managerResidenceAdress=req.body.managerResidenceAdress;
 	const managerPositionInBoardOfDirectors=req.body.managerPositionInBoardOfDirectors;
-	if(phoneNumber){if(typeof phoneNumber !=='number')return res.status(400).send({ err: 'phone must be a number' });};
+	if(phoneNumber){if(typeof phoneNumber !=='string')return res.status(400).send({ err: 'phone must be a string' });};
 	if(fax){if(typeof fax !=='string')return res.status(400).send({ err: 'fax must be a string' });};
 	if (!investorID && !lawyerID) return res.status(400).send({ err: 'There must be a lawyer ID or an investor ID' });
 	if (typeof investorID !== 'string' || typeof lawyerID !== 'string') return res.status(400).send({ err: 'Invalid value for ID' });
