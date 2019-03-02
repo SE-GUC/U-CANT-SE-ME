@@ -118,7 +118,9 @@ router.delete('/:caseID', (req, res) => {
 });
 
 //update
-
+//assignedReviewers
+//assignedLawyers
+//status
 router.put('/update/:caseID' , (req,res) => {
 
 	const caseID = req.params.caseID
@@ -132,15 +134,15 @@ router.put('/update/:caseID' , (req,res) => {
 		
 	//check here again for the updates
 	const Update_caseStatus = req.body.caseStatus;
-	const Update_companyType = req.body.companyType;
-	const Update_assigneeID = req.body.assigneeID;
+	const New_Lawyer = req.body.NewLawyer;
+	const New_Reviewer = req.body.NewReviewer;
 	
 	if(Update_caseStatus)
 		Case.caseStatus=Update_caseStatus;
-	if(Update_companyType)
-		Case.companyType =Update_companyType;
-	if(Update_assigneeID)
-		Case.assigneeID = Update_assigneeID;
+	if(New_Lawyer)
+		Case.assignedLawyers.push(New_Lawyer);
+	if(New_Reviewer)
+		Case.assignedReviewers.push(New_Reviewer);
 	
 	res.send(cases);
 });
