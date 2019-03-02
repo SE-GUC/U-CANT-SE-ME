@@ -1,7 +1,7 @@
 const uuid = require('uuid')
 class Reviewer{
-    constructor(id,userName,password,fullName,email) {
-        this.id =id;
+    constructor(userName,password,fullName,email) {
+        this.id =uuid.v4();
         this.userName = userName;
         this.password = password;
         this.fullName = fullName;
