@@ -6,7 +6,7 @@ const router = express.Router();
 const Company = require("../../models/Company.js");
 
 const companies = [
-  new Company(1, 1, "MantaHabd", "SPC", "in creation", "1-1-2019", 1),
+  new Company(1, 1, "MantaHabd", "SPC", "in creation", "1-1-2019", "1"),
   new Company(
     2,
     2,
@@ -14,12 +14,12 @@ const companies = [
     "SPC",
     "created",
     "1-1-1111",
-    2
+    "2"
   ),
-  new Company(3, 3, "The Company Of SE", "SSC", "Destroyed", "4-4-1944", 3),
-  new Company(4, 4, "malahy moe", "SSC", "lovely", "1-1-1111", 5),
-  new Company(5, 100, "3am saad", "SPC", "in creation", "6-9-1969", 6),
-  new Company(6, 6, "the hood", "SPC", "boom", "1-1-1111", 7)
+  new Company(3, 3, "The Company Of SE", "SSC", "Destroyed", "4-4-1944", "3"),
+  new Company(4, 4, "malahy moe", "SSC", "lovely", "1-1-1111", "5"),
+  new Company(5, 100, "3am saad", "SPC", "in creation", "6-9-1969", "6"),
+  new Company(6, 6, "the hood", "SPC", "boom", "1-1-1111", "7")
 ];
 
 router.get("/", (req, res) => res.json({ data: companies }));
