@@ -8,6 +8,7 @@ const companies = require('./routes/api/company.js');
 const Reviewers = require('./routes/api/reviewers.js');
 const lawyers =require('./routes/api/lawyers');
 const externalEntities = require('./routes/api/externalEntities');
+const cases = require('./routes/api/cases');
 
 const app = express();
 
@@ -27,6 +28,7 @@ app.use('/api/notifications', notifications);
 app.use('/api/reviewers', Reviewers);
 app.use('/api/lawyers', lawyers);
 app.use('/api/externalEntities', externalEntities);
+app.use('/api/cases', cases);
 
 // Handling 404
 app.use((req, res) => {
