@@ -5,6 +5,7 @@ const investors = require('./routes/api/investors');
 const admins = require('./routes/api/admins');
 const notifications = require('./routes/api/notifications');
 const companies = require('./routes/api/company.js');
+const Reviewers = require('./routes/api/reviewers.js');
 
 const app = express();
 
@@ -21,6 +22,7 @@ app.use('/api/investors', investors);
 app.use('/api/admins', admins);
 app.use('/api/company', companies)
 app.use('/api/notifications', notifications);
+app.use('/api/reviewers', Reviewers)
 
 // Handling 404
 app.use((req, res) => {
