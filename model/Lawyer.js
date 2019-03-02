@@ -8,7 +8,7 @@ class Lawyer{
          this.email = email;
          this.userName=userName;
          this.password=password;
-         this.activeCases=new Array();
+        // this.activeCases=new Array();
         
         
 

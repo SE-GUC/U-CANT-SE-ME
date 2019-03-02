@@ -121,37 +121,37 @@ res.send(lawyerI);
 });
 
 // for activeCases add a case 
-router.put('/:id/activecase',(req,res)=>{
+// router.put('/:id/activecase',(req,res)=>{
   
-    var lawyerId = req.params.id;
-    const lawyerI = lawyerss.find(l =>  l.id ===  lawyerId);
-    if(!lawyerI){ res.status(404).send('this lawyer is not found ');
-    return;
-}
-else{
-    lawyerI.activeCases.push(req.body.caseId);
-    res.send(lawyerI);
-}
-});
-router.delete('/:id/activecase/:id2',(req,res)=>{
-    var lawyerId = req.params.id;
-    var caseId=req.params.id2;
-    const lawyerI = lawyerss.find(l =>  l.id ===  lawyerId);
-    if(!lawyerI){ res.status(404).send('this lawyer is not found ');
-    return;
-}
-else{
-    const caseID2=lawyerI.activeCases.find(c => c===caseId)
-    if(!caseID2){
-        res.status(404).send('this case is not in your active cases ');
-    }
-    else{
-        const index =lawyerI.activeCases.indexOf(caseID2+"")
-        lawyerI.activeCases.splice(index,1)
-        res.send(lawyerI)
-    }
-}
-});
+//     var lawyerId = req.params.id;
+//     const lawyerI = lawyerss.find(l =>  l.id ===  lawyerId);
+//     if(!lawyerI){ res.status(404).send('this lawyer is not found ');
+//     return;
+// }
+// else{
+//     lawyerI.activeCases.push(req.body.caseId);
+//     res.send(lawyerI);
+// }
+// });
+// router.delete('/:id/activecase/:id2',(req,res)=>{
+//     var lawyerId = req.params.id;
+//     var caseId=req.params.id2;
+//     const lawyerI = lawyerss.find(l =>  l.id ===  lawyerId);
+//     if(!lawyerI){ res.status(404).send('this lawyer is not found ');
+//     return;
+// }
+// else{
+//     const caseID2=lawyerI.activeCases.find(c => c===caseId)
+//     if(!caseID2){
+//         res.status(404).send('this case is not in your active cases ');
+//     }
+//     else{
+//         const index =lawyerI.activeCases.indexOf(caseID2+"")
+//         lawyerI.activeCases.splice(index,1)
+//         res.send(lawyerI)
+//     }
+// }
+// });
 
 
 
