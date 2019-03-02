@@ -1,0 +1,50 @@
+GetNotifcations: localhost:3000/api/notifications
+GetNotificationById: localhost:3000/api/notifications/2
+GetNotificationById: localhost:3000/api/notifications/10 (id does not exist)
+DeleteNotifcation localhost:3000/api/notifications/1 
+DeleteNotifcation localhost:3000/api/notifications/10 (id does not exist)
+UpdateNotification localhost:3000/api/notifications/2 
+Body:
+{
+	"caseID":"newCaseId"
+}
+UpdateNotification localhost:3000/api/notifications/2 
+Body:
+{
+    "emailOfRecipient":"wrong_email_format"
+}
+UpdateNotification localhost:3000/api/notifications/2 
+Body:
+{
+     "emailOfRecipient":"correct_email_format@gmail.com"
+}
+UpdateNotification localhost:3000/api/notifications/2 
+Body:
+{
+     "Attribute that ":"does not exist"
+}
+
+Create Notification: localhost:3000/api/notifications
+ {
+            "emailOfRecipient": "coderrZZZZ@gmail.com",
+            "message": "heyTher",
+            "caseID": "caseIdisAString",
+            "recipientID": "123"
+  }
+Update Notification: localhost:3000/api/notifications/0
+ {
+            "emailOfRecipient": "wrondemail@gmail",
+            "message": "testing date seen",
+            "caseID": "111111111",
+            "recipientID": "123-22",
+            "dateSeen": "2008-09-15"
+  }
+
+Update Notification: localhost:3000/api/notifications/0
+ {
+            "emailOfRecipient": "wrondemail@gmail",
+            "message": "testing date seen",
+            "caseID": "111111111",
+            "recipientID": "123-22",
+            "dateSeen": "yyyy-mm-dd"
+  }
