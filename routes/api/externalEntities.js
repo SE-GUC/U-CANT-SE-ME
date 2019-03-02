@@ -102,7 +102,7 @@ router.delete('/', (req,res) =>{
     const id = req.body.ID;
     let entityExists = false;
     for(let i=0;i<externalEntities.length;i++){
-        if(externalEntities[i].ID === ID){
+        if(externalEntities[i].ID === id){
             externalEntities.splice(i,1);
             entityExists = true;
             break;
