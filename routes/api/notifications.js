@@ -12,26 +12,26 @@ const notifications = [
 ];
 
 //Create Notification
-router.post('/joi', (req, res) => {
+router.post('/', (req, res) => {
 
-    const RecepientID = req.body.RecepientID
-    const emailOfRecepient = req.body.emailOfRecepient
+    const recipientID = req.body.recipientID
+    const emailOfRecipient = req.body.emailOfRecipient
     const message = req.body.message
     const caseID = req.body.caseID
 
     const schema = 
     {
-        RecepientID: Joi.number().required(),
-        emailOfRecepient: Joi.string().email().required(),
+        recipientID: Joi.number().required(),
+        emailOfRecipient: Joi.string().email().required(),
         message: Joi.string().required(),
-        caseID: Joi.number().required()
+        caseID: Joi.string().required()
     }
 
     const result = Joi.validate(req.body, schema);
 
     if(result.error) return res.status(400).send({ error: result.error.details[0].message });
-
-    const newNotification = new Notifications(RecepientID, emailOfRecepient, message, caseID);
+    let ID=notifications.length+"";
+    const newNotification = new Notification(message, caseID,emailOfRecipient,recipientID,ID);
     
     notifications.push(newNotification);
     

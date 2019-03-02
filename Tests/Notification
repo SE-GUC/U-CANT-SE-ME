@@ -23,3 +23,13 @@ Body:
 {
      "Attribute that ":"does not exist"
 }
+
+Create Notification: localhost:3000/api/notifications
+ {
+            "emailOfRecipient": "coderrZZZZ@gmail.com",
+            "message": "heyTher",
+            "caseID": "caseIdisAString",
+            "recipientID": "123"
+  }
+
+  
