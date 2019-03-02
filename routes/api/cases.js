@@ -145,10 +145,8 @@ router.post("/", (req, res) => {
   if (typeof managerIDNumber !== "number")
     return res.status(400).send({ err: "ID number must be a number" });
   if (!managerDateOfBirth)
-    return res
-      .status(400)
-      .send({ err: "There must be a manager date of birth" });
-  if (typeof managerDateOfBirth !== "date")
+    return res.status(400).send({ err: "There must be a manager date of birth" });
+  if (typeof managerDateOfBirth !== "Date")
     return res.status(400).send({ err: "date of birth must be date" });
   if (!managerResidenceAdress)
     return res
