@@ -98,4 +98,22 @@ router.put('/:id', (req, res) => {
   res.json({data: External_Entity});
 });
 
+router.delete('/', (req,res) =>{
+    const id = req.body.ID;
+    let entityExists = false;
+    for(let i=0;i<externalEntities.length;i++){
+        if(externalEntities[i].ID === id){
+            externalEntities.splice(i,1);
+            entityExists = true;
+            break;
+        }
+    }
+
+    if(!entityExists)
+        return res.status(404).send({error: "Entity doesn't exist"});
+    
+    return res.json({ data : investor });
+
+});
+
 module.exports = router;
