@@ -100,7 +100,7 @@ router.post("/", (req, res) => {
     return res
       .status(400)
       .send({ err: "There must be a currencyUsedForCapital" });
-  if (typeof currencyUsedForCapital ==='string')
+  if (typeof currencyUsedForCapital !=='string')
     return res.status(400).send({ err: "currencyUsedForCapital string" });
   if (!capital) return res.status(400).send({ err: "There must be a Capital" });
   if (typeof capital !== "number")
