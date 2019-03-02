@@ -84,5 +84,19 @@ router.post('/create', (req, res) => {
 
 	return res.json({ data: newReviewer });
 });
+router.delete('/joi/:id', (req,res) => {
+    const reviewerID = req.params.id;
+    let reviewerExists = false;
+    for(let i=0;i<Reviewers.length;i++)
+        if(Reviewers[i].id===reviewerID)
+        {
+            Reviewers.splice(i,1);
+            reviewerExists = true;
+            break;
+        }   
+    if(!reviewerExists)
+        return res.status(404).send({ error: "Admin doesnt exist" });
+    return res.json({ data: Reviewers});
+});
 
 module.exports = router; 
