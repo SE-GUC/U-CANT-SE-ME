@@ -2,7 +2,11 @@ const express = require('express');
 
 //Require Route Handlers
 const investors = require('./routes/api/investors');
+const Reviewers = require('./routes/api/reviewers.js');
+const admins = require('./routes/api/admins');
+const companies = require('./routes/api/company.js');
 const cases = require('./routes/api/cases');
+const notifications = require('./routes/api/notifications');
 
 const app = express();
 
@@ -16,7 +20,17 @@ app.get('/', (req, res) => res.send('HomePage'));
 
 //Use Route Handlers
 app.use('/api/investors', investors);
+app.use('/api/reviewers', Reviewers);
+app.use('/api/admins', admins);
+app.use('/api/company', companies);
 app.use('/api/cases', cases);
+app.use('/api/notifications', notifications);
+
+// Handling 404
+app.use((req, res) => {
+    res.status(404).send({err: 'We can not find what you are looking for'});
+ })
+
 
 const port = process.env.PORT || 3000;
 app.listen(port, () => console.log(`Listening on port ${port}...`));
