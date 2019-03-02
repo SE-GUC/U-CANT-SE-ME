@@ -3,21 +3,11 @@ const uuid = require('uuid');
 const router = express.Router();
 
 const Case = require('../../models/Case');
-const cases = [ ];
+const cases = [ new Case('hello','hello','hello') ];
 
 //get all cases , NOT THE ENTIRE READ CASE
 
-router.get('/', (req, res) => res.json({ data: cases }));
 
-router.get('/:id', (req, res) => {
-    const caseID = req.params.id;
-    // console.log(companyName);
-    for(let i=0;i<cases.length;i++) {
-        if(cases[i].caseID===caseID)
-            return res.json({ data: cases[i] });
-    } 
-    return res.status(404).send({ error: "ERROR 404: Company does not exist" }); 
-})
 
 //create case
 
@@ -121,30 +111,5 @@ router.delete('/:caseID', (req, res) => {
 //assignedReviewers
 //assignedLawyers
 //status
-router.put('/update/:caseID' , (req,res) => {
-
-	const caseID = req.params.caseID
-	// const Case = cases.find(Case => Case.caseID === caseID )
-	var Case=null;
-	for(let i=0;i<cases.length;i++)
-		if(cases[i].caseID === caseID)
-			Case = cases[i];
-	if(Case === null)
-		return res.status(400).send({ err: 'Can not find the Case ID' });
-		
-	//check here again for the updates
-	const Update_caseStatus = req.body.caseStatus;
-	const New_Lawyer = req.body.NewLawyer;
-	const New_Reviewer = req.body.NewReviewer;
-	
-	if(Update_caseStatus)
-		Case.caseStatus=Update_caseStatus;
-	if(New_Lawyer)
-		Case.assignedLawyers.push(New_Lawyer);
-	if(New_Reviewer)
-		Case.assignedReviewers.push(New_Reviewer);
-	
-	res.send(cases);
-});
 
 module.exports = router;
