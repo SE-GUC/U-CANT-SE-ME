@@ -148,7 +148,7 @@ router.post("/", (req, res) => {
     return res
       .status(400)
       .send({ err: "There must be a manager date of birth" });
-  if (typeof managerDateOfBirth === 'Date')
+  if (typeof managerDateOfBirth !== 'Date')
     return res.status(400).send({ err: "date of birth must be date" });
   if (!managerResidenceAdress)
     return res
