@@ -102,6 +102,7 @@ router.post("/", (req, res) => {
       .send({ err: "There must be a currencyUsedForCapital" });
   if (typeof currencyUsedForCapital !=='string')
     return res.status(400).send({ err: "currencyUsedForCapital must be string" });
+
   if (!capital) return res.status(400).send({ err: "There must be a Capital" });
   if (typeof capital !== "number")
     return res.status(400).send({ err: "Capital must be number" });
@@ -145,8 +146,10 @@ router.post("/", (req, res) => {
   if (typeof managerIDNumber !== "number")
     return res.status(400).send({ err: "ID number must be a number" });
   if (!managerDateOfBirth)
-    return res.status(400).send({ err: "There must be a manager date of birth" });
-  if (typeof managerDateOfBirth !== "Date")
+    return res
+      .status(400)
+      .send({ err: "There must be a manager date of birth" });
+  if (typeof managerDateOfBirth !== 'Date')
     return res.status(400).send({ err: "date of birth must be date" });
   if (!managerResidenceAdress)
     return res
