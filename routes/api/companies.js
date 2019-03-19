@@ -40,6 +40,7 @@ router.post("/", async (req, res) => {
     res.json({msg:'Company was created successfully', data: newCompany})
   }
   catch(error){
+    res.json({msg: "An error has occured, check your entered data please."})
     console.log(error)
   }
 });
@@ -70,22 +71,12 @@ router.put("/:id", async (req, res) => {
     }
     if(req.body.newCompanyStatus !== undefined)
       putCompany.companyStatus = req.body.newCompanyStatus
-    //fix update
-      
-    ////////////////////////////////////////////////
-
-    ////////////////////////////////////////////////
-
-    ////////////////////////////////////////////////
-
-    ////////////////////////////////////////////////
-
-    ////////////////////////////////////////////////
     await Company.findByIdAndUpdate(req.params.id,putCompany)
     res.json({msg: 'Company updated successfully'})
   }
   catch(error){
     console.log(error)
+    res.json({msg: " An error has occured, check your entered data please."})
   }
 })
 
