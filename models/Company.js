@@ -31,7 +31,7 @@ const CompanySchema = new Schema({
   caseID: {
     //   type: String,
       type: Schema.Types.ObjectId, 
-	  ref: 'cases',
+      ref: 'cases',
       required: true
   }
 })
