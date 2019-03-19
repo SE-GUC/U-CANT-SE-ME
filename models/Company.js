@@ -1,22 +1,39 @@
-const uuid = require("uuid");
-class Company {
-  constructor(
-    socialInsuranceNumber,
-    investorID,
-    companyName,
-    companyType,
-    companyStatus,
-    dateOfCreation,
-    caseID
-  ) {
-    this.companyID = uuid.v4();
-    this.socialInsuranceNumber = socialInsuranceNumber;
-    this.investorID = investorID;
-    this.companyName = companyName;
-    this.companyType = companyType;
-    this.companyStatus = companyStatus;
-    this.dateOfCreation = dateOfCreation;
-    this.caseID = caseID;
+const mongoose = require('mongoose')
+const Schema = mongoose.Schema
+
+const CompanySchema = new Schema({
+  socialInsuranceNumber: {
+      type: Number,
+      required: true
+  },
+  investorID: {
+    //  type : String, 
+     type: Schema.Types.ObjectId, 
+     ref: 'investors',
+      required: true
+  },
+  companyName: {
+      type: String,
+      required: true
+  },
+  companyType: {
+      type: String,
+      required: true
+  },
+  companyStatus: {
+      type: String,
+      required: true
+  },
+  dateOfCreation: {
+      type: Date,
+      required: true
+  },
+  caseID: {
+    //   type: String,
+      type: Schema.Types.ObjectId, 
+	  ref: 'cases',
+      required: true
   }
-}
-module.exports = Company;
+})
+
+module.exports = Company = mongoose.model('companies', CompanySchema)
