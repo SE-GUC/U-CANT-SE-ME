@@ -1,129 +1,90 @@
 const express = require("express");
-const Joi = require("joi");
-const uuid = require("uuid");
+const mongoose = require("mongoose");
 const router = express.Router();
 
 const ExternalEntity = require("../../models/ExternalEntity");
-// DB
-const externalEntities = [
-  new ExternalEntity(
-    "Social Insurance Organization",
-    "Description for what SIO does",
-    "its socket to communicate with it"
-  ),
-  new ExternalEntity(
-    "Egyptian Tax Authority",
-    "Description for what ETA does",
-    "its socket to communicate with it"
-  )
-];
+const validator = require('../../validations/externalEntityValidations');
 
 // GET
-router.get("/", (req, res) => {
-  /*let data = "";
-  externalEntities.forEach((value) => {
-    const ID = value.ID;
-    const name=value.name;
-    data += `<a href="/api/externalEntities/${ID}">${name}</a><br>`;
-  });
-  */
-  res.json({ data: externalEntities });
+router.get("/", async (req, res) => {
+  const externalEntities = await ExternalEntity.find();
+  res.json({ data: externalEntities});
 });
 
 // GET Specific External Entity
-router.get("/:id", (req, res) => {
-  //var data = "";
-  let extEntity = null;
-  externalEntities.forEach(value => {
-    if (value.ID === req.params.id) {
-      //data = `Name: ${value.name}<br>Description: ${value.description}<br>Socket: ${value.socket}`;
-      extEntity = value;
-      return;
-    }
-  });
-  if (extEntity === null)
-    return res.status(404).send("External Entity not Found");
-  res.json({ data: extEntity });
+router.get("/:id", async (req, res) => {
+  try{
+    if(!mongoose.Types.ObjectId.isValid(req.params.id)) return res.status(400).send({ error:"Incorrect Mongo ID"});
+    const requestedExtEntity = await ExternalEntity.findById(mongoose.Types.ObjectId(req.params.id));
+    if(requestedExtEntity===null) return res.status(404).send("External Entity not Found");
+    res.json({ data: requestedExtEntity });
+  }
+  catch{
+    res.json({msg: "An error has occured"});
+  }
 });
 
 // POST
-router.post("/", (req, res) => {
-  const name = req.body.name;
-  const description = req.body.description;
-  const socket = req.body.socket;
-
-  const schema = {
-    name: Joi.string()
-      .min(3)
-      .required(),
-    description: Joi.string().required(),
-    socket: Joi.string().required()
-  };
-
-  const result = Joi.validate(req.body, schema);
-
-  if (result.error)
-    return res.status(400).send({ error: result.error.details[0].message });
-
-  const newExtEntity = {
-    id: uuid.v4(),
-    name,
-    description,
-    socket
-  };
-  externalEntities.push(newExtEntity);
-  //var msg = `New External Entity "${name}" was created successfully!<br>it's Description: "${description}"<br>it's socket is "${socket}"`
-  return res.json({ data: externalEntities });
+router.post("/", async (req, res) => {
+  try{
+    const name = req.body.name;
+    const socket = req.body.socket;
+    const isValidated = validator.createValidation(req.body);
+    if (isValidated.error) return res.status(400).send({ error: isValidated.error.details[0].message });
+    let checkNameExists = await ExternalEntity.where("name",name);
+    let checkSocketExists = await ExternalEntity.where("socket",socket);
+    if(checkNameExists.length>0) return res.status(400).send({ error: "External Entity Name is already taken"});
+    if(checkSocketExists.length>0) return res.status(400).send({ error: "External Entity Socket is already taken"});
+    const newExtEntity = await ExternalEntity.create(req.body);
+    res.json({msg:'External Entity was created successfully', data: newExtEntity});
+  }
+  catch{
+    res.json({msg: "An error has occured"});
+  }
 });
 
 // PUT
-router.put("/:id", (req, res) => {
-  const id = req.params.id;
-  const name = req.body.name;
-  const description = req.body.description;
-  const socket = req.body.socket;
-  var External_Entity = null;
-  for (let i = 0; i < externalEntities.length; i++) {
-    if (externalEntities[i].ID === id) {
-      External_Entity = externalEntities[i];
-      break;
+router.put("/:id", async (req, res) => {
+  try{
+    if(!mongoose.Types.ObjectId.isValid(req.params.id)) return res.status(400).send({ error:"Incorrect Mongo ID"});
+    const name = req.body.name;
+    const description = req.body.description;
+    const socket = req.body.socket;
+    const toBeUpdatedExtEntity = await ExternalEntity.findById(req.params.id);
+    if(toBeUpdatedExtEntity===null) return res.status(404).send("External Entity not Found");
+    const isValidated = validator.updateValidation(req.body);
+    if (isValidated.error) return res.status(400).send({ error: isValidated.error.details[0].message });
+    if(name){
+      let checkNameExists = await ExternalEntity.where("name",name);
+      if(checkNameExists.length>0) return res.status(400).send({ error: "External Entity Name is already taken"});
+      toBeUpdatedExtEntity.name=name;
     }
+    if(description){
+      toBeUpdatedExtEntity.description=description;
+    }
+    if(socket){
+      let checkSocketExists = await ExternalEntity.where("socket",socket);
+      if(checkSocketExists.length>0) return res.status(400).send({ error: "External Entity Socket is already taken"});
+      toBeUpdatedExtEntity.socket=socket;
+    }
+    await ExternalEntity.findByIdAndUpdate(req.params.id,toBeUpdatedExtEntity);
+    res.json({msg:'External Entity was updated successfully', data: toBeUpdatedExtEntity});
   }
-
-  if (External_Entity === null)
-    return res.status(404).send("External Entity not Found");
-
-  //let msg = '';
-  if (name) {
-    //msg+=`Name successfully updated! was "${External_Entity.name}" now "${name}"<br>`
-    External_Entity.name = name;
+  catch{
+    res.json({msg: "An error has occured"});
   }
-  if (description) {
-    //msg+=`Description successfully updated! was "${External_Entity.description}" now "${description}"<br>`
-    External_Entity.description = description;
-  }
-  if (socket) {
-    //msg+=`Socket successfully updated! was "${External_Entity.socket}" now "${socket}"<br>`
-    External_Entity.socket = socket;
-  }
-  res.json({ data: External_Entity });
 });
 
-router.delete("/", (req, res) => {
-  const id = req.body.ID;
-  let entityExists = false;
-  for (let i = 0; i < externalEntities.length; i++) {
-    if (externalEntities[i].ID === id) {
-      externalEntities.splice(i, 1);
-      entityExists = true;
-      break;
-    }
+router.delete("/:id", async (req, res) => {
+  try{
+    if(!mongoose.Types.ObjectId.isValid(req.params.id)) return res.status(400).send({ error:"Incorrect Mongo ID"});
+    const deletedExtEntity = await ExternalEntity.findByIdAndDelete(req.params.id);
+    if(deletedExtEntity===null) return res.status(404).send("External Entity not Found");
+    return res.json({msg:"External Entity deleted successfully", data: deletedExtEntity });
   }
-
-  if (!entityExists)
-    return res.status(404).send({ error: "Entity doesn't exist" });
-
-  return res.json({ data: externalEntities });
+  catch{
+    res.json({msg: "An error has occured"});
+  }
 });
 
 module.exports = router;
