@@ -78,8 +78,8 @@ router.put("/:id", async (req, res) => {
       //console.log("newCompanyName: "+req.body.newCompanyName)
       putCompany.companyName = req.body.newCompanyName
     }
-    if(req.body.newCompanyStatus !== undefined)
-      putCompany.companyStatus = req.body.newCompanyStatus
+    // if(req.body.newCompanyStatus !== undefined)
+    //   putCompany.companyStatus = req.body.newCompanyStatus
     await Company.findByIdAndUpdate(req.params.id,putCompany)
     res.json({msg: 'Company updated successfully'})
   }
