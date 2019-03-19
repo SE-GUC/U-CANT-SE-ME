@@ -16,6 +16,7 @@ router.get("/:id", async (req, res) => {
     res.json({msg: 'Company was found successfully', data: requestedCompany})
   }
   catch{
+    //console.log(error)
     return res.status(404).send({ error: "ERROR 404: Company does not exist" })
   }
 })
@@ -56,17 +57,17 @@ router.put("/:id", async (req, res) => {
     const resultBody = validator.updateValidationBody(req.body)
     if(resultBody.error)
       return res.status(400).send({ error: resultBody.error.details[0].message })
-    console.log("Before putCompany")
+   // console.log("Before putCompany")
     let putCompany = await Company.findById(req.params.id)
     if(putCompany.length===0)
       return res.status(404).send({ error: "Company does not exist!"})
-    console.log("Put Company: "+putCompany)
-    console.log("Company Name: "+putCompany.companyName)
+   // console.log("Put Company: "+putCompany)
+   // console.log("Company Name: "+putCompany.companyName)
     if(req.body.newCompanyName !== undefined){
       let checkIfCompanyNameExists = await Company.where("companyName", req.body.newCompanyName)
       if(checkIfCompanyNameExists.length>0)
         return res.status(400).send({error: "Company name already taken!" })
-      console.log("newCompanyName: "+req.body.newCompanyName)
+   //  console.log("newCompanyName: "+req.body.newCompanyName)
       putCompany.companyName = req.body.newCompanyName
     }
     if(req.body.newCompanyStatus !== undefined)
@@ -75,8 +76,8 @@ router.put("/:id", async (req, res) => {
     res.json({msg: 'Company updated successfully'})
   }
   catch(error){
-    console.log(error)
     res.json({msg: " An error has occured, check your entered data please."})
+    //console.log(error)
   }
 })
 
@@ -86,7 +87,8 @@ router.delete("/:id", async (req, res) => {
     res.json({msg: 'Company was deleted successfully', data: deletedCompany})
   }
   catch(error){
-    console.log(error)
+    res.json({msg: "An error has occured, check your entered data please."})
+    //console.log(error)
   }
 })
 
