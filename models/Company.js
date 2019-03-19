@@ -10,7 +10,7 @@ const CompanySchema = new Schema({
     //  type : String, 
      type: Schema.Types.ObjectId, 
      ref: 'investors',
-      required: true
+     required: true
   },
   companyName: {
       type: String,

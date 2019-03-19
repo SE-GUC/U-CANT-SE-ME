@@ -2,6 +2,8 @@ const express = require("express")
 const router = express.Router()
 
 const Company = require("../../models/Company.js")
+const Investor = require("../../models/Investor.js")
+const Case = require("../../models/Case.js")
 const validator = require('../../validations/companyValidations')
 
 
@@ -24,6 +26,10 @@ router.get("/:id", async (req, res) => {
 router.post("/", async (req, res) => {
   try{  
   //check name isn't taken and check that this investor doesn't already own an SSC company
+    const caseID = req.body.caseID
+    const investorID = req.body.investorID
+    delete req.body.caseID
+    delete req.body.investorID
     const result = validator.createValidation(req.body)
     if (result.error)
       return res.status(400).send({ error: result.error.details[0].message })
@@ -37,12 +43,14 @@ router.post("/", async (req, res) => {
         return res.status(400).send({ error: "You already own an SSC Company!" })
     if (postCompany.length>0)
         return res.status(400).send({error: "Company name already taken!" })
-    const newCompany = await Company.create(req.body);
+    req.body.caseID = caseID
+    req.body.investorID = investorID
+    const newCompany = await Company.create(req.body); //add investor and case id
     res.json({msg:'Company was created successfully', data: newCompany})
   }
   catch(error){
     res.json({msg: "An error has occured, check your entered data please."})
-    console.log(error)
+    //console.log(error)
   }
 });
 
@@ -57,17 +65,17 @@ router.put("/:id", async (req, res) => {
     const resultBody = validator.updateValidationBody(req.body)
     if(resultBody.error)
       return res.status(400).send({ error: resultBody.error.details[0].message })
-   // console.log("Before putCompany")
+    //console.log("Before putCompany")
     let putCompany = await Company.findById(req.params.id)
     if(putCompany.length===0)
       return res.status(404).send({ error: "Company does not exist!"})
-   // console.log("Put Company: "+putCompany)
-   // console.log("Company Name: "+putCompany.companyName)
+    //console.log("Put Company: "+putCompany)
+    //console.log("Company Name: "+putCompany.companyName)
     if(req.body.newCompanyName !== undefined){
       let checkIfCompanyNameExists = await Company.where("companyName", req.body.newCompanyName)
       if(checkIfCompanyNameExists.length>0)
         return res.status(400).send({error: "Company name already taken!" })
-   //  console.log("newCompanyName: "+req.body.newCompanyName)
+      //console.log("newCompanyName: "+req.body.newCompanyName)
       putCompany.companyName = req.body.newCompanyName
     }
     if(req.body.newCompanyStatus !== undefined)
@@ -76,8 +84,8 @@ router.put("/:id", async (req, res) => {
     res.json({msg: 'Company updated successfully'})
   }
   catch(error){
-    res.json({msg: " An error has occured, check your entered data please."})
     //console.log(error)
+    res.json({msg: " An error has occured, check your entered data please."})
   }
 })
 
@@ -87,7 +95,7 @@ router.delete("/:id", async (req, res) => {
     res.json({msg: 'Company was deleted successfully', data: deletedCompany})
   }
   catch(error){
-    res.json({msg: "An error has occured, check your entered data please."})
+    res.json({msg: "An error has occured, please check your entered data."})
     //console.log(error)
   }
 })

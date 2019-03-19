@@ -4,12 +4,12 @@ module.exports = {
     createValidation: request => {
         const createSchema = {
           socialInsuranceNumber: Joi.number().required(),
-          investorID: Joi.string().required(),
+          // investorID: Joi.string().required(), //has to be changed
           companyType: Joi.string().min(3).required(),
           companyStatus: Joi.string().min(3).required(),
           dateOfCreation: Joi.date().required(),
-          companyName: Joi.string().min(3).required(),
-          caseID: Joi.string().required()
+          companyName: Joi.string().min(3).required()
+          // caseID: Joi.string().required() //has to be changed
         }
         return Joi.validate(request, createSchema)
     },
