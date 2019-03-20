@@ -51,21 +51,30 @@ router.post('/', async (req,res) => {
 
 
 
-router.put("/:id", async (req,res) => {
+router.put('/:id', async (req,res) => {
   try {
     const id = req.params.id;
-    const {  userName, fullName, password ,email }  = req.body
+    const lawyer = await Lawyer.findOne({'_id':id});
+    if(!lawyer){
+      res.status(404).send({error:'lawyer does not exit'});
+      return;
+    }
+
+  if (!req.body.email) req.body.email = lawyer.email;
+  if (!req.body.password) req.body.password = lawyer.password;
+  if (!req.body.fullName) req.body.fullName = lawyer.fullName;
+  if (!req.body.userName) req.body.userName = lawyer.userName;
+  const email=req.body.email;
+  const password=req.body.password;
+  const fullName=req.body.fullName;
+  const userName=req.body.userName;
    
     const isValidated = validator.updateValidation(req.body)
     if (isValidated.error) {
        res.status(400).send({ error: isValidated.error.details[0].message })
        return
-    }    
-   const lawyer = await Lawyer.findByIdAndUpdate(id,{  fullName, userName, password ,email})
-   if(!lawyer) {
-     return res.status(404).send({error: 'admin does not exist'})
-   }
-  
+    }   
+   const lawyerss = await Lawyer.findByIdAndUpdate(id,{  email, password, fullName ,userName})
   
    res.json({msg: 'lawyer updated successfully'})
   }
