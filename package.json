@@ -21,7 +21,9 @@
     "express": "^4.16.4",
     "joi": "^14.3.1",
     "mongoose": "^5.4.19",
-    "uuid": "^3.3.2"
+    "uuid": "^3.3.2",
+    "uuid-validate": "0.0.3",
+    "validator": "^10.11.0"
   },
   "devDependencies": {
     "nodemon": "^1.18.10"
