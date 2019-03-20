@@ -1,0 +1,44 @@
+{
+	"email": "abc@gmail.com",
+	"password" : "12345678",
+	"fullName" : "Abc Ibn Xyz",
+	"type" : "a",
+	"gender" : "Male",
+	"nationality" : "Egyptian",
+	"methodOfIdentification" : "National Card",
+	"identificationNumber" : "12233344445555",
+	"dateOfBirth" : "1990-12-17T22:00:00.000Z",
+	"residenceAddress" : "13th Mogama3 el Tahrir",
+	"telephoneNumber" : "+201009913457",
+	"fax" : "123456" 
+}
+
+{
+	"email": "xyz@gmail.com",
+	"password" : "34532311",
+	"fullName" : "Xyz Abu Abc",
+	"type" : "a",
+	"gender" : "Male",
+	"nationality" : "Egyptian",
+	"methodOfIdentification" : "National Card",
+	"identificationNumber" : "12277744445555",
+	"dateOfBirth" : "1990-12-17T22:00:00.000Z",
+	"residenceAddress" : "13th Mogama3 el Tahrir",
+	"telephoneNumber" : "+201009913457",
+	"fax" : "123456" 
+}
+
+{
+    "email": "byd@gmail.com",
+    "password": "12345678",
+    "fullName": "Byd Om Abc",
+    "type": "a",
+    "gender": "Female",
+    "nationality": "Russian",
+    "methodOfIdentification": "Passport",
+    "identificationNumber": "12345678",
+    "dateOfBirth": "1990-12-17T22:00:00.000Z",
+    "residenceAddress": "13th Mogama3 el Tahrir",
+    "telephoneNumber": "+201009913457",
+    "fax": "123456"
+}
