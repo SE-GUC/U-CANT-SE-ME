@@ -48,15 +48,12 @@ router.post('/', async (req,res) => {
 });
 
 
-
-
-
 router.put('/:id', async (req,res) => {
   try {
     const id = req.params.id;
     const lawyer = await Lawyer.findOne({'_id':id});
     if(!lawyer){
-      res.status(404).send({error:'lawyer does not exit'});
+      res.status(404).send({error:'lawyer does not exist'});
       return;
     }
 
@@ -79,6 +76,7 @@ router.put('/:id', async (req,res) => {
    res.json({msg: 'lawyer updated successfully'})
   }
   catch(error) {
+    res.status(404).send({error:'lawyer does not exist'});
       // We will be handling the error later
       console.log(error)
   }  
