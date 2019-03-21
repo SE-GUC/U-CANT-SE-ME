@@ -54,15 +54,15 @@ router.put("/update/:id", async (req,res) => {
     if(!(reviewer.password==oldPassword)){
       return res.status(404).send({error: 'password doesnot match'})
     }else{
-      if(req.body.username) var username=req.body.username
-      else username=reviewer.username
+      if(req.body.userName) var userName=req.body.userName
+      else userName=reviewer.userName
       if(req.body.fullName) var fullName=req.body.fullName
       else fullName=reviewer.fullName
       if(req.body.password) var password=req.body.password
       else password=reviewer.password
       if(req.body.email) var email=req.body.email
       else email=reviewer.email
-      reviewer = await Reviewer.findByIdAndUpdate(reviewerID,{ username,fullName,password,email })
+      reviewer = await Reviewer.findByIdAndUpdate(reviewerID,{ userName,fullName,password,email })
       res.json({msg: 'Reviewer updated successfully'})
     }
   
@@ -83,7 +83,7 @@ router.delete("/joi/:id", async (req,res) => {
     return res.status(404).send({error: 'Invalid ID'})
    const deletedReviewer = await Reviewer.findByIdAndRemove(reviewerID)
    if(!deletedReviewer)
-   return res.status(404).send({error: '2Reviewer does not exist'})
+   return res.status(404).send({error: 'Reviewer does not exist'})
    res.json({msg:'Reviewer was deleted successfully', data: deletedReviewer})
   }
   catch(error) {
