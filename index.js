@@ -11,6 +11,8 @@ const companies = require("./routes/api/companies");
 const notifications = require("./routes/api/notifications");
 const externalEntities = require("./routes/api/externalEntities");
 const investorActions = require("./userStories/investorActions");
+const reviewerActions = require("./userStories/reviewerActions");
+const lawyerActions = require("./userStories/lawyerActions");
 
 const app = express();
 
@@ -40,7 +42,8 @@ app.use("/api/cases", cases);
 app.use("/api/notifications", notifications);
 app.use("/api/externalEntities", externalEntities);
 app.use("/api/investorActions", investorActions);
-
+app.use("/api/reviewerActions", reviewerActions);
+app.use("/api/lawyerActions", lawyerActions);
 // Handling 404
 app.use((req, res) => {
   res.status(404).send({ err: "We can not find what you are looking for" });
