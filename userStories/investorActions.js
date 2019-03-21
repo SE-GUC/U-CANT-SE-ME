@@ -1,12 +1,13 @@
-//As an investor I should be able to view the lawyer’s comments on my company establishment form, 
-//so that I know what should be changed or updated in my form.
 const express = require("express")
 const router = express.Router()
 
 const Case = require("../models/Case.js")
+const Company= require("../models/Company.js");
 
 const investorAuthenticated = true
 
+//As an investor I should be able to view the lawyer’s comments on my company establishment form, 
+//so that I know what should be changed or updated in my form.
 router.get('/lawyerComments/:investorID/:caseID', async (req,res) => {
     try{
         if(investorAuthenticated){
@@ -24,5 +25,21 @@ router.get('/lawyerComments/:investorID/:caseID', async (req,res) => {
         res.json({msg: "An error has occured."})
     }
 })
+//As an investor I should be able to view all my companies,
+//so that I have a history of my created / pending companies
+router.get('/myCompanies/:investorID', async (req,res) => {
+    try{
+        if(investorAuthenticated){
+            const companies = await Company.find({"investorID":req.params.investorID});
+            if(companies===null) 
+                res.json({msg: "You don't have any Companies yet."});
+            else
+                res.json({data: companies});
+        }
+    }
+    catch{
+        res.json({msg: "An error has occured."});
+    }
+});
 
 module.exports = router
