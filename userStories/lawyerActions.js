@@ -15,8 +15,8 @@ router.post('/joi/createCase/:lawyerId', async (req,res) => {
     const isValidated = validator.createValidation(req.body)
 
     const investorID = req.body.creatorInvestorId
-    if(!(q.isMongoId(investorID)))return res.status(404).send({error: 'Invalid ID'})
     if(!investorID ) res.status(400).send({err : "No investor entered"})
+    if(!(q.isMongoId(investorID)))return res.status(404).send({error: 'Invalid ID'})
     const inves = await Investor.findById(investorID)
     if(!inves) return res.status(400).send({err : "investor entered not found"})
     
