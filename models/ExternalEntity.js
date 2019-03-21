@@ -1,12 +1,21 @@
-const uuid = require("uuid");
+const mongoose = require("mongoose");
+const Schema = mongoose.Schema;
 
-class ExternalEntity {
-  constructor(name, description, socket) {
-    this.ID = uuid.v4();
-    this.name = name;
-    this.description = description;
-    this.socket = socket;
+const ExternalEntitySchema = new Schema({
+  name: {
+    type: String,
+    unique: true,
+    required: true
+  },
+  description: {
+    type: String,
+    required: false
+  },
+  socket: {
+    type: String,
+    unique: true,
+    required: true
   }
-}
+});
 
-module.exports = ExternalEntity;
+module.exports = ExternalEntity = mongoose.model("externalEntities", ExternalEntitySchema);

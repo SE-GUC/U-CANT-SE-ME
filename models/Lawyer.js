@@ -1,13 +1,22 @@
-const uuid = require("uuid");
+const mongoose =require("mongoose");
+const Schema=mongoose.Schema;
 
-class Lawyer {
-  constructor(fullName, email, userName, password) {
-    this.id = uuid.v4();
-    this.fullName = fullName;
-    this.email = email;
-    this.userName = userName;
-    this.password = password;
-    // this.activeCases=new Array();
-  }
-}
-module.exports = Lawyer;
+const lawyerSchema= new Schema({
+fullName: {
+type: String,
+required: true
+},
+email :{
+type:String,
+required:true
+},
+password:{
+type: String,
+required:true
+},
+userName:{
+type: String,
+required:true 
+} 
+});
+module.exports = Lawyer = mongoose.model('lawyersTestCollection', lawyerSchema)
