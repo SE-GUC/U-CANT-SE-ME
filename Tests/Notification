@@ -1,37 +1,55 @@
-GetNotifcations: localhost:3000/api/notifications
-GetNotificationById: localhost:3000/api/notifications/2
-GetNotificationById: localhost:3000/api/notifications/10 (id does not exist)
-DeleteNotifcation localhost:3000/api/notifications/1 
-DeleteNotifcation localhost:3000/api/notifications/10 (id does not exist)
-UpdateNotification localhost:3000/api/notifications/2 
-Body:
-{
-	"caseID":"newCaseId"
-}
-UpdateNotification localhost:3000/api/notifications/2 
-Body:
-{
-    "emailOfRecipient":"wrong_email_format"
-}
-UpdateNotification localhost:3000/api/notifications/2 
-Body:
-{
-     "emailOfRecipient":"correct_email_format@gmail.com"
-}
-UpdateNotification localhost:3000/api/notifications/2 
-Body:
-{
-     "Attribute that ":"does not exist"
-}
-
 Create Notification: localhost:3000/api/notifications
+{
+            "emailOfRecipient": "wrongemailformat",
+            "message": "heyTher",
+            "caseID": "caseIdisAString",
+            "recipientID": "123"
+}
+{
+            "emailOfRecipient": "hamadael3alamy@gmail.com",
+            "message": "casID_is_missing",
+            "recipientID": "123"
+}
  {
             "emailOfRecipient": "coderrZZZZ@gmail.com",
             "message": "heyTher",
             "caseID": "caseIdisAString",
             "recipientID": "123"
   }
-Update Notification: localhost:3000/api/notifications/0
+
+
+
+
+
+
+GetNotifcations: localhost:3000/api/notifications
+GetNotificationById: localhost:3000/api/notifications/5c934a024e727e2ed8291cb3
+GetNotificationById: localhost:3000/api/notifications/10 (id does not exist)
+ DeleteNotifcation localhost:3000/api/notifications/10 (id does not exist)
+UpdateNotification localhost:3000/api/notifications/5c934a024e727e2ed8291cb3
+Body:
+{
+	"caseID":"newCaseId"
+}
+UpdateNotification localhost:3000/api/notifications/5c934a024e727e2ed8291cb3
+Body:
+{
+    "emailOfRecipient":"wrong_email_format"
+}
+UpdateNotification localhost:3000/api/notifications/5c934a024e727e2ed8291cb3
+Body:
+{
+     "emailOfRecipient":"correct_email_format@gmail.com"
+}
+UpdateNotification localhost:3000/api/notifications/5c934a024e727e2ed8291cb3
+Body:
+{
+     "Attribute that ":"does not exist"
+}
+
+
+
+Update Notification: localhost:3000/api/notifications/5c934a024e727e2ed8291cb3
  {
             "emailOfRecipient": "wrondemail@gmail",
             "message": "testing date seen",
@@ -40,7 +58,7 @@ Update Notification: localhost:3000/api/notifications/0
             "dateSeen": "2008-09-15"
   }
 
-Update Notification: localhost:3000/api/notifications/0
+Update Notification: localhost:3000/api/notifications/5c934a024e727e2ed8291cb3
  {
             "emailOfRecipient": "wrondemail@gmail",
             "message": "testing date seen",
