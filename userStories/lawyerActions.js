@@ -14,23 +14,27 @@ router.post('/joi/createCase/:lawyerId', async (req,res) => {
     const isValidated = validator.createValidation(req.body)
 
     const investorID = req.body.creatorInvestorId
+    if(!(q.isMongoId(investorID)))return res.status(404).send({error: 'Invalid ID'})
     if(!investorID ) res.status(400).send({err : "No investor entered"})
     const inves = await Investor.findById(investorID)
     if(!inves) return res.status(400).send({err : "investor entered not found"})
     
     const clawyerID = req.params.lawyerId
     if (!clawyerID) return res.status(400).send({err : "creator lawyer was not entered"})
+    if(!(q.isMongoId(clawyerID)))return res.status(404).send({error: 'Invalid ID'})
     const lawyer = await Lawyer.findById(clawyerID)
     if(!lawyer) return res.status(400).send({err : "creator lawyer was not found"})
 
     const newLawyer = req.body.assignedLawyerId
     if (newLawyer)  {
+      if(!(q.isMongoId(newLawyer)))return res.status(404).send({error: 'Invalid ID'})
       const lawyer2 = await Lawyer.findById(newLawyer)
       if(!lawyer2) return res.status(400).send({err : "lawyer entered not found"})
     }
 
     const newReviewer = req.body.assignedReviewerId
     if (newReviewer) {
+      if(!(q.isMongoId(newReviewer)))return res.status(404).send({error: 'Invalid ID'})
       const reviewer = await Reviewer.findById(newReviewer)
       if(!reviewer) return res.status(400).send({err : "reviewer entered not found"})
     }
