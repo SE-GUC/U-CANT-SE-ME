@@ -3,10 +3,11 @@ const Joi = require('joi')
 module.exports = {
     createValidation: request => {
         const createSchema = {
-            investorID: Joi.string().required(),
-            lawyerID: Joi.string(),
+            creatorInvestorId: Joi.required(),
+            creatorLawyerId: Joi,
             companyType: Joi.string().min(3).required(),
-            assigneeID: Joi.string(),
+            assignedLawyerId: Joi,
+            assignedReviewerId: Joi,
             regulatedLaw: Joi.string().required(),
             legalFormOfCompany: Joi.string().required(),
             companyNameArabic: Joi.string().required(),
@@ -18,17 +19,17 @@ module.exports = {
             fax: Joi.string(),
             currencyUsedForCapital: Joi.string().required(),
             capital: Joi.number().required(),
-            IDType: Joi.string().required(),
-            IDnumber: Joi.number().required(),
+            IdType: Joi.string().required(),
+            Idnumber: Joi.number().required(),
             minimumCapitalLimit: Joi.number().required(),
             managerName: Joi.string().required(),
             managerType: Joi.string().required(),
             managerGender: Joi.string().required(),
             managerNationality: Joi.string().required(),
-            managerIDType: Joi.string().required(),
-            managerIDNumber: Joi.number().required(),
+            managerIdType: Joi.string().required(),
+            managerIdNumber: Joi.number().required(),
             managerDateOfBirth: Joi.date().required(),
-            managerResidenceAdress: Joi.string().required(),
+            managerResidenceAddress: Joi.string().required(),
             managerPositionInBoardOfDirectors: Joi.string().required()
         }
         return Joi.validate(request, createSchema)
@@ -37,9 +38,8 @@ module.exports = {
     updateValidation: request => {
         const updateSchema = {
             caseStatus: Joi.string().required(),
-            lawyerID: Joi.string().required(), 
-            reviewerID: Joi.string().required(),
-            assigneeID: Joi.string().required()
+            assignedLawyerId: Joi, 
+            assignedReviewerId: Joi
         }
 
         return Joi.validate(request, updateSchema)

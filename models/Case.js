@@ -4,6 +4,7 @@ const Schema = mongoose.Schema;
 const CaseSchema = new Schema({
   caseStatus: {
     type: String,
+    enum: ["OnUpdate", "WaitingForLawyer", "AssignedToLawyer", "WaitingForReviewer", "AssignedToReviewer", "Rejected", "Accepted"], 
     default:'New',
     required: true
   },
@@ -12,52 +13,39 @@ const CaseSchema = new Schema({
     default:Date.now,
     required: true
   },
-  investorID: {
-   // type: { type: Schema.Types.ObjectId, ref: 'investors' },
-    //type: Schema.Types.ObjectId,
-    type: String,
+  creatorInvestorId: {
+    type: Schema.Types.ObjectId,
     ref: 'investors',
-    required: true
+    required: true //can be created by lawyer only?
   },
-  lawyerID: {
-    //type: { type: Schema.Types.ObjectId, ref: 'lawyers' },
-    //type: Schema.Types.ObjectId,
-    type: String,
+  creatorLawyerId: {
+    type: Schema.Types.ObjectId,
     ref: 'lawyers',
+    default: null,
     required: false
   },
   companyType: {
     type: String,
-    enum : ['SPC','SSC'],
     required: true
   },
-  assigneeID: {
-    //type: Schema.Types.ObjectId,
-    type: String,
-    refPath: 'user',
+  assignedLawyerId: {
+    type: Schema.Types.ObjectId,
+    ref: 'lawyers',
     default: null,
     required: false
   },
-  user: {
-    type: String,
-    required: false,
-    enum: ['lawyers', 'reviewers']
+  assignedReviewerId: {
+    type: Schema.Types.ObjectId,
+    ref: 'reviewers',
+    default: null,
+    required: false
   },
   comments: {
-    type: [{ body: String, date: Date }],
+    type: [{ author: String, body: String, date: Date }],
     default: [],
     required: false
   },
-  contract: {
-    type: String,
-    default: '',
-    required: false
-  },
-  decision: {
-    type: String,
-    default: '',
-    required: false
-  },
+  //Contact and Decision should be auto-generated
   regulatedLaw: {
     type: String,
     required: true
@@ -102,21 +90,21 @@ const CaseSchema = new Schema({
     type: Number,
     required: true
   },
-  IDType: {
+  IdType: {
     type: String,
     required: true
   },
-  IDnumber: {
+  Idnumber: {
     type: Number,
     required: true
   },
   assignedReviewers: {
-    type: [{ body: String}],
+    type: [Schema.Types.ObjectId],
     default: [],
     required: false
   },
   assignedLawyers: {
-    type: [{ body: String}],
+    type: [Schema.Types.ObjectId],
     default: [],
     required: false
   },
@@ -136,26 +124,25 @@ const CaseSchema = new Schema({
       type: String, 
       enum: ["Male", "Female"],
       required: true
-    },
+  },
   managerNationality: {
     type: String,
     required: true
   },
-  managerIDType: {
+  managerIdType: {
     type: String,
     required: true
   },
-  managerIDNumber: {
+  managerIdNumber: {
     type: Number,
     required: true
   },
-
   managerDateOfBirth: {
     type: Date,
     default: Date.now,
     required: true
   },
-  managerResidenceAdress: {
+  managerResidenceAddress: {
     type: String,
     required: true
   },
