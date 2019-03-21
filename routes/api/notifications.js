@@ -1,129 +1,156 @@
+// Dependencies
 const express = require("express");
-const Joi = require("joi");
+const mongoose = require('mongoose')
 const router = express.Router();
+const validator = require('../../validations/notificationValidations')
+const idValidator = require("validator");
+// Models
 const Notification = require("../../models/Notification");
+const Investor = require("../../models/Investor");
+const Lawyer = require("../../models/Lawyer");
+const Case = require("../../models/Case");
+// Get all notifications
+router.get('/', async (req,res) => {
+  const notifications = await Notification.find()
+  res.json({ data: notifications })
+})
 
-// mock database
-const notifications = [
-  new Notification("first message", "123", "hamada@gmail.com", "rec", "0"),
-  new Notification("second message", "456", "hilal@gmail.com", "sender", "1"),
-  new Notification(
-    "third message",
-    "caseThree",
-    "John@yahoo.com",
-    "07775000",
-    "2"
-  ),
-  new Notification(
-    "fourth message",
-    "caseFier",
-    "Cena@yahoo.com",
-    "7amada",
-    "3"
-  )
-];
+// Get notification by ID
+router.get("/:id",async (req, res) => {
+  const notificationID = req.params.id;
+  
+  if(idValidator.isMongoId(notificationID)){
+    try{
+      const notification = await Notification.findById(notificationID)
+      if(notification)
+        res.json({ data: notification})
+      else
+        res.json({msg:"Id Not Found"})
+    }
+    catch(error) {
+       res.json({ error: "ErrorOcurred"});
+    }
 
-//Create Notification
-router.post("/", (req, res) => {
-  const recipientID = req.body.recipientID;
-  const emailOfRecipient = req.body.emailOfRecipient;
-  const message = req.body.message;
-  const caseID = req.body.caseID;
-
-  const schema = {
-    recipientID: Joi.string().required(),
-    emailOfRecipient: Joi.string()
-      .email()
-      .required(),
-    message: Joi.string().required(),
-    caseID: Joi.string().required()
-  };
-
-  const result = Joi.validate(req.body, schema);
-
-  if (result.error)
-    return res.status(400).send({ error: result.error.details[0].message });
-  let ID = notifications.length + "";
-  const newNotification = new Notification(
-    message,
-    caseID,
-    emailOfRecipient,
-    recipientID,
-    ID
-  );
-
-  notifications.push(newNotification);
-
-  return res.json({ data: notifications });
-});
-
-// Read Notifications
-router.get("/", (req, res) => res.json({ data: notifications }));
-// Read a specific Notification
-router.get("/:id", (req, res) => {
-  const notificationId = req.params.id;
-  const notification = notifications.find(
-    notification => notification.ID === notificationId
-  );
-  if (!notification)
-    res
-      .status(404)
-      .send({ err: "There is no notification with the ID you requested" });
-  else res.json({ data: notification });
-});
-//Delete a Notification
-router.delete("/:id", (req, res) => {
-  const notificationId = req.params.id;
-  const notification = notifications.find(
-    notification => notification.ID === notificationId
-  );
-  const index = notifications.indexOf(notification);
-  if (!notification)
-    res
-      .status(404)
-      .send({ err: "There is no notification with the ID you requested" });
-  else {
-    notifications.splice(index, 1);
-    res.json({ data: notification });
   }
+  else{
+    res.json({ error: "InvalidID"});
+  }
+  
+
+  
 });
 
-// Update a Notification
-router.put("/:id", (req, res) => {
-  const notificationId = req.params.id;
-  const notification = notifications.find(
-    notification => notification.ID === notificationId
-  );
-  if (!notification)
-    res
-      .status(404)
-      .send({ err: "There is no notification with the ID you requested" });
-  else {
-    const message = req.body.message;
-    const caseID = req.body.caseID;
-    const emailOfRecipient = req.body.emailOfRecipient;
+
+
+// create a notification
+router.post('/', async (req,res) => {
+  try {
+  
+    const isValidated = validator.createValidation(req.body)
+    if (isValidated.error) return res.status(400).send({ error: isValidated.error.details[0].message })
     const recipientID = req.body.recipientID;
-    const dateSeen = req.body.dateSeen;
-    const schema = {
-      message: Joi.string(),
-      caseID: Joi.string(),
-      emailOfRecipient: Joi.string()
-        .email()
-        .lowercase(),
-      recipientID: Joi.string(),
-      dateSeen: Joi.string().isoDate()
-    };
-
-    const result = Joi.validate(req.body, schema);
-
-    if (result.error)
-      return res.status(400).send({ error: result.error.details[0].message });
-    if (message) notification.message = message;
-    if (caseID) notification.caseID = caseID;
-    if (emailOfRecipient) notification.emailOfRecipient = emailOfRecipient;
-    if (recipientID) notification.recipientID = recipientID;
-    if (dateSeen) notification.dateSeen = dateSeen;
-    res.json({ data: notification });
+    const caseID= req.body.caseID;
+    if(!idValidator.isMongoId(recipientID) || !idValidator.isMongoId(caseID))
+      res.json({error:"invalidIdformat"});
+    else 
+    {
+      const tmpInvestor=await Investor.findById(recipientID);
+      const tmpLawyer=await Lawyer.findById(recipientID);
+      if(tmpInvestor || tmpLawyer)
+      {
+        const newNotification = await Notification.create(req.body)
+        res.json({msg:'Notification was created successfully', data: newNotification})
+      }
+      else{
+        res.json({msg:"RecipientNotFound"});
+      }
+     
+    }
+   
   }
-});
+  catch(error) {
+    res.json({msg:"Error Ocurred"})
+  }  
+})
+
+
+
+
+// Update a notification
+router.put("/:id", async (req,res) => {
+  const id = req.params.id;
+ 
+  if(!idValidator.isMongoId(id))
+    res.json({msg:"Invalid ID"});
+  else
+  {
+    try {
+      const isValidated = validator.updateValidation(req.body)
+      if (isValidated.error) return res.status(400).send({ error: isValidated.error.details[0].message })
+      const caseID = req.body.caseID;
+      const recipientID = req.body.recipientID;
+      let ok=true;
+      if(caseID)
+      {
+        if(!idValidator.isMongoId(caseID)){
+          res.json({error:"invalidformat"})
+          ok=false;
+        }
+        
+      }
+      if(recipientID && ok){
+        if(idValidator.isMongoId(recipientID))
+        {
+          const tmpInvestor=await Investor.findById(recipientID);
+          const tmpLawyer=await Lawyer.findById(recipientID);
+          if(tmpInvestor || tmpLawyer)
+          {
+            const oldNotification = await Notification.findByIdAndUpdate(id,req.body)
+      
+            if(!oldNotification) return res.status(404).send({error: 'notification does not exist'})
+            const newNotification =await Notification.findById(id)
+           
+            res.json({msg: 'Notification updated successfully',data: newNotification})
+          }
+          else{
+            res.json({msg:"RecipientNotFound"});
+          }
+        }
+        else{
+          res.json({error:"invalidformat"})  
+        }
+      }
+    
+    }
+    catch(error) {
+      res.json({msg:"Error Ocurred"})
+    }  
+  }
+
+ 
+})
+
+// delete a notification
+router.delete("/:id", async (req,res) => {
+  const notificationID = req.params.id;
+  if(!idValidator.isMongoId(notificationID))
+    res.json({msg:"Invalid ID"});
+  else
+  {
+    try {
+   
+      const deletedNotification = await Notification.findByIdAndRemove(notificationID)
+      if(deletedNotification)
+          res.json({msg:'Notification was deleted successfully', data: deletedNotification})
+      else
+        res.json({error:'notification does not exist'});
+    }
+    catch(error) {
+      //  console.log("error")
+       res.json({msg:"Error Ocurred"})
+    }
+  }
+    
+})
+
 module.exports = router;
