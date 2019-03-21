@@ -25,7 +25,7 @@ module.exports = {
         .max(earliestBirthDate)
         .required().min(latestBirthDate),
       residenceAddress: Joi.string().required(),
-      telephoneNumber: Joi.string().trim().regex(/^[0-9]{7,10}$/),
+      telephoneNumber: Joi.string().trim().regex(/^[0-9]{7,14}$/),
       fax: Joi.string().trim().regex(/^[0-9]{7,10}$/)
     };
 
@@ -49,7 +49,7 @@ module.exports = {
       identificationNumber: Joi.string(),
       dateOfBirth: Joi.date().max(earliestBirthDate).min(latestBirthDate),
       residenceAddress: Joi.string(),
-      telephoneNumber: Joi.string().trim().regex(/^[0-9]{7,10}$/),
+      telephoneNumber: Joi.string().trim().regex(/^[0-9]{7,14}$/),
       fax: Joi.string().trim().regex(/^[0-9]{7,10}$/)
     };
 
