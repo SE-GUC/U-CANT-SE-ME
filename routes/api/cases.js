@@ -82,22 +82,32 @@ router.delete("/joi/:id", async (req,res) => {
 router.put("/update/:id", async (req,res) => {
   try {
     const id = req.params.id
+    const exist = await Case.findById(id)
+    if(!exist) return res.status(400).send({err : "case entered not found"})
 
     const newLawyer = req.body.assignedLawyerId
     if (newLawyer)  {
       const lawyer2 = await Lawyer.findById(newLawyer)
       if(!lawyer2) return res.status(400).send({err : "lawyer entered not found"})
-      const cas = await Case.update({"_id": id}, { "$push": { "assignedLawyers": req.body.assignedLawyerId } })
+      const cas = await Case.update({_id: id}, { "$push": { "assignedLawyers": req.body.assignedLawyerId } })
+      const cas6 = await Case.update({_id: id}, {"assignedLawyerId": newLawyer})
     }
     
     const newReviewer = req.body.assignedReviewerId
     if (newReviewer) {
       const reviewer = await Reviewer.findById(newReviewer)
       if(!reviewer) return res.status(400).send({err : "reviewer entered not found"})
-      const cas2 = await Case.update({"_id": id}, { "$push": { "assignedReviewers": req.body.assignedReviewerId } })
+      const cas2 = await Case.update({_id: id}, { "$push": { "assignedReviewers": req.body.assignedReviewerId } })
+      const cas5 = await Case.update({_id: id}, {"assignedReviewerId": newReviewer })
     }
     
-    const cas3 = await Case.update({_id: id},{"caseStatus": req.body.caseStatus})
+    const commentAuthor = req.body.author
+    const commentBody = req.body.body
+    const date = new Date()
+    const comment = {"author": commentAuthor,"body": commentBody,"date": date}
+    if(commentAuthor && commentBody) var cas3 = await Case.update({_id: id}, { "$push": { "comments": comment } })
+
+    const cas4 = await Case.update({_id: id},{"caseStatus": req.body.caseStatus})
     res.json({msg: 'Case updated successfully'})
   }catch(error) {
       // We will be handling the error later

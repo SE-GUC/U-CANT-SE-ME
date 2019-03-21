@@ -39,7 +39,9 @@ module.exports = {
         const updateSchema = {
             caseStatus: Joi.string().required(),
             assignedLawyerId: Joi, 
-            assignedReviewerId: Joi
+            assignedReviewerId: Joi,
+            author: Joi.string(),
+            body: Joi.Strinhg()
         }
 
         return Joi.validate(request, updateSchema)
