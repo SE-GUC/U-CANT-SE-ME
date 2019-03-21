@@ -11,6 +11,7 @@ const companies = require("./routes/api/companies");
 const notifications = require("./routes/api/notifications");
 const externalEntities = require("./routes/api/externalEntities");
 const investorActions = require("./userStories/investorActions");
+const trackMyCompany = require("./userStories/trackMyCompany")
 
 const app = express();
 
@@ -40,6 +41,7 @@ app.use("/api/cases", cases);
 app.use("/api/notifications", notifications);
 app.use("/api/externalEntities", externalEntities);
 app.use("/api/investorActions", investorActions);
+app.use("/api/trackMyCompany", trackMyCompany);
 
 // Handling 404
 app.use((req, res) => {
