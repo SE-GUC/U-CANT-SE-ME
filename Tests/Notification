@@ -6,6 +6,13 @@ post at localhost:3000/api/notifications
             "caseID": "ay7aga",
             "recipientID": "123"
 }
+ {
+            "emailOfRecipient": "7abibyemail@gmail",
+            "message": "testing date seen, it should be in updates only",
+            "caseID": "5c934a024e727e2ed8291cb3",
+            "recipientID": "5c934a024e727e2ed8291cb3"
+           
+  }
 localhost:3000/api/notifications/5c9371c7e00720221c3bce9c
 localhost:3000/api/notifications/invalidId
 // update at localhost:3000/api/notifications/5c9371c7e00720221c3bce9c

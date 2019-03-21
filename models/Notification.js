@@ -11,13 +11,13 @@ const NotificationSchema = new Schema({
     required: true
   },
   caseID: {
-    type: Schema.Types.String, 
+    type: Schema.Types.ObjectId, 
     refPath: 'cases',
     required: true
    },
   recipientID: {
-    type: Schema.Types.String,
-    refPath: 'investors',
+    type: Schema.Types.ObjectId,
+    refPath: 'user',
     required: true
   },
   dateSent: { // not sent as a paramater
