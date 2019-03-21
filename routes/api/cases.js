@@ -3,6 +3,7 @@ const express = require("express");
 const mongoose = require('mongoose');
 const router = express.Router();
 const validator = require('../../validations/caseValidations');
+var q = require('validator');
 
 const Case = require("../../models/Case");
 const Lawyer = require("../../models/Lawyer");
@@ -12,7 +13,9 @@ const Reviewer = require("../../models/Reviewer");
 //get certain case
 router.get("/:id",async (req, res) => {
   const caseID = req.params.id;
+  if(!(q.isMongoId(caseID)))return res.status(404).send({error: 'Invalid ID'})
   const neededCase = await Case.findById(caseID)
+  if(!neededCase) return res.status(400).send({err : "case entered not found"})
   res.json({ data: neededCase})
 });
 //get all cases
@@ -28,6 +31,7 @@ router.post('/joi', async (req,res) => {
   try {
     const isValidated = validator.createValidation(req.body)
     const investorID = req.body.creatorInvestorId
+    if(!(q.isMongoId(investorID)))return res.status(404).send({error: 'Invalid ID'})
     
     if(!investorID ) res.status(400).send({err : "No investor entered"})
     const inves = await Investor.findById(investorID)
@@ -35,18 +39,21 @@ router.post('/joi', async (req,res) => {
     
     const clawyerID = req.body.creatorLawyerId
     if (clawyerID) {
+      if(!(q.isMongoId(clawyerID)))return res.status(404).send({error: 'Invalid ID'})
       const lawyer = await Lawyer.findById(clawyerID)
       if(!lawyer) return res.status(400).send({err : "creator lawyer entered not found"})
     }
     
     const newLawyer = req.body.assignedLawyerId
     if (newLawyer)  {
+      if(!(q.isMongoId(newLawyer)))return res.status(404).send({error: 'Invalid ID'})
       const lawyer2 = await Lawyer.findById(newLawyer)
       if(!lawyer2) return res.status(400).send({err : "lawyer entered not found"})
     }
 
     const newReviewer = req.body.assignedReviewerId
     if (newReviewer) {
+      if(!(q.isMongoId(newReviewer)))return res.status(404).send({error: 'Invalid ID'})
       const reviewer = await Reviewer.findById(newReviewer)
       if(!reviewer) return res.status(400).send({err : "reviewer entered not found"})
     }
@@ -68,8 +75,11 @@ router.post('/joi', async (req,res) => {
 router.delete("/joi/:id", async (req,res) => {
   try {
     const caseID = req.params.id;
-   const deletedCase = await Case.findByIdAndRemove(caseID)
-   res.json({msg:'Case was deleted successfully', data: deletedCase})
+    if(!(q.isMongoId(caseID)))return res.status(404).send({error: 'Invalid ID'})
+    const neededCase = await Case.findById(caseID)
+    if(!neededCase) return res.status(400).send({err : "case entered not found"})
+    const deletedCase = await Case.findByIdAndRemove(caseID)
+    res.json({msg:'Case was deleted successfully', data: deletedCase})
   }
   catch(error) {
       // We will be handling the error later
@@ -82,12 +92,14 @@ router.delete("/joi/:id", async (req,res) => {
 router.put("/update/:id", async (req,res) => {
   try {
     const id = req.params.id
+    if(!(q.isMongoId(id)))return res.status(404).send({error: 'Invalid ID'})
     const exist = await Case.findById(id)
     if(!exist) return res.status(400).send({err : "case entered not found"})
 
     const newLawyer = req.body.assignedLawyerId
     if (newLawyer)  {
       const lawyer2 = await Lawyer.findById(newLawyer)
+      if(!(q.isMongoId(newLawyer)))return res.status(404).send({error: 'Invalid ID'})
       if(!lawyer2) return res.status(400).send({err : "lawyer entered not found"})
       const cas = await Case.update({_id: id}, { "$push": { "assignedLawyers": req.body.assignedLawyerId } })
       const cas6 = await Case.update({_id: id}, {"assignedLawyerId": newLawyer})
@@ -95,12 +107,16 @@ router.put("/update/:id", async (req,res) => {
     
     const newReviewer = req.body.assignedReviewerId
     if (newReviewer) {
+      if(!(q.isMongoId(neweviewer)))return res.status(404).send({error: 'Invalid ID'})
       const reviewer = await Reviewer.findById(newReviewer)
       if(!reviewer) return res.status(400).send({err : "reviewer entered not found"})
       const cas2 = await Case.update({_id: id}, { "$push": { "assignedReviewers": req.body.assignedReviewerId } })
       const cas5 = await Case.update({_id: id}, {"assignedReviewerId": newReviewer })
     }
     
+    const isValidated = validator.updateValidation(req.body)
+    if(isValidated.error) return res.status(400).send({ error: isValidated.error.details[0].message })
+
     const commentAuthor = req.body.author
     const commentBody = req.body.body
     const date = new Date()

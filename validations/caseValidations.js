@@ -41,7 +41,7 @@ module.exports = {
             assignedLawyerId: Joi, 
             assignedReviewerId: Joi,
             author: Joi.string(),
-            body: Joi.Strinhg()
+            body: Joi.string()
         }
 
         return Joi.validate(request, updateSchema)

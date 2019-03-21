@@ -4,7 +4,7 @@ const Schema = mongoose.Schema;
 const CaseSchema = new Schema({
   caseStatus: {
     type: String,
-    enum: ["OnUpdate", "WaitingForLawyer", "AssignedToLawyer", "WaitingForReviewer", "AssignedToReviewer", "Rejected", "Accepted"], 
+    enum: ["New","OnUpdate", "WaitingForLawyer", "AssignedToLawyer", "WaitingForReviewer", "AssignedToReviewer", "Rejected", "Accepted"], 
     default:'New',
     required: true
   },
