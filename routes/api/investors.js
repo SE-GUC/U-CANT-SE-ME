@@ -73,6 +73,12 @@ router.put("/:id", async (req, res) => {
 
   if (!req.body.residenceAddress) req.body.fax = investor.fax;
 
+  if (
+    req.body.nationality === "Egyptian" &&
+    req.body.identificationNumber.length != 14
+  )
+    return res.status(400).send("Incorrect National ID number");
+
   const { error } = validator.updateValidation(req.body);
   if (error) return res.status(400).send(error.details[0].message);
 
