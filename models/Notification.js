@@ -12,12 +12,12 @@ const NotificationSchema = new Schema({
   },
   caseID: {
     type: Schema.Types.String, 
-    // ref: 'cases',
+    refPath: 'cases',
     required: true
    },
   recipientID: {
     type: Schema.Types.String,
-    // refPath: 'investors',
+    refPath: 'investors',
     required: true
   },
   dateSent: { // not sent as a paramater
@@ -25,11 +25,11 @@ const NotificationSchema = new Schema({
     required: false,
     default: new Date()
 },
-  // user: {
-  //   type: String,
-  //   required: true,
-  //   enum: ['lawyers', 'investors']
-  // }, 
+  user: {
+    type: String,
+    required: false,
+    enum: ['lawyers', 'investors']
+  }, 
   dateSeen: { // only in updates
     type: Date,
     required: false
