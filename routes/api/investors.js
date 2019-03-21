@@ -4,6 +4,7 @@ const router = express.Router();
 
 const Investor = require("../../models/Investor");
 const validator = require("../../validations/investorValidations");
+const mongoValidator = require("validator");
 
 //READ
 router.get("/", async (req, res) => {
@@ -12,6 +13,8 @@ router.get("/", async (req, res) => {
 });
 
 router.get("/:id", async (req, res) => {
+  if(!mongoValidator.isMongoId(req.params.id))
+    return res.status(400).send({ err : "Invalid Investor Id" })
   const investor = await Investor.findById(req.params.id);
   if (!investor) return res.status(404).send("Investor not Found");
   res.send(investor);
@@ -30,12 +33,15 @@ router.post("/", async (req, res) => {
     const investor = await Investor.create(req.body);
     res.send(investor);
   } catch (err) {
+    res.send({msg: "Oops something went wrong"});
     console.log(err);
   }
 });
 
 //UPDATE
 router.put("/:id", async (req, res) => {
+  if(!mongoValidator.isMongoId(req.params.id))
+    return res.status(400).send({ err : "Invalid Investor Id" })
   const investor = await Investor.findById(req.params.id);
   if (!investor) return res.status(404).send("Investor not Found");
 
@@ -81,10 +87,13 @@ router.put("/:id", async (req, res) => {
 
 router.delete("/:id", async (req, res) => {
   try {
+    if(!mongoValidator.isMongoId(req.params.id))
+      return res.status(400).send({ err : "Invalid Investor Id" })
     const investor = await Investor.findByIdAndRemove(req.params.id);
     if (!investor) return res.status(404).send("Investor doesn't exist");
     res.send(investor);
   } catch (err) {
+    res.send({msg: "Oops something went wrong"});
     console.log(err);
   }
 });
