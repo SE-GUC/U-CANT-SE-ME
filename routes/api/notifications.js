@@ -56,13 +56,17 @@ router.post('/', async (req,res) => {
     {
       const tmpInvestor=await Investor.findById(recipientID);
       const tmpLawyer=await Lawyer.findById(recipientID);
-      if(tmpInvestor || tmpLawyer)
+      const tmpCase=await Case.findById(caseID);
+      if((tmpInvestor || tmpLawyer) && tmpCase)
       {
         const newNotification = await Notification.create(req.body)
         res.json({msg:'Notification was created successfully', data: newNotification})
       }
       else{
-        res.json({msg:"RecipientNotFound"});
+        if(!tmpCase)
+        res.json({msg:"CaseNotFound"});
+        else
+          res.json({msg:"RecipientNotFound"});
       }
      
     }
@@ -96,7 +100,14 @@ router.put("/:id", async (req,res) => {
           res.json({error:"invalidformat"})
           ok=false;
         }
-        
+        else 
+        {
+          const tmpCase=await Case.findById(caseID);
+          if(!tmpCase){
+            ok=false;
+            res.json({msg:"CaseNotFound"});
+          }
+        }
       }
       if(recipientID && ok){
         if(idValidator.isMongoId(recipientID))
@@ -120,7 +131,16 @@ router.put("/:id", async (req,res) => {
           res.json({error:"invalidformat"})  
         }
       }
-    
+      else if(ok)
+      {
+           const oldNotification = await Notification.findByIdAndUpdate(id,req.body)
+      
+            if(!oldNotification) return res.status(404).send({error: 'notification does not exist'})
+            const newNotification =await Notification.findById(id)
+           
+            res.json({msg: 'Notification updated successfully',data: newNotification})
+      }
+      
     }
     catch(error) {
       res.json({msg:"Error Ocurred"})
