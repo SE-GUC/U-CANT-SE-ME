@@ -19,4 +19,4 @@ type:String,
 required:true
 }
 });
-module.export = Reviewer = mongoose.model ('reviewers', ReviewerSchema)
+module.exports = Reviewer = mongoose.model ('reviewers', ReviewerSchema)

@@ -4,7 +4,7 @@ const router = express.Router()
 const validator = require('../../validations/reviewerValidations')
 
 var q = require('validator')
-const Reveiw = require('../../models/Reviewer');
+const Reviewer = require('../../models/Reviewer');
 
 
 router.get("/:id",async (req, res) => {
