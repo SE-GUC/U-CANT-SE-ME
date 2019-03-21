@@ -18,14 +18,12 @@ router.get("/:id", async (req, res) => {
     res.json({msg: 'Company was found successfully', data: requestedCompany})
   }
   catch{
-    //console.log(error)
     return res.status(404).send({ error: "ERROR 404: Company does not exist" })
   }
 })
 
 router.post("/", async (req, res) => {
-  try{  
-  //check name isn't taken and check that this investor doesn't already own an SSC company
+  try{
     const caseID = req.body.caseID
     const investorID = req.body.investorID
     delete req.body.caseID
@@ -45,46 +43,40 @@ router.post("/", async (req, res) => {
         return res.status(400).send({error: "Company name already taken!" })
     req.body.caseID = caseID
     req.body.investorID = investorID
-    const newCompany = await Company.create(req.body); //add investor and case id
+    const checkInvestorExists = await Investor.findById(req.body.investorID)
+    const checkCaseExists = await Case.findById(req.body.caseID)
+    if(checkCaseExists===null)
+      return res.status(403).send({ msg: "Forbidden" })
+    if(checkInvestorExists===null)
+      return res.status(403).send({ msg: "Forbidden" })
+    const newCompany = await Company.create(req.body)
     res.json({msg:'Company was created successfully', data: newCompany})
   }
   catch(error){
     res.json({msg: "An error has occured, check your entered data please."})
-    //console.log(error)
   }
 });
 
 router.put("/:id", async (req, res) => {
   try{
-    //check that the name doesn't already exist & that the requested company already exists & update status/name if given
-    //handle here that companyName is in params but validation is in body
-    //should we validate IDs and how? if so add it in get, and delete OTHERWISE just tell the user cant find what you want which is logical
-    //const resultParams = validator.updateValidationParams(req.params)
-    //if (resultParams.error)
-      //return res.status(400).send({ error: resultParams.error.details[0].message })
     const resultBody = validator.updateValidationBody(req.body)
     if(resultBody.error)
       return res.status(400).send({ error: resultBody.error.details[0].message })
-    //console.log("Before putCompany")
     let putCompany = await Company.findById(req.params.id)
+    // console.log(putCompany)
     if(putCompany.length===0)
       return res.status(404).send({ error: "Company does not exist!"})
-    //console.log("Put Company: "+putCompany)
-    //console.log("Company Name: "+putCompany.companyName)
     if(req.body.newCompanyName !== undefined){
       let checkIfCompanyNameExists = await Company.where("companyName", req.body.newCompanyName)
       if(checkIfCompanyNameExists.length>0)
         return res.status(400).send({error: "Company name already taken!" })
-      //console.log("newCompanyName: "+req.body.newCompanyName)
       putCompany.companyName = req.body.newCompanyName
     }
-    // if(req.body.newCompanyStatus !== undefined)
-    //   putCompany.companyStatus = req.body.newCompanyStatus
     await Company.findByIdAndUpdate(req.params.id,putCompany)
     res.json({msg: 'Company updated successfully'})
   }
   catch(error){
-    //console.log(error)
+    // console.log(error)
     res.json({msg: " An error has occured, check your entered data please."})
   }
 })
@@ -96,7 +88,6 @@ router.delete("/:id", async (req, res) => {
   }
   catch(error){
     res.json({msg: "An error has occured, please check your entered data."})
-    //console.log(error)
   }
 })
 
