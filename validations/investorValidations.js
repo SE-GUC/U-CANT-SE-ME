@@ -17,7 +17,7 @@ module.exports = {
         .min(3)
         .required(),
       type: Joi.string().required(), //Input will come from a list. No need for: Joi.any().valid(['a', 'b', 'c']).required()
-      gender: Joi.string().required(), //Input will come from a list. No need for: Joi.any().valid(['M', 'F']).required()
+      gender: Joi.any().valid(["Male", "Female"]).required(), //Input will come from a list. No need for: Joi.any().valid(['M', 'F']).required()
       nationality: Joi.string().required(), //Input will come from a list
       methodOfIdentification: Joi.string().required(), //Input will come from a list
       identificationNumber: Joi.string().required(),
@@ -43,7 +43,7 @@ module.exports = {
       password: Joi.string().min(8),
       fullName: Joi.string().min(3),
       type: Joi.string(), //Input will come from a list. No need for: Joi.any().valid(['a', 'b', 'c']).required()
-      gender: Joi.string(), //Input will come from a list. No need for: Joi.any().valid(['M', 'F']).required()
+      gender: Joi.any().valid(["Male", "Female"]), //Input will come from a list. No need for: Joi.any().valid(['M', 'F']).required()
       nationality: Joi.string(), //Input will come from a list
       methodOfIdentification: Joi.string(), //Input will come from a list
       identificationNumber: Joi.string(),

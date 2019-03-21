@@ -21,6 +21,7 @@ const InvestorSchema = new Schema({
   },
   gender: {
     type: String,
+    enum: ["Male", "Female"],
     required: true
   },
   nationality: {
