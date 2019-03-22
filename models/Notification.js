@@ -1,17 +1,39 @@
-const uuid = require("uuid");
-class Notification {
-  constructor(message, caseID, emailOfRecipient, recipientID, ID) {
-    this.emailOfRecipient = emailOfRecipient;
-    this.message = message;
-    this.caseID = caseID;
-    this.recipientID = recipientID;
-    /* 
-            this.ID = uuid.v4();
-            I am using a hard coded ID to simplify the testing
-        */
-    this.ID = ID;
-    this.dateSent = new Date();
-  }
-}
+const mongoose = require("mongoose");
+const Schema = mongoose.Schema;
 
-module.exports = Notification;
+const NotificationSchema = new Schema({
+    emailOfRecipient: {
+    type: String,
+    required: true
+  },
+  message: {
+    type: String,
+    required: true
+  },
+  caseID: {
+    type: Schema.Types.ObjectId, 
+    refPath: 'cases',
+    required: true
+   },
+  recipientID: {
+    type: Schema.Types.ObjectId,
+    refPath: 'user',
+    required: true
+  },
+  dateSent: { // not sent as a paramater
+    type: Date,
+    required: false,
+    default: new Date()
+},
+  user: {
+    type: String,
+    required: false,
+    enum: ['lawyers', 'investors']
+  }, 
+  dateSeen: { // only in updates
+    type: Date,
+    required: false
+  }
+});
+
+module.exports = Notification = mongoose.model("notifications", NotificationSchema);
