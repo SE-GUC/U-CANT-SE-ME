@@ -3,6 +3,7 @@ const router = express.Router()
 
 const Case = require("../models/Case.js")
 const Company= require("../models/Company.js");
+const Investor= require("../models/Investor.js");
 
 const investorAuthenticated = true
 
@@ -29,12 +30,17 @@ router.get('/lawyerComments/:investorID/:caseID', async (req,res) => {
 //so that I have a history of my created / pending companies
 router.get('/myCompanies/:investorID', async (req,res) => {
     try{
+        const checkInvestor = await Investor.find({"_id":req.params.investorID});
+        if(checkInvestor.length===0) return res.status(404).send("Investor not Found");
         if(investorAuthenticated){
             const companies = await Company.find({"investorID":req.params.investorID});
             if(companies===null) 
                 res.json({msg: "You don't have any Companies yet."});
             else
                 res.json({data: companies});
+        }
+        else{
+            return res.status(403).send({error: "Forbidden." });
         }
     }
     catch{
