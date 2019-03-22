@@ -12,6 +12,11 @@ const notifications = require("./routes/api/notifications");
 const externalEntities = require("./routes/api/externalEntities");
 const investorActions = require("./userStories/investorActions");
 const viewFees = require("./userStories/viewFees");
+const lawyerActions = require("./routes/api/lawyerActions");
+const lawyerGetAllCases=require("./userStories/lawyerGettingAllCases");
+const adminGetAllCases=require("./userStories/adminGettingAllCases");
+const reviewerGetAllCases=require("./userStories/reviewerGettingAllCases");
+
 const app = express();
 
 //Getting Mongo's connection URI
@@ -41,6 +46,10 @@ app.use("/api/notifications", notifications);
 app.use("/api/externalEntities", externalEntities);
 app.use("/api/investorActions", investorActions);
 app.use("/api/viewFees", viewFees);
+app.use("/api/lawyerActions",lawyerActions);
+app.use("/api/lawyerGettingAllCases",lawyerGetAllCases);
+app.use("/api/adminGettingAllCases",adminGetAllCases);
+app.use("/api/reviewerGettingAllCases",reviewerGetAllCases);
 // Handling 404
 app.use((req, res) => {
   res.status(404).send({ err: "We can not find what you are looking for" });
