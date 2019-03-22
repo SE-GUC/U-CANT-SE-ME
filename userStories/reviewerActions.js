@@ -11,7 +11,7 @@ router.put('/updateCaseStatus/:caseId/:caseStatus', async (req,res) =>
 {
     if(reviewerAutenticated)
     {
-        if(!mongoValidator.isMongoId(req.params.caseId))
+       if(!mongoValidator.isMongoId(req.params.caseId) || await Case.findById(req.params.caseId)===null)
             return res.status(400).send({ err : "Invalid case id" })
         if(req.params.caseStatus!=="New" && req.params.caseStatus!=="OnUpdate" && req.params.caseStatus!=="WaitingForLawyer" && req.params.caseStatus!=="AssginedToLawyer" && req.params.caseStatus!=="WaitingForReviewer" && req.params.caseStatus!=="AssginedToReviewer" && req.params.caseStatus!=="Accepted" && req.params.caseStatus!="Rejected")
             return res.status(400).send({err: "Invalid new status"})
