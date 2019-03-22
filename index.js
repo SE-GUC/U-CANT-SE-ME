@@ -12,6 +12,11 @@ const notifications = require("./routes/api/notifications");
 const externalEntities = require("./routes/api/externalEntities");
 const investorActions = require("./userStories/investorActions");
 const investorFillForm = require("./userStories/investorFillForm");
+const lawyerActions = require("./routes/api/lawyerActions");
+const lawyerGetAllCases=require("./userStories/lawyerGettingAllCases");
+const adminGetAllCases=require("./userStories/adminGettingAllCases");
+const reviewerGetAllCases=require("./userStories/reviewerGettingAllCases");
+
 
 const app = express();
 
@@ -42,6 +47,10 @@ app.use("/api/notifications", notifications);
 app.use("/api/externalEntities", externalEntities);
 app.use("/api/investorActions", investorActions);
 app.use("/api/investorFillForm", investorFillForm);
+app.use("/api/lawyerActions",lawyerActions);
+app.use("/api/lawyerGettingAllCases",lawyerGetAllCases);
+app.use("/api/adminGettingAllCases",adminGetAllCases);
+app.use("/api/reviewerGettingAllCases",reviewerGetAllCases);
 
 // Handling 404
 app.use((req, res) => {

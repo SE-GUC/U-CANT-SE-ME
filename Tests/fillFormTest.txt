@@ -1,0 +1,29 @@
+lawyer create case:
+ 
+{
+            "creatorInvestorId": "5c926f1b4014d21e2c768000",
+            "companyType": "SPC",
+            "regulatedLaw": "lll",
+            "legalFormOfCompany": "vqdvqdv",
+            "companyNameArabic": "qevqedvqdvq",
+            "companyNameEnglish": "qdvqdvqdvqdv",
+            "headOfficeGovernorate": "qdvqdvqdvqdv",
+            "headOfficeCity": "qwdvqdvqdvqdv",
+            "headOfficeAddress": "qwdvqdvqwdvqwdv",
+            "phoneNumber": "qweqdvedvwedv",
+            "fax": "vqedvqdvqedv",
+            "currencyUsedForCapital": "qdvqedvqdvqdv",
+            "capital": 1,
+            "IdType": "qwdvqdwvq",
+            "Idnumber": 2,
+            "minimumCapitalLimit": 222,
+            "managerName": "qscvq",
+            "managerType": "qwfdqdw",
+            "managerGender": "Male",
+            "managerNationality": "qwd",
+            "managerIdType": "qwd",
+            "managerIdNumber": 12,
+            "managerDateOfBirth": "2015-03-03",
+            "managerResidenceAddress": "scv",
+            "managerPositionInBoardOfDirectors": "qwdv"
+        }
