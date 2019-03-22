@@ -13,12 +13,7 @@ router.put('/updateCaseStatus/:caseId/:caseStatus', async (req,res) =>
     {
         if(!mongoValidator.isMongoId(req.params.caseId))
             return res.status(400).send({ err : "Invalid case id" })
-        const result = Joi.validate(req.params.caseStatus, 
-        {
-            caseStatus: Joi.string().required().valid(["New","OnUpdate", "WaitingForLawyer", "AssignedToLawyer", "WaitingForReviewer", "AssignedToReviewer", "Rejected", "Accepted"])
-        }
-        ); 
-        if (result.error)
+        if(req.params.caseStatus!=="New" && req.params.caseStatus!=="OnUpdate" && req.params.caseStatus!=="WaitingForLawyer" && req.params.caseStatus!=="AssginedToLawyer" && req.params.caseStatus!=="WaitingForReviewer" && req.params.caseStatus!=="AssginedToReviewer" && req.params.caseStatus!=="Accepted" && req.params.caseStatus!="Rejected")
             return res.status(400).send({err: "Invalid new status"})
         try
         {
