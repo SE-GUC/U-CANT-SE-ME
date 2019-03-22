@@ -14,7 +14,7 @@ router.get('/:id', async (req,res) => {
     for (let i = 0; i < cases.length; i++) {
      
       if (String(cases[i].creatorInvestorId) === creatorInvestorId){  
-          message+="Your company "+cases[i].companyNameEnglish+" is currently in phase "+cases[i].caseStatus+" ";
+          message+="/ Your company "+cases[i].companyNameEnglish+" is currently in phase "+cases[i].caseStatus+" ";
           flag=1;
       }
     }
