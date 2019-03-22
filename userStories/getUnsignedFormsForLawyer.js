@@ -10,6 +10,9 @@ const Case = require("../models/Case.js")
 router.get('/:lawyerID/', async (req,res) =>{
     try{
         if(lawyerAuthenticated){
+            let lawyerAuthenticated = await Lawyer.findById(req.params.lawyerID)
+            if(lawyerAuthenticated===null)
+                return res.json("Lawyer Does Not Exist")
             let allcases = await Case.where("caseStatus","WaitingForLawyer");
             res.json(allcases);
         }
@@ -25,6 +28,9 @@ router.get('/:lawyerID/', async (req,res) =>{
 router.get('/:lawyerID/:caseID', async (req,res) =>{
     try{
         if(lawyerAuthenticated){
+            let lawyerAuthenticated = await Lawyer.findById(req.params.lawyerID)
+            if(lawyerAuthenticated===null)
+                return res.json("Lawyer Does Not Exist")
             let selectedCase = await Case.findbyId(req.CaseId);
             if(selectedCase.caseStatus === "WaitingForLawyer" ){   
                 selectedCase.caseStatus = "AssignedToLawyer";
