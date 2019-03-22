@@ -1,104 +1,94 @@
-const express = require("express");
-const Joi = require("joi");
-const uuid = require("uuid");
-const router = express.Router();
+const express = require('express')
+const mongoose = require('mongoose')
+const router = express.Router()
+const validator = require('../../validations/reviewerValidations')
 
-const Reviewer = require("../../models/Reviewer");
+var q = require('validator')
+const Reviewer = require('../../models/Reviewer');
 
-let Reviewers = [
-  new Reviewer("john1", "782973", "john1 samir", "ahmed.mohamed@gmail.com"),
-  new Reviewer("john2", "782973", "john2 samir", "ahmed.mohamed@gmail.com"),
-  new Reviewer("john3", "782973", "john3 samir", "ahmed.mohamed@gmail.com"),
-  new Reviewer("john4", "782973", "john4 samir", "ahmed.mohamed@gmail.com"),
-  new Reviewer("john5", "782973", "john5 samir", "ahmed.mohamed@gmail.com"),
-  new Reviewer("john6", "782973", "john6 samir", "ahmed.mohamed@gmail.com"),
-  new Reviewer("john7", "782973", "john7 samir", "ahmed.mohamed@gmail.com"),
-  new Reviewer("john8", "782973", "john8 samir", "ahmed.mohamed@gmail.com")
-];
 
-router.get("/", (req, res) => res.json({ data: Reviewers }));
-
-router.get("/:id", (req, res) => {
-  const reviewerId = req.params.id;
-  const reviewer = Reviewers.find(reviewer => reviewer.id === reviewerId);
-  if (!reviewer)
-    res.status(404).send({ err: "THERE IS NO REVIEWER WITH THIS ID" });
-  else res.send(reviewer);
+router.get("/:id",async (req, res) => {
+  var reviewerID = req.params.id;
+  if(!(q.isMongoId(reviewerID)))
+    return res.status(404).send({error: 'Invalid ID'})
+  const neededReviewer = await Reviewer.findById(reviewerID)
+  if(!neededReviewer)
+    return res.status(404).send({error: 'Reviewer does not exist'})
+    res.json({ data: neededReviewer})
 });
 
-router.put("/update/:id", (req, res) => {
-  const schema = {
-    userName: Joi.string().min(2),
-    fullName: Joi.string().min(7),
-    password: Joi.string().min(3)
-  };
-  const result = Joi.validate(req.body, schema);
-  if (result.error)
-    return res.status(400).send({ error: result.error.details[0].message });
-  const reviewerId = req.params.id;
-  const userName = req.body.userName;
-  const fullName = req.body.fullName;
-  const password = req.body.password;
-  const reviewer = Reviewers.find(reviewer => reviewer.id === reviewerId);
-  if (!reviewer)
-    res.status(404).send({ err: "THERE IS NO REVIEWER WITH THIS ID" });
-  else {
-    if (fullName) reviewer.fullName = fullName;
-    if (userName) reviewer.userName = userName;
-    if (password) reviewer.password = password;
 
-    res.send(reviewer);
+router.get('/', async (req,res) => {
+  const Reviewers = await Reviewer.find()
+  res.json({ data: Reviewers })
+});
+
+router.post('/joi', async (req,res) => {
+  try {
+  
+     const isValidated = validator.createValidation(req.body)
+     if (isValidated.error) return res.status(400).send({ error: isValidated.error.details[0].message })
+  
+   const newReviewer = await Reviewer.create(req.body)
+   res.json({msg:'Reviewer was created successfully', data: newReviewer})
   }
+  catch(error) {
+    return res.status(404).send({error: 'There is a user with this user name'})
+  }  
 });
 
-router.post("/create", (req, res) => {
-  const schema = {
-    userName: Joi.string()
-      .min(2)
-      .required(),
-    fullName: Joi.string()
-      .min(7)
-      .required(),
-    password: Joi.string()
-      .min(3)
-      .required(),
-    email: Joi.string()
-      .min(10)
-      .required()
-  };
-
-  const result = Joi.validate(req.body, schema);
-
-  if (result.error)
-    return res.status(400).send({ error: result.error.details[0].message });
-  const userName = req.body.userName;
-  const password = req.body.password;
-  const fullName = req.body.fullName;
-  const email = req.body.email;
-
-  const newReviewer = {
-    userName,
-    password,
-    fullName,
-    email
-  };
-
-  Reviewers.push(newReviewer);
-
-  return res.json({ data: newReviewer });
-});
-router.delete("/joi/:id", (req, res) => {
+router.put("/update/:id", async (req,res) => {
   const reviewerID = req.params.id;
-  let reviewerExists = false;
-  for (let i = 0; i < Reviewers.length; i++)
-    if (Reviewers[i].id === reviewerID) {
-      Reviewers.splice(i, 1);
-      reviewerExists = true;
-      break;
+  if(!(q.isMongoId(reviewerID)))
+    return res.status(404).send({error: 'Invalid ID'})
+  var reviewer = await Reviewer.findById(reviewerID)
+  if(!reviewer) return res.status(404).send({error: 'Reviewer does not exist'})
+  const oldPassword=req.body.oldPassword
+  try {
+    
+
+    const isValidated = validator.updateValidation(req.body)
+    if (isValidated.error) return res.status(400).send({ error: isValidated.error.details[0].message })
+    
+    if(!oldPassword) return res.status(404).send({error: 'There is no verificaiton'})
+    if(!(reviewer.password==oldPassword)){
+      return res.status(404).send({error: 'password doesnot match'})
+    }else{
+      if(req.body.userName) var userName=req.body.userName
+      else userName=reviewer.userName
+      if(req.body.fullName) var fullName=req.body.fullName
+      else fullName=reviewer.fullName
+      if(req.body.password) var password=req.body.password
+      else password=reviewer.password
+      if(req.body.email) var email=req.body.email
+      else email=reviewer.email
+      reviewer = await Reviewer.findByIdAndUpdate(reviewerID,{ userName,fullName,password,email })
+      res.json({msg: 'Reviewer updated successfully'})
     }
-  if (!reviewerExists)
-    return res.status(404).send({ error: "Reviewer doesnt exist" });
-  return res.json({ data: Reviewers });
+  
+  
+  }
+  catch(error) {
+      // We will be handling the error later
+      return res.status(404).send({error: 'Reviewer does not exist'})
+      //console.log(error)
+  }  
 });
 
+
+router.delete("/joi/:id", async (req,res) => {
+  try {
+    const reviewerID = req.params.id;
+    if(!(q.isMongoId(reviewerID)))
+    return res.status(404).send({error: 'Invalid ID'})
+   const deletedReviewer = await Reviewer.findByIdAndRemove(reviewerID)
+   if(!deletedReviewer)
+   return res.status(404).send({error: 'Reviewer does not exist'})
+   res.json({msg:'Reviewer was deleted successfully', data: deletedReviewer})
+  }
+  catch(error) {
+      // We will be handling the error later
+      //console.log(error)
+  }  
+});
 module.exports = router;
