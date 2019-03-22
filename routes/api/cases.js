@@ -99,8 +99,8 @@ router.put("/update/:id", async (req,res) => {
 
     const newLawyer = req.body.assignedLawyerId
     if (newLawyer)  {
-      const lawyer2 = await Lawyer.findById(newLawyer)
       if(!(q.isMongoId(newLawyer)))return res.status(404).send({error: 'Invalid ID'})
+      const lawyer2 = await Lawyer.findById(newLawyer)
       if(!lawyer2) return res.status(400).send({err : "lawyer entered not found"})
       const cas = await Case.update({_id: id}, { "$push": { "assignedLawyers": req.body.assignedLawyerId } })
       const cas6 = await Case.update({_id: id}, {"assignedLawyerId": newLawyer})
@@ -108,7 +108,7 @@ router.put("/update/:id", async (req,res) => {
     
     const newReviewer = req.body.assignedReviewerId
     if (newReviewer) {
-      if(!(q.isMongoId(neweviewer)))return res.status(404).send({error: 'Invalid ID'})
+      if(!(q.isMongoId(newReviewer)))return res.status(404).send({error: 'Invalid ID'})
       const reviewer = await Reviewer.findById(newReviewer)
       if(!reviewer) return res.status(400).send({err : "reviewer entered not found"})
       const cas2 = await Case.update({_id: id}, { "$push": { "assignedReviewers": req.body.assignedReviewerId } })
