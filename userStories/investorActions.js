@@ -34,7 +34,7 @@ router.get('/myCompanies/:investorID', async (req,res) => {
         if(checkInvestor.length===0) return res.status(404).send("Investor not Found");
         if(investorAuthenticated){
             const companies = await Company.find({"investorID":req.params.investorID});
-            if(companies===null) 
+            if(companies.length===0) 
                 res.json({msg: "You don't have any Companies yet."});
             else
                 res.json({data: companies});
