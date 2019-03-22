@@ -1,19 +1,28 @@
 const express = require("express")
 const router = express.Router()
-
+const Joi = require('joi')
 const Case = require("../models/Case.js")
+const mongoValidator = require("validator");
 const lawyerAutenticated=true;
 //in the future it will be assigned by calling some sort of method that authenticates them
 
-//Reviewer
-router.put('/updateCaseStatus/:caseID/:newStatus', async (req,res) => 
+//Lawyer
+router.put('/updateCaseStatus/:caseId/:caseStatus', async (req,res) => 
 {
     if(lawyerAutenticated)
     {
+        if(!mongoValidator.isMongoId(req.params.caseId))
+            return res.status(400).send({ err : "Invalid case id" })
+        const schema = {
+            caseStatus: Joi.string().required().valid(["New","OnUpdate", "WaitingForLawyer", "AssignedToLawyer", "WaitingForReviewer", "AssignedToReviewer"])
+        }
+        const result = Joi.validate(req.params.caseStatus, schema); 
+        if (result.error)
+            return res.status(400).send({err: "Invalid new status"})
         try
         {
-            await Case.findByIdAndUpdate(req.params.caseID,{"caseStatus":req.params.newStatus})
-            res.json(await Case.findById(req.params.caseID))
+            await Case.findByIdAndUpdate(req.params.caseId,{"caseStatus":req.params.caseStatus})
+            res.json(await Case.findById(req.params.caseId))
         }
         catch(error)
         {
