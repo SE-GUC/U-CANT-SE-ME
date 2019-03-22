@@ -1,12 +1,12 @@
 // As a lawyer I should be able to view a company establishment form made by an investor, 
 // so that I can review it.
 
-const LawyerAuthenticated=true;
+const lawyerAuthenticated=true;
 const Case = require("../../models/Case.js")
 
 router.get('/:lawyerID/', async (req,res) =>{
     try{
-        if(LawyerAuthenticated){
+        if(lawyerAuthenticated){
             let allcases = await Case.where("caseStatus","WaitingForLawyer");
             res.json(allcases);
         }
@@ -21,12 +21,12 @@ router.get('/:lawyerID/', async (req,res) =>{
 
 router.get('/:lawyerID/:caseID', async (req,res) =>{
     try{
-        if(ReviewerAuthenticated){
+        if(lawyerAuthenticated){
             let selectedCase = await Case.findbyId(req.CaseId);
             if(selectedCase.caseStatus === "WaitingForLawyer" ){   
                 selectedCase.caseStatus = "AssignedToLawyer";
-                selectedCase.assignedReviewerId = req.LawyerID;
-                selectedCase.assignedReviewers.push(req.LawyerID);
+                selectedCase.assignedLawyerId = req.LawyerID;
+                selectedCase.assignedLawyers.push(req.LawyerID);
                 res.json(allcases);
             }
             else
