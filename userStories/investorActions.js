@@ -1,5 +1,6 @@
 const express = require("express")
 const router = express.Router()
+const mongoose = require("mongoose");
 
 const Case = require("../models/Case.js")
 const Company= require("../models/Company.js");
@@ -30,6 +31,7 @@ router.get('/lawyerComments/:investorID/:caseID', async (req,res) => {
 //so that I have a history of my created / pending companies
 router.get('/myCompanies/:investorID', async (req,res) => {
     try{
+        if(!mongoose.Types.ObjectId.isValid(req.params.id)) return res.status(400).send({ error:"Incorrect Mongo ID"});
         const checkInvestor = await Investor.find({"_id":req.params.investorID});
         if(checkInvestor.length===0) return res.status(404).send("Investor not Found");
         if(investorAuthenticated){
