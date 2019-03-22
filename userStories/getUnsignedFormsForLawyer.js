@@ -2,7 +2,9 @@
 // so that I can review it.
 
 const lawyerAuthenticated=true;
-const Case = require("../../models/Case.js")
+const Case = require("../models/Case.js")
+const express = require("express")
+const router = express.Router()
 
 router.get('/:lawyerID/', async (req,res) =>{
     try{
@@ -39,3 +41,4 @@ router.get('/:lawyerID/:caseID', async (req,res) =>{
         res.json({msg: "An error has occured."})
     }
 });
+module.exports = router

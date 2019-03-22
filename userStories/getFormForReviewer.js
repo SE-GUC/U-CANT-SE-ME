@@ -1,7 +1,7 @@
 // As a reviewer I should be able to view a company establishment form that is reviewed or made by a lawyer,
 // so that I can review it.
 const ReviewerAuthenticated=true;
-const Case = require("../../models/Case.js")
+const Case = require("../models/Case.js")
 const express = require("express")
 const router = express.Router()
 
@@ -40,3 +40,4 @@ router.get('/:reviewerID/:caseID', async (req,res) =>{
         res.json({msg: "An error has occured."})
     }
 });
+module.exports = router
