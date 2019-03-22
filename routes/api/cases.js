@@ -31,9 +31,18 @@ router.post('/joi', async (req,res) => {
   try {
     const isValidated = validator.createValidation(req.body)
     const investorID = req.body.creatorInvestorId
-    
-    
-    if(!investorID ) res.status(400).send({err : "No investor entered"})
+    const companyName1 = req.body.companyNameArabic
+    if(companyName1){
+      const company1 = await Case.findOne({companyNameArabic: companyName1}, function(err,obj) {})
+      if(company1) return res.status(400).send({err : "company name entered already existent"})
+    }
+    const companyName2 = req.body.companyNameEnglish
+    if(companyName2){
+      const company2 = await Case.findOne({companyNameEnglish: companyName2}, function(err,obj) {})
+      if(company2) return res.status(400).send({err : "company name entered already existent"})
+    }
+
+    if(!investorID )return res.status(400).send({err : "No investor entered"})
     if(!(q.isMongoId(investorID)))return res.status(404).send({error: 'Invalid ID'})
     const inves = await Investor.findById(investorID)
     if(!inves) return res.status(400).send({err : "investor entered not found"})
@@ -59,7 +68,45 @@ router.post('/joi', async (req,res) => {
       if(!reviewer) return res.status(400).send({err : "reviewer entered not found"})
     }
     
+    const cap = req.body.capital
+    const type = req.body.companyType
+    if(cap){
+      if(type){
+        if(type === "SSC"){
+          if(cap<50000 || cap.toString().length > 12){
+            return res.status(400).send({err : "invalid capital"})
+          }
+        }
+      }
+    }
+    if(cap){
+      if(type){
+        if(type === "SPC"){
+          const checkInvestor = await Investor.findById(req.body.creatorInvestorId)
+          if(checkInvestor){
+            if(checkInvestor.nationality !== "Egyptian"){
+              if(cap < 100000){
+                return res.status(400).send({err : "invalid capital"})
+              }
+            }
+          }
+        }
+      }
+    }
+
+    if(type){
+      if(type === "SSC"){
+        const checkCase = await Case.findOne({creatorInvestorId: investorID,'companyType' : "SSC"}, function(err,obj) {})
+        if(checkCase){
+          return res.status(400).send({err : "Investor entered has an existent SSC case"})
+        } 
+      }
+    }
+
     if (isValidated.error) return res.status(400).send({ error: isValidated.error.details[0].message })
+    if (req.body.Idtype ==="SSN") if(req.body.Idnumber.toString().length !== 14) return res.status(400).send({err : "Invalid SSN"})
+    if (req.body.managerIdType ==="SSN") if(req.body.managerIdNumber.toString().length !== 14) return res.status(400).send({err : "Invalid SSN"})
+
     const newCase = await Case.create(req.body)
     res.json({msg:'Case was created successfully', data: newCase})
   }

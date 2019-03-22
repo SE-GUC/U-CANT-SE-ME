@@ -1,0 +1,47 @@
+update testing :
+{
+	"caseStatus" : "AssignedToLawyer",
+	"assignedLawyerId" : "5c92915e3041092f1a1be512"
+}
+
+{
+	"caseStatus" : "AssignedToReviewer",
+	"assignedReviewerId" : "5c929c75e50c4522a48b2073"
+}
+{
+	"caseStatus" : "AssignedToLawyer",
+	"assignedLawyerId" : "5c9252bd8b149902ffaad6e6",
+	"author" : "Author1",
+	"body" : "Boo"
+}
+
+post testing : (variations on this):
+ 
+{
+            "creatorInvestorId": "5c926f1b4014d21e2c768000",
+            "creatorLawyerId": "5c9252bd8b149902ffaad6e6",
+            "companyType": "SPC",
+            "regulatedLaw": "lll",
+            "legalFormOfCompany": "vqdvqdv",
+            "companyNameArabic": "qevqedvqdvq",
+            "companyNameEnglish": "qdvqdvqdvqdv",
+            "headOfficeGovernorate": "qdvqdvqdvqdv",
+            "headOfficeCity": "qwdvqdvqdvqdv",
+            "headOfficeAddress": "qwdvqdvqwdvqwdv",
+            "phoneNumber": "qweqdvedvwedv",
+            "fax": "vqedvqdvqedv",
+            "currencyUsedForCapital": "qdvqedvqdvqdv",
+            "capital": 1,
+            "IdType": "qwdvqdwvq",
+            "Idnumber": 2,
+            "minimumCapitalLimit": 222,
+            "managerName": "qscvq",
+            "managerType": "qwfdqdw",
+            "managerGender": "Male",
+            "managerNationality": "qwd",
+            "managerIdType": "qwd",
+            "managerIdNumber": 12,
+            "managerDateOfBirth": "2015-03-03",
+            "managerResidenceAddress": "scv",
+            "managerPositionInBoardOfDirectors": "qwdv"
+        }
