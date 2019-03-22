@@ -44,4 +44,4 @@ post testing : (variations on this):
             "managerDateOfBirth": "2015-03-03",
             "managerResidenceAddress": "scv",
             "managerPositionInBoardOfDirectors": "qwdv"
-        }
+ }

@@ -137,6 +137,7 @@ router.delete("/joi/:id", async (req,res) => {
 
 //update
 
+
 router.put("/update/:id", async (req,res) => {
   try {
     const id = req.params.id
