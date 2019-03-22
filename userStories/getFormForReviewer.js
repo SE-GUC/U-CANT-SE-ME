@@ -24,19 +24,19 @@ router.get('/:reviewerID/', async (req,res) =>{
     }
 });
 
-
 router.get('/:reviewerID/:caseID', async (req,res) =>{
     try{
         if(ReviewerAuthenticated){
-            let reviewerExists = await Reviewer.findById(req.params.reviewerID)
-            if(reviewerExists===null)
+            let reviewer = await Reviewer.findById(req.params.reviewerID)
+            if(reviewer === null)
                 return res.json("Reviewer Does Not Exist")
-            let selectedCase = await Case.findbyId(req.CaseId);
-            if(selectedCase.caseStatus === "WaitingForReviewer" ){   
-                selectedCase.caseStatus = "AssignedToReviewer";
-                selectedCase.assignedReviewerId = req.ReviewerID;
-                selectedCase.assignedReviewers.push(req.ReviewerID);
-                res.json(allcases);
+            let selectedCase = await Case.where("_id",req.params.caseID);
+            if(selectedCase[0].caseStatus === "WaitingForReviewer" ){   
+                selectedCase[0].caseStatus = "AssignedToReviewer";
+                selectedCase[0].assignedReviewerId = req.params.reviewerID;
+                selectedCase[0].assignedReviewers.push(req.params.reviewerID);
+                await Case.findByIdAndUpdate(req.params.caseID,selectedCase[0])
+                res.json(await Case.findById(req.params.caseID));
             }
             else
                 res.status(403).send({error: "Case is not supported." }) 

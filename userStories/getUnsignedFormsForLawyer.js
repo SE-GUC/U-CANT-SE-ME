@@ -28,15 +28,16 @@ router.get('/:lawyerID/', async (req,res) =>{
 router.get('/:lawyerID/:caseID', async (req,res) =>{
     try{
         if(lawyerAuthenticated){
-            let lawyerAuthenticated = await Lawyer.findById(req.params.lawyerID)
-            if(lawyerAuthenticated===null)
+            let lawyer = await Lawyer.findById(req.params.lawyerID)
+            if(lawyer === null)
                 return res.json("Lawyer Does Not Exist")
-            let selectedCase = await Case.findbyId(req.CaseId);
-            if(selectedCase.caseStatus === "WaitingForLawyer" ){   
-                selectedCase.caseStatus = "AssignedToLawyer";
-                selectedCase.assignedLawyerId = req.LawyerID;
-                selectedCase.assignedLawyers.push(req.LawyerID);
-                res.json(allcases);
+            let selectedCase = await Case.where("_id",req.params.caseID);
+            if(selectedCase[0].caseStatus === "WaitingForLawyer" ){   
+                selectedCase[0].caseStatus = "AssignedToLawyer";
+                selectedCase[0].assignedLawyerId = req.params.lawyerID;
+                selectedCase[0].assignedLawyers.push(req.params.lawyerID);
+                await Case.findByIdAndUpdate(req.params.caseID,selectedCase[0])
+                res.json(await Case.findById(req.params.caseID));
             }
             else
                 res.status(403).send({error: "Case is not supported." }) 
