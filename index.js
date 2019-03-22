@@ -11,7 +11,7 @@ const companies = require("./routes/api/companies");
 const notifications = require("./routes/api/notifications");
 const externalEntities = require("./routes/api/externalEntities");
 const investorActions = require("./userStories/investorActions");
-
+const viewFees = require("./userStories/viewFees");
 const app = express();
 
 //Getting Mongo's connection URI
@@ -40,7 +40,7 @@ app.use("/api/cases", cases);
 app.use("/api/notifications", notifications);
 app.use("/api/externalEntities", externalEntities);
 app.use("/api/investorActions", investorActions);
-
+app.use("/api/viewFees", viewFees);
 // Handling 404
 app.use((req, res) => {
   res.status(404).send({ err: "We can not find what you are looking for" });
