@@ -26,6 +26,7 @@ const CaseSchema = new Schema({
   },
   companyType: {
     type: String,
+    enum: ["SPC","SSC"],
     required: true
   },
   assignedLawyerId: {
@@ -139,7 +140,6 @@ const CaseSchema = new Schema({
   },
   managerDateOfBirth: {
     type: Date,
-    default: Date.now,
     required: true
   },
   managerResidenceAddress: {
