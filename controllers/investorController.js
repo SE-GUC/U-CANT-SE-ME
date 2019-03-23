@@ -124,3 +124,25 @@ exports.viewLawyerComments = async function(req,res){
     res.json({msg: "An error has occured."})
   }
 };
+
+exports.getMyCompanies = async function(req,res){
+  try{
+    if(!mongoose.Types.ObjectId.isValid(req.params.investorID)) return res.status(400).send({ error:"Incorrect Mongo ID"});
+    const checkInvestor = await Investor.find({"_id":req.params.investorID});
+    if(checkInvestor.length===0) return res.status(404).send("Investor not Found");
+    if(investorAuthenticated){
+      const companies = await Company.find({"investorID":req.params.investorID});
+      if(companies.length===0) 
+        res.json({msg: "You don't have any Companies yet."});
+      else
+        res.json({data: companies});
+    }
+    else{
+      return res.status(403).send({error: "Forbidden." });
+    }
+  }
+  catch{
+    res.json({msg: "An error has occured."});
+  }
+};
+
