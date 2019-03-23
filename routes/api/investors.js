@@ -27,4 +27,6 @@ router.get('/trackMyCompany/:id', investorController.trackMyCompany);
 
 // As an investor I should be able to view my fees
 router.get('/viewMyFees/:id', investorController.viewMyFees);
+// As an investor I should be able to fill a company establishment form
+router.post("/fillForm/:investorId",investorController.fillForm);
 module.exports = router;
