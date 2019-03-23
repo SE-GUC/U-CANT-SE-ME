@@ -3,8 +3,6 @@ const validator = require("../validations/reviewerValidations");
 
 var mongoValidator = require("validator");
 const Reviewer = require("../models/Reviewer");
-const Case = require("../models/Case.js")
-const reviewerAutenticated=true;
 // module Case
 const Case = require("../models/Case.js")
 
