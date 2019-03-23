@@ -66,8 +66,8 @@ exports.updateReviewer = async function(req, res) {
     if (!(reviewer.password == oldPassword)) {
       return res.status(404).send({ error: "password doesnot match" });
     } else {
-      if (req.body.userName) var userName = req.body.userName;
-      else userName = reviewer.userName;
+      if (req.body.username) var username = req.body.username;
+      else username = reviewer.username;
       if (req.body.fullName) var fullName = req.body.fullName;
       else fullName = reviewer.fullName;
       if (req.body.password) var password = req.body.password;
@@ -75,7 +75,7 @@ exports.updateReviewer = async function(req, res) {
       if (req.body.email) var email = req.body.email;
       else email = reviewer.email;
       reviewer = await Reviewer.findByIdAndUpdate(reviewerID, {
-        userName,
+        username,
         fullName,
         password,
         email
