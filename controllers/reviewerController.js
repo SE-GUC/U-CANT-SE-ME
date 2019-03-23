@@ -169,7 +169,7 @@ exports.AcceptRejectForm = async function(req, res)
 exports.getWaitingForReviewerCase = async function(req, res) {
   try {
     if (ReviewerAuthenticated) {
-      let reviewerExists = await Reviewer.findById(req.params.reviewerID);
+      let reviewerExists = await Reviewer.findById(req.params.id);
       if (reviewerExists === null) return res.json("Reviewer Does Not Exist");
       let allcases = await Case.where("caseStatus", "WaitingForReviewer");
       res.json(allcases);
