@@ -192,7 +192,7 @@ exports.updateCase = async function(req, res) {
     check = await verfiyGeneralCompanyRules(req.body);
     if (!check.success) return res.status(400).send(check.error);
 
-    if (req.form.companyType === "SPC") check = await verfiySPCRules(req.body);
+    if (req.body.form.companyType === "SPC") check = await verfiySPCRules(req.body);
     else check = await verfiySSCRules(req.body);
 
     if (!check.success) return res.status(400).send(check.error);
