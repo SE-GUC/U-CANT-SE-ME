@@ -119,15 +119,16 @@ async function verfiySSCRules(req) {
   )
     return { error: "Invalid capital" };
   const checkInvestor = await Investor.findById(req.creatorInvestorId);
-  var egyptianManager = false;
-  if (checkInvestor && checkInvestor.nationality !== "Egyptian")
+  if (checkInvestor && checkInvestor.nationality !== "Egyptian") {
+    var egyptianManager = false;
     for (let i = 0; req.managers && i < req.managers.length; i++)
       egyptianManager |= req.managers[i].managerNationality === "Egyptian";
-  if (!egyptianManager)
-    return {
-      error:
-        "There must be a single Egyptian Manager in case of a forginer founder"
-    };
+    if (!egyptianManager)
+      return {
+        error:
+          "There must be a single Egyptian Manager in case of a forginer founder"
+      };
+  }
   return { success: "Company Satisfies the SSC rules" };
 }
 
@@ -143,7 +144,8 @@ exports.createCase = async function(req, res) {
     check = await verfiyGeneralCompanyRules(req.body);
     if (!check.success) return res.status(400).send(check.error);
 
-    if (req.body.form.companyType === "SPC") check = await verfiySPCRules(req.body);
+    if (req.body.form.companyType === "SPC")
+      check = await verfiySPCRules(req.body);
     else check = await verfiySSCRules(req.body);
 
     if (!check.success) return res.status(400).send(check.error);
