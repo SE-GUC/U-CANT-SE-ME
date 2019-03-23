@@ -145,7 +145,7 @@ exports.viewTasks = async function(req,res) {
 // Accept Reject Form
 exports.AcceptRejectForm = async function(req, res) 
 {
-    if(reviewerAutenticated)
+    if(reviewerAuthenticated)
     {
        if(!mongoValidator.isMongoId(req.params.caseId) || await Case.findById(req.params.caseId)===null)
             return res.status(400).send({ err : "Invalid case id" })
