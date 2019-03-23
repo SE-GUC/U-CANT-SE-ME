@@ -3,7 +3,10 @@ const mongoValidator = require("validator");
 
 const Investor = require("../models/Investor");
 const validator = require("../validations/investorValidations");
-const Case = require("../models/Case.js");
+const Case = require("../models/Case");
+
+const caseController = require("./caseController");
+
 const investorAuthenticated = true;
 
 //READ
@@ -104,23 +107,47 @@ exports.deleteInvestor = async function(req, res) {
   }
 };
 
-exports.viewLawyerComments = async function(req,res){
-  try{
+exports.viewLawyerComments = async function(req, res) {
+  try {
     //if the user is authenticated give them access to the function otherwise return a Forbidden error
-    if(investorAuthenticated){
+    if (investorAuthenticated) {
       //querying to find a Case where _id=caseID && creatorInvestorId=investorID
-      let caseForForm = await Case.find({"_id":req.params.caseID,"creatorInvestorId":req.params.investorID})
+      let caseForForm = await Case.find({
+        _id: req.params.caseID,
+        creatorInvestorId: req.params.investorID
+      });
       //if the query brings back a valid result set return its comments otherwise return an error
-      if(caseForForm!==undefined && caseForForm.length>0)
-        res.json({comments: caseForForm[0].comments})
-      else
-        res.status(404).send({error: "Data Not Found"})           
-    }
-    else
-      return res.status(403).send({error: "Forbidden." })
+      if (caseForForm !== undefined && caseForForm.length > 0)
+        res.json({ comments: caseForForm[0].comments });
+      else res.status(404).send({ error: "Data Not Found" });
+    } else return res.status(403).send({ error: "Forbidden." });
+  } catch (error) {
+    console.log(error);
+    res.json({ msg: "An error has occured." });
   }
-  catch(error){
-    console.log(error)
-    res.json({msg: "An error has occured."})
+};
+
+exports.updateForm = async function(req, res) {
+  try {
+    if (!investorAuthenticated)
+      return res.status(403).send({ error: "Investor has no Access" });
+    if (!mongoValidator.isMongoId(req.params.investorId))
+      return res.status(400).send({ error: "Invalid Investor ID" });
+    if (!mongoValidator.isMongoId(req.params.caseId))
+      return res.status(400).send({ error: "Invalid Case ID" });
+    const oldCase = await Case.findById(req.params.caseId);
+    if (!oldCase) return res.status(404).send({ error: "Case doesn't Exist" });
+    if (oldCase.creatorInvestorId !== req.params.investorId)
+      return res
+        .status(403)
+        .send({ error: "Investor can only update his/her Forms" });
+    req.body.caseStatus = oldCase.caseStatus;
+    req.body.creatorLawyerId = oldCase.creatorLawyerId;
+    req.body.assignedLawyerId = oldCase.creatorLawyerId;
+    req.body.assignedReviewerId = oldCase.creatorLawyerId;
+    await caseController.updateCase(req, res);
+  } catch (err) {
+    res.send({ msg: "Oops something went wrong" });
+    console.log(err);
   }
 };
