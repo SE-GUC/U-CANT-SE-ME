@@ -27,5 +27,10 @@ router.put('/updateCaseStatus/:caseId/:caseStatus', reviewerController.AcceptRej
 
 router.get('/reviewer/getAllCases',reviewerController.GetAllCases);
 
+// As a reviewer i should be able to see all unsigned cases
+router.get("/getAllUnsignedCases/:id", reviewerController.getWaitingForReviewerCase);
+
+router.get("/assignCase/:id/:caseId", reviewerController.getSpecificWaitingForReviewerCase);
+
 module.exports = router;
 

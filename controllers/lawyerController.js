@@ -158,3 +158,47 @@ exports.AcceptRejectForm = async function(req, res)
     else
         return res.status(403).send({error: "Forbidden." })
 }
+
+// As a lawyer i should be able to see all unsigned cases
+exports.getWaitingForLawyerCase = async function(req, res) {
+  try{
+      if(lawyerAuthenticated){
+          let lawyer = await Lawyer.findById(req.params.id)
+          if(lawyer===null)
+              return res.json("Lawyer Does Not Exist")
+          let allcases = await Case.where("caseStatus","WaitingForLawyer");
+          res.json(allcases);
+      }
+      else
+          res.status(403).send({error: "Forbidden." })
+  }
+  catch(error){
+      res.json({msg: "An error has occured."})
+  }
+}
+
+exports.getSpecificWaitingForLawyerCase = async function(req, res) {
+  try{
+      if(lawyerAuthenticated){
+          let lawyer = await Lawyer.findById(req.params.id)
+          if(lawyer === null)
+              return res.json("Lawyer Does Not Exist")
+          let selectedCase = await Case.where("_id",req.params.caseId);
+          if(selectedCase[0].caseStatus === "WaitingForLawyer" ){   
+              selectedCase[0].caseStatus = "AssignedToLawyer";
+              selectedCase[0].assignedLawyerId = req.params.id;
+              selectedCase[0].previouslyAssignedLawyers.push(req.params.id);
+              await Case.findByIdAndUpdate(req.params.caseId,selectedCase[0])
+              res.json(await Case.findById(req.params.caseId));
+          }
+          else
+              res.status(403).send({error: "Case is not supported." }) 
+      }
+      else
+          res.status(403).send({error: "Forbidden." })
+  }
+  catch(error){
+      res.json({msg: "An error has occured."})
+  }
+}
+
