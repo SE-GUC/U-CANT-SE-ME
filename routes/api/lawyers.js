@@ -20,10 +20,10 @@ router.put('/:id', lawyerController.updateLawyer);
 //Delete
 router.delete('/:id', lawyerController.deleteLawyer);
 
-// router.get('/:id/getAllCases', async (req,res)=>{
-//     const cases= await Case.find()
-//   res.json({data: cases});
+// As a lawyer i should be able to see all unsigned cases
+router.get("/getAllUnsignedCases/:id", lawyerController.getWaitingForLawyerCase);
 
-//   });
+router.get("/assignCase/:id/:caseId", lawyerController.getSpecificWaitingForLawyerCase);
+
 
 module.exports = router;
