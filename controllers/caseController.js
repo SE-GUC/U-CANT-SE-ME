@@ -37,7 +37,7 @@ exports.getAllCases = async function(req, res) {
 
 async function verfiyReferentialIntegrity(req) {
   //Checking the IDs format
-  if (!mongoValidator.isMongoId(req.creatorInvestorId))
+  if (req.creatorInvestorId && !mongoValidator.isMongoId(req.creatorInvestorId))
     return { error: "Invalid creator Investor ID" };
 
   if (req.creatorLawyerId && !mongoValidator.isMongoId(req.creatorLawyerId))
@@ -53,7 +53,7 @@ async function verfiyReferentialIntegrity(req) {
     return { error: "Invalid assigned Reviewer ID" };
 
   //Checking if the refrenced entities exist
-  if (!(await Investor.findById(req.creatorInvestorId)))
+  if (req.creatorInvestorId && !(await Investor.findById(req.creatorInvestorId)))
     return { error: "creator Investor doesn't exist" };
 
   if (req.creatorLawyerId && !(await Lawyer.findById(req.creatorLawyerId)))
@@ -78,7 +78,6 @@ async function verfiyGeneralCompanyRules(req) {
   var countEnglish = await Case.find({
     "form.companyNameEnglish": req.form.companyNameEnglish
   }).count();
-
   if (countArabic > 0 || countEnglish > 0)
     return { error: "Company's name already Exist" };
 
@@ -180,11 +179,9 @@ exports.deleteCase = async function(req, res) {
 //Update a case
 exports.updateCase = async function(req, res) {
   try {
-    if (!mongoValidator.isMongoId(req.params.id))
-      return res.status(404).send({ error: "Invalid case ID" });
+    if (!mongoValidator.isMongoId(req.params.id)) return res.status(404).send({ error: "Invalid case ID" });
     const exist = await Case.findById(req.params.id);
-    if (!exist)
-      return res.status(400).send({ error: "case entered not found" });
+    if (!exist) return res.status(400).send({ error: "case entered not found" });
 
     const { error } = validator.updateValidation(req.body);
     if (error) return res.status(400).send(error.details[0].message);
