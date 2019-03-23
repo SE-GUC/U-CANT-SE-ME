@@ -22,4 +22,6 @@ router.delete("/:id", investorController.deleteInvestor);
 //so that I know what should be changed or updated in my form.
 router.get('/lawyerComments/:investorID/:caseID', investorController.viewLawyerComments);
 
+router.get('/trackMyCompany/:id', investorController.trackMyCompany);
+
 module.exports = router;
