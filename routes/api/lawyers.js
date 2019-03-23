@@ -20,10 +20,6 @@ router.put('/:id', lawyerController.updateLawyer);
 //Delete
 router.delete('/:id', lawyerController.deleteLawyer);
 
-// router.get('/:id/getAllCases', async (req,res)=>{
-//     const cases= await Case.find()
-//   res.json({data: cases});
 
-//   });
 
 module.exports = router;
