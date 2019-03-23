@@ -1,14 +1,17 @@
-const uuid = require("uuid");
-
-// The Admin Model
-//should we add any more attributes?
-class Admin {
-  constructor(userName, fullName, password) {
-    this.userName = userName;
-    this.fullName = fullName;
-    this.password = password;
-    this.id = uuid.v4();
+const mongoose = require("mongoose");
+const Schema = mongoose.Schema;
+const AdminSchema = new Schema({
+    username: {
+    type: String,
+    required: true
+  },
+  fullName: {
+    type: String,
+    required: true
+  },
+  password: {
+    type: String,
+    required: true
   }
-}
-
-module.exports = Admin;
+});
+module.exports = Admin = mongoose.model("admins", AdminSchema);

@@ -1,104 +1,36 @@
-const express = require("express");
-const Joi = require("joi");
-const uuid = require("uuid");
-const router = express.Router();
+const express = require('express')
+const router = express.Router()
 
-const Reviewer = require("../../models/Reviewer");
 
-let Reviewers = [
-  new Reviewer("john1", "782973", "john1 samir", "ahmed.mohamed@gmail.com"),
-  new Reviewer("john2", "782973", "john2 samir", "ahmed.mohamed@gmail.com"),
-  new Reviewer("john3", "782973", "john3 samir", "ahmed.mohamed@gmail.com"),
-  new Reviewer("john4", "782973", "john4 samir", "ahmed.mohamed@gmail.com"),
-  new Reviewer("john5", "782973", "john5 samir", "ahmed.mohamed@gmail.com"),
-  new Reviewer("john6", "782973", "john6 samir", "ahmed.mohamed@gmail.com"),
-  new Reviewer("john7", "782973", "john7 samir", "ahmed.mohamed@gmail.com"),
-  new Reviewer("john8", "782973", "john8 samir", "ahmed.mohamed@gmail.com")
-];
+// module Reviewer Controller
+const reviewerController = require("../../controllers/reviewerController")
 
-router.get("/", (req, res) => res.json({ data: Reviewers }));
+//Read
+router.get("/", reviewerController.getAllReviewers);
 
-router.get("/:id", (req, res) => {
-  const reviewerId = req.params.id;
-  const reviewer = Reviewers.find(reviewer => reviewer.id === reviewerId);
-  if (!reviewer)
-    res.status(404).send({ err: "THERE IS NO REVIEWER WITH THIS ID" });
-  else res.send(reviewer);
-});
+router.get("/:id", reviewerController.getReviewer);
 
-router.put("/update/:id", (req, res) => {
-  const schema = {
-    userName: Joi.string().min(2),
-    fullName: Joi.string().min(7),
-    password: Joi.string().min(3)
-  };
-  const result = Joi.validate(req.body, schema);
-  if (result.error)
-    return res.status(400).send({ error: result.error.details[0].message });
-  const reviewerId = req.params.id;
-  const userName = req.body.userName;
-  const fullName = req.body.fullName;
-  const password = req.body.password;
-  const reviewer = Reviewers.find(reviewer => reviewer.id === reviewerId);
-  if (!reviewer)
-    res.status(404).send({ err: "THERE IS NO REVIEWER WITH THIS ID" });
-  else {
-    if (fullName) reviewer.fullName = fullName;
-    if (userName) reviewer.userName = userName;
-    if (password) reviewer.password = password;
+//Create
+router.post('/', reviewerController.createReviewer);
 
-    res.send(reviewer);
-  }
-});
+//Update
+router.put("/:id", reviewerController.updateReviewer);
 
-router.post("/create", (req, res) => {
-  const schema = {
-    userName: Joi.string()
-      .min(2)
-      .required(),
-    fullName: Joi.string()
-      .min(7)
-      .required(),
-    password: Joi.string()
-      .min(3)
-      .required(),
-    email: Joi.string()
-      .min(10)
-      .required()
-  };
+//Delete
+router.delete("/:id", reviewerController.deleteReviewer);
 
-  const result = Joi.validate(req.body, schema);
+//View due tasks
+router.get('/reviewerTasks/:reviewerID', reviewerController.viewTasks);
 
-  if (result.error)
-    return res.status(400).send({ error: result.error.details[0].message });
-  const userName = req.body.userName;
-  const password = req.body.password;
-  const fullName = req.body.fullName;
-  const email = req.body.email;
+//Accept or Reject Form
+router.put('/updateCaseStatus/:caseId/:caseStatus', reviewerController.AcceptRejectForm);
 
-  const newReviewer = {
-    userName,
-    password,
-    fullName,
-    email
-  };
+router.get('/reviewer/getAllCases',reviewerController.GetAllCases);
 
-  Reviewers.push(newReviewer);
+// As a reviewer i should be able to see all unsigned cases
+router.get("/getAllUnsignedCases/:id", reviewerController.getWaitingForReviewerCase);
 
-  return res.json({ data: newReviewer });
-});
-router.delete("/joi/:id", (req, res) => {
-  const reviewerID = req.params.id;
-  let reviewerExists = false;
-  for (let i = 0; i < Reviewers.length; i++)
-    if (Reviewers[i].id === reviewerID) {
-      Reviewers.splice(i, 1);
-      reviewerExists = true;
-      break;
-    }
-  if (!reviewerExists)
-    return res.status(404).send({ error: "Reviewer doesnt exist" });
-  return res.json({ data: Reviewers });
-});
+router.get("/assignCase/:id/:caseId", reviewerController.getSpecificWaitingForReviewerCase);
 
 module.exports = router;
+

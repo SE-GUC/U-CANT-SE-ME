@@ -1,34 +1,57 @@
-const uuid = require("uuid");
+const mongoose = require("mongoose");
+const Schema = mongoose.Schema;
 
-class Investor {
-  constructor(
-    email,
-    password,
-    fullName,
-    type,
-    gender,
-    nationality,
-    methodOfIdentification,
-    identificationNumber,
-    dateOfBirth,
-    residenceAddress,
-    telephoneNumber,
-    fax
-  ) {
-    this.id = uuid.v4();
-    this.email = email;
-    this.password = password;
-    this.fullName = fullName;
-    this.type = type;
-    this.gender = gender;
-    this.nationality = nationality;
-    this.methodOfIdentification = methodOfIdentification;
-    this.identificationNumber = identificationNumber;
-    this.dateOfBirth = dateOfBirth;
-    this.residenceAddress = residenceAddress;
-    this.telephoneNumber = telephoneNumber;
-    this.fax = fax;
+const InvestorSchema = new Schema({
+  email: {
+    type: String,
+    unique: true,
+    required: true
+  },
+  password: {
+    type: String,
+    required: true
+  },
+  fullName: {
+    type: String,
+    required: true
+  },
+  type: {  //Will be a droplist with probably 1 item
+    type: String,
+    required: true
+  },
+  gender: {
+    type: String,
+    enum: ["Male", "Female"],
+    required: true
+  },
+  nationality: {
+    type: String,
+    required: true
+  },
+  methodOfIdentification: { //Passport or National id
+    type: String,
+    required: true
+  },
+  identificationNumber: {
+    type: String,
+    required: true
+  },
+  dateOfBirth: {
+    type: Date,
+    required: true
+  },
+  residenceAddress: {
+    type: String,
+    required: true
+  },
+  telephoneNumber: {
+    type: String,
+    required: false
+  },
+  fax: {
+    type: String,
+    required: false
   }
-}
+});
 
-module.exports = Investor;
+module.exports = Investor = mongoose.model("investors", InvestorSchema);

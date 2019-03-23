@@ -1,50 +1,42 @@
-GetNotifcations: localhost:3000/api/notifications
-GetNotificationById: localhost:3000/api/notifications/2
-GetNotificationById: localhost:3000/api/notifications/10 (id does not exist)
-DeleteNotifcation localhost:3000/api/notifications/1 
-DeleteNotifcation localhost:3000/api/notifications/10 (id does not exist)
-UpdateNotification localhost:3000/api/notifications/2 
-Body:
+localhost:3000/api/notifications  // get all
+post at localhost:3000/api/notifications
 {
-	"caseID":"newCaseId"
+            "emailOfRecipient": "coderrZZZZ@gmail.com",
+            "message": "post it then copy its id and test get all and then get by id",
+            "caseID": "ay7aga",
+            "recipientId": "123"
 }
-UpdateNotification localhost:3000/api/notifications/2 
-Body:
-{
-    "emailOfRecipient":"wrong_email_format"
-}
-UpdateNotification localhost:3000/api/notifications/2 
-Body:
+ {
+            "emailOfRecipient": "7abibyemail@gmail",
+            "message": "testing date seen, it should be in updates only",
+            "caseID": "5c934a024e727e2ed8291cb3",
+            "recipientId": "5c934a024e727e2ed8291cb3"
+           
+  }
+localhost:3000/api/notifications/5c9371c7e00720221c3bce9c
+localhost:3000/api/notifications/invalidId
+// update at localhost:3000/api/notifications/5c9371c7e00720221c3bce9c
 {
      "emailOfRecipient":"correct_email_format@gmail.com"
 }
-UpdateNotification localhost:3000/api/notifications/2 
-Body:
 {
      "Attribute that ":"does not exist"
 }
-
-Create Notification: localhost:3000/api/notifications
  {
-            "emailOfRecipient": "coderrZZZZ@gmail.com",
-            "message": "heyTher",
-            "caseID": "caseIdisAString",
-            "recipientID": "123"
-  }
-Update Notification: localhost:3000/api/notifications/0
- {
-            "emailOfRecipient": "wrondemail@gmail",
+            "emailOfRecipient": "7abibyemail@gmail",
             "message": "testing date seen",
             "caseID": "111111111",
-            "recipientID": "123-22",
+            "recipientId": "123-22",
             "dateSeen": "2008-09-15"
   }
+  // delete notification localhost:3000/api/notifications/5c9371c7e00720221c3bce9c
+  // try to get/update the deleted notification
 
-Update Notification: localhost:3000/api/notifications/0
+  // creating notification
  {
-            "emailOfRecipient": "wrondemail@gmail",
-            "message": "testing date seen",
+            "emailOfRecipient": "7abibyemail@gmail",
+            "message": "testing date seen, it should be in updates only",
             "caseID": "111111111",
-            "recipientID": "123-22",
-            "dateSeen": "yyyy-mm-dd"
+            "recipientId": "123-22",
+            "dateSeen": "2008-09-15"
   }
