@@ -4,7 +4,7 @@ const Joi = require('joi')
 module.exports = {
         createValidation: request => {
         const createSchema = {
-        recipientID: Joi.string().required(),
+        recipientId: Joi.string().required(),
         emailOfRecipient: Joi.string().email().required(),
         message: Joi.string().required(),
         caseID: Joi.string().required()
@@ -18,7 +18,7 @@ module.exports = {
             message: Joi.string(),
             caseID: Joi.string(),
             emailOfRecipient: Joi.string().email().lowercase(),
-            recipientID: Joi.string(),
+            recipientId: Joi.string(),
             dateSeen: Joi.string().isoDate()
         }
 
