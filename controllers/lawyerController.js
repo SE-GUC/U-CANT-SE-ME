@@ -1,7 +1,7 @@
 // Dependencies
 const mongoose = require("mongoose");
 const validator = require("../validations/lawyerValidations");
-
+const mongoValidator = require("validator");
 // module Lawyer
 const Lawyer = require("../models/Lawyer");
 const caseController = require("./caseController")
@@ -135,4 +135,26 @@ exports.viewTasks = async function(req,res) {
   catch(error){
       res.json({msg: "An error has occured."})
   }
+}
+//As a lawyer I should be able to accept or reject a company establishment form made by an investor
+exports.AcceptRejectForm = async function(req, res)
+{ 
+    if(lawyerAutenticated)
+    {
+        if(!mongoValidator.isMongoId(req.params.caseId) || await Case.findById(req.params.caseId)===null)
+            return res.status(400).send({ err : "Invalid case id" })
+        if(req.params.caseStatus!=="OnUpdate" && req.params.caseStatus!=="WaitingForLawyer" && req.params.caseStatus!=="AssginedToLawyer" && req.params.caseStatus!=="WaitingForReviewer" && req.params.caseStatus!=="AssginedToReviewer")
+            return res.status(400).send({err: "Invalid new status"})
+        try
+        {
+            await Case.findByIdAndUpdate(req.params.caseId,{"caseStatus":req.params.caseStatus})
+            res.json(await Case.findById(req.params.caseId))
+        }
+        catch(error)
+        {
+            res.json({msg:"A fatal error has occured, could not update the case status."})
+        }
+    }
+    else
+        return res.status(403).send({error: "Forbidden." })
 }
