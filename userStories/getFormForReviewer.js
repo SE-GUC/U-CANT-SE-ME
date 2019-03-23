@@ -34,7 +34,7 @@ router.get('/:reviewerID/:caseID', async (req,res) =>{
             if(selectedCase[0].caseStatus === "WaitingForReviewer" ){   
                 selectedCase[0].caseStatus = "AssignedToReviewer";
                 selectedCase[0].assignedReviewerId = req.params.reviewerID;
-                selectedCase[0].assignedReviewers.push(req.params.reviewerID);
+                selectedCase[0].previouslyAssignedReviewers.push(req.params.reviewerID);
                 await Case.findByIdAndUpdate(req.params.caseID,selectedCase[0])
                 res.json(await Case.findById(req.params.caseID));
             }

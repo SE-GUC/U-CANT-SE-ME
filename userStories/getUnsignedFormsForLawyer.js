@@ -35,7 +35,7 @@ router.get('/:lawyerID/:caseID', async (req,res) =>{
             if(selectedCase[0].caseStatus === "WaitingForLawyer" ){   
                 selectedCase[0].caseStatus = "AssignedToLawyer";
                 selectedCase[0].assignedLawyerId = req.params.lawyerID;
-                selectedCase[0].assignedLawyers.push(req.params.lawyerID);
+                selectedCase[0].previouslyAssignedLawyers.push(req.params.lawyerID);
                 await Case.findByIdAndUpdate(req.params.caseID,selectedCase[0])
                 res.json(await Case.findById(req.params.caseID));
             }
