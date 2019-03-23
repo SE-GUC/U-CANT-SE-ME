@@ -5,6 +5,11 @@ const validator = require("../validations/lawyerValidations");
 // module Lawyer
 const Lawyer = require("../models/Lawyer");
 
+// module Case
+const Case = require("../models/Case.js")
+
+const lawyerAuthenticated = true
+
 //Read
 exports.getAllLawyers = async function(req, res) {
   const lawyers = await Lawyer.find();
@@ -101,3 +106,23 @@ exports.fillForm = async function(req, res) {
   req.body.assignedLawyerId = req.params.id;
   await caseController.createCase(req, res);
 };
+
+//as a lawyer i should be able to view all my due tasks 
+exports.viewTasks = async function(req,res) {
+  try{
+    if(lawyerAuthenticated){
+      let lawyerCases = await Case.where({"assignedLawyerId" : req.params.lawyerID ,"caseStatus" :"AssignedToLawyer" })
+      
+
+      if(lawyerCases!==undefined && lawyerCases.length > 0 )
+        res.json({Tasks: lawyerCases})
+      else
+        res.status(404).send({error: "Data Not Found"})           
+    }
+    else
+      return res.status(403).send({error: "Forbidden." })
+  }
+  catch(error){
+      res.json({msg: "An error has occured."})
+  }
+}

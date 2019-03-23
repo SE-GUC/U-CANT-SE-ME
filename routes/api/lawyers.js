@@ -20,6 +20,8 @@ router.put('/:id', lawyerController.updateLawyer);
 //Delete
 router.delete('/:id', lawyerController.deleteLawyer);
 
+//View due tasks
+router.get('/lawyerTasks/:lawyerID', lawyerController.viewTasks);
 
 
 module.exports = router;

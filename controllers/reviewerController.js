@@ -4,6 +4,11 @@ const validator = require("../validations/reviewerValidations");
 var mongoValidator = require("validator");
 const Reviewer = require("../models/Reviewer");
 
+// module Case
+const Case = require("../models/Case.js")
+
+const reviewerAuthenticated = true
+
 //Read
 exports.getAllReviewers = async function(req, res) {
   const Reviewers = await Reviewer.find();
@@ -101,3 +106,21 @@ exports.deleteReviewer = async function(req, res) {
   }
 };
 
+//as a reviewer i should be able to view all my due tasks 
+exports.viewTasks = async function(req,res) {
+  try{
+    if(reviewerAuthenticated){
+      let reviewerCases = await Case.where({"assignedReviewerId" : req.params.reviewerID ,"caseStatus" :"AssignedToReviewer" })
+
+      if(reviewerCases!==undefined && reviewerCases.length > 0)
+        res.json({Tasks: reviewerCases})
+      else
+        res.status(404).send({error: "Data Not Found"})           
+    }
+    else
+      return res.status(403).send({error: "Forbidden." })
+  }
+  catch(error){
+      res.json({msg: "An error has occured."})
+  }
+}

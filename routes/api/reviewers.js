@@ -19,5 +19,9 @@ router.put("/:id", reviewerController.updateReviewer);
 //Delete
 router.delete("/:id", reviewerController.deleteReviewer);
 
+//View due tasks
+router.get('/reviewerTasks/:reviewerID', reviewerController.viewTasks);
+
+
 
 module.exports = router;
