@@ -11,12 +11,14 @@ const companies = require("./routes/api/companies");
 const notifications = require("./routes/api/notifications");
 const externalEntities = require("./routes/api/externalEntities");
 const investorActions = require("./userStories/investorActions");
+const investorFillForm = require("./userStories/investorFillForm");
+const lawyerActions = require("./routes/api/lawyerActions");
 const reviewerActions = require("./userStories/reviewerActions");
-const lawyerActions = require("./userStories/lawyerActions");
 const lawyerGetAllCases=require("./userStories/lawyerGettingAllCases");
 const adminGetAllCases=require("./userStories/adminGettingAllCases");
 const reviewerGetAllCases=require("./userStories/reviewerGettingAllCases");
 const trackMyCompany = require("./userStories/trackMyCompany")
+
 
 const app = express();
 
@@ -46,8 +48,9 @@ app.use("/api/cases", cases);
 app.use("/api/notifications", notifications);
 app.use("/api/externalEntities", externalEntities);
 app.use("/api/investorActions", investorActions);
+app.use("/api/investorFillForm", investorFillForm);
+app.use("/api/lawyerActions",lawyerActions);
 app.use("/api/reviewerActions", reviewerActions);
-app.use("/api/lawyerActions", lawyerActions);
 app.use("/api/lawyerGettingAllCases",lawyerGetAllCases);
 app.use("/api/adminGettingAllCases",adminGetAllCases);
 app.use("/api/reviewerGettingAllCases",reviewerGetAllCases);
