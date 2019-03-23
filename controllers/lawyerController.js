@@ -4,6 +4,8 @@ const validator = require("../validations/lawyerValidations");
 
 // module Lawyer
 const Lawyer = require("../models/Lawyer");
+const caseController = require("./caseController")
+const LawyerGettingAllCasesAuthenticated=true;
 
 //Read
 exports.getAllLawyers = async function(req, res) {
@@ -100,4 +102,13 @@ exports.fillForm = async function(req, res) {
   req.body.caseStatus = "WaitingForReviewer";
   req.body.assignedLawyerId = req.params.id;
   await caseController.createCase(req, res);
+};
+
+exports.GetAllCases = async function (req,res){
+  if (LawyerGettingAllCasesAuthenticated){
+  await caseController.getAllCases(req, res);
+  }
+  else{
+   res.status(404).send({error:"something wrong happened check your identity"})
+  }
 };

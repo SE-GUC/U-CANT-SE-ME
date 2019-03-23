@@ -3,6 +3,8 @@ const validator = require("../validations/reviewerValidations");
 
 var mongoValidator = require("validator");
 const Reviewer = require("../models/Reviewer");
+const reviewerGettingAllCasesAuthenticated=true;
+const caseController = require("./caseController")
 
 //Read
 exports.getAllReviewers = async function(req, res) {
@@ -99,5 +101,19 @@ exports.deleteReviewer = async function(req, res) {
     // We will be handling the error later
     //console.log(error)
   }
+};
+
+exports.GetAllCases = async function (req,res){
+  try{
+  if (reviewerGettingAllCasesAuthenticated){
+  await caseController.getAllCases(req, res);
+  }
+  else{
+   res.status(404).send({error:"something wrong happened check your identity"})
+  }
+}
+catch{
+  res.status(404).send({error:"something wrong happened check your identity"})
+}
 };
 

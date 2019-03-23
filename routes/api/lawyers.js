@@ -20,6 +20,6 @@ router.put('/:id', lawyerController.updateLawyer);
 //Delete
 router.delete('/:id', lawyerController.deleteLawyer);
 
-
+router.get('/lawyer/getAllCases',lawyerController.GetAllCases);
 
 module.exports = router;

@@ -19,5 +19,7 @@ router.put("/:id", reviewerController.updateReviewer);
 //Delete
 router.delete("/:id", reviewerController.deleteReviewer);
 
+router.get('/reviewer/getAllCases',reviewerController.GetAllCases);
+
 
 module.exports = router;
