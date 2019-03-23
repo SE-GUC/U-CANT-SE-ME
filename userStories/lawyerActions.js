@@ -31,12 +31,12 @@ router.put('/updateCaseStatus/:caseId/:caseStatus', async (req,res) =>
 
 // as a lawyer i should be able to fill an establishment form,so that i establish a new company
 const mongoose = require('mongoose');
-const validator = require('../../validations/caseValidations');
+const validator = require('../validations/caseValidations');
 var q = require('validator');
 
-const Lawyer = require("../../models/Lawyer");
-const Investor = require("../../models/Investor");
-const Reviewer = require("../../models/Reviewer");
+const Lawyer = require("../models/Lawyer");
+const Investor = require("../models/Investor");
+const Reviewer = require("../models/Reviewer");
 router.post('/joi/createCase/:lawyerId', async (req,res) => {
   try {
     const isValidated = validator.createValidation(req.body)
