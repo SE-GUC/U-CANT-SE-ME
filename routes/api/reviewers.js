@@ -2,11 +2,11 @@ const express = require('express')
 const router = express.Router()
 
 
-// module Lawyer Controller
-const reviewerController = require("../../controllers/lawyerController")
+// module Reviewer Controller
+const reviewerController = require("../../controllers/reviewerController")
 
 //Read
-router.get('/', reviewerController.getAllReviewers);
+router.get("/", reviewerController.getAllReviewers);
 
 router.get("/:id", reviewerController.getReviewer);
 
