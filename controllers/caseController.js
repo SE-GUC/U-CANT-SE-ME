@@ -53,7 +53,10 @@ async function verfiyReferentialIntegrity(req) {
     return { error: "Invalid assigned Reviewer ID" };
 
   //Checking if the refrenced entities exist
-  if (req.creatorInvestorId && !(await Investor.findById(req.creatorInvestorId)))
+  if (
+    req.creatorInvestorId &&
+    !(await Investor.findById(req.creatorInvestorId))
+  )
     return { error: "creator Investor doesn't exist" };
 
   if (req.creatorLawyerId && !(await Lawyer.findById(req.creatorLawyerId)))
@@ -78,6 +81,7 @@ async function verfiyGeneralCompanyRules(req) {
   var countEnglish = await Case.find({
     "form.companyNameEnglish": req.form.companyNameEnglish
   }).count();
+  console.log(req);
   if (countArabic > 0 || countEnglish > 0)
     return { error: "Company's name already Exist" };
 
@@ -176,12 +180,22 @@ exports.deleteCase = async function(req, res) {
 
 //update
 
+async function addMissingAttributes(req) {
+  const oldCase = await Case.findById(req.params.id);
+  if (!req.body.form.companyNameArabic)
+    req.body.form.companyNameArabic = oldCase.form.companyNameArabic;
+  if (!req.body.form.companyNameEnglish)
+    req.body.form.companyNameEnglish = oldCase.form.companyNameEnglish;
+}
+
 //Update a case
 exports.updateCase = async function(req, res) {
   try {
-    if (!mongoValidator.isMongoId(req.params.id)) return res.status(404).send({ error: "Invalid case ID" });
+    if (!mongoValidator.isMongoId(req.params.id))
+      return res.status(404).send({ error: "Invalid case ID" });
     const exist = await Case.findById(req.params.id);
-    if (!exist) return res.status(400).send({ error: "case entered not found" });
+    if (!exist)
+      return res.status(400).send({ error: "case entered not found" });
 
     const { error } = validator.updateValidation(req.body);
     if (error) return res.status(400).send(error.details[0].message);
@@ -192,10 +206,13 @@ exports.updateCase = async function(req, res) {
     check = await verfiyGeneralCompanyRules(req.body);
     if (!check.success) return res.status(400).send(check.error);
 
-    if (req.body.form.companyType === "SPC") check = await verfiySPCRules(req.body);
+    if (req.body.form.companyType === "SPC")
+      check = await verfiySPCRules(req.body);
     else check = await verfiySSCRules(req.body);
 
     if (!check.success) return res.status(400).send(check.error);
+
+    await addMissingAttributes(req);
 
     await Case.findByIdAndUpdate(req.params.id, req.body);
     res.send({ msg: "Case updated successfully" });

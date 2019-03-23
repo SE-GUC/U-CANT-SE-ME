@@ -176,4 +176,4 @@ const CaseSchema = new Schema({
   }
 });
 
-module.exports = Case = mongoose.model("casesTest", CaseSchema);
+module.exports = Case = mongoose.model("cases", CaseSchema);
