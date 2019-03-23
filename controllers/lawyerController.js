@@ -166,7 +166,7 @@ exports.getWaitingForLawyerCase = async function(req, res) {
           let lawyer = await Lawyer.findById(req.params.id)
           if(lawyer===null)
               return res.json("Lawyer Does Not Exist")
-          let allcases = await Case.where("caseStatus","WaitingForLawyer");
+          let allcases = await Case.where({"caseStatus":"WaitingForLawyer","caseStatus" :"AssignedToLawyer" });
           res.json(allcases);
       }
       else
