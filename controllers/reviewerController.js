@@ -1,5 +1,5 @@
 const mongoose = require('mongoose')
-const validator = require('../../validations/reviewerValidations')
+const validator = require('../validations/reviewerValidations')
 
 var mongoValidator = require('validator')
 const Reviewer = require('../models/Reviewer');
