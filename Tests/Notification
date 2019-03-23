@@ -4,13 +4,13 @@ post at localhost:3000/api/notifications
             "emailOfRecipient": "coderrZZZZ@gmail.com",
             "message": "post it then copy its id and test get all and then get by id",
             "caseID": "ay7aga",
-            "recipientID": "123"
+            "recipientId": "123"
 }
  {
             "emailOfRecipient": "7abibyemail@gmail",
             "message": "testing date seen, it should be in updates only",
             "caseID": "5c934a024e727e2ed8291cb3",
-            "recipientID": "5c934a024e727e2ed8291cb3"
+            "recipientId": "5c934a024e727e2ed8291cb3"
            
   }
 localhost:3000/api/notifications/5c9371c7e00720221c3bce9c
@@ -26,7 +26,7 @@ localhost:3000/api/notifications/invalidId
             "emailOfRecipient": "7abibyemail@gmail",
             "message": "testing date seen",
             "caseID": "111111111",
-            "recipientID": "123-22",
+            "recipientId": "123-22",
             "dateSeen": "2008-09-15"
   }
   // delete notification localhost:3000/api/notifications/5c9371c7e00720221c3bce9c
@@ -37,6 +37,6 @@ localhost:3000/api/notifications/invalidId
             "emailOfRecipient": "7abibyemail@gmail",
             "message": "testing date seen, it should be in updates only",
             "caseID": "111111111",
-            "recipientID": "123-22",
+            "recipientId": "123-22",
             "dateSeen": "2008-09-15"
   }

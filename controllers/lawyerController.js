@@ -93,4 +93,11 @@ exports.deleteLawyer = async function(req, res) {
   }
 };
 
-
+//as a lawyer i should be able to fill a company creation form
+exports.fillForm = async function(req, res) {
+  const lawyerId = req.params.id;
+  req.body.creatorLawyerId = lawyerId;
+  req.body.caseStatus = "WaitingForReviewer";
+  req.body.assignedLawyerId = req.params.id;
+  await caseController.createCase(req, res);
+};
