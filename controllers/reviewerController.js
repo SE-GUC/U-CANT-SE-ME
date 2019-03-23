@@ -101,36 +101,3 @@ exports.deleteReviewer = async function(req, res) {
   }
 };
 
-// As a reviewer i should be able to see all unsigned cases
-exports.getWaitingForReviewerCase = async function(req, res) {
-  try {
-    if (ReviewerAuthenticated) {
-      let reviewerExists = await Reviewer.findById(req.params.reviewerID);
-      if (reviewerExists === null) return res.json("Reviewer Does Not Exist");
-      let allcases = await Case.where("caseStatus", "WaitingForReviewer");
-      res.json(allcases);
-    } else res.status(403).send({ error: "Forbidden." });
-  } catch (error) {
-    res.json({ msg: "An error has occured." });
-  }
-};
-
-//as a reviewer i should be able to assign myself an unsigned case
-exports.getSpecificWaitingForReviewerCase = async function(req, res) {
-  try {
-    if (ReviewerAuthenticated) {
-      let reviewer = await Reviewer.findById(req.params.reviewerID);
-      if (reviewer === null) return res.json("Reviewer Does Not Exist");
-      let selectedCase = await Case.where("_id", req.params.caseID);
-      if (selectedCase[0].caseStatus === "WaitingForReviewer") {
-        selectedCase[0].caseStatus = "AssignedToReviewer";
-        selectedCase[0].assignedReviewerId = req.params.reviewerID;
-        selectedCase[0].assignedReviewers.push(req.params.reviewerID);
-        await Case.findByIdAndUpdate(req.params.caseID, selectedCase[0]);
-        res.json(await Case.findById(req.params.caseID));
-      } else res.status(403).send({ error: "Case is not supported." });
-    } else res.status(403).send({ error: "Forbidden." });
-  } catch (error) {
-    res.json({ msg: "An error has occured." });
-  }
-};
