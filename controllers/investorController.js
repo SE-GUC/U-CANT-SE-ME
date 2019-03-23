@@ -164,3 +164,41 @@ exports.trackMyCompany = async function(req,res){
     res.json({msg: "An error has occured."})
   }
 };
+// As an Investor, I should be able to view my fees
+exports.viewMyFees = async function(req,res){
+  const id=req.params.id;
+  if(!mongoValidator.isMongoId(id)){
+      res.json({error:"invalid ID format"});
+      return;
+  }
+  const investor = await Investor.findById(id);
+  if(!investor){
+    res.json({error:"investor not found"});
+    return;
+  }
+  const cases = await Case.find({"creatorInvestorId":id,"caseStatus":"Accepted"})
+
+
+ 
+  let result=[];
+  for (let i = 0; i < cases.length; i++) {
+        const fees=calcFees(cases[i]);
+        result.push({companyName:cases[i].form.companyNameEnglish,fees:fees} )
+    }
+    if(result.length==0)
+      res.json({"response": "you do not have any accepted company requests"})
+    else
+      res.json({"response": result}); 
+
+    function calcFees(case1) {
+      if(case1.form.regulatedLaw.includes("72")){
+          return 610;
+        }
+        const capital=case1.form.capital;
+        let ans=56;
+        ans+= Math.min(1000,Math.max(100,capital/1000.0));
+        ans+= Math.min(1000,Math.max(10,capital/400.0));
+        return ans;
+     }
+
+};
