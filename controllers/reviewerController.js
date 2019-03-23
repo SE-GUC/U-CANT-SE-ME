@@ -168,7 +168,7 @@ exports.AcceptRejectForm = async function(req, res)
 // As a reviewer i should be able to see all unsigned cases
 exports.getWaitingForReviewerCase = async function(req, res) {
   try {
-    if (ReviewerAuthenticated) {
+    if (reviewerAuthenticated) {
       let reviewerExists = await Reviewer.findById(req.params.id);
       if (reviewerExists === null) return res.json("Reviewer Does Not Exist");
       let allcases = await Case.where("caseStatus", "WaitingForReviewer");
@@ -182,7 +182,7 @@ exports.getWaitingForReviewerCase = async function(req, res) {
 //as a reviewer i should be able to assign myself an unsigned case
 exports.getSpecificWaitingForReviewerCase = async function(req, res) {
   try {
-    if (ReviewerAuthenticated) {
+    if (reviewerAuthenticated) {
       let reviewer = await Reviewer.findById(req.params.id);
       if (reviewer === null) return res.json("Reviewer Does Not Exist");
       let selectedCase = await Case.where("_id", req.params.caseId);
