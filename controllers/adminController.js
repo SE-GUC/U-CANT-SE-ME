@@ -1,9 +1,11 @@
 // Dependencies
-const validator =require("../validations/adminValidations");
+const validator = require("../validations/adminValidations");
 const mongoValidator = require("validator");
 
 // Models
-const Admin =require("../models/Admin");
+const Admin = require("../models/Admin");
+const adminGettingAllCasesAuthenticated = true;
+const caseController = require("./caseController");
 
 // Get certain admin
 
@@ -86,5 +88,15 @@ exports.deleteAdmin = async function(req, res) {
   } catch (error) {
     // We will be handling the error later
     console.log(error);
+  }
+};
+
+exports.GetAllCases = async function(req, res) {
+  if (adminGettingAllCasesAuthenticated) {
+    await caseController.getAllCases(req, res);
+  } else {
+    res
+      .status(404)
+      .send({ error: "something wrong happened check your identity" });
   }
 };

@@ -20,4 +20,6 @@ router.put("/update/:id", adminController.updateAdmin);
 //Delete
 router.delete("/joi/:id", adminController.deleteAdmin);
 
+router.get('/admin/getAllCases',adminController.GetAllCases);
+
 module.exports = router;

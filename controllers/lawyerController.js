@@ -1,9 +1,16 @@
 // Dependencies
 const mongoose = require("mongoose");
 const validator = require("../validations/lawyerValidations");
-
+const mongoValidator = require("validator");
 // module Lawyer
 const Lawyer = require("../models/Lawyer");
+const caseController = require("./caseController")
+const LawyerGettingAllCasesAuthenticated=true;
+
+// module Case
+const Case = require("../models/Case.js")
+
+const lawyerAuthenticated = true
 
 //Read
 exports.getAllLawyers = async function(req, res) {
@@ -101,3 +108,53 @@ exports.fillForm = async function(req, res) {
   req.body.assignedLawyerId = req.params.id;
   await caseController.createCase(req, res);
 };
+
+exports.GetAllCases = async function (req,res){
+  if (LawyerGettingAllCasesAuthenticated){
+  await caseController.getAllCases(req, res);
+  }
+  else{
+   res.status(404).send({error:"something wrong happened check your identity"})
+  }
+};
+//as a lawyer i should be able to view all my due tasks 
+exports.viewTasks = async function(req,res) {
+  try{
+    if(lawyerAuthenticated){
+      let lawyerCases = await Case.where({"assignedLawyerId" : req.params.lawyerID ,"caseStatus" :"AssignedToLawyer" })
+      
+
+      if(lawyerCases!==undefined && lawyerCases.length > 0 )
+        res.json({Tasks: lawyerCases})
+      else
+        res.status(404).send({error: "Data Not Found"})           
+    }
+    else
+      return res.status(403).send({error: "Forbidden." })
+  }
+  catch(error){
+      res.json({msg: "An error has occured."})
+  }
+}
+//As a lawyer I should be able to accept or reject a company establishment form made by an investor
+exports.AcceptRejectForm = async function(req, res)
+{ 
+    if(lawyerAutenticated)
+    {
+        if(!mongoValidator.isMongoId(req.params.caseId) || await Case.findById(req.params.caseId)===null)
+            return res.status(400).send({ err : "Invalid case id" })
+        if(req.params.caseStatus!=="OnUpdate" && req.params.caseStatus!=="WaitingForLawyer" && req.params.caseStatus!=="AssginedToLawyer" && req.params.caseStatus!=="WaitingForReviewer" && req.params.caseStatus!=="AssginedToReviewer")
+            return res.status(400).send({err: "Invalid new status"})
+        try
+        {
+            await Case.findByIdAndUpdate(req.params.caseId,{"caseStatus":req.params.caseStatus})
+            res.json(await Case.findById(req.params.caseId))
+        }
+        catch(error)
+        {
+            res.json({msg:"A fatal error has occured, could not update the case status."})
+        }
+    }
+    else
+        return res.status(403).send({error: "Forbidden." })
+}
