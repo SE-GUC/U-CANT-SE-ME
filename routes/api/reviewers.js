@@ -22,6 +22,7 @@ router.delete("/:id", reviewerController.deleteReviewer);
 //View due tasks
 router.get('/reviewerTasks/:reviewerID', reviewerController.viewTasks);
 
-
+//Accept or Reject Form
+router.put('/updateCaseStatus/:caseId/:caseStatus', reviewerController.AcceptRejectForm);
 
 module.exports = router;
