@@ -142,6 +142,7 @@ exports.updateForm = async function(req, res) {
         .status(403)
         .send({ error: "Investor can only update his/her Forms" });
     req.body.caseStatus = oldCase.caseStatus;
+    req.body.creatorInvestorId = oldCase.creatorInvestorId;
     req.body.creatorLawyerId = oldCase.creatorLawyerId;
     req.body.assignedLawyerId = oldCase.creatorLawyerId;
     req.body.assignedReviewerId = oldCase.creatorLawyerId;
