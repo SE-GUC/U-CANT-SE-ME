@@ -23,6 +23,6 @@ router.delete("/:id", investorController.deleteInvestor);
 router.get('/lawyerComments/:investorID/:caseID', investorController.viewLawyerComments);
 
 // As an investor I should be able to view my fees
-router.get('/viewFyFees/:id', investorController.viewMyFees);
+router.get('/viewMyFees/:id', investorController.viewMyFees);
 
 module.exports = router;
