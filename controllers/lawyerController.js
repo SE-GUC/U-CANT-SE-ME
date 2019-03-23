@@ -4,6 +4,8 @@ const validator = require("../validations/lawyerValidations");
 const mongoValidator = require("validator");
 // module Lawyer
 const Lawyer = require("../models/Lawyer");
+const caseController = require("./caseController")
+const LawyerGettingAllCasesAuthenticated=true;
 
 // module Case
 const Case = require("../models/Case.js")
@@ -107,6 +109,14 @@ exports.fillForm = async function(req, res) {
   await caseController.createCase(req, res);
 };
 
+exports.GetAllCases = async function (req,res){
+  if (LawyerGettingAllCasesAuthenticated){
+  await caseController.getAllCases(req, res);
+  }
+  else{
+   res.status(404).send({error:"something wrong happened check your identity"})
+  }
+};
 //as a lawyer i should be able to view all my due tasks 
 exports.viewTasks = async function(req,res) {
   try{

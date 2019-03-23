@@ -3,6 +3,9 @@ const validator = require("../validations/reviewerValidations");
 
 var mongoValidator = require("validator");
 const Reviewer = require("../models/Reviewer");
+const reviewerGettingAllCasesAuthenticated=true;
+const caseController = require("./caseController")
+
 // module Case
 const Case = require("../models/Case.js")
 
@@ -104,6 +107,22 @@ exports.deleteReviewer = async function(req, res) {
     //console.log(error)
   }
 };
+
+exports.GetAllCases = async function (req,res){
+  try{
+  if (reviewerGettingAllCasesAuthenticated){
+  await caseController.getAllCases(req, res);
+  }
+  else{
+   res.status(404).send({error:"something wrong happened check your identity"})
+  }
+}
+catch{
+  res.status(404).send({error:"something wrong happened check your identity"})
+}
+};
+
+//as a reviewer i should be able to view all my due tasks 
 
 //As a reviewer I should be able to accept or reject a company establishment form
 exports.viewTasks = async function(req,res) {
