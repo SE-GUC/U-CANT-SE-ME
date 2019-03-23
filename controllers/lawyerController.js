@@ -139,7 +139,7 @@ exports.viewTasks = async function(req,res) {
 //As a lawyer I should be able to accept or reject a company establishment form made by an investor
 exports.AcceptRejectForm = async function(req, res)
 { 
-    if(lawyerAutenticated)
+    if(lawyerAuthenticated)
     {
         if(!mongoValidator.isMongoId(req.params.caseId) || await Case.findById(req.params.caseId)===null)
             return res.status(400).send({ err : "Invalid case id" })
