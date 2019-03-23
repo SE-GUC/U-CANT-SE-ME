@@ -20,6 +20,12 @@ router.put('/:id', lawyerController.updateLawyer);
 //Delete
 router.delete('/:id', lawyerController.deleteLawyer);
 
+router.get('/lawyer/getAllCases',lawyerController.GetAllCases);
 
+//View due tasks
+router.get('/lawyerTasks/:lawyerID', lawyerController.viewTasks);
+
+//Accept or Reject Form
+router.put('/updateCaseStatus/:caseId/:caseStatus', lawyerController.AcceptRejectForm);
 
 module.exports = router;
