@@ -34,7 +34,6 @@ const InvestorSchema = new Schema({
   },
   identificationNumber: {
     type: String,
-    unique: true,
     required: true
   },
   dateOfBirth: {
