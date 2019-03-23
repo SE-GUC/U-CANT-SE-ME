@@ -137,15 +137,14 @@ exports.updateForm = async function(req, res) {
       return res.status(400).send({ error: "Invalid Case ID" });
     const oldCase = await Case.findById(req.params.caseId);
     if (!oldCase) return res.status(404).send({ error: "Case doesn't Exist" });
-    if (oldCase.creatorInvestorId !== req.params.investorId)
+    if (string(oldCase.creatorInvestorId) !== string(req.params.investorId))
       return res
         .status(403)
         .send({ error: "Investor can only update his/her Forms" });
     req.body.caseStatus = oldCase.caseStatus;
-    req.body.creatorInvestorId = oldCase.creatorInvestorId;
     req.body.creatorLawyerId = oldCase.creatorLawyerId;
-    req.body.assignedLawyerId = oldCase.creatorLawyerId;
-    req.body.assignedReviewerId = oldCase.creatorLawyerId;
+    req.body.assignedLawyerId = oldCase.assignedLawyerId;
+    req.body.assignedReviewerId = oldCase.assignedReviewerId;
     await caseController.updateCase(req, res);
   } catch (err) {
     res.send({ msg: "Oops something went wrong" });
