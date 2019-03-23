@@ -82,7 +82,7 @@ async function verfiyGeneralCompanyRules(req) {
   if (countArabic > 0 || countEnglish > 0)
     return { error: "Company's name already Exist" };
 
-  for (let i = 0; i < req.managers.length; i++) {
+  for (let i = 0; req.managers && i < req.managers.length; i++) {
     if (
       req.managers[i].managerNationality === "Egyptian" &&
       (req.managers[i].managerIdType !== "NID" ||
@@ -102,7 +102,7 @@ async function verfiySPCRules(req) {
   ) {
     return { error: "Invalid capital" };
   }
-  if (req.managers.length > 0)
+  if (req.managers && req.managers.length > 0)
     return { error: "SPC Companies can not have any managers" };
   return { success: "Company Satisfies the SPC rules" };
 }
@@ -121,7 +121,7 @@ async function verfiySSCRules(req) {
   const checkInvestor = await Investor.findById(req.creatorInvestorId);
   var egyptianManager = false;
   if (checkInvestor && checkInvestor.nationality !== "Egyptian")
-    for (let i = 0; i < req.managers.length; i++)
+    for (let i = 0; req.managers && i < req.managers.length; i++)
       egyptianManager |= req.managers[i].managerNationality === "Egyptian";
   if (!egyptianManager)
     return {

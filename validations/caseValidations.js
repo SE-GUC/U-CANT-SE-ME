@@ -49,7 +49,7 @@ module.exports = {
       managerPositionInBoardOfDirectors: Joi.string().required()
     };
     var validation;
-    for (let i = 0; i < managers.length; i++) {
+    for (let i = 0; managers && i < managers.length; i++) {
       validation = Joi.validate(managers[i], managerCreateSchema);
       if (validation.error) return validation;
     }
@@ -95,12 +95,12 @@ module.exports = {
     var validation = Joi.validate(request, caseCreateSchema);
     if (validation.error) return validation;
 
-    //Validate Case data related to the Form
-    validation = module.exports.formCreateValidation(request.form);
-    if (validation.error) return validation;
-
     //Validate Case data related to the Managers
     validation = module.exports.managersCreateValidation(request.managers);
+    if (validation && validation.error) return validation;
+
+    //Validate Case data related to the Form
+    validation = module.exports.formCreateValidation(request.form);
     return validation;
   },
 
