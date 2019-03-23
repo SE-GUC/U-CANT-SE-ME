@@ -3,6 +3,8 @@ const mongoValidator = require("validator");
 
 const Investor = require("../models/Investor");
 const validator = require("../validations/investorValidations");
+const Case = require("../models/Case.js");
+const investorAuthenticated = true;
 
 //READ
 exports.getAllInvestors = async function(req, res) {
@@ -99,5 +101,26 @@ exports.deleteInvestor = async function(req, res) {
   } catch (err) {
     res.send({ msg: "Oops something went wrong" });
     console.log(err);
+  }
+};
+
+exports.viewLawyerComments = async function(req,res){
+  try{
+    //if the user is authenticated give them access to the function otherwise return a Forbidden error
+    if(investorAuthenticated){
+      //querying to find a Case where _id=caseID && creatorInvestorId=investorID
+      let caseForForm = await Case.find({"_id":req.params.caseID,"creatorInvestorId":req.params.investorID})
+      //if the query brings back a valid result set return its comments otherwise return an error
+      if(caseForForm!==undefined && caseForForm.length>0)
+        res.json({comments: caseForForm[0].comments})
+      else
+        res.status(404).send({error: "Data Not Found"})           
+    }
+    else
+      return res.status(403).send({error: "Forbidden." })
+  }
+  catch(error){
+    console.log(error)
+    res.json({msg: "An error has occured."})
   }
 };
