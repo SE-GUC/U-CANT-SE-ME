@@ -28,4 +28,9 @@ router.get('/lawyerTasks/:lawyerID', lawyerController.viewTasks);
 //Accept or Reject Form
 router.put('/updateCaseStatus/:caseId/:caseStatus', lawyerController.AcceptRejectForm);
 
+// As a lawyer i should be able to see all unsigned cases
+router.get("/getAllUnsignedCases/:id", lawyerController.getWaitingForLawyerCase);
+
+router.get("/assignCase/:id/:caseId", lawyerController.getSpecificWaitingForLawyerCase);
+
 module.exports = router;
