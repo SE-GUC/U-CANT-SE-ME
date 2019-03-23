@@ -179,7 +179,7 @@ exports.viewMyFees = async function(req,res){
   const cases = await Case.find({"creatorInvestorId":id,"caseStatus":"Accepted"})
 
 
-  const creatorInvestorId = req.params.id;
+ 
   let result=[];
   for (let i = 0; i < cases.length; i++) {
         const fees=calcFees(cases[i]);
@@ -195,7 +195,7 @@ exports.viewMyFees = async function(req,res){
           return 610;
         }
         const capital=case1.form.capital;
-        let ans=50;
+        let ans=56;
         ans+= Math.min(1000,Math.max(100,capital/1000.0));
         ans+= Math.min(1000,Math.max(10,capital/400.0));
         return ans;
