@@ -10,19 +10,29 @@ const Reviewer = require("../models/Reviewer");
 
 //Get a Case with a specific ID (get certain case)
 exports.getCase = async function(req, res) {
-  const caseId = req.params.id;
-  if (!mongoValidator.isMongoId(caseId))
-    return res.status(404).send({ error: "Invalid ID" });
-  const neededCase = await Case.findById(caseId);
-  if (!neededCase)
-    return res.status(400).send({ err: "Case entered not found" });
-  res.json({ data: neededCase });
+  try {
+    const caseId = req.params.id;
+    if (!mongoValidator.isMongoId(caseId))
+      return res.status(404).send({ error: "Invalid ID" });
+    const neededCase = await Case.findById(caseId);
+    if (!neededCase)
+      return res.status(400).send({ err: "Case entered not found" });
+    res.json({ data: neededCase });
+  } catch (error) {
+    res.send({ error: "Oops something went wrong!" });
+    console.log(error);
+  }
 };
 
 //Get all cases
 exports.getAllCases = async function(req, res) {
-  const cases = await Case.find();
-  res.json({ data: cases });
+  try {
+    const cases = await Case.find();
+    res.json({ data: cases });
+  } catch (error) {
+    res.send({ error: "Oops something went wrong!" });
+    console.log(error);
+  }
 };
 
 async function verfiyReferentialIntegrity(req) {
@@ -135,7 +145,7 @@ exports.createCase = async function(req, res) {
     const newCase = await Case.create(req.body);
     res.json({ msg: "Case was created successfully", data: newCase });
   } catch (error) {
-    res.send("Oops something went wrong!");
+    res.send({ error: "Oops something went wrong!" });
     console.log(error);
   }
 };
@@ -152,7 +162,7 @@ exports.deleteCase = async function(req, res) {
     const deletedCase = await Case.findByIdAndRemove(caseID);
     res.json({ msg: "Case was deleted successfully", data: deletedCase });
   } catch (error) {
-    res.send("Oops something went wrong!");
+    res.send({ error: "Oops something went wrong!" });
     console.log(error);
   }
 };
@@ -160,75 +170,33 @@ exports.deleteCase = async function(req, res) {
 //update
 
 //Update a case
-exports.updateCase = async function(req, res) {};
-
-router.put("/:id", async (req, res) => {
+exports.updateCase = async function(req, res) {
   try {
-    const id = req.params.id;
-    if (!mongoValidator.isMongoId(id))
-      return res.status(404).send({ error: "Invalid ID" });
-    const exist = await Case.findById(id);
-    if (!exist) return res.status(400).send({ err: "case entered not found" });
+    if (!mongoValidator.isMongoId(req.params.id))
+      return res.status(404).send({ error: "Invalid case ID" });
+    const exist = await Case.findById(req.params.id);
+    if (!exist)
+      return res.status(400).send({ error: "case entered not found" });
 
-    const newLawyer = req.body.assignedLawyerId;
-    if (newLawyer) {
-      if (!mongoValidator.isMongoId(newLawyer))
-        return res.status(404).send({ error: "Invalid ID" });
-      const lawyer2 = await Lawyer.findById(newLawyer);
-      if (!lawyer2)
-        return res.status(400).send({ err: "lawyer entered not found" });
-      const cas = await Case.update(
-        { _id: id },
-        { $push: { assignedLawyers: req.body.assignedLawyerId } }
-      );
-      const cas6 = await Case.update(
-        { _id: id },
-        { assignedLawyerId: newLawyer }
-      );
-    }
+    const { error } = validator.updateValidation(req.body);
+    if (error) return res.status(400).send(error.details[0].message);
 
-    const newReviewer = req.body.assignedReviewerId;
-    if (newReviewer) {
-      if (!mongoValidator.isMongoId(newReviewer))
-        return res.status(404).send({ error: "Invalid ID" });
-      const reviewer = await Reviewer.findById(newReviewer);
-      if (!reviewer)
-        return res.status(400).send({ err: "reviewer entered not found" });
-      const cas2 = await Case.update(
-        { _id: id },
-        { $push: { assignedReviewers: req.body.assignedReviewerId } }
-      );
-      const cas5 = await Case.update(
-        { _id: id },
-        { assignedReviewerId: newReviewer }
-      );
-    }
+    var check = await verfiyReferentialIntegrity(req.body);
+    if (!check.succes) return res.status(400).send(check.error);
 
-    const isValidated = validator.updateValidation(req.body);
-    if (isValidated.error)
-      return res
-        .status(400)
-        .send({ error: isValidated.error.details[0].message });
+    check = await verfiyGeneralCompanyRules(req.body);
+    if (!check.succes) return res.status(400).send(check.error);
 
-    const commentAuthor = req.body.author;
-    const commentBody = req.body.body;
-    const date = new Date();
-    const comment = { author: commentAuthor, body: commentBody, date: date };
-    if (commentAuthor && commentBody)
-      var cas3 = await Case.update(
-        { _id: id },
-        { $push: { comments: comment } }
-      );
+    if (req.form.companyType === "SPC") check = await verfiySPCRules(req.body);
+    else check = await verfiySSCRules(req.body);
 
-    const cas4 = await Case.update(
-      { _id: id },
-      { caseStatus: req.body.caseStatus }
-    );
-    res.json({ msg: "Case updated successfully" });
+    if (!check.succes) return res.status(400).send(check.error);
+
+    await Case.findByIdAndUpdate(req.params.id, req.body);
+    res.send({ msg: "Case updated successfully" });
   } catch (error) {
-    // We will be handling the error later
+    res.send({ error: "Oops something went wrong" });
     console.log(error);
   }
-});
+};
 
-module.exports = router;
