@@ -40,47 +40,53 @@ async function verfiyReferentialIntegrity(req) {
   if (!mongoValidator.isMongoId(req.creatorInvestorId))
     return { error: "Invalid creator Investor ID" };
 
-  if (creatorLawyerId && !mongoValidator.isMongoId(req.creatorLawyerId))
+  if (req.creatorLawyerId && !mongoValidator.isMongoId(req.creatorLawyerId))
     return { error: "Invalid creator Lawyer ID" };
 
-  if (assignedLawyerId && !mongoValidator.isMongoId(req.assignedLawyerId))
+  if (req.assignedLawyerId && !mongoValidator.isMongoId(req.assignedLawyerId))
     return { error: "Invalid assigned Lawyer ID" };
 
-  if (assignedReviewerId && !mongoValidator.isMongoId(req.assignedReviewerId))
+  if (
+    req.assignedReviewerId &&
+    !mongoValidator.isMongoId(req.assignedReviewerId)
+  )
     return { error: "Invalid assigned Reviewer ID" };
 
   //Checking if the refrenced entities exist
   if (!(await Investor.findById(req.creatorInvestorId)))
     return { error: "creator Investor doesn't exist" };
 
-  if (creatorLawyerId && !(await Lawyer.findById(req.creatorLawyerId)))
+  if (req.creatorLawyerId && !(await Lawyer.findById(req.creatorLawyerId)))
     return { error: "creator Lawyer doesn't exist" };
 
-  if (assignedLawyerId && !(await Lawyer.findById(req.assignedLawyerId)))
+  if (req.assignedLawyerId && !(await Lawyer.findById(req.assignedLawyerId)))
     return { error: "Assigned Lawyer doesn't exist" };
 
-  if (assignedReviewerId && !(await Lawyer.findById(req.assignedReviewerId)))
+  if (
+    req.assignedReviewerId &&
+    !(await Lawyer.findById(req.assignedReviewerId))
+  )
     return { error: "Assigned Reviewer doesn't exist" };
 
   return { success: "The case satisfies refrential Integrity" };
 }
 
 async function verfiyGeneralCompanyRules(req) {
-  var countArabic = await db.messages
-    .find({ "form.companyNameArabic": req.form.companyNameArabic })
-    .count();
-  var countEnglish = await db.messages
-    .find({ "form.companyNameEnglish": req.form.companyNameEnglish })
-    .count();
+  var countArabic = await Case.find({
+    "form.companyNameArabic": req.form.companyNameArabic
+  }).count();
+  var countEnglish = await Case.find({
+    "form.companyNameEnglish": req.form.companyNameEnglish
+  }).count();
 
   if (countArabic > 0 || countEnglish > 0)
     return { error: "Company's name already Exist" };
 
   for (let i = 0; i < req.managers.length; i++) {
     if (
-      managers[i].managerNationality === "Egyptian" &&
-      (managers[i].managerIdType !== "NID" ||
-        managers[i].managerIdNumber.length !== 14)
+      req.managers[i].managerNationality === "Egyptian" &&
+      (req.managers[i].managerIdType !== "NID" ||
+        req.managers[i].managerIdNumber.length !== 14)
     )
       return { error: "Incorrect Manager National ID" };
   }
@@ -109,7 +115,7 @@ async function verfiySSCRules(req) {
   if (checkCase) return { error: "Investor entered has an existent SSC case" };
   if (
     req.form.capital &&
-    (capital < 50000 || req.form.capital.toString().length > 12)
+    (req.form.capital < 50000 || req.form.capital.toString().length > 12)
   )
     return { error: "Invalid capital" };
   const checkInvestor = await Investor.findById(req.creatorInvestorId);
@@ -132,15 +138,15 @@ exports.createCase = async function(req, res) {
     if (error) return res.status(400).send(error.details[0].message);
 
     var check = await verfiyReferentialIntegrity(req.body);
-    if (!check.succes) return res.status(400).send(check.error);
+    if (!check.success) return res.status(400).send(check.error);
 
     check = await verfiyGeneralCompanyRules(req.body);
-    if (!check.succes) return res.status(400).send(check.error);
+    if (!check.success) return res.status(400).send(check.error);
 
-    if (req.form.companyType === "SPC") check = await verfiySPCRules(req.body);
+    if (req.body.form.companyType === "SPC") check = await verfiySPCRules(req.body);
     else check = await verfiySSCRules(req.body);
 
-    if (!check.succes) return res.status(400).send(check.error);
+    if (!check.success) return res.status(400).send(check.error);
 
     const newCase = await Case.create(req.body);
     res.json({ msg: "Case was created successfully", data: newCase });
@@ -182,15 +188,15 @@ exports.updateCase = async function(req, res) {
     if (error) return res.status(400).send(error.details[0].message);
 
     var check = await verfiyReferentialIntegrity(req.body);
-    if (!check.succes) return res.status(400).send(check.error);
+    if (!check.success) return res.status(400).send(check.error);
 
     check = await verfiyGeneralCompanyRules(req.body);
-    if (!check.succes) return res.status(400).send(check.error);
+    if (!check.success) return res.status(400).send(check.error);
 
     if (req.form.companyType === "SPC") check = await verfiySPCRules(req.body);
     else check = await verfiySSCRules(req.body);
 
-    if (!check.succes) return res.status(400).send(check.error);
+    if (!check.success) return res.status(400).send(check.error);
 
     await Case.findByIdAndUpdate(req.params.id, req.body);
     res.send({ msg: "Case updated successfully" });
@@ -199,4 +205,3 @@ exports.updateCase = async function(req, res) {
     console.log(error);
   }
 };
-

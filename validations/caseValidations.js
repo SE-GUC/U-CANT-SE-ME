@@ -1,6 +1,7 @@
 const Joi = require("joi");
 
 module.exports = {
+
   formCreateValidation: form => {
     const formCreateSchema = {
       companyType: Joi.string()
@@ -95,11 +96,11 @@ module.exports = {
     if (validation.error) return validation;
 
     //Validate Case data related to the Form
-    validation = formCreateValidation(request.form);
+    validation = module.exports.formCreateValidation(request.form);
     if (validation.error) return validation;
 
     //Validate Case data related to the Managers
-    validation = managersCreateValidation(request.managers);
+    validation = module.exports.managersCreateValidation(request.managers);
     return validation;
   },
 
@@ -186,13 +187,13 @@ module.exports = {
     var validation = Joi.validate(request, updateSchema);
     if (validation.error) return validation;
 
-    validation = formUpdateValidation(request.form);
+    validation = module.exports.formUpdateValidation(request.form);
     if (validation.error) return validation;
 
-    validation = managersUpdateValidation(request.managers);
+    validation = module.exports.managersUpdateValidation(request.managers);
     if (validation.error) return validation;
 
-    validation = commentsUpdateValidation(request.comments);
+    validation = module.exports.commentsUpdateValidation(request.comments);
     return validation;
   }
 };
