@@ -144,7 +144,7 @@ module.exports = {
       managerPositionInBoardOfDirectors: Joi.string()
     };
     var validation;
-    for (let i = 0; i < managers.length; i++) {
+    for (let i = 0; managers && i < managers.length; i++) {
       validation = Joi.validate(managers[i], managerUpdateSchema);
       if (validation.error) return validation;
     }
@@ -155,10 +155,10 @@ module.exports = {
     const commentUpdateSchema = {
       author: Joi.string().required(),
       body: Joi.string().required(),
-      date: Joi.Date()
+      date: Joi.date()
     };
     var validation;
-    for (let i = 0; i < comments.length; i++) {
+    for (let i = 0; comments && i < comments.length; i++) {
       validation = Joi.validate(comments[i], commentUpdateSchema);
       if (validation.error) return validation;
     }
@@ -176,6 +176,7 @@ module.exports = {
         "Rejected",
         "Accepted"
       ]),
+      
       assignedLawyerId: Joi,
       assignedReviewerId: Joi,
       previouslyAssignedLawyers: Joi,
@@ -186,14 +187,15 @@ module.exports = {
     };
     var validation = Joi.validate(request, updateSchema);
     if (validation.error) return validation;
-
-    validation = module.exports.formUpdateValidation(request.form);
-    if (validation.error) return validation;
-
+  
     validation = module.exports.managersUpdateValidation(request.managers);
-    if (validation.error) return validation;
+    if (validation && validation.error) return validation;
 
     validation = module.exports.commentsUpdateValidation(request.comments);
+    if (validation && validation.error) return validation;
+
+    validation = module.exports.formUpdateValidation(request.form);
+
     return validation;
   }
 };

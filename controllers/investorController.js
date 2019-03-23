@@ -1,11 +1,15 @@
 const mongoose = require("mongoose");
+const ObjectId = require("mongodb").ObjectID;
 const mongoValidator = require("validator");
 
 const Investor = require("../models/Investor");
 const validator = require("../validations/investorValidations");
-const Case = require("../models/Case.js");
+const Case = require("../models/Case");
+
+const caseController = require("./caseController");
+
 const investorAuthenticated = true;
-const caseController = require("../controllers/caseController");
+
 //READ
 exports.getAllInvestors = async function(req, res) {
   const investors = await Investor.find();
@@ -121,6 +125,35 @@ exports.viewLawyerComments = async function(req, res) {
   } catch (error) {
     console.log(error);
     res.json({ msg: "An error has occured." });
+  }
+};
+
+exports.updateForm = async function(req, res) {
+  try {
+    if (!investorAuthenticated)
+      return res.status(403).send({ error: "Investor has no Access" });
+    if (!mongoValidator.isMongoId(req.params.investorId))
+      return res.status(400).send({ error: "Invalid Investor ID" });
+    if (!mongoValidator.isMongoId(req.params.caseId))
+      return res.status(400).send({ error: "Invalid Case ID" });
+    const oldCase = await Case.findById(req.params.caseId);
+    if (!oldCase) return res.status(404).send({ error: "Case doesn't Exist" });
+    if (oldCase.creatorInvestorId.toString() !== req.params.investorId)
+      return res
+        .status(403)
+        .send({ error: "Investor can only update his/her Forms" });
+    req.body.caseStatus = oldCase.caseStatus;
+    req.body.assignedLawyerId = oldCase.assignedLawyerId
+      ? oldCase.assignedLawyerId.toString()
+      : null;
+    req.body.assignedReviewerId = oldCase.assignedReviewerId
+      ? oldCase.assignedReviewerId.toString()
+      : null;
+    req.params.id = req.params.caseId;
+    await caseController.updateCase(req, res);
+  } catch (err) {
+    res.send({ msg: "Oops something went wrong" });
+    console.log(err);
   }
 };
 
