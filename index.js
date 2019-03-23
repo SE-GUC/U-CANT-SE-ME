@@ -13,6 +13,11 @@ const externalEntities = require("./routes/api/externalEntities");
 const investorActions = require("./userStories/investorActions");
 const lawyerReview = require("./userStories/getUnsignedFormsForLawyer");
 const reviewerReview = require("./userStories/getFormForReviewer");
+const reviewerActions = require("./userStories/reviewerActions");
+const lawyerActions = require("./userStories/lawyerActions");
+const lawyerGetAllCases=require("./userStories/lawyerGettingAllCases");
+const adminGetAllCases=require("./userStories/adminGettingAllCases");
+const reviewerGetAllCases=require("./userStories/reviewerGettingAllCases");
 
 const app = express();
 
@@ -44,7 +49,11 @@ app.use("/api/externalEntities", externalEntities);
 app.use("/api/investorActions", investorActions);
 app.use("/api/lawyerReview", lawyerReview);
 app.use("/api/reviewerReview", reviewerReview);
-
+app.use("/api/reviewerActions", reviewerActions);
+app.use("/api/lawyerActions", lawyerActions);
+app.use("/api/lawyerGettingAllCases",lawyerGetAllCases);
+app.use("/api/adminGettingAllCases",adminGetAllCases);
+app.use("/api/reviewerGettingAllCases",reviewerGetAllCases);
 // Handling 404
 app.use((req, res) => {
   res.status(404).send({ err: "We can not find what you are looking for" });
