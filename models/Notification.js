@@ -15,7 +15,7 @@ const NotificationSchema = new Schema({
     refPath: 'cases',
     required: true
    },
-  recipientID: {
+  recipientId: {
     type: Schema.Types.ObjectId,
     refPath: 'user',
     required: true
