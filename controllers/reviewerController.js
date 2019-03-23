@@ -3,7 +3,7 @@ const validator = require("../validations/reviewerValidations");
 
 var mongoValidator = require("validator");
 const Reviewer = require("../models/Reviewer");
-
+const ReviewerAuthenticated=true;
 //Read
 exports.getAllReviewers = async function(req, res) {
   const Reviewers = await Reviewer.find();
@@ -101,3 +101,38 @@ exports.deleteReviewer = async function(req, res) {
   }
 };
 
+// As a reviewer i should be able to see all unsigned cases
+exports.getWaitingForReviewerCase = async function(req, res) {
+    try {
+      if (ReviewerAuthenticated) {
+        const reviewerExists = await Reviewer.findById(req.params.id);
+        if (reviewerExists === null) return res.json("Reviewer Does Not Exist");
+        const allcases = await Case.where("caseStatus", "WaitingForReviewer");
+        res.json(allcases);
+      } else res.status(403).send({ error: "Forbidden." });
+    } catch (error) {
+      res.json({ msg: "An error has occured." });
+    }
+  };
+  
+  //as a reviewer i should be able to assign myself an unsigned case
+  exports.getSpecificWaitingForReviewerCase = async function(req, res) {
+    try {
+      if (ReviewerAuthenticated) {
+        const reviewer = await Reviewer.findById(req.params.id);
+        if (reviewer === null) return res.json("Reviewer Does Not Exist");
+        const selectedCase = await Case.where("_id", req.params.caseId);
+        if (selectedCase[0].caseStatus === "WaitingForReviewer") {
+          selectedCase[0].caseStatus = "AssignedToReviewer";
+          selectedCase[0].assignedReviewerId = req.params.id;
+          selectedCase[0].previouslyAssignedReviewers.push(req.params.id);
+          await Case.findByIdAndUpdate(req.params.caseId, selectedCase[0]);
+          res.json(await Case.findById(req.params.caseId));
+        } else res.status(403).send({ error: "Case is not supported." });
+      } else res.status(403).send({ error: "Forbidden." });
+    } catch (error) {
+      res.json({ msg: "An error has occured." });
+    }
+  };
+
+  

@@ -3,7 +3,7 @@ const Joi = require('joi')
 module.exports = {
     createValidation: request => {
         const createSchema = {
-            userName: Joi.string().min(1).max(100).required(),
+            username: Joi.string().min(1).max(100).required(),
             password: Joi.string().min(5).max(100).required(),
             fullName: Joi.string().min(3).max(150).required(),
             email: Joi.string().email().max(100).required()
