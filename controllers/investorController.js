@@ -5,7 +5,7 @@ const Investor = require("../models/Investor");
 const validator = require("../validations/investorValidations");
 const Case = require("../models/Case.js");
 const investorAuthenticated = true;
-
+const caseController = require("../controllers/caseController");
 //READ
 exports.getAllInvestors = async function(req, res) {
   const investors = await Investor.find();
@@ -200,5 +200,20 @@ exports.viewMyFees = async function(req,res){
         ans+= Math.min(1000,Math.max(10,capital/400.0));
         return ans;
      }
+
+};
+exports.fillForm = async function(req,res){
+  try {
+    if (investorAuthenticated) {
+      req.body.creatorInvestorId = req.params.investorId;
+      caseController.createCase(req, res); //Fadi's create-case
+      // res.send({msg : "Form Submitted Successfully"});
+    } else {
+      return res.status(403).send({ error: "Forbidden." });
+    }
+  } catch (error) {
+    console.log(error);
+    res.json({ msg: "An error has occured." });
+  }
 
 };
