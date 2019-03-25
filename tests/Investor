@@ -1,0 +1,348 @@
+#Tests:
+
+
+##Test1:
+{
+	endpoint : "localhost:3000/api/investors/",
+	method : "POST",
+	request : {
+		"email": "abc@gmail.com",
+		"password" : "12345678",
+		"fullName" : "Abc Ibn Xyz",
+		"type" : "a",
+		"gender" : "Male",
+		"nationality" : "Egyptian",
+		"methodOfIdentification" : "National Card",
+		"identificationNumber" : "12233344445555",
+		"dateOfBirth" : "1990-12-17T22:00:00.000Z",
+		"residenceAddress" : "13th Mogama3 el Tahrir",
+		"telephoneNumber" : "+201009913457",
+		"fax" : "123456" 
+	},
+	response: "telephoneNumber" with value "+201009913457" fails to match the required pattern: /^[0-9]{7,14}$/
+}
+
+##Test2:
+{
+	endpoint : "localhost:3000/api/investors/",
+	method : "POST",
+	request : {
+		"email": "abc@gmail.com",
+		"password" : "12345678",
+		"fullName" : "Abc Ibn Xyz",
+		"type" : "a",
+		"gender" : "fe",
+		"nationality" : "Egyptian",
+		"methodOfIdentification" : "National Card",
+		"identificationNumber" : "12233344445555",
+		"dateOfBirth" : "1990-12-17T22:00:00.000Z",
+		"residenceAddress" : "13th Mogama3 el Tahrir",
+		"telephoneNumber" : "00201009913457",
+		"fax" : "1234567" 
+	},
+	response: "gender" must be one of [Male, Female]
+}
+
+##Test3:
+{
+	endpoint : "localhost:3000/api/investors/",
+	method : "POST",
+	request : {
+		"email": "abc@gmail.com",
+		"password" : "12345678",
+		"fullName" : "Abc Ibn Xyz",
+		"type" : "a",
+		"gender" : "female",
+		"nationality" : "Egyptian",
+		"methodOfIdentification" : "National Card",
+		"identificationNumber" : "12233344445555",
+		"dateOfBirth" : "1990-12-17T22:00:00.000Z",
+		"residenceAddress" : "13th Mogama3 el Tahrir",
+		"telephoneNumber" : "00201009913457",
+		"fax" : "1234567" 
+	},
+	response: "gender" must be one of [Male, Female]
+}
+
+##Test4:
+{
+	endpoint : "localhost:3000/api/investors/",
+	method : "POST",
+	request : {
+		"email": "abc@gmail.com",
+		"password" : "12345678",
+		"fullName" : "Abc Ibn Xyz",
+		"type" : "a",
+		"gender" : "Male",
+		"nationality" : "Egyptian",
+		"methodOfIdentification" : "National Card",
+		"identificationNumber" : "12233344445555",
+		"dateOfBirth" : "1990-12-17T22:00:00.000Z",
+		"residenceAddress" : "13th Mogama3 el Tahrir",
+		"telephoneNumber" : "00201009913457",
+		"fax" : "1234567" 
+	},
+	response: {
+    	"_id": "5c93afeb40c0953446ced37f",
+    	"email": "abc@gmail.com",
+    	"password": "12345678",
+    	"fullName": "Abc Ibn Xyz",
+    	"type": "a",
+    	"gender": "Male",
+    	"nationality": "Egyptian",
+    	"methodOfIdentification": "National Card",
+    	"identificationNumber": "12233344445555",
+    	"dateOfBirth": "1990-12-17T22:00:00.000Z",
+    	"residenceAddress": "13th Mogama3 el Tahrir",
+    	"telephoneNumber": "00201009913457",
+    	"fax": "1234567",
+    	"__v": 0
+	}	
+}
+
+##Test5:
+{
+	endpoint : "localhost:3000/api/investors/",
+	method : "POST",
+	request : {
+    	"email": "byd@gmail.com",
+    	"password": "12345678",
+    	"fullName": "Byd Om Abc",
+    	"type": "a",
+    	"gender": "Female",
+    	"nationality": "Russian",
+    	"methodOfIdentification": "Passport",
+    	"identificationNumber": "12345678",
+    	"dateOfBirth": "1990-12-17T22:00:00.000Z",
+    	"residenceAddress": "13th Mogama3 el Tahrir",
+    	"telephoneNumber": "00201009913457",
+    	"fax": "1234567"
+	},
+	response: {
+    	"_id": "5c93b4fc40c0953446ced383",
+    	"email": "byd@gmail.com",
+    	"password": "12345678",
+    	"fullName": "Byd Om Abc",
+    	"type": "a",
+    	"gender": "Female",
+    	"nationality": "Russian",
+    	"methodOfIdentification": "Passport",
+    	"identificationNumber": "12345678",
+    	"dateOfBirth": "1990-12-17T22:00:00.000Z",
+    	"residenceAddress": "13th Mogama3 el Tahrir",
+    	"telephoneNumber": "00201009913457",
+    	"fax": "1234567",
+    	"__v": 0
+	}
+}
+
+##Test6:
+{
+	endpoint : "localhost:3000/api/investors/",
+	method : "POST",
+	request : {
+		"email": "xyz@gmail.com",
+		"password" : "34532311",
+		"fullName" : "Xyz Abu Abc",
+		"type" : "a",
+		"gender" : "Male",
+		"nationality" : "Egyptian",
+		"methodOfIdentification" : "National Card",
+		"identificationNumber" : "122777444455",
+		"dateOfBirth" : "1990-12-17T22:00:00.000Z",
+		"residenceAddress" : "13th Mogama3 el Tahrir",
+		"telephoneNumber" : "00201009913457",
+		"fax" : "1234567" 
+	},
+	response: Incorrect National ID number
+}
+
+##Test7:
+{
+	endpoint : "localhost:3000/api/investors/",
+	method : "POST",
+	request : {
+		"email": "xyz@gmail.com",
+		"password" : "34532311",
+		"fullName" : "Xyz Abu Abc",
+		"type" : "a",
+		"gender" : "Male",
+		"nationality" : "Egyptian",
+		"methodOfIdentification" : "National Card",
+		"identificationNumber" : "12277744445555",
+		"dateOfBirth" : "1990-12-17T22:00:00.000Z",
+		"residenceAddress" : "13th Mogama3 el Tahrir",
+		"telephoneNumber" : "00201009913457",
+		"fax" : "1234567" 
+	},
+	response: {
+    	"_id": "5c93b0c340c0953446ced380",
+    	"email": "xyz@gmail.com",
+    	"password": "34532311",
+    	"fullName": "Xyz Abu Abc",
+    	"type": "a",
+    	"gender": "Male",
+    	"nationality": "Egyptian",
+    	"methodOfIdentification": "National Card",
+    	"identificationNumber": "12277744445555",
+    	"dateOfBirth": "1990-12-17T22:00:00.000Z",
+    	"residenceAddress": "13th Mogama3 el Tahrir",
+    	"telephoneNumber": "00201009913457",
+    	"fax": "1234567",
+    	"__v": 0
+	}
+}
+
+##Test8:
+{
+	endpoint : "localhost:3000/api/investors/",
+	method : "GET",
+	request : {},
+	response: [
+    {
+        "_id": "5c93b4e540c0953446ced382",
+        "email": "abc@gmail.com",
+        "password": "12345678",
+        "fullName": "Abc Ibn Xyz",
+        "type": "a",
+        "gender": "Male",
+        "nationality": "Egyptian",
+        "methodOfIdentification": "National Card",
+        "identificationNumber": "12233344445555",
+        "dateOfBirth": "1990-12-17T22:00:00.000Z",
+        "residenceAddress": "13th Mogama3 el Tahrir",
+        "telephoneNumber": "00201009913457",
+        "fax": "1234567",
+        "__v": 0
+    },
+    {
+        "_id": "5c93b4fc40c0953446ced383",
+        "email": "byd@gmail.com",
+        "password": "12345678",
+        "fullName": "Byd Om Abc",
+        "type": "a",
+        "gender": "Female",
+        "nationality": "Russian",
+        "methodOfIdentification": "Passport",
+        "identificationNumber": "12345678",
+        "dateOfBirth": "1990-12-17T22:00:00.000Z",
+        "residenceAddress": "13th Mogama3 el Tahrir",
+        "telephoneNumber": "00201009913457",
+        "fax": "1234567",
+        "__v": 0
+    },
+    {
+        "_id": "5c93b53740c0953446ced384",
+        "email": "xyz@gmail.com",
+        "password": "34532311",
+        "fullName": "Xyz Abu Abc",
+        "type": "a",
+        "gender": "Male",
+        "nationality": "Egyptian",
+        "methodOfIdentification": "National Card",
+        "identificationNumber": "12277744445555",
+        "dateOfBirth": "1990-12-17T22:00:00.000Z",
+        "residenceAddress": "13th Mogama3 el Tahrir",
+        "telephoneNumber": "00201009913457",
+        "fax": "1234567",
+        "__v": 0
+    }
+	]
+}
+
+
+##Test9:
+{
+	endpoint : "localhost:3000/api/investors/5c93b0c340c0953446ced380",
+	method : "GET",
+	request : {},
+	response: {
+    	"_id": "5c93b0c340c0953446ced380",
+    	"email": "xyz@gmail.com",
+    	"password": "34532311",
+    	"fullName": "Xyz Abu Abc",
+    	"type": "a",
+    	"gender": "Male",
+    	"nationality": "Egyptian",
+    	"methodOfIdentification": "National Card",
+    	"identificationNumber": "12277744445555",
+    	"dateOfBirth": "1990-12-17T22:00:00.000Z",
+    	"residenceAddress": "13th Mogama3 el Tahrir",
+    	"telephoneNumber": "00201009913457",
+    	"fax": "1234567",
+    	"__v": 0
+	}
+}
+
+##Test10:
+{
+	endpoint : "localhost:3000/api/investors/5c93b0c340c0953446ced386",
+	method : "GET",
+	request : {},
+	response: Investor not Found
+}
+
+##Test11:
+{
+	endpoint : "localhost:3000/api/investors/13",
+	method : "GET",
+	request : {},
+	response: {
+    	"err": "Invalid Investor Id"
+	}
+}
+
+##Test12:
+{
+	endpoint : "localhost:3000/api/investors/13",
+	method : "DELETE",
+	request : {},
+	response: {
+    	"err": "Invalid Investor Id"
+	}
+}
+
+##Test13:
+{
+	endpoint : "localhost:3000/api/investors/5c93b0c340c0953446ced380",
+	method : "DELETE",
+	request : {},
+	response: {
+    	"_id": "5c93b0c340c0953446ced380",
+    	"email": "xyz@gmail.com",
+    	"password": "34532311",
+    	"fullName": "Xyz Abu Abc",
+    	"type": "a",
+    	"gender": "Male",
+    	"nationality": "Egyptian",
+    	"methodOfIdentification": "National Card",
+    	"identificationNumber": "12277744445555",
+    	"dateOfBirth": "1990-12-17T22:00:00.000Z",
+    	"residenceAddress": "13th Mogama3 el Tahrir",
+    	"telephoneNumber": "00201009913457",
+    	"fax": "1234567",
+    	"__v": 0
+	}
+}
+
+##Test14:
+{
+	endpoint : "localhost:3000/api/investors/5c93afeb40c0953446ced37f",
+	method : "PUT",
+	request : { 
+		"fullName": "To To",
+		"gender": "Female",
+		"identificationNumber": "122131" 
+	},
+	response: Incorrect National ID number
+}
+
+##Test15:
+{
+	endpoint : "localhost:3000/api/investors/5c93b0c340c0953446ced380",
+	method : "PUT",
+	request : {},
+	response: {
+    	"msg": "Investor updated successfully"
+	}
+}
