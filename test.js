@@ -45,7 +45,11 @@ test("Create a notification ", async () => {
     
     const {data}= await axios.post(createURL("notifications"), body);
     console.log(data.data);
-  
+    const finalData=await getAll("notifications");
+    
+   
+    intialData.push(data.data);
+    
    expect(intialData).toEqual(finalData); 
   
 });
