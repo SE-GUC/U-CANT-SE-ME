@@ -18,10 +18,19 @@
   },
   "homepage": "https://github.com/SE-GUC/U-CANT-SE-ME#readme",
   "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "body-parser": "^1.18.3",
+    "compression": "^1.7.4",
+    "connect-flash": "^0.1.1",
     "express": "^4.16.4",
+    "express-session": "^1.15.6",
+    "flash": "^1.1.0",
+    "helmet": "^3.16.0",
     "joi": "^14.3.1",
     "mongodb": "^3.1.13",
     "mongoose": "^5.4.19",
+    "passport": "^0.4.0",
+    "passport-local": "^1.0.0",
     "validator": "^10.11.0"
   },
   "devDependencies": {
