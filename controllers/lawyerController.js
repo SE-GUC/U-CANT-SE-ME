@@ -202,3 +202,19 @@ exports.getSpecificWaitingForLawyerCase = async function(req, res) {
   }
 }
 
+exports.getMyCasesByid = async function(req,res) {
+  if(!mongoValidator.isMongoId(req.params.id))return res.status(400).send({ err : "Invalid lawyer id" });
+  const lawyer = await Lawyer.findById(req.params.id);
+  if(!lawyer) return res.status(400).send({ err : "Lawyer not found" });
+  res.json(await Case.find({"assignedLawyerId": req.params.id}).sort({_id: 1}));
+}
+
+exports.getMyCasesByDate = async function(req,res) {
+  if(!mongoValidator.isMongoId(req.params.id))return res.status(400).send({ err : "Invalid lawyer id" });
+  const lawyer = await Lawyer.findById(req.params.id);
+  if(!lawyer) return res.status(400).send({ err : "Lawyer not found" });
+  res.json(await Case.find({"assignedLawyerId": req.params.id}).sort({caseCreationDate: 1}));
+}
+
+
+

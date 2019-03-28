@@ -32,5 +32,11 @@ router.get("/getAllUnsignedCases/:id", reviewerController.getWaitingForReviewerC
 
 router.get("/assignCase/:id/:caseId", reviewerController.getSpecificWaitingForReviewerCase);
 
+//as a reviewer i should be able to find my assigned cases sorted by id
+router.get("/getMyCasesByid/:id",reviewerController.getMyCasesByid);
+
+//as a reviewer i should be able to find my assigned cases sorted by date of creation
+router.get("/getMyCasesByDate/:id",reviewerController.getMyCasesByDate);
+
 module.exports = router;
 
