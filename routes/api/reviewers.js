@@ -32,5 +32,9 @@ router.get("/getAllUnsignedCases/:id", reviewerController.getWaitingForReviewerC
 
 router.get("/assignCase/:id/:caseId", reviewerController.getSpecificWaitingForReviewerCase);
 
+//As a Reviewer i should be able to add a comment on a rejected company establishment-
+//form, so that the lawyer is aware of the required changes in the form.
+router.put("/addCommentAsReviewer/:reviewerID/:caseID", reviewerController.addCommentAsReviewer);
+
 module.exports = router;
 

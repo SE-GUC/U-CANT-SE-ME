@@ -33,4 +33,8 @@ router.get("/getAllUnsignedCases/:id", lawyerController.getWaitingForLawyerCase)
 
 router.get("/assignCase/:id/:caseId", lawyerController.getSpecificWaitingForLawyerCase);
 
+// As a Lawyer i should be able to add a comment on a rejected company establishment form
+// made by an investor, so that the investor is aware of the required changes in the form.
+router.put("/addCommentAsLawyer/:lawyerID/:caseID", lawyerController.addCommentAsLawyer);
+
 module.exports = router;

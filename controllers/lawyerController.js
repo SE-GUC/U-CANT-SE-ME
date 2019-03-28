@@ -202,3 +202,31 @@ exports.getSpecificWaitingForLawyerCase = async function(req, res) {
   }
 }
 
+// As a Lawyer i should be able to add a comment on a rejected company establishment form
+// made by an investor, so that the investor is aware of the required changes in the form.
+exports.addCommentAsLawyer = async function(req,res){
+  try{
+    if (!mongoose.Types.ObjectId.isValid(req.params.lawyerID) || !mongoose.Types.ObjectId.isValid(req.params.caseID))
+      return res.status(400).send({ error: "Incorrect Mongo ID" });
+    const checkLawyer = await Lawyer.find({ _id: req.params.lawyerID });
+    const checkCase = await Case.find({ _id: req.params.caseID });
+    if (checkLawyer.length === 0)
+      return res.status(404).send("Lawyer not Found");
+    if (checkCase.length === 0)
+      return res.status(404).send("Case not Found");
+    if(lawyerAuthenticated){
+      if(checkCase[0].caseStatus !== "OnUpdate" && checkCase[0].caseStatus !== "WaitingForLawyer")
+        return res.status(403).send({error: "Access Denied: This Case is currently Locked for you." });
+      if(req.body.body === undefined || req.body.body.length===0)
+        return res.status(403).send({error: "You can't add empty Comment" });
+      checkCase[0].comments.push({author: checkLawyer[0].fullName, body: req.body.body});
+      await Case.findByIdAndUpdate(req.params.caseID, {"comments":checkCase[0].comments});
+      return res.json({data: checkCase});
+    }
+    else
+      return res.status(403).send({error: "Forbidden." });
+  }
+  catch{
+    res.json({msg: "An error has occured."})
+  }
+}
