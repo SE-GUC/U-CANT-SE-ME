@@ -9,14 +9,16 @@ const Lawyer = require("../models/Lawyer");
 const Case = require("../models/Case");
 // Get all notifications
 
-exports.getAllNotifications = async function(req, res) {
+exports.getAllNotifications = async function(req,res) {
     try {
+      
       const notifications = await Notification.find();
       res.json({ data: notifications });
     } catch (error) {
       res.send({ error: "Oops something went wrong!" });
       console.log(error);
     }
+    
   };
   // Get notification by ID
 
