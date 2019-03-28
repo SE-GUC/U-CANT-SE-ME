@@ -222,7 +222,7 @@ exports.updateCase = async function (req, res) {
   }
 };
 
-// As a lawyer i should be able view the name of the last lawyer who worked on a specific case from the cases page.
+// As a Entity Employee, I should be able view the name of the last lawyer who worked on a specific case from the cases page.
 exports.getCaseLastLawyer = async function (req, res) {
   try {
 
@@ -239,7 +239,7 @@ exports.getCaseLastLawyer = async function (req, res) {
     if (!lawyer) {
 
       if (neededCase.previouslyAssignedLawyers.length == 0)
-        return res.status(400).send({ msg: "This Case has no lawyer assigned to it" });
+        return res.status(400).send({ msg: "This case was never assigned lawyer" });
       else
         res.json({ lawyerName: neededCase.previouslyAssignedLawyers[neededCase.previouslyAssignedLawyers.length - 1].fullName });
 
