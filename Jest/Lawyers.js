@@ -26,7 +26,7 @@ const functions={
     },
     updateLawyer : async(id,body)=>{
         let updateOne =await axios.put(createURL("lawyers",[id]),body);
-        return;
+        return updateOne;
     }
 }
 module.exports= functions;
