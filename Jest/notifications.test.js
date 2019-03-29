@@ -2,45 +2,36 @@
  * @jest-environment node
  */
 
-const axios = require("axios");
+const notifications = require('./notifications')
 
-function createURL(urlSuffix, params = []) {
-  let url = "http://localhost:3000/api/" + urlSuffix + "/";
-  for (let i = 0; i < params.length; i++) url += params[i] + "/";
-  return url;
-}
-
-async function getAll(urlSuffix){
-  const {data}=await axios.get(createURL(urlSuffix));
-  return data.data;
-}
 test("Get all notifications", async () => {
   expect.assertions(0);
-  const data=await getAll("notifications");
-  console.log(data);
-});
+  const {data}=await notifications.getAll();
+ });
 
 test("Create a notification ", async () => {
-  expect.assertions(2);
- 
-  let intialData=await getAll("notifications");
+  expect.assertions(1);
+  let res=await notifications.getAll();
+  let intialData=res.data.data
    const body =  {
       "emailOfRecipient": "zeyad.khattab@gmail.com",
         "message": "Hey, Can you see US ?!!",
         "caseID": "5c968d4f233b707e2a617bcb",
          "recipientId": "5c9645f36e2ef06af84adccf"
        };
-    const {data}= await axios.post(createURL("notifications"), body);
-    console.log(data.data);
-    const finalData=await getAll("notifications");
+    const {data}= await notifications.createNotification(body);
+     res=await notifications.getAll();
+    const finalData=res.data.data
     intialData.push(data.data);
     expect(intialData).toEqual(finalData); 
-    expect(intialData.length).toBe(finalData.length)
+    await notifications.deleteNotification(data.data._id);
+    
 });
 
 test("Create a notification With an invalid email does not do anything", async () => {
   expect.assertions(1);
-  const intialData=await getAll("notifications");
+  let res=await notifications.getAll();
+  const intialData=res.data.data;
    const body =  {
       "emailOfRecipient": "ssssss",
         "message": "Hey, Can you see US ?!!",
@@ -48,30 +39,15 @@ test("Create a notification With an invalid email does not do anything", async (
          "recipientId": "5c9645f36e2ef06af84adccf"
        };
     try{
-      await axios.post(createURL("notifications"), body);
+      await notifications.createNotification(body);
     }
     catch(error){}
-    const finalData=await getAll("notifications");
+    res=await notifications.getAll();
+    const finalData=res.data.data
    expect(intialData).toEqual(finalData); 
   
 });
-test("Create a Notification then delete it", async () => {
-  expect.assertions(0);
 
-  
-  const body =  {
-    "emailOfRecipient": "ohzora.tsubasa@gmail.com",
-      "message": "HASHIREEEE!!",
-      "caseID": "5c968d4f233b707e2a617bcb",
-       "recipientId": "5c9645f36e2ef06af84adccf"
-     
-  };
-
-  const res = await axios.post(createURL("notifications"), body);
-
-  await axios.delete(createURL("notifications", [res.data._id] ));
-
-});
 
 // UPDATE
 test("Update a notification", async () => {
@@ -82,18 +58,17 @@ test("Update a notification", async () => {
   const newDateReturnFormat="2008-09-15T00:00:00.000Z";
   //The body of the request
   let body =  {
-    "emailOfRecipient": "hamada.yel3ab@gmail.com",
+      "emailOfRecipient": "hamada.yel3ab@gmail.com",
       "message": oldMessage,
       "caseID": "5c968d4f233b707e2a617bcb",
        "recipientId": "5c9645f36e2ef06af84adccf"
     };
 
   //Create the Notification
-  let res = await axios.post(createURL("notifications"), body);
+  let res = await notifications.createNotification(body)
 
   let createdNotification = res.data.data;
-  console.log(createdNotification)
-  body.message = newMessage;
+   body.message = newMessage;
   body.dateSeen=newDate;
   createdNotification.message=newMessage
   createdNotification.dateSeen=newDateReturnFormat;
@@ -101,32 +76,30 @@ test("Update a notification", async () => {
 
   //Update the newly created Notification and get it
   
-  const { data } =  await axios.put(createURL("notifications", [createdNotification._id] ), body);
+  const { data } =  await notifications.updateNotification(createdNotification._id, body);
   
   //Delete the newly created Notification
-  await axios.delete(createURL("notifications", [createdNotification._id] ));
+  await notifications.deleteNotification([createdNotification._id]);
 
   //Check if it was updated
   expect(data.data).toEqual(createdNotification);
 });
-//DELETE
+// DELETE
 test("Delete a notification", async () => {
   expect.assertions(1);
-  const body =  {
+    const body =  {
         "emailOfRecipient": "boyce.avenue@gmail.com",
           "message": "I hope you are having fun testing :)",
           "caseID": "5c968d4f233b707e2a617bcb",
            "recipientId": "5c9645f36e2ef06af84adccf"
-         
-      };
-  let res = await axios.post(createURL("notifications"), body);
+        };
+  let res = await notifications.createNotification(body);
 
   let createdNotification = res.data.data;
 
-  await axios.delete(createURL("notifications", [createdNotification._id] ));
+  await notifications.deleteNotification(createdNotification._id);
 
-  const { data } = await axios.get(createURL("notifications"));
-
+  const { data } = await notifications.getAll();
   expect(data).not.toContain(createdNotification);
 });
 test("Update a notification with an invalid attrbiute does not change anything", async () => {
@@ -138,17 +111,17 @@ test("Update a notification with an invalid attrbiute does not change anything",
        "recipientId": "5c9645f36e2ef06af84adccf"
      
   };
-let res = await axios.post(createURL("notifications"), body);
+let res = await notifications.createNotification(body);
 let oldNotification=res.data.data;
 const updateBody =  {
   "Attribute that ":"does not exist"
    
 };
-try{await axios.put(createURL("notifications"), updateBody);}
+try{await notifications.updateNotification(oldNotification._id, updateBody);}
 catch(error){}
 
 
-let {data}=await axios.get(createURL("notifications", [oldNotification._id] ));
+let {data}=await notifications.deleteNotification(oldNotification._id);
 let newNotification=data.data;
 expect(newNotification).toEqual(oldNotification);
 });
