@@ -7,6 +7,7 @@ const Notification = require("../models/Notification");
 const Investor = require("../models/Investor");
 const Lawyer = require("../models/Lawyer");
 const Case = require("../models/Case");
+const notificationController = require("./notificationController");
 // Get all notifications
 
 exports.getAllNotifications = async function(req, res) {
@@ -44,6 +45,9 @@ exports.getAllNotifications = async function(req, res) {
 
 // create a notification
 exports.createNotification = async function(req, res) {
+  console.log("create");
+  console.log(req);
+  console.log(res);
     try {
   
         const isValidated = validator.createValidation(req.body)
@@ -60,6 +64,7 @@ exports.createNotification = async function(req, res) {
           if((tmpInvestor || tmpLawyer) && tmpCase)
           {
             const newNotification = await Notification.create(req.body)
+            console.log(newNotification)
             res.json({msg:'Notification was created successfully', data: newNotification})
           }
           else{
@@ -166,4 +171,18 @@ exports.updateNotification = async function (req,res){
       }  
     }
 };
-
+exports.sendNotification = async function(case1,res) {
+  const recipientId=case1.creatorInvestorId;
+  const investor= await Investor.findById(recipientId);
+  const message = "Dear " + investor.fullName+" , your request for company "+case1.form.companyNameEnglish+" has been accepted";
+  const email=investor.email;
+  req={
+    "recipientId":recipientId,
+    "message":message,
+    "recipientEmail":email,
+    "caseID":case1._id
+  }
+  console.log(req);
+  await notificationController.createNotification(req,res);
+  // await createNotification(req,req);
+ };

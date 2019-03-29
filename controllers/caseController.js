@@ -7,7 +7,7 @@ const Case = require("../models/Case");
 const Lawyer = require("../models/Lawyer");
 const Investor = require("../models/Investor");
 const Reviewer = require("../models/Reviewer");
-
+const NotificationController = require("./notificationController");
 //Get a Case with a specific ID (get certain case)
 exports.getCase = async function(req, res) {
   try {
@@ -213,8 +213,10 @@ exports.updateCase = async function(req, res) {
     if (!check.success) return res.status(400).send(check.error);
 
     await addMissingAttributes(req);
-
-    await Case.findByIdAndUpdate(req.params.id, req.body);
+     await Case.findByIdAndUpdate(req.params.id, req.body);
+     const newCase=  await Case.findById(req.params.id);
+     if(newCase.caseStatus==='Accepted')
+      NotificationController.sendNotification(newCase);
     res.send({ msg: "Case updated successfully" });
   } catch (error) {
     res.send({ error: "Oops something went wrong" });
