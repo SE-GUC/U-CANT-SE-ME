@@ -23,6 +23,10 @@ const functions={
     deleteLawyer : async(id)=>{
         let deleteOne = await axios.delete(createURL("lawyers",[id]));
         return deleteOne 
+    },
+    updateLawyer : async(id,body)=>{
+        let updateOne =await axios.put(createURL("lawyers",[id]),body);
+        return;
     }
 }
 module.exports= functions;

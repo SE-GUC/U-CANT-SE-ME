@@ -47,12 +47,26 @@ test('delete a lawyer ', async()=>{
      console.log(f.data.data);
    //  expect(y.data.data).toContain(info);
       expect(f.data.data).not.toContain(info);
-    
-
-
-
-      
-
-
+});
+test('testing updateLawyer', async()=>{
+  expect.assertions(2);
+  let body = {
+    email: "dsadasdahmedmccccmmohamedcc.gamed@gmdsadasail.com",
+    password: "memememesasacccmedsascdemseme",
+    fullName: "ahmedmmeesasdcxzcccddcasdasdamdsaemes",
+    username: "joesasadsaddasasdsaasddasdagvcxbsOsff7"
+  };
+  const x = await functions.createLawyer(body);
+  const id =x.data.data._id;
+  let bodyForUpdate={
+    email:"dondodondondondondon@gg",
+    password:"password.comss"
+  }
+   await functions.updateLawyer(id,bodyForUpdate);
+  const yy=await functions.getOneLawyer(id);
+//  console.log(yy.data);
+  expect(yy.data.email).toBe(bodyForUpdate.email);
+  expect(yy.data.password).toBe(bodyForUpdate.password);
+  await functions.deleteLawyer(id);
 });
 
