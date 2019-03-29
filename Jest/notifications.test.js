@@ -3,12 +3,6 @@
  */
 
 const axios = require("axios");
-/**
- *
- * @param urlSuffix The suffix of url e.g investors, cases, etc...
- * @param params  The parameters of the request URL given in order.
- * @return Returns the complete URL for the request.
- */
 
 function createURL(urlSuffix, params = []) {
   let url = "http://localhost:3000/api/" + urlSuffix + "/";
