@@ -22,4 +22,10 @@ router.delete("/joi/:id", adminController.deleteAdmin);
 
 router.get('/admin/getAllCases',adminController.GetAllCases);
 
+//Register Lawyer
+router.post('/registerLawyer', adminController.registerLawyer)
+
+//Register Reviewer
+router.post('/registerReviewer', adminController.registerReviewer);
+
 module.exports = router;
