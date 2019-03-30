@@ -33,4 +33,7 @@ router.get("/getAllUnsignedCases/:id", lawyerController.getWaitingForLawyerCase)
 
 router.get("/assignCase/:id/:caseId", lawyerController.getSpecificWaitingForLawyerCase);
 
+//as a lawyer i should be able to fill a form creating a new case
+router.post('/fillForm/:id', lawyerController.fillForm);
+
 module.exports = router;
