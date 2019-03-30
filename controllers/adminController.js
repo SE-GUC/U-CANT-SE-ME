@@ -59,11 +59,12 @@ exports.updateAdmin = async function (req, res) {
         const id = req.params.id;
         if (!req.body.username) req.body.username = admin.username;
 
-        if (!req.body.password) req.body.password = bcrypt.hashPassword(req.body.password)  ;
+        if (!req.body.password) req.body.password = admin.password  ;
+        else req.body.password = bcrypt.hashPassword(req.body.password);
 
         if (!req.body.fullName) req.body.fullName = admin.fullName;
 
-        req.body.password = bcrypt.hashPassword(req.body.password) ;
+      
         const isValidated = validator.updateValidation(req.body);
         if (isValidated.error)
           return res
