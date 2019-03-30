@@ -1,6 +1,7 @@
 const mongoose = require("mongoose");
 const ObjectId = require("mongodb").ObjectID;
 const mongoValidator = require("validator");
+const passport = require('passport')
 
 const Investor = require("../models/Investor");
 const validator = require("../validations/investorValidations");
@@ -9,7 +10,6 @@ const Case = require("../models/Case");
 const caseController = require("./caseController");
 
 const investorAuthenticated = true;
-
 //READ
 exports.getAllInvestors = async function(req, res) {
   const investors = await Investor.find();
@@ -276,3 +276,20 @@ exports.fillForm = async function(req, res) {
     res.json({ msg: "An error has occured." });
   }
 };
+
+exports.login = function(req, res, next){
+  passport.authenticate('local', {
+    // successRedirect: should go to homepage of investor
+    successRedirect: '/api/investors',
+    // successMessage: "Congrats Logged In",
+    // successMessage: res.json({ msg: "CONGRATS"}),
+    // failureMessage: res.json({ msg: "BOOO"}),
+    failureRedirect: '/api/investors/login',
+    // failureMessage: "BOOOO",
+    failureFlash: true
+  })(req, res, next)
+  // req.session.user=req.body.email
+  // console.log(req.session)
+}
+
+
