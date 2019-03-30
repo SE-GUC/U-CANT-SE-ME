@@ -16,6 +16,12 @@ const cases = {
     },
     deleteCase: async (id) => {
         return axios.delete(`http://localhost:3000/api/cases/${id}`)
+    },
+    createInvestor: async (body) => {
+        return axios.post('http://localhost:3000/api/investors/', body)
+    },
+    deleteInvestor: async (id) => {
+        return axios.delete(`http://localhost:3000/api/investors/${id}`)
     }
 }
 
