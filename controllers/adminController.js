@@ -49,11 +49,7 @@ exports.createAdmin = async function (req, res) {
 // Update admin
 exports.updateAdmin = async function (req, res) {
   try {
-    const adminPass = await Admin.findById(req.params.id);
-    bcrypt.comparePassword(req.body.password , adminPass.password, (err, isMatch) => {
-     
-      if (!isMatch||err) {return res.status(400).send({ err: "wrong password entered" });}
-       })
+   
 
         if (!mongoValidator.isMongoId(req.params.id))
           return res.status(400).send({ err: "Invalid Admin Id" });
