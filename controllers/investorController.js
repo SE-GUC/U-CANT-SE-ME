@@ -41,7 +41,10 @@ exports.createInvestor = async function(req, res) {
     console.log(err);
   }
 };
-
+exports.register = async function(req,res){
+  req.body.password=encryption.hashPassword(req.body.password)
+  return res.send({data: await Investor.create(req.body)})
+}
 //UPDATE
 exports.updateInvestor = async function(req, res) {
   if (!mongoValidator.isMongoId(req.params.id))
