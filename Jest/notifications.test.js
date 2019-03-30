@@ -17,7 +17,7 @@ test("Create a notification ", async () => {
       "emailOfRecipient": "zeyad.khattab@gmail.com",
         "message": "Hey, Can you see US ?!!",
         "caseID": "5c968d4f233b707e2a617bcb",
-         "recipientId": "5c9645f36e2ef06af84adccf"
+         "recipientId": "5c9fc326bc7770034cc6f649"
        };
     const {data}= await notifications.createNotification(body);
      res=await notifications.getAll();
@@ -36,7 +36,7 @@ test("Create a notification With an invalid email does not do anything", async (
       "emailOfRecipient": "ssssss",
         "message": "Hey, Can you see US ?!!",
         "caseID": "5c968d4f233b707e2a617bcb",
-         "recipientId": "5c9645f36e2ef06af84adccf"
+        "recipientId": "5c9fc326bc7770034cc6f649"
        };
     try{
       await notifications.createNotification(body);
@@ -61,10 +61,11 @@ test("Update a notification", async () => {
       "emailOfRecipient": "hamada.yel3ab@gmail.com",
       "message": oldMessage,
       "caseID": "5c968d4f233b707e2a617bcb",
-       "recipientId": "5c9645f36e2ef06af84adccf"
+      "recipientId": "5c9fc326bc7770034cc6f649"
     };
 
-  //Create the Notification
+
+  // Create the Notification
   let res = await notifications.createNotification(body)
 
   let createdNotification = res.data.data;
@@ -91,7 +92,7 @@ test("Delete a notification", async () => {
         "emailOfRecipient": "boyce.avenue@gmail.com",
           "message": "I hope you are having fun testing :)",
           "caseID": "5c968d4f233b707e2a617bcb",
-           "recipientId": "5c9645f36e2ef06af84adccf"
+         "recipientId": "5c9fc326bc7770034cc6f649"
         };
   let res = await notifications.createNotification(body);
 
@@ -108,7 +109,7 @@ test("Update a notification with an invalid attrbiute does not change anything",
     "emailOfRecipient": "boyce.avenue@gmail.com",
       "message": "I hope you are having fun testing :)",
       "caseID": "5c968d4f233b707e2a617bcb",
-       "recipientId": "5c9645f36e2ef06af84adccf"
+         "recipientId": "5c9fc326bc7770034cc6f649"
      
   };
 let res = await notifications.createNotification(body);
