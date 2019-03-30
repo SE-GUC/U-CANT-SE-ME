@@ -36,4 +36,9 @@ router.get('/viewMyFees/:id', investorController.viewMyFees);
 // As an investor I should be able to fill a company establishment form
 router.post("/fillForm/:investorId",investorController.fillForm);
 
+// As an investor I should be able to log in to the external portal, 
+// so that I can use the system’s facilities.
+
+router.post('/login', investorController.login)
+
 module.exports = router;

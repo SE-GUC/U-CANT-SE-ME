@@ -9,6 +9,9 @@ const investors = {
     },
     deleteInvestor: async(id) => {
         return axios.delete(`http://localhost:3000/api/investors/${id}`)
+    },
+    login: async (loginInfo) => {
+        return axios.post('http://localhost:3000/api/investors/login', loginInfo)
     }
 }
 
