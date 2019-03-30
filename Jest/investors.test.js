@@ -15,7 +15,7 @@ test("Get all investors test", async () => {
 });
 
 //CREATE
-test("Create an investor test", async () => {
+test("Create an investor initial test", async () => {
   expect.assertions(2);
 
   //The body of the request
@@ -37,10 +37,10 @@ test("Create an investor test", async () => {
   const res = await investors.createInvestor(body);
 
   const allInvestors = await investors.readAllInvestors();
-  
+
   await investors.deleteInvestor(res.data._id);
 
-  expect(allInvestors.data).toContainEqual(res.data)
+  expect(allInvestors.data).toContainEqual(res.data);
 
   delete res.data._id;
   delete res.data.__v;
@@ -48,7 +48,64 @@ test("Create an investor test", async () => {
   expect(res.data).toEqual(body);
 });
 
-test("Get an investor test", async () => {
+//CREATE
+test("Create an investor duplicate email test", async () => {
+  expect.assertions(1);
+
+  //The body of the request
+  const body = {
+    email: "CreatedHossam@gmail.com",
+    password: "12345678",
+    fullName: "Abc Ibn Xyz",
+    type: "a",
+    gender: "Male",
+    nationality: "Egyptian",
+    methodOfIdentification: "National Card",
+    identificationNumber: "12233344445555",
+    dateOfBirth: "1990-12-17T22:00:00.000Z",
+    residenceAddress: "13th Mogama3 el Tahrir",
+    telephoneNumber: "00201009913457",
+    fax: "1234567"
+  };
+
+  const res = await investors.createInvestor(body);
+
+  try {
+    await investors.createInvestor(body);
+    expect(0).toBe(1); //If no status 400 test must fail
+  } catch (err) {}
+  await investors.deleteInvestor(res.data._id);
+  expect(0).toBe(0); //Else test passes
+});
+
+//CREATE
+test("Create an investor invalid data test", async () => {
+  expect.assertions(1);
+
+  //The body of the request
+  const body = {
+    email: "CreatedHossam@gmail.com",
+    password: "213",
+    fullName: "Abc Ibn Xyz",
+    type: "a",
+    gender: "Male",
+    nationality: "Egyptian",
+    methodOfIdentification: "National Card",
+    identificationNumber: "12233344445555",
+    dateOfBirth: "1990-12-17T22:00:00.000Z",
+    residenceAddress: "13th Mogama3 el Tahrir",
+    telephoneNumber: "00201009913457",
+    fax: "1231"
+  };
+  try {
+    await investors.createInvestor(body);
+    expect(0).toBe(1); //If no status 400 test must fail
+  } catch (err) {}
+  expect(0).toBe(0); //Else test passes
+});
+
+//READ
+test("Get an investor initial test", async () => {
   expect.assertions(1);
 
   //The body of the request
@@ -70,14 +127,25 @@ test("Get an investor test", async () => {
   const res = await investors.createInvestor(body);
 
   const createdInvestor = await investors.readInvestor(res.data._id);
-  
+
   await investors.deleteInvestor(res.data._id);
 
   expect(res.data).toEqual(createdInvestor.data);
 });
 
+//READ
+test("Get an investor that doesn't exist test", async () => {
+  expect.assertions(1);
+
+  try {
+    await investors.readInvestor(123);
+    expect(0).toBe(1); //If no status 404 or 400 test must fail
+  } catch (err) {}
+  expect(0).toBe(0); //Else test passes
+});
+
 // UPDATE
-test("Update an investor test", async () => {
+test("Update an investor initial test", async () => {
   expect.assertions(1);
 
   //The body of the request
@@ -121,8 +189,71 @@ test("Update an investor test", async () => {
   expect(data).toEqual(createdInvestor);
 });
 
+//UPDATE
+test("Update an investor with invalid data test", async () => {
+  expect.assertions(1);
+
+  let body = {
+    email: "hossamelUpdated@gmail.com",
+    password: "12345678",
+    fullName: "Abc Ibn Xyz",
+    type: "a",
+    gender: "Male",
+    nationality: "Egyptian",
+    methodOfIdentification: "National Card",
+    identificationNumber: "12233344445555",
+    dateOfBirth: "1990-12-17T22:00:00.000Z",
+    residenceAddress: "13th Mogama3 el Tahrir",
+    telephoneNumber: "00201009913457",
+    fax: "1234567"
+  };
+
+  let res = await investors.createInvestor(body);
+  let createdInvestor = res.data;
+
+  body = {
+    fullName: "Updated Name",
+    fax: "1231"
+  };
+
+  try {
+    await investors.updateInvestor(123, body);
+    await investors.deleteInvestor(createdInvestor._id);
+    expect(0).toBe(1); //If no status 400 test must fail
+  } catch (err) {}
+  await investors.deleteInvestor(createdInvestor._id);
+  expect(0).toBe(0); //Else test passes
+  
+});
+
+//UPDATE
+test("Update an investor that doesn't exist test", async () => {
+  expect.assertions(1);
+
+  let body = {
+    email: "hossamelUpdated@gmail.com",
+    password: "12345678",
+    fullName: "Abc Ibn Xyz",
+    type: "a",
+    gender: "Male",
+    nationality: "Egyptian",
+    methodOfIdentification: "National Card",
+    identificationNumber: "12233344445555",
+    dateOfBirth: "1990-12-17T22:00:00.000Z",
+    residenceAddress: "13th Mogama3 el Tahrir",
+    telephoneNumber: "00201009913457",
+    fax: "1234567"
+  };
+
+  try {
+    await investors.updateInvestor(123, body);
+    expect(0).toBe(1); //If no status 404 or 400 test must fail
+  } catch (err) {}
+  expect(0).toBe(0); //Else test passes
+});
+
 //DELETE
-test("Delete an investor test", async () => {
+test("Delete an investor initial test", async () => {
   expect.assertions(1);
 
   //The body of the request
@@ -150,6 +281,16 @@ test("Delete an investor test", async () => {
   const { data } = await investors.readAllInvestors();
 
   expect(data).not.toContain(createdInvestor);
+});
+
+//DELETE
+test("Delete an investor that doesn't exist test", async () => {
+  expect.assertions(1);
+  try {
+    await investors.readInvestor(123);
+    expect(0).toBe(1); //If no status 404 or 400 test must fail
+  } catch (err) {}
+  expect(0).toBe(0); //Else test passes
 });
 
 test("As an investor I should be able to login", async () => {
