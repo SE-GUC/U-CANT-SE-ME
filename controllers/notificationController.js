@@ -3,9 +3,11 @@ const mongoose = require('mongoose')
 const validator = require('../validations/notificationValidations')
 const idValidator = require("validator");
 const axios = require('axios')
+const nodemailer = require('nodemailer');
 // Models
 const Notification = require("../models/Notification");
 const Investor = require("../models/Investor");
+const Reviewer = require("../models/Reviewer");
 const Lawyer = require("../models/Lawyer");
 const Case = require("../models/Case");
 // Get all notifications
@@ -183,6 +185,35 @@ exports.sendNotification = async function(case1,req) {
     "caseID":case1._id
   }
   const notification = await axios.post('http://localhost:3000/api/notifications/', req)
-  
+  const reviewer=await Reviewer.findById(case1.assignedReviewerId);
+ 
+  sendMail(notification.data.data,reviewer)
   return(notification);
  };
+ function sendMail(notification,reviewer){
+   var transporter = nodemailer.createTransport({
+    service: 'gmail',
+    auth: {
+      user: 'sumergiteme@gmail.com',
+      pass: 'U-CANT-SE-ME'
+    }
+  });
+  
+  var mailOptions = {
+    from: 'sumergiteme@gmail.com',
+    // from: reviewer.email,
+    to: 'zeyad.khattab97@gmail.com',
+    // to: notification.emailOfRecipient
+    subject: 'Company Request Accepted',
+    text: notification.message
+  };
+  
+  transporter.sendMail(mailOptions, function(error, info){
+    if (error) {
+      console.log(error);
+    } else {
+      console.log('Email sent: ' + info.response);
+    }
+  
+ });
+}
