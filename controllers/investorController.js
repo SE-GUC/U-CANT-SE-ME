@@ -278,7 +278,7 @@ exports.fillForm = async function(req, res) {
 };
 
 exports.login = function(req, res, next){
-  passport.authenticate('local', {
+  passport.authenticate('investors', {
     // successRedirect: should go to homepage of investor
     successRedirect: '/api/investors',
     // successMessage: "Congrats Logged In",
