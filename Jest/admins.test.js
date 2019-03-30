@@ -4,9 +4,23 @@
 
 const admins = require('./admins')
 
-//note you have to always change the adminID, because it is deleted at the end of the test
-let adminID = '5c9e161f55244524eca86bbf'
   
+
+test('Creating admin', async () => {
+  expect.assertions(1)
+ 
+ const body = {
+   "username": "koko0000rrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr00000000000000zzsas",
+   "fullName": "eppppp",
+   "password": "ssssss44"
+ }
+ 
+ const  createdAdmin  = await admins.createAdmin(body)
+ const  AdminAfterCreation  = await admins.readAdmin(createdAdmin.data.data['_id']);
+ adminID=createdAdmin.data.data['_id']
+  return expect(createdAdmin.data.data).toEqual(AdminAfterCreation.data.data);
+
+})
 
 test("Get all admins", async () => {
     expect.assertions(0);
@@ -19,31 +33,14 @@ test("Get all admins", async () => {
 
   test('Get admin by ID', async() => {
     expect.assertions(1)
-  //  let adminID = "5c9e12d855244524eca86bba"
+  
     const adminByID = await admins.readAdmin(adminID)
     return expect(adminID).toMatch(adminByID.data.data['_id'])
 })
 
-test('Creating admin', async () => {
-   expect.assertions(1)
-  
-  const body = {
-    "username": "koko0000rrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr00000000000000zzsas",
-    "fullName": "eppppp",
-    "password": "ssssss44"
-  }
-  
-  const  createdAdmin  = await admins.createAdmin(body)
-  const  AdminAfterCreation  = await admins.readAdmin(createdAdmin.data.data['_id']);
-  
-   return expect(createdAdmin.data.data).toEqual(AdminAfterCreation.data.data);
- 
-})
 
 test('update admin', async () => {
   expect.assertions(1)
-
- // let adminID = "5c9e12ea55244524eca86bbb"
 
   const body = {
     "username": "yoyoyoyoyoyooyoyoyoyoyoyooyoyoyoyoyo4",
@@ -68,9 +65,6 @@ test('update admin', async () => {
 
 test('Delete admin', async () => {
   expect.assertions(1)
-
-//  let adminID = "5c9e12d855244524eca86bba"
-
 
   const adminByID = await admins.readAdmin(adminID)
   await admins.deleteAdmin(adminID)
