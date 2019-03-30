@@ -41,21 +41,28 @@ const mycase =  {
 const createdCase  = await reviewer.createCase(mycase)
 //Start of tests
 const caseID=createdCase.data.data._id
+
+const caseAccepted=await reviewer.changeStatus(caseID,'Accepted')
+expect(caseAccepted.data.caseStatus).toBe('Accepted')
+
+const caseRejected=await reviewer.changeStatus(caseID,'Rejected')
+expect(caseRejected.data.caseStatus).toBe('Rejected')
+    
 const caseOnUpdate=await reviewer.changeStatus(caseID,'OnUpdate')
 expect(caseOnUpdate.data.caseStatus).toBe('OnUpdate')
 
 const caseWaitingForLawyer=await reviewer.changeStatus(caseID,'WaitingForLawyer')
 expect(caseWaitingForLawyer.data.caseStatus).toBe('WaitingForLawyer')
 
-    const caseAssginedToLawyer=await reviewer.changeStatus(caseID,'AssginedToLawyer')
-    expect(caseAssginedToLawyer.data.caseStatus).toBe('AssginedToLawyer')
+const caseAssginedToLawyer=await reviewer.changeStatus(caseID,'AssginedToLawyer')
+expect(caseAssginedToLawyer.data.caseStatus).toBe('AssginedToLawyer')
 
-    const caseWaitingForReviewer=await reviewer.changeStatus(caseID,'WaitingForReviewer')
-    expect(caseWaitingForReviewer.data.caseStatus).toBe('WaitingForReviewer')
+const caseWaitingForReviewer=await reviewer.changeStatus(caseID,'WaitingForReviewer')
+expect(caseWaitingForReviewer.data.caseStatus).toBe('WaitingForReviewer')
 
-    const caseToReviewer=await reviewer.changeStatus(caseID,'AssginedToReviewer')
-    expect(caseToReviewer.data.caseStatus).toBe('AssginedToReviewer')
+const caseToReviewer=await reviewer.changeStatus(caseID,'AssginedToReviewer')
+expect(caseToReviewer.data.caseStatus).toBe('AssginedToReviewer')
 
-    await reviewer.deleteCase(createdCase.data.data._id)
-    await reviewer.deleteInvestor(createdInvestor.data._id)
+await reviewer.deleteCase(createdCase.data.data._id)
+await reviewer.deleteInvestor(createdInvestor.data._id)
 })
