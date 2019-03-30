@@ -5,7 +5,7 @@ const mongoValidator = require("validator");
 const Investor = require("../models/Investor");
 const validator = require("../validations/investorValidations");
 const Case = require("../models/Case");
-
+const encryption = require("../routes/api/utils/encryption")
 const caseController = require("./caseController");
 
 const investorAuthenticated = true;
