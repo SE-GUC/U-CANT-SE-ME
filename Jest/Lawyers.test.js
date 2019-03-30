@@ -4,9 +4,10 @@
  */
 const functions= require('./Lawyers');
 
+
 test('create a lawyer', async()=>{
 
-    expect.assertions(4);
+    expect.assertions(5);
     let body = {
         email: "fafasfgag.gamed@gmail.com",
         password: "mememememeememe",
@@ -15,12 +16,14 @@ test('create a lawyer', async()=>{
       };
 
     const x = await functions.createLawyer(body);
+    const y =await functions.getLawyers();
     const info=x.data.data;
+ 
      expect(info.fullName).toBe(body.fullName);
      expect(info.password).toBe(body.password);
      expect(info.username).toBe(body.username);
      expect(info.email).toBe(body.email);
-
+    expect(y.data.data).toContainEqual(info);
      await functions.deleteLawyer(info._id);
     // const { alllawyers} = await functions.getLawyers();
     //  console.log(alllawyers);
@@ -91,7 +94,7 @@ test('testing get One Lawyer ', async()=>{
    expect(yy.data.username).toBe(String(body.username));
 });
 test('testing getAllLawyers', async()=>{
-  expect.assertions(1);
+  expect.assertions(2);
   let body = {
       email: "fafasfgagagagvcv.gamed@gmail.com",
       password: "mememememeememe",
@@ -100,6 +103,7 @@ test('testing getAllLawyers', async()=>{
     };
   const x= await functions.createLawyer(body);
   const y =await functions.getLawyers();
+  expect(y.data.data).toContainEqual(x.data.data);
   expect(y.data.data.length).not.toBe(0);
   await functions.deleteLawyer(x.data.data._id);
   
