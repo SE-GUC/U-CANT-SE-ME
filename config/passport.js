@@ -5,7 +5,7 @@ const bcrypt = require('bcryptjs')
 const Investor = require('../models/Investor')
 
 module.exports = function(passport){
-    passport.use('lawyers',
+    passport.use('investors',
         new LocalStrategy({ usernameField: 'email'}, (email, password, done) => {
             //Match User
             Investor.findOne({ email: email })
