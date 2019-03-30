@@ -2,14 +2,14 @@
 const mongoose = require('mongoose')
 const validator = require('../validations/notificationValidations')
 const idValidator = require("validator");
+const axios = require('axios')
 // Models
 const Notification = require("../models/Notification");
 const Investor = require("../models/Investor");
 const Lawyer = require("../models/Lawyer");
 const Case = require("../models/Case");
-const notificationController = require("./notificationController");
 // Get all notifications
-
+const caseController = require("./caseController");
 exports.getAllNotifications = async function(req, res) {
     try {
       const notifications = await Notification.find();
@@ -45,12 +45,11 @@ exports.getAllNotifications = async function(req, res) {
 
 // create a notification
 exports.createNotification = async function(req, res) {
-  console.log("create");
-  console.log(req);
-  console.log(res);
-    try {
   
+ 
+    try {
         const isValidated = validator.createValidation(req.body)
+        
         if (isValidated.error) return res.status(400).send({ error: isValidated.error.details[0].message })
         const recipientId = req.body.recipientId;
         const caseID= req.body.caseID;
@@ -64,7 +63,6 @@ exports.createNotification = async function(req, res) {
           if((tmpInvestor || tmpLawyer) && tmpCase)
           {
             const newNotification = await Notification.create(req.body)
-            console.log(newNotification)
             res.json({msg:'Notification was created successfully', data: newNotification})
           }
           else{
@@ -171,18 +169,20 @@ exports.updateNotification = async function (req,res){
       }  
     }
 };
-exports.sendNotification = async function(case1,res) {
+exports.sendNotification = async function(case1,req) {
   const recipientId=case1.creatorInvestorId;
   const investor= await Investor.findById(recipientId);
-  const message = "Dear " + investor.fullName+" , your request for company "+case1.form.companyNameEnglish+" has been accepted";
+  const fees=caseController.calcFees(case1);
+  const message = "Dear " + investor.fullName+" , your request for company "+case1.form.companyNameEnglish+" has been accepted and you are required to pay the fees " + fees;
   const email=investor.email;
+ 
   req={
     "recipientId":recipientId,
     "message":message,
-    "recipientEmail":email,
+    "emailOfRecipient":email,
     "caseID":case1._id
   }
-  console.log(req);
-  await notificationController.createNotification(req,res);
-  // await createNotification(req,req);
+  const notification = await axios.post('http://localhost:3000/api/notifications/', req)
+  
+  return(notification);
  };

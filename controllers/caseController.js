@@ -223,3 +223,13 @@ exports.updateCase = async function(req, res) {
     console.log(error);
   }
 };
+exports.calcFees = function (case1){
+  if (case1.form.regulatedLaw.includes("72")) {
+    return 610;
+  }
+  const capital = case1.form.capital;
+  let ans = 56;
+  ans += Math.min(1000, Math.max(100, capital / 1000.0));
+  ans += Math.min(1000, Math.max(10, capital / 400.0));
+  return ans;
+}
