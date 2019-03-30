@@ -37,8 +37,7 @@ exports.createInvestor = async function(req, res) {
     const investor = await Investor.create(req.body);
     res.send(investor);
   } catch (err) {
-    res.send({ msg: "Oops something went wrong" });
-    console.log(err);
+    res.status(400).send({ msg: "Oops something went wrong" });
   }
 };
 
@@ -91,7 +90,6 @@ exports.updateInvestor = async function(req, res) {
     res.send({ msg: "Investor updated successfully" });
   } catch (err) {
     res.send({ msg: "Oops something went wrong" });
-    console.log(err);
   }
 };
 
@@ -104,7 +102,6 @@ exports.deleteInvestor = async function(req, res) {
     res.send(investor);
   } catch (err) {
     res.send({ msg: "Oops something went wrong" });
-    console.log(err);
   }
 };
 
@@ -123,7 +120,6 @@ exports.viewLawyerComments = async function(req, res) {
       else res.status(404).send({ error: "Data Not Found" });
     } else return res.status(403).send({ error: "Forbidden." });
   } catch (error) {
-    console.log(error);
     res.json({ msg: "An error has occured." });
   }
 };
@@ -153,7 +149,6 @@ exports.updateForm = async function(req, res) {
     await caseController.updateCase(req, res);
   } catch (err) {
     res.send({ msg: "Oops something went wrong" });
-    console.log(err);
   }
 };
 
@@ -219,7 +214,6 @@ exports.trackMyCompany = async function(req, res) {
 
     res.json({ tracking: result });
   } catch (error) {
-    console.log(error);
     res.json({ msg: "An error has occured." });
   }
 };
@@ -272,7 +266,6 @@ exports.fillForm = async function(req, res) {
       return res.status(403).send({ error: "Forbidden." });
     }
   } catch (error) {
-    console.log(error);
     res.json({ msg: "An error has occured." });
   }
 };

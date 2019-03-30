@@ -21,14 +21,4 @@ const investors = {
     }
 }
 
-async function httpRequest(method, urlSuffix, params = [], body = {}) {
-    let url = "http://localhost:3000/api/" + urlSuffix + "/";
-    for (let i = 0; i < params.length; i++) url += params[i] + "/";
-    if (method === "GET") return await axios.get(url);
-    else if (method === "POST") return await axios.post(url, body);
-    else if (method === "PUT") return await axios.put(url, body);
-    else if (method === "DELETE") return await axios.delete(url);
-    return {};
-  }
-
 module.exports = investors

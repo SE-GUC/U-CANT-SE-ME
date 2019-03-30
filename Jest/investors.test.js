@@ -5,22 +5,22 @@
 const investors = require("./investors");
 
 //READ
-test("Get all investors initial test", async () => {
-  expect.assertions(0);
+test("Get all investors test", async () => {
+  expect.assertions(1);
 
   //data is the rresponse object from the server
-  const { data } = await investors.readAllInvestors();
+  const res = await investors.readAllInvestors();
 
-  console.log(data);
+  expect(res.status).toBe(200);
 });
 
 //CREATE
-test("Create an investor initial test", async () => {
-  expect.assertions(0);
+test("Create an investor test", async () => {
+  expect.assertions(2);
 
   //The body of the request
   const body = {
-    email: "meshabc@gmail.com",
+    email: "CreatedHossam@gmail.com",
     password: "12345678",
     fullName: "Abc Ibn Xyz",
     type: "a",
@@ -36,13 +36,48 @@ test("Create an investor initial test", async () => {
 
   const res = await investors.createInvestor(body);
 
-  console.log(res);
-
+  const allInvestors = await investors.readAllInvestors();
+  
   await investors.deleteInvestor(res.data._id);
+
+  expect(allInvestors.data).toContainEqual(res.data)
+
+  delete res.data._id;
+  delete res.data.__v;
+
+  expect(res.data).toEqual(body);
+});
+
+test("Get an investor test", async () => {
+  expect.assertions(1);
+
+  //The body of the request
+  const body = {
+    email: "readInvestorTest@gmail.com",
+    password: "12345678",
+    fullName: "Abc Ibn Xyz",
+    type: "a",
+    gender: "Male",
+    nationality: "Egyptian",
+    methodOfIdentification: "National Card",
+    identificationNumber: "12233344445555",
+    dateOfBirth: "1990-12-17T22:00:00.000Z",
+    residenceAddress: "13th Mogama3 el Tahrir",
+    telephoneNumber: "00201009913457",
+    fax: "1234567"
+  };
+
+  const res = await investors.createInvestor(body);
+
+  const createdInvestor = await investors.readInvestor(res.data._id);
+  
+  await investors.deleteInvestor(res.data._id);
+
+  expect(res.data).toEqual(createdInvestor.data);
 });
 
 // UPDATE
-test("Update an investor initial test", async () => {
+test("Update an investor test", async () => {
   expect.assertions(1);
 
   //The body of the request
@@ -87,7 +122,7 @@ test("Update an investor initial test", async () => {
 });
 
 //DELETE
-test("Delete an investor initial test", async () => {
+test("Delete an investor test", async () => {
   expect.assertions(1);
 
   //The body of the request
