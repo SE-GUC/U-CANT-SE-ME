@@ -6,6 +6,9 @@ const mongoValidator = require("validator");
 const Admin = require("../models/Admin");
 const adminGettingAllCasesAuthenticated = true;
 const caseController = require("./caseController");
+const reviewerController = require('./reviewerController')
+const lawyerController = require('./lawyerController')
+const encryption = require('../routes/api/utils/encryption')
 
 // Get certain admin
 
@@ -100,3 +103,15 @@ exports.GetAllCases = async function(req, res) {
       .send({ error: "something wrong happened check your identity" });
   }
 };
+
+//as admin i should be able to register lawyer
+exports.registerLawyer = async function(req,res){
+  req.body.password=encryption.hashPassword(req.body.password)
+  return res.send({data: await lawyerController.createLawyer(req, res)})
+}
+//as admin i should be able to register reviwer
+exports.registerReviewer = async function(req, res){
+  req.body.password = encryption.hashPassword(req.body.password)
+  return res.send({data: await reviewerController.createReviewer(req, res)})
+}
+
