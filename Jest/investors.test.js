@@ -284,9 +284,9 @@ test('Create All Dependencies', async() => {
         fax:"123456789"
     }
     createdInvestor  = await investors.registerInvestor(investor)
-    createdEmail = createdInvestor.data.email
+    createdEmail = createdInvestor.data.data.email
     createdPassword = investor.password
-    investorId = createdInvestor.data._id
+    investorId = createdInvestor.data.data._id
     const mycase =  {
         form: {
             companyType: 'SPC',
@@ -303,7 +303,7 @@ test('Create All Dependencies', async() => {
             capital: 100
         },
         caseStatus: 'WaitingForLawyer',
-        creatorInvestorId: createdInvestor.data._id
+        creatorInvestorId: createdInvestor.data.data._id
     }
     const createdCase = await investors.createCase(mycase)
     caseId = createdCase.data.data._id 
