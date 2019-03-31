@@ -18,7 +18,7 @@ axios.defaults.adapter = httpAdapter;
 
 const investors = require("./investors");
 const encryption = require("../routes/api/utils/encryption");
-
+const reviewers = require('./reviewers')
 //READ
 test("Get all investors test", async () => {
   expect.assertions(1);
@@ -409,6 +409,86 @@ test("As an investor I should be view my fees", async () => {
   expect(fees).not.toBe(0);
   expect(name).toEqual("DONTD4536ELETE");
 });
+
+test('As an investor I should be be notified by the fees', async() => {
+    let req=
+    {
+
+        "email": "zeyad.khattab97@gmail.com",
+        "password": "aaabaaaaaaaaac",
+        "fullName": "kakashi",
+        "type": "a",
+        "gender": "Male",
+        "nationality": "Egyptian",
+        "methodOfIdentification": "National Card",
+        "identificationNumber": "36283143572311",
+        "dateOfBirth": "1990-12-14T13:13:13.000Z",
+        "residenceAddress": "8165th 3emarat el Shamoosa",
+        "telephoneNumber": "01091867182317",
+        "fax": "1224567"
+    }
+    let res=await investors.createInvestor(req);
+    const investor = res.data;
+    
+    req=
+        {
+            "form": {
+                "companyType": "SPC",
+                "regulatedLaw": "72",
+                "legalFormOfCompany": "loasdas",
+                "companyNameArabic": "aguero",
+                "companyNameEnglish": "kun",
+                "headOfficeGovernorate": "DONTDELETE",
+                "headOfficeCity": "DONTDELETE",
+                "headOfficeAddress": "DONTDELETE",
+                "phoneNumber": "121212122121",
+                "fax": "1234567",
+                "currencyUsedForCapital": "DONTDELETE",
+                "capital": 100
+            },
+            "caseStatus": "WaitingForLawyer",
+
+            "creatorInvestorId": investor._id
+
+        }
+       
+        const cas= await investors.createCase(req)
+        
+        const revBody= {
+            email: "sumergiteme@gmail.com",
+            password: "U-CANT-SE-ME",
+            fullName: "goeorgeharrison",
+            username: "littlehelpwithmyfriends"
+          };
+        res=await reviewers.createReviewer(revBody);
+        const reviewer = res.data.data;
+        req=
+        {
+            "form": {
+                "companyType": "SPC",
+                "regulatedLaw": "72",
+                "legalFormOfCompany": "DONTDELETE",
+                "headOfficeGovernorate": "DONTDELETE",
+                "headOfficeCity": "DONTDELETE",
+                "headOfficeAddress": "DONTDELETE",
+                "phoneNumber": "121212122121",
+                "fax": "1234567",
+                "currencyUsedForCapital": "DONTDELETE",
+                "capital": 100
+            },
+
+            "caseStatus": "Accepted",
+            "assignedReviewerId":reviewer._id
+        }
+       
+        await investors.changeStatus(cas._id,req);
+        
+         await investors.deleteCase(cas._id);
+         await investors.deleteInvestor(investor._id);
+        
+         await reviewers.deleteReviewer(reviewer._id);
+}) 
+
 
 //Pay Fees
 test("Investor Paying Fees success test", async () => {
@@ -857,4 +937,5 @@ test('trackMyCompany', async () => {
 
 
 })
+
 
