@@ -213,4 +213,26 @@ exports.loginLawyer = function(req, res, next){
     failureFlash: true
   })(req, res, next)
 };
-
+exports.updateCompanyForm = async function(req, res) {
+  if(!mongoValidator.isMongoId(req.params.id) || !mongoValidator.isMongoId(req.params.caseId))
+    return res.json("Invalid ID")
+try{
+   if(lawyerAuthenticated){
+       let lawyer = await Lawyer.findById(req.params.id)
+     if(lawyer===null)
+       return res.json("Lawyer Does Not Exist")
+     let selectedCase = await Case.findById(req.params.caseId);
+     if(selectedCase.creatorLawyerId== lawyer.id ){
+       req.params.id = req.params.caseId;
+       caseController.updateCase(req, res);
+     }
+     else
+       return res.json("Not the lawyer that created this case")      
+   }
+   else
+     res.status(403).send({error: "Forbidden." })
+}
+catch(error){
+   res.json({msg: "An error has occured."})
+}
+};
