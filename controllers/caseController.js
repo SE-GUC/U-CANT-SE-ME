@@ -238,10 +238,8 @@ exports.getCaseLastLawyer = async function (req, res) {
 
     if (!lawyer) {
 
-      if (neededCase.previouslyAssignedLawyers.length == 0)
         return res.status(400).send({ msg: "This case was never assigned lawyer" });
-      else
-        res.json({ lawyerName: neededCase.previouslyAssignedLawyers[neededCase.previouslyAssignedLawyers.length - 1].fullName });
+     
 
     } else {
       res.json({ lawyerName: lawyer.fullName });
