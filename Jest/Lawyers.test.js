@@ -9,10 +9,10 @@ test('create a lawyer', async()=>{
 
     expect.assertions(5);
     let body = {
-        email: "fafasfgag670bobo.gamed@gmail.com",
-        password: "mememe60m7emeboboememe",
-        fullName: "ahmed706mmeememebobo",
-        username: "joeO70b6o7bo"
+        email: "fares@gmail.com0",
+        password: "fareswa7dbs0",
+        fullName: "faresdiaaaelnile0",
+        username: "fareo0870"
       };
 
     const createLawyer = await functions.createLawyer(body);
@@ -31,10 +31,10 @@ test('delete a lawyer ', async()=>{
   jest.setTimeout(10000);
     expect.assertions(2);
     let body = {
-        email: "dsadasdah106med@0sab7oboil.com",
-        password: "msascd0em6370sem31231bobo2e",
-        fullName: "ahmed0mca260sdasdamds7aemboboes",
-        username: "jxbsOsd40d026ff7bobo"
+        email: "fares@gmail.com1",
+        password: "fareswa7dbs1",
+        fullName: "faresdiaaaelnile1",
+        username: "fareo0871"
       };
       const createLawyer = await functions.createLawyer(body);
       const info =createLawyer.data.data;
@@ -50,10 +50,10 @@ test('delete a lawyer ', async()=>{
 test('testing updateLawyer', async()=>{
   expect.assertions(2);
   let body = {
-    email: "dsadbo3123bo.1co60m12",
-    password: "bobo3213b1obobo0bobo612b",
-    fullName: "bobo3123bob1ob6b0sss12",
-    username: "obsob3122sod1bo6d0s12"
+    email: "fares@gmail.com2",
+    password: "fareswa7dbs2",
+    fullName: "faresdiaaaelnile2",
+    username: "fareo0872"
   };
   const newLawyer = await functions.createLawyer(body);
   const id =newLawyer.data.data._id;
@@ -72,10 +72,10 @@ test('testing updateLawyer', async()=>{
 test('testing get One Lawyer ', async()=>{
   expect.assertions(5);
   let body = {
-    email: "bosdb7od10s@g1ilzz7.com",
-    password: "bs7odb10zzzo1d7sbosd",
-    fullName: "bsd7bo110bzzzz7",
-    username: "bos7dbod101szz7o"
+    email: "fares@gmail.com3",
+    password: "fareswa7dbs3",
+    fullName: "faresdiaaaelnile3",
+    username: "fareo0873"
   };
 
   const createLawyer = await functions.createLawyer(body);
@@ -95,10 +95,10 @@ test('testing get One Lawyer ', async()=>{
 test('testing getAllLawyers', async()=>{
   expect.assertions(2);
   let body = {
-      email: "bobob7obob007@gmail.com",
-      password: "bo7bos7d00sdlv",
-      fullName: "bds7o7bdso00bdsb",
-      username: "bsd7obod70s0bodso"
+      email: "fares@gmail.com4",
+      password: "fareswa7dbs4",
+      fullName: "faresdiaaaelnile4",
+      username: "fareo0874"
     };
   const createLawyer= await functions.createLawyer(body);
   const getAllLawyers =await functions.getLawyers();
