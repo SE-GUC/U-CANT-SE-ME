@@ -37,4 +37,7 @@ router.get("/assignCase/:id/:caseId", lawyerController.getSpecificWaitingForLawy
 //get last lawyer worked on case
 router.get("/getCaseLastLawyer/:id", caseController.getCaseLastLawyer);
 
+//Login
+router.post('/login', lawyerController.loginLawyer)
+
 module.exports = router;

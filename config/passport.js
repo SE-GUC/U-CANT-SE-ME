@@ -66,9 +66,12 @@ module.exports = function(passport){
     passport.use('lawyers',
         new LocalStrategy({ usernameField: 'email'}, (email, password, done) => {
             //Match User
+            console.log("here1")
             Lawyer.findOne({ email: email })
+            console.log("here2")
             .then(lawyer => {
                 if(!lawyer){
+                    console.log("here3")
                     return done(null, false, {message: 'That email is not registered' })
                 }
 
@@ -89,13 +92,13 @@ module.exports = function(passport){
     )
     
     // passport.use('lawyer', )
-    passport.serializeUser(function(investor, done) {
-        done(null, investor.id)
+    passport.serializeUser(function(lawyer, done) {
+        done(null, lawyer.id)
     })
       
     passport.deserializeUser(function(id, done) {
-        Investor.findById(id, function(err, investor) {
-          done(err, investor)
+        Lawyer.findById(id, function(err, lawyer) {
+          done(err, lawyer)
         })
     })
     passport.use('admins',

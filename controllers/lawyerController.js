@@ -2,6 +2,7 @@
 const mongoose = require("mongoose");
 const validator = require("../validations/lawyerValidations");
 const mongoValidator = require("validator");
+const passport = require('passport')
 // module Lawyer
 const Lawyer = require("../models/Lawyer");
 const caseController = require("./caseController")
@@ -205,5 +206,11 @@ exports.getSpecificWaitingForLawyerCase = async function(req, res) {
   }
 }
 
-
+exports.loginLawyer = function(req, res, next){
+  passport.authenticate('lawyers', {
+    successRedirect: '/api/lawyers',
+    failureRedirect: '/api/lawyers/login',
+    failureFlash: true
+  })(req, res, next)
+};
 
