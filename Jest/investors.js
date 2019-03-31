@@ -28,12 +28,6 @@ const investors = {
     deleteCase: async (id)=>{
         return await axios.delete(`http://localhost:3000/api/cases/${id}`)
     },
-    readAllInvestors: async () => {
-      return await axios.get("http://localhost:3000/api/investors");
-    },
-    readInvestor: async id => {
-      return await axios.get(`http://localhost:3000/api/investors/${id}`);
-    },
     viewMyFees: async id => {
       const ret = await axios.get(`http://localhost:3000/api/investors/viewMyFees/${id}`);
       return ret.data.response;
