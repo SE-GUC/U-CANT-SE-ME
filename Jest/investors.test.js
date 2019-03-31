@@ -483,10 +483,10 @@ test('As an investor I should be be notified by the fees', async() => {
        
         await investors.changeStatus(cas._id,req);
         
-        // await investors.deleteCase(cas._id);
-        // await investors.deleteInvestor(investor._id);
+         await investors.deleteCase(cas._id);
+         await investors.deleteInvestor(investor._id);
         
-        // await reviewers.deleteReviewer(reviewer._id);
+         await reviewers.deleteReviewer(reviewer._id);
 }) 
 
 
