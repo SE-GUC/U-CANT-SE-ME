@@ -8,10 +8,10 @@ test("As a reviewer i should be able to see all unsigned cases", async () => {
   
   // expect.assertions(1);
   const reviewer = {
-    email: "yaya_new80@gmail.com",//unique
+    email: "yaya_n536556ew80@gmail.com",//unique
     password: "yayayayayyaya",
     fullName: "mantaisreal",
-    username: "yaya_new80"//unique
+    username: "ya3456435ya_new80"//unique
   };
   const createdReviewer = await reviewers.createReviewer(reviewer);
   const reviewerId = createdReviewer.data.data["_id"];
@@ -37,17 +37,17 @@ test("As a reviewer i should be able to select a specific case", async () =>{
 
   // expect.assertions(1);
   const reviewer = {
-    email: "yaya_new21@gmail.com",//unique
+    email: "yaya_35354new21@gmail.com",//unique
     password: "yayayayayyaya",
     fullName: "mantaisreal",
-    username: "yaya_new21"//unique
+    username: "ya445363ya_new21"//unique
   };
   const createdReviewer = await reviewers.createReviewer(reviewer);
   const reviewerId = createdReviewer.data.data["_id"];
 
   //create new case
   const investor = {
-    email:"yahiabashayakalb7@gmail.com",//unique
+    email:"yahiaba345664shayakalb7@gmail.com",//unique
     password:"verystrongpassword",
     fullName:"randomnametest",
     type:"a",
@@ -66,8 +66,8 @@ const mycase =  {
         companyType: 'SPC',
         regulatedLaw: 'lll',
         legalFormOfCompany: 'Moes3',
-        companyNameArabic: 'yayaforbeauty13',//unique
-        companyNameEnglish: 'yayaforbeuty14',//unique
+        companyNameArabic: 'yayaf54345orbeauty13',//unique
+        companyNameEnglish: 'yayaf45665orbeuty14',//unique
         headOfficeGovernorate: 'Joes3',
         headOfficeCity: 'Mantas3',
         headOfficeAddress: 'Shamss3',
@@ -105,7 +105,7 @@ let registeredReviewer = ''
 test('Create All Dependencies', async() => {
     jest.setTimeout(50000)
     const investor = {
-        email:"zdargwdvwc@gmail.com",
+        email:"zdargwdvw3455454c@gmail.com",
         password:"vzxcwdvzrd",
         fullName:"mzxvwdvzecs",
         type:"aetb",
@@ -124,10 +124,10 @@ test('Create All Dependencies', async() => {
     
     const Reviewer = 
     {
-        username:"zxvcwdvwzxce",
+        username:"zxvcwd4565vwzxce",
         password:"zxvwdvwevzxv",
         fullName:"M2zxvdwvzxcvmo",
-        email:"m5zvxsdvwdvzxv7e@noHomo.com"
+        email:"m5zvxsdvw4356dvzxv7e@noHomo.com"
     }
     registeredReviewer= await reviewers.createReviewer(Reviewer)
     
@@ -136,8 +136,8 @@ test('Create All Dependencies', async() => {
             companyType: 'SPC',
             regulatedLaw: 'lll',
             legalFormOfCompany: 'NonProfitMan',
-            companyNameArabic: '2eczvzcvzxwczx2i',
-            companyNameEnglish: 'mzxzxvzvsedzxzzby',
+            companyNameArabic: '2eczv4643zcvzxwczx2i',
+            companyNameEnglish: 'mzxz4636xvzvsedzxzzby',
             headOfficeGovernorate: 'California',
             headOfficeCity: 'San Francisco',
             headOfficeAddress: '123st.',
