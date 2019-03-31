@@ -85,10 +85,11 @@ test('Update Company Name', async () =>{
 })
 
 test('Delete a company', async () => {
-    expect.assertions(0)
+    expect.assertions(1)
     const findCompany = await companies.readCompany(companyID)
     await companies.deleteCompany(companyID)
-    return expect.not.arrayContaining(findCompany.data.data)
+    const allCompanies = await companies.default()
+    return expect(allCompanies).toEqual(expect.not.arrayContaining([expect.objectContaining(findCompany.data.data)]))
 })
 
 test('Delete All Dependencies', async () => {
