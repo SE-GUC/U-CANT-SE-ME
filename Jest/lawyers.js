@@ -38,28 +38,28 @@ const lawyers = {
     );
   },
   createInvestor: async req => {
-    return axios.post("http://localhost:3000/api/investors", req);
+    return await axios.post("http://localhost:3000/api/investors", req);
   },
   createCase: async req => {
-    return axios.post("http://localhost:3000/api/cases", req);
+    return await axios.post("http://localhost:3000/api/cases", req);
   },
   deleteInvestor: async id => {
-    return axios.delete(`http://localhost:3000/api/investors/${id}`);
+    return await axios.delete(`http://localhost:3000/api/investors/${id}`);
   },
   deleteCase: async id => {
-    return axios.delete(`http://localhost:3000/api/cases/${id}`);
+    return await axios.delete(`http://localhost:3000/api/cases/${id}`);
   },
   default: async () => {
-        return axios.get('http://localhost:3000/api/lawyers/')
+        return await axios.get('http://localhost:3000/api/lawyers/')
   },
   viewTasks: async (lawyerID) => {
-        return axios.get(`http://localhost:3000/api/lawyers/lawyerTasks/${lawyerID}`)
+        return await axios.get(`http://localhost:3000/api/lawyers/lawyerTasks/${lawyerID}`)
   },
   deleteReviewer: async (id) => {
-        return axios.delete(`http://localhost:3000/api/reviewers/${id}`)
+        return await axios.delete(`http://localhost:3000/api/reviewers/${id}`)
   },
   createReviewer: async (req)=>{
-        return axios.post(`http://localhost:3000/api/reviewers/`, req)
+        return await axios.post(`http://localhost:3000/api/reviewers/`, req)
   }
 };
 module.exports = lawyers;

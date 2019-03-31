@@ -2,7 +2,7 @@ const axios = require('axios')
 
 const investors = {
     login: async (loginInfo) => {
-        return axios.post('http://localhost:3000/api/investors/login', loginInfo)
+        return await axios.post('http://localhost:3000/api/investors/login', loginInfo)
     },
     viewMyFees: async (id) => {
        const ret= await axios.get(`http://localhost:3000/api/investors/viewMyFees/${id}`)
@@ -61,10 +61,10 @@ const investors = {
 
     },
     deleteCase: async (id) => {
-        return axios.delete(`http://localhost:3000/api/cases/${id}`)
+        return await axios.delete(`http://localhost:3000/api/cases/${id}`)
     },
     deleteInvestor: async (id) => {
-        return axios.delete(`http://localhost:3000/api/investors/${id}`)
+        return await axios.delete(`http://localhost:3000/api/investors/${id}`)
     },
     changeStatus: async (id) => {
         let req=
