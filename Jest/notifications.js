@@ -3,19 +3,19 @@ const Case = require("../models/Case");
 const Investor = require("../models/Investor");
 const notifications = {
     getAll: async () => {
-        return axios.get('http://localhost:3000/api/notifications/')
+        return await axios.get('http://localhost:3000/api/notifications/')
     },
     createNotification: async (req) => {
-        return axios.post('http://localhost:3000/api/notifications/', req)
+        return await axios.post('http://localhost:3000/api/notifications/', req)
     },
     readNotification: async (id) =>{
-        return axios.get(`http://localhost:3000/api/notifications/${id}`)
+        return await axios.get(`http://localhost:3000/api/notifications/${id}`)
     },
     updateNotification: async (id, body) => {
-        return axios.put(`http://localhost:3000/api/notifications/${id}`, body)
+        return await axios.put(`http://localhost:3000/api/notifications/${id}`, body)
     },
     deleteNotification: async (id) => {
-        return axios.delete(`http://localhost:3000/api/notifications/${id}`)
+        return await axios.delete(`http://localhost:3000/api/notifications/${id}`)
     },
     createInvestor: async () =>{
         let req=
@@ -70,10 +70,10 @@ const notifications = {
     },
     
     deleteCase: async (id) => {
-        return axios.delete(`http://localhost:3000/api/cases/${id}`)
+        return await axios.delete(`http://localhost:3000/api/cases/${id}`)
     },
     deleteInvestor: async (id) => {
-        return axios.delete(`http://localhost:3000/api/investors/${id}`)
+        return await axios.delete(`http://localhost:3000/api/investors/${id}`)
     }
     
 }
