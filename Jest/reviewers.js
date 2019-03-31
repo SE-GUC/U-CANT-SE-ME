@@ -54,7 +54,10 @@ const reviewers = {
         getAllCasesReviewer : async()=>{
                 let allCases= await axios.get("http://localhost:3000/api/reviewers/reviewer/getAllCases");
                 return allCases;
-  }
+  },	
+    changeStatus: async (caseID,status) => {
+        return await axios.put(`http://localhost:3000/api/reviewers/updateCaseStatus/${caseID}/${status}`)
+    }
         
 };
 module.exports = reviewers;
