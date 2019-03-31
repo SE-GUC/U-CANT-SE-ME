@@ -27,53 +27,6 @@ test('Create All Dependencies', async() => {
     createdEmail = createdInvestor.data.data.email
     createdPassword = investor.password
     investorId = createdInvestor.data.data._id
-    const mycase =  {
-        form: {
-            companyType: 'SPC',
-            regulatedLaw: 'lll',
-            legalFormOfCompany: 'NonProfitMan',
-            companyNameArabic: 'شركة مو التجاريةMoeMan',
-            companyNameEnglish: 'Moe CompanyMoeee',
-            headOfficeGovernorate: 'California',
-            headOfficeCity: 'San Francisco',
-            headOfficeAddress: '123st.',
-            phoneNumber: '01007063067',
-            fax: '987654321',
-            currencyUsedForCapital: 'EGP',
-            capital: 100
-        },
-        caseStatus: 'WaitingForLawyer',
-        creatorInvestorId: investorId
-    }
-    const createdCase = await investors.createCase(mycase)
-    caseId = createdCase.data.data._id    
-    const updatedCase = {
-        form: {
-            companyType: 'SPC',
-            regulatedLaw: 'lll',
-            legalFormOfCompany: 'NonProfitMan',
-            headOfficeGovernorate: 'California',
-            headOfficeCity: 'San Francisco',
-            headOfficeAddress: '123st.',
-            phoneNumber: '01007063067',
-            fax: '987654321',
-            currencyUsedForCapital: 'EGP',
-            capital: 100
-        },
-        caseStatus: 'WaitingForLawyer',
-        comments:[
-            {
-                author:"Moe",
-                body:"Good Company!"
-                
-            },
-            {
-                author:"MoeMan",
-                body:"I second Moe"	
-            }
-        ]
-    }
-    await investors.updateCase(caseId, updatedCase)
 })    
 
 test('As an investor I should be able to login', async() => {
@@ -87,5 +40,4 @@ test('As an investor I should be able to login', async() => {
 
 test('Delete All Dependencies', async () => {
     await investors.deleteInvestor(investorId)
-    await investors.deleteCase(caseId)
 })
