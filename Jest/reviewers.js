@@ -2,25 +2,25 @@ const axios = require('axios')
 
 const reviewers = {
     default: async () => {
-        return axios.get('http://localhost:3000/api/reviewers')
+        return await axios.get('http://localhost:3000/api/reviewers')
     },
     changeStatus: async (caseID,status) => {
-        return axios.put(`http://localhost:3000/api/reviewers/updateCaseStatus/${caseID}/${status}`)
+        return await axios.put(`http://localhost:3000/api/reviewers/updateCaseStatus/${caseID}/${status}`)
     },
     createInvestor: async (req)=>{
-        return axios.post('http://localhost:3000/api/investors', req)
+        return await axios.post('http://localhost:3000/api/investors', req)
     },
     createCase: async (req)=>{
-        return axios.post('http://localhost:3000/api/cases', req)
+        return await axios.post('http://localhost:3000/api/cases', req)
     },
     deleteInvestor: async (id)=>{
-        return axios.delete(`http://localhost:3000/api/investors/${id}`)
+        return await axios.delete(`http://localhost:3000/api/investors/${id}`)
     },
     deleteCase: async (id)=>{
-        return axios.delete(`http://localhost:3000/api/cases/${id}`)
+        return await axios.delete(`http://localhost:3000/api/cases/${id}`)
     },
     getCase: async (caseID)=>{
-        return axios.get(`http://localhost:3000/api/cases/${caseID}`)
+        return await axios.get(`http://localhost:3000/api/cases/${caseID}`)
     }
 }
 
