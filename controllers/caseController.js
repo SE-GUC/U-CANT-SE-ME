@@ -67,7 +67,7 @@ async function verfiyReferentialIntegrity(req) {
 
   if (
     req.assignedReviewerId &&
-    !(await Lawyer.findById(req.assignedReviewerId))
+    !(await Reviewer.findById(req.assignedReviewerId))
   )
     return { error: "Assigned Reviewer doesn't exist" };
 
