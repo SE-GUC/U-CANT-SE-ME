@@ -77,12 +77,16 @@ async function verfiyReferentialIntegrity(req) {
 }
 
 async function verfiyGeneralCompanyRules(req) {
-  var countArabic = await Case.find({
-    "form.companyNameArabic": req.form.companyNameArabic
-  }).count();
-  var countEnglish = await Case.find({
-    "form.companyNameEnglish": req.form.companyNameEnglish
-  }).count();
+  var countArabic = 0;
+  if(req.form.companyNameArabic)
+    await Case.find({
+      "form.companyNameArabic": req.form.companyNameArabic
+    }).count();
+  var countEnglish = 0;
+  if(req.form.companyNameEnglish)
+    await Case.find({
+      "form.companyNameEnglish": req.form.companyNameEnglish
+    }).count();
   console.log(req);
   if (countArabic > 0 || countEnglish > 0)
     return { error: "Company's name already Exist" };
