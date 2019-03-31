@@ -24,4 +24,11 @@ router.get('/admin/getAllCases',adminController.GetAllCases);
 
 router.post('/login', adminController.login)
 
+//Register Lawyer
+router.post('/registerLawyer', adminController.registerLawyer)
+
+//Register Reviewer
+router.post('/registerReviewer', adminController.registerReviewer);
+
 module.exports = router;
+
