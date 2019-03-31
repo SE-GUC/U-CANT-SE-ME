@@ -177,7 +177,6 @@ test('get last lawyer worked on a case', async () => {
   const lawyer = await reviewers.createLawyer(bodyLawyer)
   const lawyerId = lawyer.data.data['_id']
 
-  console.log(lawyer)
   const bodyInvestor = {
       "email": "30ddyafsbfdssdfdvcf@gmail.com",
       "password": "3161f23ffsfsddsvf4df567y",
