@@ -5,7 +5,7 @@ var mongoValidator = require("validator");
 const Reviewer = require("../models/Reviewer");
 const reviewerGettingAllCasesAuthenticated=true;
 const caseController = require("./caseController")
-
+const passport = require('passport')
 // module Case
 const Case = require("../models/Case.js")
 
@@ -199,6 +199,7 @@ exports.getSpecificWaitingForReviewerCase = async function(req, res) {
   }
 }
 
+
 exports.getMyCasesByid = async function(req,res) {
   if(!mongoValidator.isMongoId(req.params.id))return res.status(400).send({ err : "Invalid reviewer id" });
   const reviewer = await Reviewer.findById(req.params.id);
@@ -212,4 +213,13 @@ exports.getMyCasesByDate = async function(req,res) {
   if(!reviewer) return res.status(400).send({ err : "Reviewer not found" });
   res.json(await Case.find({"assignedReviewerId": req.params.id}).sort({caseCreationDate: 1}));
 }
+
+
+exports.loginReviewer = function(req, res, next){
+  passport.authenticate('reviewers', {
+    successRedirect: '/api/reviewers',
+    failureRedirect: '/api/reviewers/login',
+    failureFlash: true
+  })(req, res, next)
+};
 

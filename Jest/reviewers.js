@@ -58,10 +58,9 @@ const reviewers = {
         getAllCasesReviewer : async()=>{
                 let allCases= await axios.get("http://localhost:3000/api/reviewers/reviewer/getAllCases");
                 return allCases;
+
   	},	
-    	changeStatus: async (caseID,status) => {
-        	return await axios.put(`http://localhost:3000/api/reviewers/updateCaseStatus/${caseID}/${status}`)
-    	},
+    
     	getMyCasesSortedById: async (id) => {
         	return axios.get(`http://localhost:3000/api/reviewers/getMyCasesByid/${id}`)
     	},
@@ -72,6 +71,21 @@ const reviewers = {
         	return axios.get(`http://localhost:3000/api/cases/${id}`)
     	}
         
+
+  },	
+    changeStatus: async (caseID,status) => {
+        return await axios.put(`http://localhost:3000/api/reviewers/updateCaseStatus/${caseID}/${status}`)
+    },
+    registerReviewer: async (req) => {
+        return await axios.post('http://localhost:3000/api/admins/registerReviewer', req)
+    },
+    deleteReviewer: async (id) => {
+        return await axios.delete(`http://localhost:3000/api/reviewers/${id}`)
+    }, 
+    loginReviewer: async (loginInfo) => {
+        return axios.post('http://localhost:3000/api/reviewers/login', loginInfo)
+    }
+
 };
 module.exports = router
 module.exports = reviewers;
