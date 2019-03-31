@@ -4,6 +4,8 @@ const router = express.Router()
 
 // module Reviewer Controller
 const reviewerController = require("../../controllers/reviewerController")
+const caseController = require("../../controllers/caseController")
+
 
 //Read
 router.get("/", reviewerController.getAllReviewers);
@@ -31,6 +33,9 @@ router.get('/reviewer/getAllCases',reviewerController.GetAllCases);
 router.get("/getAllUnsignedCases/:id", reviewerController.getWaitingForReviewerCase);
 
 router.get("/assignCase/:id/:caseId", reviewerController.getSpecificWaitingForReviewerCase);
+
+//get last lawyer worked on case
+router.get("/getCaseLastLawyer/:id", caseController.getCaseLastLawyer);
 
 module.exports = router;
 
