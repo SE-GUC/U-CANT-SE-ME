@@ -67,7 +67,10 @@ const lawyers = {
   getAllCasesLawyer : async()=>{
     let allCases= await axios.get("http://localhost:3000/api/lawyers/lawyer/getAllCases");
     return allCases;
-   }
+   },
+  changeStatus: async (caseID,status) => {
+        return await axios.put(`http://localhost:3000/api/lawyers/updateCaseStatus/${caseID}/${status}`)
+    }
 };
 
 module.exports = lawyers;
