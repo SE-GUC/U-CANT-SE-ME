@@ -372,3 +372,69 @@ const caseCreated= await lawyers.createCase(form);
  await lawyers.deleteInvestor(investorCreated.data._id);
 });
 
+test('Change Status', async () => {
+    const investor = {
+    email:"shamsTesting23452345234@gmail.com",
+    password:"verystrongpassword",
+    fullName:"randomnametest",
+    type:"a",
+    gender:"Male",
+    nationality:"Egyptian",
+    methodOfIdentification:"National Card",
+    identificationNumber:"12233344445555",
+    dateOfBirth:"1990-12-17T22:00:00.000Z",
+    residenceAddress:"13th Mogama3 el Tahrir",
+    telephoneNumber:"00201009913457",
+    fax:"1234567"
+}
+const createdInvestor  = await lawyers.createInvestor(investor)
+const mycase =  {
+    form: {
+        companyType: 'SPC',
+        regulatedLaw: 'lll',
+        legalFormOfCompany: 'Moes3',
+        companyNameArabic: 'shamstest256457',
+        companyNameEnglish: 'bardotest23452',
+        headOfficeGovernorate: 'Joes3',
+        headOfficeCity: 'Mantas3',
+        headOfficeAddress: 'Shamss3',
+        phoneNumber: '123456789',
+        fax: '987654321',
+        currencyUsedForCapital: 'EGP',
+        capital: 100
+    },
+    caseStatus: 'WaitingForLawyer',
+    creatorInvestorId: createdInvestor.data._id
+}
+    const createdCase  = await lawyers.createCase(mycase)
+
+    //Start of tests
+    const caseID=createdCase.data.data._id
+    const caseOnUpdate=await lawyers.changeStatus(caseID,'OnUpdate')
+    expect(caseOnUpdate.data.caseStatus).toBe('OnUpdate')
+
+    const caseWaitingForLawyer=await lawyers.changeStatus(caseID,'WaitingForLawyer')
+    expect(caseWaitingForLawyer.data.caseStatus).toBe('WaitingForLawyer')
+
+    const caseAssginedToLawyer=await lawyers.changeStatus(caseID,'AssginedToLawyer')
+    expect(caseAssginedToLawyer.data.caseStatus).toBe('AssginedToLawyer')
+
+    const caseWaitingForReviewer=await lawyers.changeStatus(caseID,'WaitingForReviewer')
+    expect(caseWaitingForReviewer.data.caseStatus).toBe('WaitingForReviewer')
+
+    const caseToReviewer=await lawyers.changeStatus(caseID,'AssginedToReviewer')
+    expect(caseToReviewer.data.caseStatus).toBe('AssginedToReviewer')
+    
+    try{
+        const caseTest=await lawyers.changeStatus(caseID,'habd')
+    }catch(err)
+    {
+       
+    }
+    const caseTest=await lawyers.getCase(caseID)
+    expect(caseTest.data.caseStatus).not.toBe('habd')
+    
+    await lawyers.deleteCase(createdCase.data.data._id)
+    await lawyers.deleteInvestor(createdInvestor.data._id)
+})
+
