@@ -41,6 +41,7 @@
     "validator": "^10.11.0"
   },
   "devDependencies": {
+    "axios": "^0.18.0",
     "jest": "^24.5.0",
     "nodemon": "^1.18.10"
   }
