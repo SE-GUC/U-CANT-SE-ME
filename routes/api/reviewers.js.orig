@@ -34,14 +34,16 @@ router.get("/getAllUnsignedCases/:id", reviewerController.getWaitingForReviewerC
 
 router.get("/assignCase/:id/:caseId", reviewerController.getSpecificWaitingForReviewerCase);
 
+<<<<<<< HEAD
 //get last lawyer worked on case
 router.get("/getCaseLastLawyer/:id", caseController.getCaseLastLawyer);
-
-
+=======
 //as a reviewer i should be able to find my assigned cases sorted by id
 router.get("/getMyCasesByid/:id",reviewerController.getMyCasesByid);
 
 //as a reviewer i should be able to find my assigned cases sorted by date of creation
 router.get("/getMyCasesByDate/:id",reviewerController.getMyCasesByDate);
+>>>>>>> lawyer-reviewer-getCases-sorted
+
 module.exports = router;
 

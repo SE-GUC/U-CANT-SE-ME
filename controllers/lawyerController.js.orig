@@ -206,20 +206,7 @@ exports.getSpecificWaitingForLawyerCase = async function(req, res) {
   }
 }
 
-exports.getMyCasesByid = async function(req,res) {
-  if(!mongoValidator.isMongoId(req.params.id))return res.status(400).send({ err : "Invalid lawyer id" });
-  const lawyer = await Lawyer.findById(req.params.id);
-  if(!lawyer) return res.status(400).send({ err : "Lawyer not found" });
-  res.json(await Case.find({"assignedLawyerId": req.params.id}).sort({_id: 1}));
-}
-
-exports.getMyCasesByDate = async function(req,res) {
-  if(!mongoValidator.isMongoId(req.params.id))return res.status(400).send({ err : "Invalid lawyer id" });
-  const lawyer = await Lawyer.findById(req.params.id);
-  if(!lawyer) return res.status(400).send({ err : "Lawyer not found" });
-  res.json(await Case.find({"assignedLawyerId": req.params.id}).sort({caseCreationDate: 1}));
-}
-
+<<<<<<< HEAD
 exports.loginLawyer = function(req, res, next){
   passport.authenticate('lawyers', {
     successRedirect: '/api/lawyers',
@@ -250,3 +237,21 @@ catch(error){
    res.json({msg: "An error has occured."})
 }
 };
+=======
+exports.getMyCasesByid = async function(req,res) {
+  if(!mongoValidator.isMongoId(req.params.id))return res.status(400).send({ err : "Invalid lawyer id" });
+  const lawyer = await Lawyer.findById(req.params.id);
+  if(!lawyer) return res.status(400).send({ err : "Lawyer not found" });
+  res.json(await Case.find({"assignedLawyerId": req.params.id}).sort({_id: 1}));
+}
+
+exports.getMyCasesByDate = async function(req,res) {
+  if(!mongoValidator.isMongoId(req.params.id))return res.status(400).send({ err : "Invalid lawyer id" });
+  const lawyer = await Lawyer.findById(req.params.id);
+  if(!lawyer) return res.status(400).send({ err : "Lawyer not found" });
+  res.json(await Case.find({"assignedLawyerId": req.params.id}).sort({caseCreationDate: 1}));
+}
+
+
+
+>>>>>>> lawyer-reviewer-getCases-sorted
