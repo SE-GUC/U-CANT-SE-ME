@@ -206,3 +206,34 @@ exports.loginReviewer = function(req, res, next){
     failureFlash: true
   })(req, res, next)
 };
+
+//As a Reviewer i should be able to add a comment on a rejected company establishment-
+//form, so that the lawyer is aware of the required changes in the form.
+exports.addCommentAsReviewer = async function(req,res){
+  try{
+    if (!mongoose.Types.ObjectId.isValid(req.params.reviewerID) || !mongoose.Types.ObjectId.isValid(req.params.caseID))
+      return res.status(400).send({ error: "Incorrect Mongo ID" });
+    const checkReviewer = await Reviewer.find({ _id: req.params.reviewerID });
+    const checkCase = await Case.find({ _id: req.params.caseID });
+    if (checkReviewer.length === 0)
+      return res.status(404).send("Reviewer not Found");
+    if (checkCase.length === 0)
+      return res.status(404).send("Case not Found");
+    if(reviewerAuthenticated){
+      if(checkCase[0].assignedReviewerId+""!==req.params.reviewerID+"")
+        return res.status(403).send({error: "Only assigned Reviewers to this Case can comment on it" });
+      if(checkCase[0].caseStatus !== "Rejected" && checkCase[0].caseStatus !== "WaitingForReviewer")
+        return res.status(403).send({error: "Access Denied: This Case is currently Locked for you." });
+      if(req.body.body === undefined || req.body.body.length===0)
+        return res.status(403).send({error: "You can't add empty Comment" });
+      checkCase[0].comments.push({author: checkReviewer[0].fullName, body: req.body.body});
+      await Case.findByIdAndUpdate(req.params.caseID, {"comments":checkCase[0].comments})
+      return res.json({data: checkCase});
+    }
+    else
+      return res.status(403).send({error: "Forbidden." });
+  }
+  catch{
+    res.json({msg: "An error has occured."})
+  }
+}
