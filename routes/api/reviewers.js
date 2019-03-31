@@ -4,6 +4,8 @@ const router = express.Router()
 
 // module Reviewer Controller
 const reviewerController = require("../../controllers/reviewerController")
+const caseController = require("../../controllers/caseController")
+
 
 //Read
 router.get("/", reviewerController.getAllReviewers);
@@ -35,6 +37,9 @@ router.get("/assignCase/:id/:caseId", reviewerController.getSpecificWaitingForRe
 //As a Reviewer i should be able to add a comment on a rejected company establishment-
 //form, so that the lawyer is aware of the required changes in the form.
 router.put("/addCommentAsReviewer/:reviewerID/:caseID", reviewerController.addCommentAsReviewer);
+
+//get last lawyer worked on case
+router.get("/getCaseLastLawyer/:id", caseController.getCaseLastLawyer);
 
 module.exports = router;
 
