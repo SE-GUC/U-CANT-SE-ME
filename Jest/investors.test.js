@@ -177,8 +177,6 @@ test('As an investor I should create casess', async()=>{
         "caseStatus": "WaitingForLawyer"
     };
     const invCreateCase = await investors.invCreateCase(createdInvestor._id,caseInfo);
-    console.log(typeof(invCreateCase.data.data.form.companyNameEnglish));
-    console.log(typeof(caseInfo.form.companyNameEnglish));
     expect(invCreateCase.data.data.form.companyNameEnglish).toBe(caseInfo.form.companyNameEnglish);
     expect(invCreateCase.data.data.form.companyNameArabic).toBe(caseInfo.form.companyNameArabic);
     
