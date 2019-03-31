@@ -40,3 +40,70 @@ test('Registering a Reviewer', async () => {
         return expect(isMatch).toBeTruthy()
     })
 })
+
+test('get last lawyer worked on a case', async () => {
+    expect.assertions(1)
+    bodyLawyer = {
+        "username": "4ahmefdfyvofvsdussesf9d8f6",
+        "password": "4ahmefdeflvasdfdzzou6fd",
+        "fullName": "6youssef mohamed joez",
+        "email": "6yousseff98f6fsfvdd@gmail.com"
+    }
+    const lawyer = await admins.createLawyer(bodyLawyer)
+    const lawyerId = lawyer.data.data['_id']
+
+    console.log(lawyer)
+    const bodyInvestor = {
+        "email": "40ddysdafsbfdssdfdvcf@gmail.com",
+        "password": "4161sdf23ffsfsddsvf4df567y",
+        "fullName": "416Afhsdbcffs sdssvfIcdfbn Xyz",
+        "type": "a",
+        "gender": "Male",
+        "nationality": "Egyptian",
+        "methodOfIdentification": "National Card",
+        "identificationNumber": "12233344445555",
+        "dateOfBirth": "1990-12-17T22:00:00.000Z",
+        "residenceAddress": "13th Mogama3 el Tahrir",
+        "telephoneNumber": "00201009913457",
+        "fax": "1234567"
+    }
+
+    const createdInvestor = await admins.createInvestor(bodyInvestor);
+    
+    
+    console.log(lawyerId)
+    console.log(createdInvestor.data['_id'])
+
+    const body = {
+        "form": {
+            "companyType": "SPC",
+            "regulatedLaw": "lll",
+            "legalFormOfCompany": "51sdvqdgsvfqdssmcesdv",
+            "companyNameArabic": "51qevsdqhgsdfeccdsvfffdffsdedkddscsfdtsgdsdvqdvq",
+            "companyNameEnglish": "51qdvhsddfsgdcqdddvdfdfseskcfdddfsstgddddvsssqdvqdv",
+            "headOfficeGovernorate": "qdvsfqdmvqsdvtgqdv",
+            "headOfficeCity": "asasdastgsdsdsdsdd",
+            "headOfficeAddress": "qwdvqdvqwdvqwdv",
+            "phoneNumber": "121212122121",
+            "fax": "1234567",
+            "currencyUsedForCapital": "qdvqedvqdvqdv",
+            "capital": 100
+        },
+        "caseStatus": "Rejected",
+        "assignedLawyerId": lawyerId,
+        "creatorInvestorId": createdInvestor.data['_id']
+
+    }
+
+    const createdCase = await admins.createCase(body)
+
+   const lastLawyer = await admins.getLastLawyer(createdCase.data.data._id);  
+   console.log(lastLawyer.data)
+      
+ //   console.log(createdCase.data.data._id)
+
+    await admins.deleteCase(createdCase.data.data._id)
+    await admins.deleteLawyer(lawyerId)
+    await admins.deleteInvestor(createdInvestor.data['_id'])    
+    expect(lastLawyer.data).toEqual({ lawyerName: '6youssef mohamed joez' });
+})  
