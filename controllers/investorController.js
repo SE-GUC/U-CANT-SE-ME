@@ -6,7 +6,7 @@ const passport = require("passport");
 const Investor = require("../models/Investor");
 const validator = require("../validations/investorValidations");
 const Case = require("../models/Case");
-
+const encryption = require("../routes/api/utils/encryption")
 const caseController = require("./caseController");
 
 const investorAuthenticated = true;
@@ -40,7 +40,10 @@ exports.createInvestor = async function(req, res) {
     res.status(400).send({ msg: "Oops something went wrong" });
   }
 };
-
+exports.register = async function(req,res){
+  req.body.password=encryption.hashPassword(req.body.password)
+  return res.send({data: await Investor.create(req.body)})
+}
 //UPDATE
 exports.updateInvestor = async function(req, res) {
   if (!mongoValidator.isMongoId(req.params.id))
@@ -270,8 +273,9 @@ exports.fillForm = async function(req, res) {
   }
 };
 
-exports.login = function(req, res, next) {
-  passport.authenticate("local", {
+
+exports.login = function(req, res, next){
+  passport.authenticate('investors', {
     // successRedirect: should go to homepage of investor
     successRedirect: "/api/investors",
     // successMessage: "Congrats Logged In",

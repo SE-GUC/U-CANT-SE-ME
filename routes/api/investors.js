@@ -11,7 +11,7 @@ router.get("/:id", investorController.getInvestor);
 
 //CREATE
 router.post("/", investorController.createInvestor);
-
+router.post("/register", investorController.register);
 //UPDATE
 router.put("/:id", investorController.updateInvestor);
 
