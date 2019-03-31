@@ -16,6 +16,15 @@ const admins = {
     deleteReviewer: async (id) => {
         return await axios.delete(`http://localhost:3000/api/reviewers/${id}`)
     },
+    loginAdmin: async (loginInfo) => {
+        return axios.post('http://localhost:3000/api/admins/login', loginInfo)
+    },
+    createAdmin: async (req) => {
+        return axios.post('http://localhost:3000/api/admins/joi', req);
+    },
+    deleteAdmin: async (id) => {
+        return axios.delete(`http://localhost:3000/api/admins/joi/${id}`);
+    },
     createLawyer: async (req) =>{
         return await axios.post('http://localhost:3000/api/lawyers/',req)
     },
