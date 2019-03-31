@@ -45,6 +45,9 @@ const investors = {
     changeStatus: async (id,req) => {
         
         await axios.put(`http://localhost:3000/api/cases/update/${id}`,req);
-    }
+    },
+    invCreateCase: async (investorId,body)=>{
+        return await axios.post(`http://localhost:3000/api/investors/fillForm/${investorId}`,body);
+     }
 }
 module.exports = investors

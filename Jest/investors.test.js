@@ -140,3 +140,48 @@ test('As an investor I should be view my fees', async() => {
     expect(fees).not.toBe(0);
     expect(name).toEqual('DONTD4536ELETE')
 }) 
+
+test('As an investor I should create casess', async()=>{
+  expect.assertions(2);
+    const investorInfo ={
+        "email": "cxzcxzcxzcxzc@gmail.com",
+        "password" : "12345678",
+        "fullName" : "Abc Ibn Xyz",
+        "type" : "a",
+        "gender" : "Female",
+        "nationality" : "Egyptian",
+        "methodOfIdentification" : "National Card",
+        "identificationNumber" : "12233344445555",
+        "dateOfBirth" : "1990-12-17T22:00:00.000Z",
+        "residenceAddress" : "13th Mogama3 el Tahrir",
+        "telephoneNumber" : "00201009913457",
+        "fax" : "1234567" };
+    const createdInvestor = await investors.createInvestor(investorInfo);
+    
+    const caseInfo ={
+        
+        "form": {
+            "companyType": "SPC",
+            "regulatedLaw": "72",
+            "legalFormOfCompany": "DONTDELETE",
+            "companyNameArabic": "dsdsadasdxc,xzmcxz",
+            "companyNameEnglish": "sadsasacxzc",
+            "headOfficeGovernorate": "DONTDELETE",
+            "headOfficeCity": "DONTDELETE",
+            "headOfficeAddress": "DONTDELETE",
+            "phoneNumber": "121212122121",
+            "fax": "1234567",
+            "currencyUsedForCapital": "DONTDELETE",
+            "capital": 100
+        },
+        "caseStatus": "WaitingForLawyer"
+    };
+    const invCreateCase = await investors.invCreateCase(createdInvestor._id,caseInfo);
+    console.log(typeof(invCreateCase.data.data.form.companyNameEnglish));
+    console.log(typeof(caseInfo.form.companyNameEnglish));
+    expect(invCreateCase.data.data.form.companyNameEnglish).toBe(caseInfo.form.companyNameEnglish);
+    expect(invCreateCase.data.data.form.companyNameArabic).toBe(caseInfo.form.companyNameArabic);
+    
+    await investors.deleteCase(invCreateCase.data.data._id);
+    await investors.deleteInvestor(createdInvestor._id);
+    }); 

@@ -61,5 +61,7 @@ const lawyers = {
   createReviewer: async (req)=>{
         return await axios.post(`http://localhost:3000/api/reviewers/`, req)
   }
+  
+
 };
 module.exports = lawyers;
