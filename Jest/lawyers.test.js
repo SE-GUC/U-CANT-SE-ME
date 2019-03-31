@@ -6,7 +6,7 @@ const lawyer=require('./lawyers')
 
 test('Change Status', async () => {
     const investor = {
-    email:"shamsTesting@gmail.com",
+    email:"shamsTesting23452345234@gmail.com",
     password:"verystrongpassword",
     fullName:"randomnametest",
     type:"a",
@@ -25,8 +25,8 @@ const mycase =  {
         companyType: 'SPC',
         regulatedLaw: 'lll',
         legalFormOfCompany: 'Moes3',
-        companyNameArabic: 'shamstest2',
-        companyNameEnglish: 'bardotest2',
+        companyNameArabic: 'shamstest256457',
+        companyNameEnglish: 'bardotest23452',
         headOfficeGovernorate: 'Joes3',
         headOfficeCity: 'Mantas3',
         headOfficeAddress: 'Shamss3',
