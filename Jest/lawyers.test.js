@@ -1,10 +1,11 @@
 /**
  * @jest-environment node
- */ 
+ */
 const lawyers = require('./lawyers');
 
 const Case = require("../models/Case");
 const Investor = require("../models/Investor");
+const Lawyer = require("../models/Lawyer");
 
 const db = require("../config/keys").mongoURI;
 const mongoose = require("mongoose");
@@ -16,53 +17,16 @@ const host = 'http://localhost';
 axios.defaults.host = host;
 axios.defaults.adapter = httpAdapter;
 
-// const testInvestor = {
-//   email:"nigabyte@gmail.com",
-//   password:"verystrongpassword",
-//   fullName:"yolo",
-//   type:"f",
-//   gender:"Male",
-//   nationality:"Egyptian",
-//   methodOfIdentification:"National Card",
-//   identificationNumber:"55533355555555",
-//   dateOfBirth:"1990-12-17T22:00:00.000Z",
-//   residenceAddress:"13th Mogama3 el Tahrir",
-//   telephoneNumber:"00201009913457",
-//   fax:"1234567"
-// }
-// const createdInvestor  = await Investor.create(testInvestor);
-// const testCase = {
-//   form: {
-//       companyType: 'SPC',
-//       regulatedLaw: 'lll',
-//       legalFormOfCompany: 'Moes3',
-//       companyNameArabic: 'create the case',
-//       companyNameEnglish: 'baleez',
-//       headOfficeGovernorate: 'Joes3',
-//       headOfficeCity: 'Mantas3',
-//       headOfficeAddress: 'Shamss3',
-//       phoneNumber: '123456789',
-//       fax: '987654321',
-//       currencyUsedForCapital: 'EGP',
-//       capital: 100
-//   },
-//   caseStatus: 'WaitingForLawyer',
-//   creatorInvestorId: createdInvestor.data._id
-// }
-// const createdCase  = await Case.create(testCase);
-
-// await lawyer.deleteCase(createdCase.data.data._id)
-// await lawyer.deleteInvestor(createdInvestor.data._id)
-
-test('Add comment as a Lawyer with caseStatus = WaitingForLawyer & he is assigned to the case', async () => {
+test('Add comment as a Lawyer with caseStatus = WaitingForLawyer & he is assigned to the case should add comment', async () => {
   mongoose
   .connect(db)
   .then(() => console.log("Connected to MongoDB"))
   .catch(err => console.log(err));
   expect.assertions(1);
 
+//** CREATE INVESTOR **//
   const testInvestor = {
-    email:"nigabyte1111111@gmail.com",
+    email:"addcommentlawyer_testjest111@gmail.com",
     password:"verystrongpassword",
     fullName:"yolo",
     type:"f",
@@ -76,34 +40,115 @@ test('Add comment as a Lawyer with caseStatus = WaitingForLawyer & he is assigne
     fax:"1234567"
   }
   const createdInvestor  = await Investor.create(testInvestor);
+
+//** CREATE LAWYER **//
+  const testLawyer = {
+    username:"lawyertestjest11",
+    password:"12312gg12g12",
+    fullName:"Abfvgnggk",
+    email:"lawyertestjest11@gmail.com"
+  }
+  const createdLawyer = await Lawyer.create(testLawyer);
+
+//** CREATE CASE **//
   const testCase = {
     form: {
         companyType: 'SPC',
         regulatedLaw: 'lll',
-        legalFormOfCompany: 'Moes3',
-        companyNameArabic: 'crea1te thg11133ve case',
-        companyNameEnglish: 'balvf111111vaeez',
+        legalFormOfCompany: 'Mojes3',
+        companyNameArabic: 'companytestjest111',
+        companyNameEnglish: 'compamyengtestjest111',
         headOfficeGovernorate: 'Joes3',
         headOfficeCity: 'Mantas3',
         headOfficeAddress: 'Shamss3',
         phoneNumber: '123456789',
         fax: '987654321',
         currencyUsedForCapital: 'EGP',
-        capital: 100
+        capital: 1000000
     },
     caseStatus: 'WaitingForLawyer',
-    creatorInvestorId: createdInvestor._id
+    creatorInvestorId: createdInvestor._id,
+    assignedLawyerId: createdLawyer._id
   }
   const createdCase  = await Case.create(testCase);
 
-  const body = {
+//** Comment Body **//
+  const req = {
     body: "test jest"
   }
 
-  const ID = "5c9d0f81af006b31fca3364d";
-  await lawyers.addCommentAsLawyer(body,ID,createdCase._id);
+  await lawyers.addCommentAsLawyer(req, createdLawyer._id, createdCase._id);
   const actualCase = await Case.findOne(testCase);
-  expect(actualCase.comments[comments.length-1].body).toEqual(body);
+  expect(actualCase.comments[actualCase.comments.length-1].body).toEqual(req.body);
   await Case.deleteOne(testCase);
   await Investor.deleteOne(testInvestor);
+  await Lawyer.deleteOne(testLawyer);
+});
+
+test('Add comment as a Lawyer with caseStatus = OnUpdate & he is assigned to the case should add comment', async () => {
+  mongoose
+  .connect(db)
+  .then(() => console.log("Connected to MongoDB"))
+  .catch(err => console.log(err));
+  expect.assertions(1);
+
+//** CREATE INVESTOR **//
+  const testInvestor = {
+    email:"addcommentlawyer_testjest11@gmail.com",
+    password:"verystrongpassword",
+    fullName:"yolo",
+    type:"f",
+    gender:"Male",
+    nationality:"Egyptian",
+    methodOfIdentification:"National Card",
+    identificationNumber:"55533355555555",
+    dateOfBirth:"1990-12-17T22:00:00.000Z",
+    residenceAddress:"13th Mogama3 el Tahrir",
+    telephoneNumber:"00201009913457",
+    fax:"1234567"
+  }
+  const createdInvestor  = await Investor.create(testInvestor);
+
+//** CREATE LAWYER **//
+  const testLawyer = {
+    username:"lawyertestjest111",
+    password:"12312gg12g12",
+    fullName:"Abfvgnggk",
+    email:"lawyertestjest11@gmail.com"
+  }
+  const createdLawyer = await Lawyer.create(testLawyer);
+
+//** CREATE CASE **//
+  const testCase = {
+    form: {
+        companyType: 'SPC',
+        regulatedLaw: 'lll',
+        legalFormOfCompany: 'Mojes3',
+        companyNameArabic: 'companytestjest111',
+        companyNameEnglish: 'compamyengtestjest111',
+        headOfficeGovernorate: 'Joes3',
+        headOfficeCity: 'Mantas3',
+        headOfficeAddress: 'Shamss3',
+        phoneNumber: '123456789',
+        fax: '987654321',
+        currencyUsedForCapital: 'EGP',
+        capital: 1000000
+    },
+    caseStatus: 'OnUpdate',
+    creatorInvestorId: createdInvestor._id,
+    assignedLawyerId: createdLawyer._id
+  }
+  const createdCase  = await Case.create(testCase);
+
+//** Comment Body **//
+  const req = {
+    body: "test jest"
+  }
+
+  await lawyers.addCommentAsLawyer(req, createdLawyer._id, createdCase._id);
+  const actualCase = await Case.findOne(testCase);
+  expect(actualCase.comments[actualCase.comments.length-1].body).toEqual(req.body);
+  await Case.deleteOne(testCase);
+  await Investor.deleteOne(testInvestor);
+  await Lawyer.deleteOne(testLawyer);
 });
