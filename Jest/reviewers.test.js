@@ -67,9 +67,10 @@ try{
        const caseHabd=await reviewer.changeStatus(caseID,'habd')
    }catch(err)
    {
-       const caseHabd=await reviewer.getCase(caseID)
-       expect(caseHabd.data.caseStatus).not.toBe('habd')
+
    }
+const caseHabd=await reviewer.getCase(caseID)
+expect(caseHabd.data.caseStatus).not.toBe('habd')
 
 await reviewer.deleteCase(createdCase.data.data._id)
 await reviewer.deleteInvestor(createdInvestor.data._id)
