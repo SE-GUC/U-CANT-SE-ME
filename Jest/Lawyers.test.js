@@ -9,44 +9,40 @@ test('create a lawyer', async()=>{
 
     expect.assertions(5);
     let body = {
-        email: "fafasfgag.gamed@gmail.com",
-        password: "mememememeememe",
-        fullName: "ahmedmmeememe",
-        username: "joeO7"
+        email: "fafasfgag67bobo.gamed@gmail.com",
+        password: "mememe6m7emeboboememe",
+        fullName: "ahmed76mmeememebobo",
+        username: "joeO7b6o7bo"
       };
 
-    const x = await functions.createLawyer(body);
-    const y =await functions.getLawyers();
-    const info=x.data.data;
+    const createLawyer = await functions.createLawyer(body);
+    const getAllLawyers =await functions.getLawyers();
+    const info=createLawyer.data.data;
  
      expect(info.fullName).toBe(body.fullName);
      expect(info.password).toBe(body.password);
      expect(info.username).toBe(body.username);
      expect(info.email).toBe(body.email);
-    expect(y.data.data).toContainEqual(info);
+    expect(getAllLawyers.data.data).toContainEqual(info);
      await functions.deleteLawyer(info._id);
-    // const { alllawyers} = await functions.getLawyers();
-    //  console.log(alllawyers);
-    //  // expect(alllawyers.data).toContain(info);
 });
 
 test('delete a lawyer ', async()=>{
   jest.setTimeout(10000);
-    expect.assertions(1);
+    expect.assertions(2);
     let body = {
-        email: "dsadasdahmed@sail.com",
-        password: "msascdemsem312312e",
-        fullName: "ahmedmcasdasdamdsaemes",
-        username: "jxbsOsdd2ff7"
+        email: "dsadasdah16med@sab7oboil.com",
+        password: "msascdem637sem31231bobo2e",
+        fullName: "ahmedmca26sdasdamds7aemboboes",
+        username: "jxbsOsd4d26ff7bobo"
       };
-      const x = await functions.createLawyer(body);
-      const info =x.data.data;
-      const y =await functions.getLawyers();
-     //console.log(info);
-      const z= await functions.deleteLawyer(info._id);
-      const f=await functions.getLawyers();
-
-      expect(f.data.data).not.toContain(info);
+      const createLawyer = await functions.createLawyer(body);
+      const info =createLawyer.data.data;
+      const getLawyersAfterCreate =await functions.getLawyers();
+      expect(getLawyersAfterCreate.data.data).toContainEqual(info);
+      const deleteLawyer= await functions.deleteLawyer(info._id);
+      const getLawyerAfterDelete=await functions.getLawyers();
+      expect(getLawyerAfterDelete.data.data).not.toContainEqual(info);
 });
 
 
@@ -54,57 +50,60 @@ test('delete a lawyer ', async()=>{
 test('testing updateLawyer', async()=>{
   expect.assertions(2);
   let body = {
-    email: "dsadasdahmedmcdsaddsadccccmmohamedcc.gamed@gmdsadasail.com",
-    password: "memememesasacccxzccmedsascdemseme",
-    fullName: "ahmedmmeesasdccxzczxzcccddcasdasdamdsaemes",
-    username: "joesasadsaddaszxczxcasdsaasddasdagvcxbsOsff7"
+    email: "dsadbobo.co6m",
+    password: "bobobobobobobo6b",
+    fullName: "bobobobob6bsss",
+    username: "obsobsodbo6ds"
   };
-  const x = await functions.createLawyer(body);
-  const id =x.data.data._id;
+  const newLawyer = await functions.createLawyer(body);
+  const id =newLawyer.data.data._id;
   let bodyForUpdate={
-    email:"dondodondondondondon@gg",
-    password:"password.comss"
+    email:"bsdobdosb7od@gg7",
+    password:"bobob7obob.c7omss"
   };
- const v=  await functions.updateLawyer(id,bodyForUpdate);
-  const yy=await functions.getOneLawyer(id);
-   expect(String(yy.data.email)).toBe(bodyForUpdate.email);
-   expect(yy.data.password).toBe(bodyForUpdate.password);
- const y= await functions.deleteLawyer(id);
+ const updateLawyer=  await functions.updateLawyer(id,bodyForUpdate);
+  const getLawyerAfterUpdate=await functions.getOneLawyer(id);
+   expect(String(getLawyerAfterUpdate.data.email)).toBe(bodyForUpdate.email);
+   expect(getLawyerAfterUpdate.data.password).toBe(bodyForUpdate.password);
+ const deleteLawyer= await functions.deleteLawyer(id);
 });
 
 
 test('testing get One Lawyer ', async()=>{
   expect.assertions(5);
   let body = {
-    email: "dsadasdahmedmccccd@gmdsadasail.com",
-    password: "memememesasacccsadasdsascdemseme",
-    fullName: "ahmezcdasdasccddcasdasdamdsaemes",
-    username: "sdsaasddasdagvcxbsOsff7"
+    email: "bosdb7ods@g1ilzz7.com",
+    password: "bs7odbzzzo1d7sbosd",
+    fullName: "bsd7bo1bzzzz7",
+    username: "bos7dbod1szz7o"
   };
-  const x = await functions.createLawyer(body);
-  const id =x.data.data._id;
-  const yy =await functions.getOneLawyer(id);
-  await functions.deleteLawyer(id);
+
+  const createLawyer = await functions.createLawyer(body);
+  const id =createLawyer.data.data._id;
+  const getLawyerAfterCreate =await functions.getOneLawyer(id);
   const g={"_id":id,"__v":0};
   var obj = Object.assign(body, g);
-  expect(yy.data).toEqual(obj);
-    expect(yy.data.email).toBe(body.email);
-   expect(yy.data.password).toBe(body.password);
-  expect(yy.data.fullName).toBe(String(body.fullName));
-   expect(yy.data.username).toBe(String(body.username));
+  expect(getLawyerAfterCreate.data).toEqual(obj);
+    expect(getLawyerAfterCreate.data.email).toBe(body.email);
+   expect(getLawyerAfterCreate.data.password).toBe(body.password);
+  expect(getLawyerAfterCreate.data.fullName).toBe(String(body.fullName));
+   expect(getLawyerAfterCreate.data.username).toBe(String(body.username));
+  const deletedLawyer= await functions.deleteLawyer(id);
 });
+
+
 test('testing getAllLawyers', async()=>{
   expect.assertions(2);
   let body = {
-      email: "fafasfgagagagvcv.gamed@gmail.com",
-      password: "mememememeememe",
-      fullName: "ahmedmmeememe",
-      username: "joeO7"
+      email: "bobob7obob7@gmail.com",
+      password: "bo7bos7dsdlv",
+      fullName: "bds7o7bdsobdsb",
+      username: "bsd7obod7sbodso"
     };
-  const x= await functions.createLawyer(body);
-  const y =await functions.getLawyers();
-  expect(y.data.data).toContainEqual(x.data.data);
-  expect(y.data.data.length).not.toBe(0);
-  await functions.deleteLawyer(x.data.data._id);
+  const createLawyer= await functions.createLawyer(body);
+  const getAllLawyers =await functions.getLawyers();
+  expect(getAllLawyers.data.data).toContainEqual(createLawyer.data.data);
+  expect(getAllLawyers.data.data.length).not.toBe(0);
+  await functions.deleteLawyer(createLawyer.data.data._id);
   
 });
