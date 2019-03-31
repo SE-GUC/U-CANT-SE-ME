@@ -89,9 +89,7 @@ test('get last lawyer worked on a case', async () => {
 
     const createdInvestor = await admins.createInvestor(bodyInvestor);
     
-    
-    console.log(lawyerId)
-    console.log(createdInvestor.data['_id'])
+   
 
     const body = {
         "form": {
@@ -117,12 +115,54 @@ test('get last lawyer worked on a case', async () => {
     const createdCase = await admins.createCase(body)
 
    const lastLawyer = await admins.getLastLawyer(createdCase.data.data._id);  
-   console.log(lastLawyer.data)
       
- //   console.log(createdCase.data.data._id)
 
     await admins.deleteCase(createdCase.data.data._id)
     await admins.deleteLawyer(lawyerId)
     await admins.deleteInvestor(createdInvestor.data['_id'])    
     expect(lastLawyer.data).toEqual({ lawyerName: '6youssef mohamed joez' });
-})  
+});
+test('testing admin Get All Cases',async()=>{
+    expect.assertions(1);
+    let investorBody= {
+      "email": "yehaihirokfcdscsdvncma@gmail.com",
+      "password" : "12345678",
+      "fullName" : "Abc Ibn Xyz",
+      "type" : "a",
+      "gender" : "Female",
+      "nationality" : "Egyptian",
+      "methodOfIdentification" : "National Card",
+      "identificationNumber" : "12233344445555",
+      "dateOfBirth" : "1990-12-17T22:00:00.000Z",
+      "residenceAddress" : "13th Mogama3 el Tahrir",
+      "telephoneNumber" : "00201009913457",
+      "fax" : "1234567" 
+    };
+    const investorCreated= await admins.createInvestor(investorBody);
+    let form ={
+          
+      "form": {
+          "companyType": "SPC",
+          "regulatedLaw": "712",
+          "legalFormOfCompany": "DON312321TDELETE",
+          "companyNameArabic": "ahm1as1111112312ouwss,xzmcxz",
+          "companyNameEnglish": "ah1m3123111sdeadyehia31123do112312ndo",
+          "headOfficeGovernorate": "DONTDELETE",
+          "headOfficeCity": "DONTDELETE",
+          "headOfficeAddress": "DONT312312DELETE",
+          "phoneNumber": "121212122121",
+          "fax": "1234567",
+          "currencyUsedForCapital": "DO3123NTDELETE",
+          "capital": 100
+      },
+      "caseStatus": "WaitingForLawyer",
+        "creatorInvestorId": investorCreated.data._id
+  };
+  
+  const caseCreated= await admins.createCase(form);
+   const allCases= await admins.getAllCasesAdmin();
+   expect(allCases.data.data.length).not.toBe(0);
+   await admins.deleteCase(caseCreated.data.data._id);
+   await admins.deleteInvestor(investorCreated.data._id);
+  });
+

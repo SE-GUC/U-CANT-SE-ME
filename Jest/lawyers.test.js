@@ -196,8 +196,6 @@ test("get last lawyer worked on a case", async () => {
 
   const createdInvestor = await lawyers.createInvestor(bodyInvestor);
 
-  console.log(lawyerId);
-  console.log(createdInvestor.data["_id"]);
 
   const body = {
     form: {
@@ -223,9 +221,7 @@ test("get last lawyer worked on a case", async () => {
   const createdCase = await lawyers.createCase(body);
 
   const lastLawyer = await lawyers.getLastLawyer(createdCase.data.data._id);
-  console.log(lastLawyer.data);
-
-  //   console.log(createdCase.data.data._id)
+ 
 
   await lawyers.deleteCase(createdCase.data.data._id);
   await lawyers.deleteLawyer(lawyerId);
@@ -331,3 +327,48 @@ test("testing getAllLawyers", async () => {
   expect(getAllLawyers.data.data.length).not.toBe(0);
   await lawyers.deleteLawyer(createLawyer.data.data._id);
 });
+test('testing lawyer Get All Cases',async()=>{
+  expect.assertions(1);
+  let investorBody= {
+    "email": "yehaihiahiahiahdasd211122iaha@gmail.com",
+    "password" : "12345678",
+    "fullName" : "Abc Ibn Xyz",
+    "type" : "a",
+    "gender" : "Female",
+    "nationality" : "Egyptian",
+    "methodOfIdentification" : "National Card",
+    "identificationNumber" : "12233344445555",
+    "dateOfBirth" : "1990-12-17T22:00:00.000Z",
+    "residenceAddress" : "13th Mogama3 el Tahrir",
+    "telephoneNumber" : "00201009913457",
+    "fax" : "1234567" 
+  };
+  const investorCreated= await lawyers.createInvestor(investorBody);
+  let form ={
+        
+    "form": {
+        "companyType": "SPC",
+        "regulatedLaw": "712",
+        "legalFormOfCompany": "DON312321TDELETE",
+        "companyNameArabic": "ahm1ass213e3213123dy321323yehia1112312ouwss,xzmcxz",
+        "companyNameEnglish": "ah1m3123eadyehia3111321231223do112312ndo",
+        "headOfficeGovernorate": "DONTDELETE",
+        "headOfficeCity": "DONTDELETE",
+        "headOfficeAddress": "DONT312312DELETE",
+        "phoneNumber": "121212122121",
+        "fax": "1234567",
+        "currencyUsedForCapital": "DO3123NTDELETE",
+        "capital": 100
+    },
+    "caseStatus": "WaitingForLawyer",
+      "creatorInvestorId": investorCreated.data._id
+};
+
+const caseCreated= await lawyers.createCase(form);
+ const allCases= await lawyers.getAllCasesLawyer();
+
+ expect(allCases.data.data.length).not.toBe(0);
+ await lawyers.deleteCase(caseCreated.data.data._id);
+ await lawyers.deleteInvestor(investorCreated.data._id);
+});
+
