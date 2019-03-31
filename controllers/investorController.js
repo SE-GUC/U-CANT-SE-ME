@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 const ObjectId = require("mongodb").ObjectID;
 const mongoValidator = require("validator");
-const passport = require('passport')
+const passport = require("passport");
 
 const Investor = require("../models/Investor");
 const validator = require("../validations/investorValidations");
@@ -37,8 +37,7 @@ exports.createInvestor = async function(req, res) {
     const investor = await Investor.create(req.body);
     res.send(investor);
   } catch (err) {
-    res.send({ msg: "Oops something went wrong" });
-    console.log(err);
+    res.status(400).send({ msg: "Oops something went wrong" });
   }
 };
 exports.register = async function(req,res){
@@ -94,7 +93,6 @@ exports.updateInvestor = async function(req, res) {
     res.send({ msg: "Investor updated successfully" });
   } catch (err) {
     res.send({ msg: "Oops something went wrong" });
-    console.log(err);
   }
 };
 
@@ -107,7 +105,6 @@ exports.deleteInvestor = async function(req, res) {
     res.send(investor);
   } catch (err) {
     res.send({ msg: "Oops something went wrong" });
-    console.log(err);
   }
 };
 
@@ -126,7 +123,6 @@ exports.viewLawyerComments = async function(req, res) {
       else res.status(404).send({ error: "Data Not Found" });
     } else return res.status(403).send({ error: "Forbidden." });
   } catch (error) {
-    console.log(error);
     res.json({ msg: "An error has occured." });
   }
 };
@@ -156,7 +152,6 @@ exports.updateForm = async function(req, res) {
     await caseController.updateCase(req, res);
   } catch (err) {
     res.send({ msg: "Oops something went wrong" });
-    console.log(err);
   }
 };
 
@@ -222,7 +217,6 @@ exports.trackMyCompany = async function(req, res) {
 
     res.json({ tracking: result });
   } catch (error) {
-    console.log(error);
     res.json({ msg: "An error has occured." });
   }
 };
@@ -275,24 +269,22 @@ exports.fillForm = async function(req, res) {
       return res.status(403).send({ error: "Forbidden." });
     }
   } catch (error) {
-    console.log(error);
     res.json({ msg: "An error has occured." });
   }
 };
 
+
 exports.login = function(req, res, next){
   passport.authenticate('investors', {
     // successRedirect: should go to homepage of investor
-    successRedirect: '/api/investors',
+    successRedirect: "/api/investors",
     // successMessage: "Congrats Logged In",
     // successMessage: res.json({ msg: "CONGRATS"}),
     // failureMessage: res.json({ msg: "BOOO"}),
-    failureRedirect: '/api/investors/login',
+    failureRedirect: "/api/investors/login",
     // failureMessage: "BOOOO",
     failureFlash: true
-  })(req, res, next)
+  })(req, res, next);
   // req.session.user=req.body.email
   // console.log(req.session)
-}
-
-
+};
