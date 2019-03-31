@@ -77,12 +77,16 @@ const lawyers = {
   getTheCase: async (id) => {
         return axios.get(`http://localhost:3000/api/cases/${id}`)
     },
-  createCase: async (req) => {
-        return axios.post('http://localhost:3000/api/cases/', req)
-    },
   readCase: async (id) =>{
         return axios.get(`http://localhost:3000/api/cases/${id}`)
     },
+
+        return await axios.put(`http://localhost:3000/api/lawyers/updateCaseStatus/${caseID}/${status}`)
+    },
+    addCommentAsLawyer: async(body,lawyerID,caseID) => {
+      const updatedCase = await axios.put(`http://localhost:3000/api/lawyers/addCommentAsLawyer/${lawyerID}/${caseID}`,body);
+      return updatedCase;
+      }
 };
 
 module.exports = lawyers;
