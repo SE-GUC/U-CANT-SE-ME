@@ -65,10 +65,7 @@ async function verfiyReferentialIntegrity(req) {
   if (req.assignedLawyerId && !(await Lawyer.findById(req.assignedLawyerId)))
     return { error: "Assigned Lawyer doesn't exist" };
 
-  if (
-    req.assignedReviewerId &&
-    !(await Lawyer.findById(req.assignedReviewerId))
-  )
+  if (req.assignedReviewerId &&!(await Reviewer.findById(req.assignedReviewerId)))
     return { error: "Assigned Reviewer doesn't exist" };
 
   return { success: "The case satisfies refrential Integrity" };
