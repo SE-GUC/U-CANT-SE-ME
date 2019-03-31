@@ -7,7 +7,7 @@ const Case = require("../models/Case");
 const Lawyer = require("../models/Lawyer");
 const Investor = require("../models/Investor");
 const Reviewer = require("../models/Reviewer");
-
+const NotificationController = require("./notificationController");
 //Get a Case with a specific ID (get certain case)
 exports.getCase = async function (req, res) {
   try {
@@ -219,14 +219,27 @@ exports.updateCase = async function (req, res) {
     if (!check.success) return res.status(400).send(check.error);
 
     await addMissingAttributes(req);
-
-    await Case.findByIdAndUpdate(req.params.id, req.body);
+     await Case.findByIdAndUpdate(req.params.id, req.body);
+     const newCase=  await Case.findById(req.params.id);
+     if(newCase.caseStatus==='Accepted')
+      NotificationController.notifyInvestorByFees(newCase);
     res.send({ msg: "Case updated successfully" });
   } catch (error) {
     res.send({ error: "Oops something went wrong" });
     console.log(error);
   }
 };
+exports.calcFees = function (case1){
+  if (case1.form.regulatedLaw.includes("72")) {
+    return 610;
+  }
+  const capital = case1.form.capital;
+  let ans = 56;
+  ans += Math.min(1000, Math.max(100, capital / 1000.0));
+  ans += Math.min(1000, Math.max(10, capital / 400.0));
+  return ans;
+}
+
 
 // As a Entity Employee, I should be able view the name of the last lawyer who worked on a specific case from the cases page.
 exports.getCaseLastLawyer = async function (req, res) {
@@ -256,3 +269,4 @@ exports.getCaseLastLawyer = async function (req, res) {
     res.json({ msg: "An error has occured." })
   }
 }
+ 
