@@ -27,7 +27,7 @@ test('Create All Dependencies', async() => {
         fax:"1234567"
     }
     const createdInvestor  = await reviewers.createInvestor(investor)
-    console.log("after investor")
+    
     investorId = createdInvestor.data._id
     
     const Reviewer = 
@@ -38,7 +38,7 @@ test('Create All Dependencies', async() => {
         email:"m5zvxsdvwdvzxv7e@noHomo.com"
     }
     registeredReviewer= await reviewers.createReviewer(Reviewer)
-    console.log("after reviewer")
+    
     const mycase =  {
         form: {
             companyType: 'SPC',
@@ -59,7 +59,7 @@ test('Create All Dependencies', async() => {
         assignedReviewerId: registeredReviewer.data.data._id
     }
     const createdCase = await reviewers.createCase(mycase)
-    console.log("after case")
+    
     caseId = createdCase.data.data._id
 })
 
