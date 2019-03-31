@@ -59,6 +59,9 @@ const investors = {
   },
   changeStatus: async (id, req) => {
     await axios.put(`http://localhost:3000/api/cases/update/${id}`, req);
+  },
+  getMyCompanies: async (investorID) => {
+    return await axios.get(`http://localhost:3000/api/investors/myCompanies/${investorID}`);
   }
 };
 
