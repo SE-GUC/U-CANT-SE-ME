@@ -26,7 +26,7 @@ test('Add comment as a Lawyer with caseStatus = WaitingForLawyer & he is assigne
 
 //** CREATE INVESTOR **//
   const testInvestor = {
-    email:"addcommentlawyer_testjest111@gmail.com",
+    email:"addcommentlawyer_testjsest111@gmail.com",
     password:"verystrongpassword",
     fullName:"yolo",
     type:"f",
@@ -43,10 +43,10 @@ test('Add comment as a Lawyer with caseStatus = WaitingForLawyer & he is assigne
 
 //** CREATE LAWYER **//
   const testLawyer = {
-    username:"lawyertestjest11",
+    username:"lawyertestjsest11",
     password:"12312gg12g12",
     fullName:"Abfvgnggk",
-    email:"lawyertestjest11@gmail.com"
+    email:"lawyertestjesst11@gmail.com"
   }
   const createdLawyer = await Lawyer.create(testLawyer);
 
@@ -56,8 +56,8 @@ test('Add comment as a Lawyer with caseStatus = WaitingForLawyer & he is assigne
         companyType: 'SPC',
         regulatedLaw: 'lll',
         legalFormOfCompany: 'Mojes3',
-        companyNameArabic: 'companytestjest111',
-        companyNameEnglish: 'compamyengtestjest111',
+        companyNameArabic: 'companytestjsest111',
+        companyNameEnglish: 'compamyengtesstjest111',
         headOfficeGovernorate: 'Joes3',
         headOfficeCity: 'Mantas3',
         headOfficeAddress: 'Shamss3',
@@ -94,7 +94,7 @@ test('Add comment as a Lawyer with caseStatus = OnUpdate & he is assigned to the
 
 //** CREATE INVESTOR **//
   const testInvestor = {
-    email:"addcommentlawyer_testjest11@gmail.com",
+    email:"addcommentlawyer_testjessst11@gmail.com",
     password:"verystrongpassword",
     fullName:"yolo",
     type:"f",
@@ -111,10 +111,10 @@ test('Add comment as a Lawyer with caseStatus = OnUpdate & he is assigned to the
 
 //** CREATE LAWYER **//
   const testLawyer = {
-    username:"lawyertestjest111",
+    username:"lawyertessstjest111",
     password:"12312gg12g12",
     fullName:"Abfvgnggk",
-    email:"lawyertestjest11@gmail.com"
+    email:"lawyertestjessst11@gmail.com"
   }
   const createdLawyer = await Lawyer.create(testLawyer);
 
@@ -124,8 +124,8 @@ test('Add comment as a Lawyer with caseStatus = OnUpdate & he is assigned to the
         companyType: 'SPC',
         regulatedLaw: 'lll',
         legalFormOfCompany: 'Mojes3',
-        companyNameArabic: 'companytestjest111',
-        companyNameEnglish: 'compamyengtestjest111',
+        companyNameArabic: 'companytssestjest111',
+        companyNameEnglish: 'compamyessngtestjest111',
         headOfficeGovernorate: 'Joes3',
         headOfficeCity: 'Mantas3',
         headOfficeAddress: 'Shamss3',
