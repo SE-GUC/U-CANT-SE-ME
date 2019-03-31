@@ -178,6 +178,7 @@ test('Viewing Tasks of Reviewer', async () => {
 
 })
 
+
 test('get last lawyer worked on a case', async () => {
   expect.assertions(1)
   bodyLawyer = {
@@ -246,7 +247,7 @@ test('get last lawyer worked on a case', async () => {
 })  
 
 
-});
+
 
 test('create a lawyer', async()=>{
 
