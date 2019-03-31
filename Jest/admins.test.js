@@ -3,7 +3,7 @@
  */
 
 const admins = require('./admins')
-const encryption = require('../../../../Desktop/U-CANT-SE-ME-Moe-s-Branch/routes/api/utils/encryption')
+const encryption = require('../routes/api/utils/encryption')
 
 test('Registering a Lawyer', async () => {
     jest.setTimeout(50000)
