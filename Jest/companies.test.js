@@ -12,9 +12,9 @@ let investorId = ''
 
 test('Create All Dependencies', async() => {
     const investor = {
-        email:"moe@gmail.com",
+        email:"moemoe@gmail.com",
         password:"dontusethispassword",
-        fullName:"MoeAdel",
+        fullName:"MoeAdelMoe",
         type:"CEO",
         gender:"Male",
         nationality:"Egyptian",
@@ -32,8 +32,8 @@ test('Create All Dependencies', async() => {
             companyType: 'SPC',
             regulatedLaw: 'lll',
             legalFormOfCompany: 'NonProfit',
-            companyNameArabic: 'شركة مو التجارية',
-            companyNameEnglish: 'Moe Company',
+            companyNameArabic: 'شركة مو التجاريةMoeMan',
+            companyNameEnglish: 'Moe Company Man',
             headOfficeGovernorate: 'California',
             headOfficeCity: 'San Francisco',
             headOfficeAddress: '123st.',
@@ -46,7 +46,7 @@ test('Create All Dependencies', async() => {
         creatorInvestorId: createdInvestor.data._id
     }
     createdCase  = await companies.createCase(mycase)
-    caseId = createdCase.data.data._id    
+    caseId = createdCase.data.data._id
 })    
 
 
