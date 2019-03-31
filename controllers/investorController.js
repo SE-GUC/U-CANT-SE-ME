@@ -3,6 +3,9 @@ const ObjectId = require("mongodb").ObjectID;
 const mongoValidator = require("validator");
 const passport = require("passport");
 
+const stripeSecretKey = require("../config/keys").stripeSecretKey;
+const stripe = require("stripe")(stripeSecretKey);
+
 const Investor = require("../models/Investor");
 const validator = require("../validations/investorValidations");
 const Case = require("../models/Case");
@@ -246,17 +249,76 @@ exports.viewMyFees = async function(req, res) {
   if (result.length == 0)
     res.json({ response: "you do not have any accepted company requests" });
   else res.json({ response: result });
+};
 
-  function calcFees(case1) {
-    if (case1.form.regulatedLaw.includes("72")) {
-      return 610;
-    }
-    const capital = case1.form.capital;
-    let ans = 56;
-    ans += Math.min(1000, Math.max(100, capital / 1000.0));
-    ans += Math.min(1000, Math.max(10, capital / 400.0));
-    return ans;
+function calcFees(case1) {
+  if (case1.form.regulatedLaw.includes("72")) {
+    return 610;
   }
+  const capital = case1.form.capital;
+  let ans = 56;
+  ans += Math.min(1000, Math.max(100, capital / 1000.0));
+  ans += Math.min(1000, Math.max(10, capital / 400.0));
+  return ans;
+}
+
+exports.payFees = async function(req, res) {
+  const investorId = req.params.investorId;
+  const caseId = req.params.caseId;
+
+  //Validate investorId
+  if (!mongoValidator.isMongoId(investorId))
+    return res.status(400).send({ err: "Invalid Investor Id" });
+  const investor = await Investor.findById(investorId);
+  if (!investor) return res.status(404).send("Investor not Found");
+
+  //VAlidate caseId
+  if (!mongoValidator.isMongoId(caseId))
+    return res.status(400).send({ err: "Invalid case Id" });
+  const selectedCase = await Case.findById(caseId);
+  if (!selectedCase) return res.status(404).send("case not Found");
+
+  const companyName = selectedCase.form.companyNameEnglish;
+
+  if (selectedCase.caseStatus !== "Accepted")
+    return res
+      .status(400)
+      .send(`The Company you chose is ${selectedCase.caseStatus}`);
+
+  if (String(selectedCase.creatorInvestorId) !== String(investor._id))
+    return res
+      .status(403)
+      .send("An Investor can only pay the fees of his/her accepted companies");
+
+  const fees = calcFees(selectedCase);
+
+  //Pay the fees
+  stripe.customers
+    .create({
+      email: investor.email
+    })
+    .then(customer => {
+      return stripe.customers.createSource(customer.id, {
+        source: "tok_visa"
+      });
+    })
+    .then(source => {
+      return stripe.charges.create({
+        amount: fees * 100,
+        description: "Company Esatblishment Fees",
+        currency: "EGP",
+        customer: source.customer
+      });
+    })
+    .then(charge => {
+      return res.send({ msg: "The Fees are payed successfully" });
+    })
+    .catch(err => {
+      console.log(err);
+      return res
+        .status(400)
+        .send({ msg: "Problem paying your Fees. Please try again" });
+    });
 };
 
 exports.fillForm = async function(req, res) {

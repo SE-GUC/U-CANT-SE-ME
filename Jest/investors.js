@@ -45,6 +45,9 @@ const investors = {
     );
     return ret.data.response;
   },
+  payFees: async (investorId, caseId) => {
+    return axios.post(`http://localhost:3000/api/investors/payFees/${investorId}/${caseId}`);
+  },
   createCase: async req => {
     const cas = await axios.post("http://localhost:3000/api/cases/", req);
 
