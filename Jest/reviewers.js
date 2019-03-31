@@ -18,6 +18,9 @@ const reviewers = {
     },
     deleteCase: async (id)=>{
         return axios.delete(`http://localhost:3000/api/cases/${id}`)
+    },
+    getCase: async (caseID)=>{
+        return axios.get(`http://localhost:3000/api/cases/${caseID}`)
     }
 }
 
