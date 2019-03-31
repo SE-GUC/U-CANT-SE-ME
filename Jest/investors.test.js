@@ -36,7 +36,7 @@ test('As an Investor viewing all my companies with 1 accepted & 1 pending should
 
 //** CREATE INVESTOR **//
   const testInvestor = {
-    email:"investoremailj2est1@gmail.com",
+    email:"investoremailj2est1111111@gmail.com",
     password:"verystrongpassword",
     fullName:"yolo",
     type:"f",
@@ -57,8 +57,8 @@ test('As an Investor viewing all my companies with 1 accepted & 1 pending should
         companyType: 'SPC',
         regulatedLaw: 'lll',
         legalFormOfCompany: 'Mojes3',
-        companyNameArabic: 'companyjest111',
-        companyNameEnglish: 'engname1',
+        companyNameArabic: 'companyjest11111111',
+        companyNameEnglish: 'engname11111',
         headOfficeGovernorate: 'Joes3',
         headOfficeCity: 'Mantas3',
         headOfficeAddress: 'Shamss3',
@@ -77,8 +77,8 @@ test('As an Investor viewing all my companies with 1 accepted & 1 pending should
         companyType: 'SPC',
         regulatedLaw: 'lll',
         legalFormOfCompany: 'Mojes3',
-        companyNameArabic: 'companyjest222',
-        companyNameEnglish: 'engname2',
+        companyNameArabic: 'companyjest22222222',
+        companyNameEnglish: 'engname22222',
         headOfficeGovernorate: 'Joes3',
         headOfficeCity: 'Mantas3',
         headOfficeAddress: 'Shamss3',
@@ -96,7 +96,7 @@ test('As an Investor viewing all my companies with 1 accepted & 1 pending should
     const testCompany = {
         socialInsuranceNumber: "88888888888888",
         investorID: createdInvestor._id,
-        companyName: "companyjest111",
+        companyName: "companyjest11111111",
         companyType: "SPC",
         caseID: createdCase._id,
         dateOfCreation: '1/1/2018'
@@ -105,15 +105,12 @@ test('As an Investor viewing all my companies with 1 accepted & 1 pending should
     const testCompany1 = {
         socialInsuranceNumber: "88888888888888",
         investorID: createdInvestor._id,
-        companyName: "companyjest222",
+        companyName: "companyjest22222222",
         companyType: "SPC",
         caseID: createdCase1._id,
         dateOfCreation: '1/1/2018'
     }
     await Company.create(testCompany1);
-    console.log(createdInvestor._id);
-    console.log(createdCase._id);
-    console.log(createdCase1._id);
     const result = await investors.getMyCompanies(createdInvestor._id);
     expect(result.data.data.length).toEqual(2);
     await Company.deleteOne(testCompany);
