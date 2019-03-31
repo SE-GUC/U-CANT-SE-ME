@@ -6,7 +6,7 @@ const reviewer=require('./reviewers')
 
 test('Change Status', async () => {
     const investor = {
-    email:"shamsTesting2@gmail.com",
+    email:"shamsTesting21231@gmail.com",
     password:"verystrongpassword",
     fullName:"randomnametest",
     type:"a",
@@ -25,8 +25,8 @@ const mycase =  {
         companyType: 'SPC',
         regulatedLaw: 'lll',
         legalFormOfCompany: 'Moes3',
-        companyNameArabic: 'shamstest5',
-        companyNameEnglish: 'bardotest5',
+        companyNameArabic: 'shamstest3453565',
+        companyNameEnglish: 'bardotest50647',
         headOfficeGovernorate: 'Joes3',
         headOfficeCity: 'Mantas3',
         headOfficeAddress: 'Shamss3',
