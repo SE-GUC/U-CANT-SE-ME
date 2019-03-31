@@ -60,6 +60,9 @@ const lawyers = {
   },
   createReviewer: async (req)=>{
         return await axios.post(`http://localhost:3000/api/reviewers/`, req)
+  },
+  getLastLawyer: async (id) =>{
+      return await axios.get(`http://localhost:3000/api/reviewers/getCaseLastLawyer/${id}`)
   }
 };
 module.exports = lawyers;

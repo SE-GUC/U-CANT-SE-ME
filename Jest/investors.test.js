@@ -72,13 +72,65 @@ test('Delete All Dependencies', async () => {
 
 test('As an investor I should be view my fees', async() => {
     expect.assertions(3);
-    const investor= await investors.createInvestor();
-    const cas = await investors.createCase(investor._id);
+    let req=
+        {
+          
+            "email": "notificatio3546nTest@gmail.com",
+            "password": "$2a$10$Ja.2twjd0KSVVyULqh7HCeEtu0aJM9ej9LiK5kth3C0AKMBoREqxC",
+            "fullName": "Notification Test",
+            "type": "a",
+            "gender": "Male",
+            "nationality": "Egyptian",
+            "methodOfIdentification": "National Card",
+            "identificationNumber": "36987103512311",
+            "dateOfBirth": "1990-12-14T13:13:13.000Z",
+            "residenceAddress": "8165th 3emarat el Shamoosa",
+            "telephoneNumber": "01091867182317",
+            "fax": "1224567"
+        }
+    const investor= await investors.createInvestor(req);
+    req=
+        {
+            "form": {
+                "companyType": "SPC",
+                "regulatedLaw": "72",
+                "legalFormOfCompany": "DONTDELETE",
+                "companyNameArabic": "DONTDE352LETE",
+                "companyNameEnglish": "DONTD4536ELETE",
+                "headOfficeGovernorate": "DONTDELETE",
+                "headOfficeCity": "DONTDELETE",
+                "headOfficeAddress": "DONTDELETE",
+                "phoneNumber": "121212122121",
+                "fax": "1234567",
+                "currencyUsedForCapital": "DONTDELETE",
+                "capital": 100
+            },
+            "caseStatus": "WaitingForLawyer",
+            
+            "creatorInvestorId": investor._id
+            
+        }
+    const cas = await investors.createCase(req);
     let res= await investors.viewMyFees(investor._id);
     
     expect(res).toBe('you do not have any accepted company requests')
-    
-    await investors.changeStatus(cas._id);
+    req=
+        {
+            "form": {
+                "companyType": "SPC",
+                "regulatedLaw": "72",
+                "legalFormOfCompany": "DONTDELETE",
+                "headOfficeGovernorate": "DONTDELETE",
+                "headOfficeCity": "DONTDELETE",
+                "headOfficeAddress": "DONTDELETE",
+                "phoneNumber": "121212122121",
+                "fax": "1234567",
+                "currencyUsedForCapital": "DONTDELETE",
+                "capital": 100
+            },
+            "caseStatus": "Accepted"
+        }
+    await investors.changeStatus(cas._id,req);
     res= await investors.viewMyFees(investor._id);
     await investors.deleteCase(cas._id);
     await investors.deleteInvestor(investor._id);
