@@ -42,21 +42,21 @@ test('Registering a Reviewer', async () => {
 })
 
 test('get last lawyer worked on a case', async () => {
-    expect.assertions(1)
+    expect.assertions(2)
     bodyLawyer = {
-        "username": "4ahmefdfyvofvsdussesf9d8f6",
-        "password": "4ahmefdeflvasdfdzzou6fd",
+        "username": "4ahmefddfyvoedfvsdussesf9d8f6",
+        "password": "4ahmefddeflvasdfdzzou6fd",
         "fullName": "6youssef mohamed joez",
-        "email": "6yousseff98f6fsfvdd@gmail.com"
+        "email": "6youssefdf98f6fsfvdd@gmail.com"
     }
     const lawyer = await admins.createLawyer(bodyLawyer)
     const lawyerId = lawyer.data.data['_id']
 
     console.log(lawyer)
     const bodyInvestor = {
-        "email": "40ddysdafsbfdssdfdvcf@gmail.com",
-        "password": "4161sdf23ffsfsddsvf4df567y",
-        "fullName": "416Afhsdbcffs sdssvfIcdfbn Xyz",
+        "email": "40ddysddafsbfdssdfdvcf@gmail.com",
+        "password": "4161dsdf23ffsfsddsvf4df567y",
+        "fullName": "416Afdhsdbcffs sdssvfIcdfbn Xyz",
         "type": "a",
         "gender": "Male",
         "nationality": "Egyptian",
@@ -78,9 +78,9 @@ test('get last lawyer worked on a case', async () => {
         "form": {
             "companyType": "SPC",
             "regulatedLaw": "lll",
-            "legalFormOfCompany": "51sdvqdgsvfqdssmcesdv",
-            "companyNameArabic": "51qevsdqhgsdfeccdsvfffdffsdedkddscsfdtsgdsdvqdvq",
-            "companyNameEnglish": "51qdvhsddfsgdcqdddvdfdfseskcfdddfsstgddddvsssqdvqdv",
+            "legalFormOfCompany": "51sdvqdgsvfqdssmdcesdv",
+            "companyNameArabic": "51qevsdqhgsdfecdcdsvfffdffsdedkddscsfdtsgdsdvqdvq",
+            "companyNameEnglish": "51qdvhsddfsgdcqddddvdfdfseskcfdddfsstgddddvsssqdvqdv",
             "headOfficeGovernorate": "qdvsfqdmvqsdvtgqdv",
             "headOfficeCity": "asasdastgsdsdsdsdd",
             "headOfficeAddress": "qwdvqdvqwdvqwdv",
