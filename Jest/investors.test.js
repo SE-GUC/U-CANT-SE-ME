@@ -780,6 +780,56 @@ const createdCase1 = await Case.create(testCase1);
   await Case.deleteOne(testCase);
   await Case.deleteOne(testCase1);
 });
+test('As an investor I should create cases', async()=>{
+  expect.assertions(2);
+ console.log("her1")
+    const investorInfo ={
+        "email": "ddddddddddddd@gmail.com",
+        "password" : "12345678",
+        "fullName" : "Abc Ibn Xyz",
+        "type" : "a",
+        "gender" : "Female",
+        "nationality" : "Egyptian",
+        "methodOfIdentification" : "National Card",
+        "identificationNumber" : "12233344445555",
+        "dateOfBirth" : "1990-12-17T22:00:00.000Z",
+        "residenceAddress" : "13th Mogama3 el Tahrir",
+        "telephoneNumber" : "00201009913457",
+        "fax" : "1234567" };
+        console.log("her2")
+    const createdInvestor = await investors.createInvestor(investorInfo);
+    console.log("her3")
+    const caseInfo ={
+
+        "form": {
+            "companyType": "SPC",
+            "regulatedLaw": "72",
+            "legalFormOfCompany": "DONTDELETE",
+            "companyNameArabic": "dsdsadaddsddddxc,xzmcxz",
+            "companyNameEnglish": "ddddddddddddddddddddddd",
+            "headOfficeGovernorate": "DONTDELETE",
+            "headOfficeCity": "DONTDELETE",
+            "headOfficeAddress": "DONTDELETE",
+            "phoneNumber": "121212122121",
+            "fax": "1234567",
+            "currencyUsedForCapital": "DONTDELETE",
+            "capital": 100
+        },
+        "caseStatus": "WaitingForLawyer",
+        "creatorInvestorId": createdInvestor.data._id
+    }
+    console.log(createdInvestor.data._id)
+    console.log("-----------------")
+    console.log(createdInvestor._id)
+    const invCreateCase = await investors.invCreateCase(createdInvestor.data._id,caseInfo);
+    console.log("her5")
+    expect(invCreateCase.data.data.form.companyNameEnglish).toBe(caseInfo.form.companyNameEnglish);
+    console.log("her6")
+    expect(invCreateCase.data.data.form.companyNameArabic).toBe(caseInfo.form.companyNameArabic);
+    console.log("her7")
+    await investors.deleteCase(invCreateCase.data.data._id);
+    await investors.deleteInvestor(createdInvestor.data._id);
+    }); 
 
 
 /**

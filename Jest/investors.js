@@ -76,6 +76,9 @@ createInvestor2: async (req) =>{
 },
 deleteInvestor2: async (id) =>{
     return axios.delete(`http://localhost:3000/api/investors/${id}`)
+},
+invCreateCase: async (investorId,body)=>{
+  return await axios.post(`http://localhost:3000/api/investors/fillForm/${investorId}`,body);
 }
 
 };
