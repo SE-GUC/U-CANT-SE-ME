@@ -5,7 +5,7 @@ var mongoValidator = require("validator");
 const Reviewer = require("../models/Reviewer");
 const reviewerGettingAllCasesAuthenticated=true;
 const caseController = require("./caseController")
-
+const passport = require('passport')
 // module Case
 const Case = require("../models/Case.js")
 
@@ -199,3 +199,10 @@ exports.getSpecificWaitingForReviewerCase = async function(req, res) {
   }
 }
 
+exports.loginReviewer = function(req, res, next){
+  passport.authenticate('reviewers', {
+    successRedirect: '/api/reviewers',
+    failureRedirect: '/api/reviewers/login',
+    failureFlash: true
+  })(req, res, next)
+};

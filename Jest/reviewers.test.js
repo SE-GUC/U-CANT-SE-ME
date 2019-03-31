@@ -408,3 +408,21 @@ expect(caseTest.data.caseStatus).not.toBe('habd')
 await reviewers.deleteCase(createdCase.data.data._id)
 await reviewers.deleteInvestor(createdInvestor.data._id)
 })
+
+
+test("As a reviewer I should be able to login", async () => {
+  const createReviewer = {
+    email:"yahia2@reviewer.com",
+    username: "YahiaBadr3",
+    fullName: "Yahia Hisham",
+    password: "yaya1234"
+  };
+  const createdReviewer = await reviewers.registerReviewer(createReviewer);
+  const loginInfo = {
+    email:"yahia2@reviewer.com",
+    password: "yaya1234"
+  };
+  const loginResult = await reviewers.loginReviewer(loginInfo);
+  expect(loginResult.data.data.length).toBeGreaterThan(0);
+  await reviewers.deleteReviewer(createdReviewer.data.data["_id"]);
+});
