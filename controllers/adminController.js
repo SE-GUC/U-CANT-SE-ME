@@ -7,7 +7,8 @@ const bcrypt = require('../routes/api/utils/encryption.js')
 const Admin = require("../models/Admin");
 const adminGettingAllCasesAuthenticated = true;
 const caseController = require("./caseController");
-
+const reviewerController = require('./reviewerController')
+const lawyerController = require('./lawyerController')
 // Get certain admin
 
 exports.getAdmin = async function (req, res) {
@@ -108,3 +109,15 @@ exports.GetAllCases = async function (req, res) {
       .send({ error: "something wrong happened check your identity" });
   }
 };
+
+//as admin i should be able to register lawyer
+exports.registerLawyer = async function(req,res){
+  req.body.password=bcrypt.hashPassword(req.body.password)
+  return res.send({data: await lawyerController.createLawyer(req, res)})
+}
+//as admin i should be able to register reviwer
+exports.registerReviewer = async function(req, res){
+  req.body.password = bcrypt.hashPassword(req.body.password)
+  console.log("hena")
+  return res.send({data: await reviewerController.createReviewer(req, res)})
+}
