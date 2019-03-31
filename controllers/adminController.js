@@ -1,6 +1,7 @@
 // Dependencies
 const validator = require("../validations/adminValidations");
 const mongoValidator = require("validator");
+const bcrypt = require('../routes/api/utils/encryption.js')
 
 // Models
 const Admin = require("../models/Admin");
@@ -9,7 +10,7 @@ const caseController = require("./caseController");
 
 // Get certain admin
 
-exports.getAdmin = async function(req, res) {
+exports.getAdmin = async function (req, res) {
   if (!mongoValidator.isMongoId(req.params.id))
     return res.status(400).send({ err: "Invalid Admin Id" });
   const admin = await Admin.findById(req.params.id);
@@ -21,14 +22,16 @@ exports.getAdmin = async function(req, res) {
 };
 
 // Get all admins
-exports.getAllAdmins = async function(req, res) {
+exports.getAllAdmins = async function (req, res) {
   const admins = await Admin.find();
   res.json({ data: admins });
 };
 
 // create admins
-exports.createAdmin = async function(req, res) {
+exports.createAdmin = async function (req, res) {
   try {
+    req.body.password = bcrypt.hashPassword(req.body.password)
+
     const isValidated = validator.createValidation(req.body);
     if (isValidated.error)
       return res
@@ -44,38 +47,43 @@ exports.createAdmin = async function(req, res) {
 };
 
 // Update admin
-exports.updateAdmin = async function(req, res) {
+exports.updateAdmin = async function (req, res) {
   try {
-    if (!mongoValidator.isMongoId(req.params.id))
-      return res.status(400).send({ err: "Invalid Admin Id" });
-    const admin = await Admin.findById(req.params.id);
-    if (!admin) return res.status(404).send("Admin not Found");
+   
 
-    const id = req.params.id;
-    if (!req.body.username) req.body.username = admin.username;
+        if (!mongoValidator.isMongoId(req.params.id))
+          return res.status(400).send({ err: "Invalid Admin Id" });
+        const admin = await Admin.findById(req.params.id);
+        if (!admin) return res.status(404).send("Admin not Found");
 
-    if (!req.body.password) req.body.password = admin.password;
+        const id = req.params.id;
+        if (!req.body.username) req.body.username = admin.username;
 
-    if (!req.body.fullName) req.body.fullName = admin.fullName;
+        if (!req.body.password) req.body.password = admin.password  ;
+        else req.body.password = bcrypt.hashPassword(req.body.password);
 
-    const isValidated = validator.updateValidation(req.body);
-    if (isValidated.error)
-      return res
-        .status(400)
-        .send({ error: isValidated.error.details[0].message });
+        if (!req.body.fullName) req.body.fullName = admin.fullName;
 
-    await Admin.findByIdAndUpdate(req.params.id, req.body);
+      
+        const isValidated = validator.updateValidation(req.body);
+        if (isValidated.error)
+          return res
+            .status(400)
+            .send({ error: isValidated.error.details[0].message });
 
-    if (!admin) return res.status(404).send({ error: "admin does not exist" });
+        await Admin.findByIdAndUpdate(req.params.id, req.body);
 
-    res.json({ msg: "Admin updated successfully" });
+        if (!admin) return res.status(404).send({ error: "admin does not exist" });
+
+        res.json({ msg: "Admin updated successfully" });
+
   } catch (error) {
     // We will be handling the error later
     console.log(error);
   }
 };
 
-exports.deleteAdmin = async function(req, res) {
+exports.deleteAdmin = async function (req, res) {
   try {
     if (!mongoValidator.isMongoId(req.params.id))
       return res.status(400).send({ err: "Invalid Admin Id" });
@@ -91,7 +99,7 @@ exports.deleteAdmin = async function(req, res) {
   }
 };
 
-exports.GetAllCases = async function(req, res) {
+exports.GetAllCases = async function (req, res) {
   if (adminGettingAllCasesAuthenticated) {
     await caseController.getAllCases(req, res);
   } else {
