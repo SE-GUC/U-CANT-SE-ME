@@ -57,7 +57,15 @@ const reviewers = {
   },	
     changeStatus: async (caseID,status) => {
         return await axios.put(`http://localhost:3000/api/reviewers/updateCaseStatus/${caseID}/${status}`)
+    },
+    registerReviewer: async (req) => {
+        return await axios.post('http://localhost:3000/api/admins/registerReviewer', req)
+    },
+    deleteReviewer: async (id) => {
+        return await axios.delete(`http://localhost:3000/api/reviewers/${id}`)
+    }, 
+    loginReviewer: async (loginInfo) => {
+        return axios.post('http://localhost:3000/api/reviewers/login', loginInfo)
     }
-        
 };
 module.exports = reviewers;

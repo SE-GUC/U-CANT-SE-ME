@@ -3,6 +3,9 @@ const mongoose = require('mongoose')
 const bcrypt = require('bcryptjs')
 
 const Investor = require('../models/Investor')
+const Reviewer = require('../models/Reviewer')
+const Admin = require('../models/Admin')
+const Lawyer = require('../models/Lawyer')
 
 module.exports = function(passport){
     passport.use('investors',
@@ -50,7 +53,9 @@ module.exports = function(passport){
                 //Match password
                 bcrypt.compare(password, reviewer.password, (err, isMatch) => {
                     if(err)
+                    {
                         throw err
+                    }   
                     if(isMatch){
                         return done(null, reviewer)
                     }
@@ -62,7 +67,15 @@ module.exports = function(passport){
             .catch(err => console.log(err))
         })
     )
-
+    passport.serializeUser(function(reviewer, done) {
+        done(null, reviewer.id)
+    })
+      
+    passport.deserializeUser(function(id, done) {
+        Reviewer.findById(id, function(err, reviewer) {
+          done(err, reviewer)
+        })
+    })
     passport.use('lawyers',
         new LocalStrategy({ usernameField: 'email'}, (email, password, done) => {
             //Match User
