@@ -171,7 +171,7 @@ exports.updateNotification = async function (req,res){
       }  
     }
 };
-exports.sendNotification = async function(case1,req) {
+exports.notifyInvestorByFees = async function(case1,req) {
   const recipientId=case1.creatorInvestorId;
   const investor= await Investor.findById(recipientId);
   const fees=caseController.calcFees(case1);
@@ -194,16 +194,18 @@ exports.sendNotification = async function(case1,req) {
    var transporter = nodemailer.createTransport({
     service: 'gmail',
     auth: {
-      user: 'sumergiteme@gmail.com',
-      pass: 'U-CANT-SE-ME'
+      // user: 'sumergiteme@gmail.com',
+      user : reviewer.email,
+      // pass: 'U-CANT-SE-ME'
+      pass: reviewer.password
     }
   });
   
   var mailOptions = {
-    from: 'sumergiteme@gmail.com',
-    // from: reviewer.email,
-    to: 'zeyad.khattab97@gmail.com',
-    // to: notification.emailOfRecipient
+    // from: 'sumergiteme@gmail.com',
+    from: reviewer.email,
+    // to: 'zeyad.khattab97@gmail.com',
+    to: notification.emailOfRecipient,
     subject: 'Company Request Accepted',
     text: notification.message
   };

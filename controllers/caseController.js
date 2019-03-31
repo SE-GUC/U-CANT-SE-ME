@@ -67,7 +67,7 @@ async function verfiyReferentialIntegrity(req) {
 
   if (
     req.assignedReviewerId &&
-    !(await Lawyer.findById(req.assignedReviewerId))
+    !(await Reviewer.findById(req.assignedReviewerId))
   )
     return { error: "Assigned Reviewer doesn't exist" };
 
@@ -216,7 +216,7 @@ exports.updateCase = async function(req, res) {
      await Case.findByIdAndUpdate(req.params.id, req.body);
      const newCase=  await Case.findById(req.params.id);
      if(newCase.caseStatus==='Accepted')
-      NotificationController.sendNotification(newCase);
+      NotificationController.notifyInvestorByFees(newCase);
     res.send({ msg: "Case updated successfully" });
   } catch (error) {
     res.send({ error: "Oops something went wrong" });
