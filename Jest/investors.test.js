@@ -50,38 +50,6 @@ test("Create an investor initial test", async () => {
 });
 
 //CREATE
-test("Create an investor duplicate email test", async () => {
-  expect.assertions(1);
-
-  //The body of the request
-  const body = {
-    email: "gamed.gamed@gmail.com",
-    password: "12345678",
-    fullName: "Abc Ibn Xyz",
-    type: "a",
-    gender: "Male",
-    nationality: "Egyptian",
-    methodOfIdentification: "National Card",
-    identificationNumber: "12233344445555",
-    dateOfBirth: "1990-12-17T22:00:00.000Z",
-    residenceAddress: "13th Mogama3 el Tahrir",
-    telephoneNumber: "00201009913457",
-    fax: "1234567"
-  };
-
-  const res = await investors.createInvestor(body);
-
-  try {
-    await investors.createInvestor(body);
-    await investors.deleteInvestor(res.data._id);
-    expect(0).toBe(1); //If no status 400 test must fail
-  } catch (err) {
-    await investors.deleteInvestor(res.data._id);
-    expect(0).toBe(0); //Else test passes
-  }
-});
-
-//CREATE
 test("Create an investor invalid data test", async () => {
   expect.assertions(1);
 
