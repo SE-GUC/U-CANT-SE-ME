@@ -1,15 +1,18 @@
 const mongoose = require("mongoose");
 const ObjectId = require("mongodb").ObjectID;
 const mongoValidator = require("validator");
+const passport = require("passport");
+
+const stripeSecretKey = require("../config/keys").stripeSecretKey;
+const stripe = require("stripe")(stripeSecretKey);
 
 const Investor = require("../models/Investor");
 const validator = require("../validations/investorValidations");
 const Case = require("../models/Case");
-
+const encryption = require("../routes/api/utils/encryption")
 const caseController = require("./caseController");
 
 const investorAuthenticated = true;
-
 //READ
 exports.getAllInvestors = async function(req, res) {
   const investors = await Investor.find();
@@ -37,11 +40,13 @@ exports.createInvestor = async function(req, res) {
     const investor = await Investor.create(req.body);
     res.send(investor);
   } catch (err) {
-    res.send({ msg: "Oops something went wrong" });
-    console.log(err);
+    res.status(400).send({ msg: "Oops something went wrong" });
   }
 };
-
+exports.register = async function(req,res){
+  req.body.password=encryption.hashPassword(req.body.password)
+  return res.send({data: await Investor.create(req.body)})
+}
 //UPDATE
 exports.updateInvestor = async function(req, res) {
   if (!mongoValidator.isMongoId(req.params.id))
@@ -91,7 +96,6 @@ exports.updateInvestor = async function(req, res) {
     res.send({ msg: "Investor updated successfully" });
   } catch (err) {
     res.send({ msg: "Oops something went wrong" });
-    console.log(err);
   }
 };
 
@@ -104,7 +108,6 @@ exports.deleteInvestor = async function(req, res) {
     res.send(investor);
   } catch (err) {
     res.send({ msg: "Oops something went wrong" });
-    console.log(err);
   }
 };
 
@@ -123,7 +126,6 @@ exports.viewLawyerComments = async function(req, res) {
       else res.status(404).send({ error: "Data Not Found" });
     } else return res.status(403).send({ error: "Forbidden." });
   } catch (error) {
-    console.log(error);
     res.json({ msg: "An error has occured." });
   }
 };
@@ -153,7 +155,6 @@ exports.updateForm = async function(req, res) {
     await caseController.updateCase(req, res);
   } catch (err) {
     res.send({ msg: "Oops something went wrong" });
-    console.log(err);
   }
 };
 
@@ -219,7 +220,6 @@ exports.trackMyCompany = async function(req, res) {
 
     res.json({ tracking: result });
   } catch (error) {
-    console.log(error);
     res.json({ msg: "An error has occured." });
   }
 };
@@ -249,17 +249,76 @@ exports.viewMyFees = async function(req, res) {
   if (result.length == 0)
     res.json({ response: "you do not have any accepted company requests" });
   else res.json({ response: result });
+};
 
-  function calcFees(case1) {
-    if (case1.form.regulatedLaw.includes("72")) {
-      return 610;
-    }
-    const capital = case1.form.capital;
-    let ans = 56;
-    ans += Math.min(1000, Math.max(100, capital / 1000.0));
-    ans += Math.min(1000, Math.max(10, capital / 400.0));
-    return ans;
+function calcFees(case1) {
+  if (case1.form.regulatedLaw.includes("72")) {
+    return 610;
   }
+  const capital = case1.form.capital;
+  let ans = 56;
+  ans += Math.min(1000, Math.max(100, capital / 1000.0));
+  ans += Math.min(1000, Math.max(10, capital / 400.0));
+  return ans;
+}
+
+exports.payFees = async function(req, res) {
+  const investorId = req.params.investorId;
+  const caseId = req.params.caseId;
+
+  //Validate investorId
+  if (!mongoValidator.isMongoId(investorId))
+    return res.status(400).send({ err: "Invalid Investor Id" });
+  const investor = await Investor.findById(investorId);
+  if (!investor) return res.status(404).send("Investor not Found");
+
+  //VAlidate caseId
+  if (!mongoValidator.isMongoId(caseId))
+    return res.status(400).send({ err: "Invalid case Id" });
+  const selectedCase = await Case.findById(caseId);
+  if (!selectedCase) return res.status(404).send("case not Found");
+
+  const companyName = selectedCase.form.companyNameEnglish;
+
+  if (selectedCase.caseStatus !== "Accepted")
+    return res
+      .status(400)
+      .send(`The Company you chose is ${selectedCase.caseStatus}`);
+
+  if (String(selectedCase.creatorInvestorId) !== String(investor._id))
+    return res
+      .status(403)
+      .send("An Investor can only pay the fees of his/her accepted companies");
+
+  const fees = calcFees(selectedCase);
+
+  //Pay the fees
+  stripe.customers
+    .create({
+      email: investor.email
+    })
+    .then(customer => {
+      return stripe.customers.createSource(customer.id, {
+        source: "tok_visa"
+      });
+    })
+    .then(source => {
+      return stripe.charges.create({
+        amount: fees * 100,
+        description: "Company Esatblishment Fees",
+        currency: "EGP",
+        customer: source.customer
+      });
+    })
+    .then(charge => {
+      return res.send({ msg: "The Fees are payed successfully" });
+    })
+    .catch(err => {
+      console.log(err);
+      return res
+        .status(400)
+        .send({ msg: "Problem paying your Fees. Please try again" });
+    });
 };
 
 exports.fillForm = async function(req, res) {
@@ -272,7 +331,22 @@ exports.fillForm = async function(req, res) {
       return res.status(403).send({ error: "Forbidden." });
     }
   } catch (error) {
-    console.log(error);
     res.json({ msg: "An error has occured." });
   }
+};
+
+
+exports.login = function(req, res, next){
+  passport.authenticate('investors', {
+    // successRedirect: should go to homepage of investor
+    successRedirect: "/api/investors",
+    // successMessage: "Congrats Logged In",
+    // successMessage: res.json({ msg: "CONGRATS"}),
+    // failureMessage: res.json({ msg: "BOOO"}),
+    failureRedirect: "/api/investors/login",
+    // failureMessage: "BOOOO",
+    failureFlash: true
+  })(req, res, next);
+  // req.session.user=req.body.email
+  // console.log(req.session)
 };

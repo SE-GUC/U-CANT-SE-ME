@@ -11,7 +11,7 @@ router.get("/:id", investorController.getInvestor);
 
 //CREATE
 router.post("/", investorController.createInvestor);
-
+router.post("/register", investorController.register);
 //UPDATE
 router.put("/:id", investorController.updateInvestor);
 
@@ -33,7 +33,15 @@ router.get('/trackMyCompany/:id', investorController.trackMyCompany);
 // As an investor I should be able to view my fees
 router.get('/viewMyFees/:id', investorController.viewMyFees);
 
+//As an investor I should be able to pay the fees of my approved company establishment request.
+router.post('/payFees/:investorId/:caseId', investorController.payFees);
+
 // As an investor I should be able to fill a company establishment form
 router.post("/fillForm/:investorId",investorController.fillForm);
+
+// As an investor I should be able to log in to the external portal, 
+// so that I can use the system’s facilities.
+
+router.post('/login', investorController.login)
 
 module.exports = router;

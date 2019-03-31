@@ -1,0 +1,21 @@
+use put at this route
+localhost:3000/api/cases/update/5c9fbb748f97e00b08f26405
+The point is to update a case to an Accepted state and if you check the reviewer for this case you will find 
+an email that I created for testing and the investor has my email
+{
+	"form": {
+            "companyType": "SPC",
+            "regulatedLaw": "lll",
+            "legalFormOfCompany": "vqdvqdv",
+            
+            "headOfficeGovernorate": "qdvqdvqdvqdv",
+            "headOfficeCity": "qwdvqdvqdvqdv",
+            "headOfficeAddress": "qwdvqdvqwdvqwdv",
+            "phoneNumber": "121212122121",
+            "fax": "1234567",
+            "currencyUsedForCapital": "qdvqedvqdvqdv",
+            "capital": 100
+        },
+        
+	"caseStatus":"Accepted"
+}
