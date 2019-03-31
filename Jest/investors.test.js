@@ -2,6 +2,20 @@
  * @jest-environment node
  */
 
+const Case = require("../models/Case");
+const Investor = require("../models/Investor");
+const Company = require("../models/Company");
+
+const db = require("../config/keys").mongoURI;
+const mongoose = require("mongoose");
+
+const axios = require('axios')
+const httpAdapter = require('axios/lib/adapters/http')
+const host = 'http://localhost';
+
+axios.defaults.host = host;
+axios.defaults.adapter = httpAdapter;
+
 const investors = require("./investors");
 const encryption = require("../routes/api/utils/encryption");
 const reviewers = require('./reviewers')
@@ -47,37 +61,6 @@ test("Create an investor initial test", async () => {
   delete res.data.__v;
 
   expect(res.data).toEqual(body);
-});
-
-//CREATE
-test("Create an investor duplicate email test", async () => {
-  expect.assertions(1);
-
-  //The body of the request
-  const body = {
-    email: "gamed.gamed@gmail.com",
-    password: "12345678",
-    fullName: "Abc Ibn Xyz",
-    type: "a",
-    gender: "Male",
-    nationality: "Egyptian",
-    methodOfIdentification: "National Card",
-    identificationNumber: "12233344445555",
-    dateOfBirth: "1990-12-17T22:00:00.000Z",
-    residenceAddress: "13th Mogama3 el Tahrir",
-    telephoneNumber: "00201009913457",
-    fax: "1234567"
-  };
-
-  const res = await investors.createInvestor(body);
-
-  try {
-    await investors.createInvestor(body);
-    expect(0).toBe(1); //If no status 400 test must fail
-  } catch (err) {
-    //expect(0).toBe(0); //Else test passes
-  }
-  await investors.deleteInvestor(res.data._id);
 });
 
 //CREATE
@@ -426,6 +409,7 @@ test("As an investor I should be view my fees", async () => {
   expect(fees).not.toBe(0);
   expect(name).toEqual("DONTD4536ELETE");
 });
+
 test('As an investor I should be be notified by the fees', async() => {
     let req=
     {
@@ -504,3 +488,454 @@ test('As an investor I should be be notified by the fees', async() => {
         
         // await reviewers.deleteReviewer(reviewer._id);
 }) 
+
+
+//Pay Fees
+test("Investor Paying Fees success test", async () => {
+  expect.assertions(1);
+  const payingInvestorData = {
+    email: "richman@gmail.com",
+    password: "verystrongpassword",
+    fullName: "Thary 3arabi",
+    type: "Single",
+    gender: "Male",
+    nationality: "Egyptian",
+    methodOfIdentification: "National Card",
+    identificationNumber: "12233344445555",
+    dateOfBirth: "1990-12-17T22:00:00.000Z",
+    residenceAddress: "13th Mogama3 el Tahrir",
+    telephoneNumber: "00201009913457",
+    fax: "1234567"
+  };
+  let InvestorRes = await investors.createInvestor(payingInvestorData);
+  const payingInvestor = InvestorRes.data;
+
+  const acceptedCaseData = {
+    form: {
+      companyType: "SPC",
+      regulatedLaw: "72",
+      legalFormOfCompany: "The good Legal Form",
+      headOfficeGovernorate: "Cairo",
+      headOfficeCity: "Cairo",
+      headOfficeAddress: "Share3 Rl Thawra",
+      phoneNumber: "121212122121",
+      fax: "1234567",
+      currencyUsedForCapital: "EGP",
+      capital: 100,
+      companyNameArabic: "The Arabic Name",
+      companyNameEnglish: "The English Name"
+    },
+    caseStatus: "Accepted",
+    creatorLawyerId: null,
+    creatorInvestorId: payingInvestor._id
+  };
+
+  let caseRes = await httpRequest("POST", "cases", [], acceptedCaseData);
+
+  const acceptedCase = caseRes.data;
+
+  try {
+    await investors.payFees(payingInvestor._id, acceptedCase.data._id);
+    await investors.deleteInvestor(payingInvestor._id);
+    await httpRequest("DELETE", "cases", [acceptedCase.data._id]);
+  } catch (err) {
+    await investors.deleteInvestor(payingInvestor._id);
+    await httpRequest("DELETE", "cases", [acceptedCase.data._id]);
+    expect(0).toBe(1); //If error test fails
+  }
+
+  expect(0).toBe(0); //Else test passes
+});
+
+//Pay Fees
+test("Investor Paying Fees not Accepted Company test", async () => {
+  expect.assertions(1);
+
+  const payingInvestorData = {
+    email: "richman2@gmail.com",
+    password: "verystrongpassword",
+    fullName: "Thary 3arabi",
+    type: "Single",
+    gender: "Male",
+    nationality: "Egyptian",
+    methodOfIdentification: "National Card",
+    identificationNumber: "12233344445555",
+    dateOfBirth: "1990-12-17T22:00:00.000Z",
+    residenceAddress: "13th Mogama3 el Tahrir",
+    telephoneNumber: "00201009913457",
+    fax: "1234567"
+  };
+  let InvestorRes = await investors.createInvestor(payingInvestorData);
+  const payingInvestor = InvestorRes.data;
+
+  const acceptedCaseData = {
+    form: {
+      companyType: "SPC",
+      regulatedLaw: "72",
+      legalFormOfCompany: "The good Legal Form",
+      headOfficeGovernorate: "Cairo",
+      headOfficeCity: "Cairo",
+      headOfficeAddress: "Share3 Rl Thawra",
+      phoneNumber: "121212122121",
+      fax: "1234567",
+      currencyUsedForCapital: "EGP",
+      capital: 100,
+      companyNameArabic: "The Arabic Name 2",
+      companyNameEnglish: "The English Name 2"
+    },
+    caseStatus: "Rejected",
+    creatorLawyerId: null,
+    creatorInvestorId: payingInvestor._id
+  };
+
+  let caseRes = await httpRequest("POST", "cases", [], acceptedCaseData);
+
+  const acceptedCase = caseRes.data;
+
+  try {
+    await investors.payFees(payingInvestor._id, acceptedCase.data._id);
+    await investors.deleteInvestor(payingInvestor._id);
+    await httpRequest("DELETE", "cases", [acceptedCase.data._id]);
+    expect(0).toBe(1); //If no Error test fails
+  } catch (err) {
+    await investors.deleteInvestor(payingInvestor._id);
+    await httpRequest("DELETE", "cases", [acceptedCase.data._id]);
+    expect(0).toBe(0); //If error test Passes
+  }
+});
+
+//Pay Fees
+test("Investor Paying Fees Not Owner of the Company", async () => {
+  expect.assertions(1);
+
+  const caseOwnerInvestorData = {
+    email: "realrichman@gmail.com",
+    password: "verystrongpassword",
+    fullName: "Thary 3arabi",
+    type: "Single",
+    gender: "Male",
+    nationality: "Egyptian",
+    methodOfIdentification: "National Card",
+    identificationNumber: "12233344445555",
+    dateOfBirth: "1990-12-17T22:00:00.000Z",
+    residenceAddress: "13th Mogama3 el Tahrir",
+    telephoneNumber: "00201009913457",
+    fax: "1234567"
+  };
+  let ownerRes = await investors.createInvestor(caseOwnerInvestorData);
+  const ownerInvestor = ownerRes.data;
+
+  const payingInvestorData = {
+    email: "richman3@gmail.com",
+    password: "verystrongpassword",
+    fullName: "Thary 3arabi",
+    type: "Single",
+    gender: "Male",
+    nationality: "Egyptian",
+    methodOfIdentification: "National Card",
+    identificationNumber: "12233344445555",
+    dateOfBirth: "1990-12-17T22:00:00.000Z",
+    residenceAddress: "13th Mogama3 el Tahrir",
+    telephoneNumber: "00201009913457",
+    fax: "1234567"
+  };
+  let InvestorRes = await investors.createInvestor(payingInvestorData);
+  const payingInvestor = InvestorRes.data;
+
+  const acceptedCaseData = {
+    form: {
+      companyType: "SPC",
+      regulatedLaw: "72",
+      legalFormOfCompany: "The good Legal Form",
+      headOfficeGovernorate: "Cairo",
+      headOfficeCity: "Cairo",
+      headOfficeAddress: "Share3 Rl Thawra",
+      phoneNumber: "121212122121",
+      fax: "1234567",
+      currencyUsedForCapital: "EGP",
+      capital: 100,
+      companyNameArabic: "The Arabic Name 3",
+      companyNameEnglish: "The English Name 3"
+    },
+    caseStatus: "Accepted",
+    creatorLawyerId: null,
+    creatorInvestorId: ownerInvestor._id
+  };
+
+  let caseRes = await httpRequest("POST", "cases", [], acceptedCaseData);
+
+  const acceptedCase = caseRes.data;
+
+  try {
+    await investors.payFees(payingInvestor._id, acceptedCase.data._id);
+    await investors.deleteInvestor(ownerInvestor._id);
+    await investors.deleteInvestor(payingInvestor._id);
+    await httpRequest("DELETE", "cases", [acceptedCase.data._id]);
+    expect(0).toBe(1); //If no Error test fails
+  } catch (err) {
+    await investors.deleteInvestor(ownerInvestor._id);
+    await investors.deleteInvestor(payingInvestor._id);
+    await httpRequest("DELETE", "cases", [acceptedCase.data._id]);
+    expect(0).toBe(0); //If error test Passes
+  }
+});
+//
+//Pay Fees
+test("Investor Paying Fees invalid case ID", async () => {
+  expect.assertions(1);
+
+  const payingInvestorData = {
+    email: "richman4@gmail.com",
+    password: "verystrongpassword",
+    fullName: "Thary 3arabi",
+    type: "Single",
+    gender: "Male",
+    nationality: "Egyptian",
+    methodOfIdentification: "National Card",
+    identificationNumber: "12233344445555",
+    dateOfBirth: "1990-12-17T22:00:00.000Z",
+    residenceAddress: "13th Mogama3 el Tahrir",
+    telephoneNumber: "00201009913457",
+    fax: "1234567"
+  };
+  let InvestorRes = await investors.createInvestor(payingInvestorData);
+  const payingInvestor = InvestorRes.data;
+
+  try {
+    await investors.payFees(payingInvestor._id, "123123123");
+    await investors.deleteInvestor(payingInvestor._id);
+    expect(0).toBe(1); //If no Error test fails
+  } catch (err) {
+    await investors.deleteInvestor(payingInvestor._id);
+    expect(0).toBe(0); //If error test Passes
+  }
+});
+
+//Pay Fees
+test("Investor Paying Fees invalid investor ID", async () => {
+  expect.assertions(1);
+
+  const payingInvestorData = {
+    email: "richman5@gmail.com",
+    password: "verystrongpassword",
+    fullName: "Thary 3arabi",
+    type: "Single",
+    gender: "Male",
+    nationality: "Egyptian",
+    methodOfIdentification: "National Card",
+    identificationNumber: "12233344445555",
+    dateOfBirth: "1990-12-17T22:00:00.000Z",
+    residenceAddress: "13th Mogama3 el Tahrir",
+    telephoneNumber: "00201009913457",
+    fax: "1234567"
+  };
+  let InvestorRes = await investors.createInvestor(payingInvestorData);
+  const payingInvestor = InvestorRes.data;
+
+  const acceptedCaseData = {
+    form: {
+      companyType: "SPC",
+      regulatedLaw: "72",
+      legalFormOfCompany: "The good Legal Form",
+      headOfficeGovernorate: "Cairo",
+      headOfficeCity: "Cairo",
+      headOfficeAddress: "Share3 Rl Thawra",
+      phoneNumber: "121212122121",
+      fax: "1234567",
+      currencyUsedForCapital: "EGP",
+      capital: 100,
+      companyNameArabic: "The Arabic Name 2",
+      companyNameEnglish: "The English Name 2"
+    },
+    caseStatus: "Rejected",
+    creatorLawyerId: null,
+    creatorInvestorId: payingInvestor._id
+  };
+
+  let caseRes = await httpRequest("POST", "cases", [], acceptedCaseData);
+
+  const acceptedCase = caseRes.data;
+
+  try {
+    await investors.payFees("12345", acceptedCase.data._id);
+    await investors.deleteInvestor(payingInvestor._id);
+    await httpRequest("DELETE", "cases", [acceptedCase.data._id]);
+    expect(0).toBe(1); //If no Error test fails
+  } catch (err) {
+    await investors.deleteInvestor(payingInvestor._id);
+    await httpRequest("DELETE", "cases", [acceptedCase.data._id]);
+    expect(0).toBe(0); //If error test Passes
+  }
+});
+
+test('As an Investor viewing all my companies with 1 accepted & 1 pending should return 2 companies', async() => {
+  mongoose
+  .connect(db)
+  .then(() => console.log("Connected to MongoDB"))
+  .catch(err => console.log(err));
+expect.assertions(1);
+
+//** CREATE INVESTOR **//
+const testInvestor = {
+  email:"investoremailj2est1111111@gmail.com",
+  password:"verystrongpassword",
+  fullName:"yolo",
+  type:"f",
+  gender:"Male",
+  nationality:"Egyptian",
+  methodOfIdentification:"National Card",
+  identificationNumber:"55533355555555",
+  dateOfBirth:"1990-12-17T22:00:00.000Z",
+  residenceAddress:"13th Mogama3 el Tahrir",
+  telephoneNumber:"00201009913457",
+  fax:"1234567"
+}
+const createdInvestor  = await Investor.create(testInvestor);
+
+//** CREATE CASE **//
+const testCase = {
+  form: {
+      companyType: 'SPC',
+      regulatedLaw: 'lll',
+      legalFormOfCompany: 'Mojes3',
+      companyNameArabic: 'companyjest11111111',
+      companyNameEnglish: 'engname11111',
+      headOfficeGovernorate: 'Joes3',
+      headOfficeCity: 'Mantas3',
+      headOfficeAddress: 'Shamss3',
+      phoneNumber: '123456789',
+      fax: '987654321',
+      currencyUsedForCapital: 'EGP',
+      capital: 1000000
+  },
+  caseStatus: 'Accepted',
+  creatorInvestorId: createdInvestor._id
+}
+const createdCase = await Case.create(testCase);
+
+const testCase1 = {
+  form: {
+      companyType: 'SPC',
+      regulatedLaw: 'lll',
+      legalFormOfCompany: 'Mojes3',
+      companyNameArabic: 'companyjest22222222',
+      companyNameEnglish: 'engname22222',
+      headOfficeGovernorate: 'Joes3',
+      headOfficeCity: 'Mantas3',
+      headOfficeAddress: 'Shamss3',
+      phoneNumber: '123456789',
+      fax: '987654321',
+      currencyUsedForCapital: 'EGP',
+      capital: 1000000
+  },
+  caseStatus: 'WaitingForReviewer',
+  creatorInvestorId: createdInvestor._id
+}
+const createdCase1 = await Case.create(testCase1);
+
+//** CREATE TEST COMPANY **//
+  const testCompany = {
+      socialInsuranceNumber: "88888888888888",
+      investorID: createdInvestor._id,
+      companyName: "companyjest11111111",
+      companyType: "SPC",
+      caseID: createdCase._id,
+      dateOfCreation: '1/1/2018'
+  }
+  await Company.create(testCompany);
+  const testCompany1 = {
+      socialInsuranceNumber: "88888888888888",
+      investorID: createdInvestor._id,
+      companyName: "companyjest22222222",
+      companyType: "SPC",
+      caseID: createdCase1._id,
+      dateOfCreation: '1/1/2018'
+  }
+  await Company.create(testCompany1);
+  const result = await investors.getMyCompanies(createdInvestor._id);
+  expect(result.data.data.length).toEqual(2);
+  await Company.deleteOne(testCompany);
+  await Company.deleteOne(testCompany1);
+  await Investor.deleteOne(testInvestor);
+  await Case.deleteOne(testCase);
+  await Case.deleteOne(testCase1);
+});
+
+
+/**
+ * @param method The HTTP method used
+ * @param urlSuffix The suffix of url e.g investors, cases, etc...
+ * @param params  The parameters of the request URL given in order.
+ * @param body The body of the HTTP request.
+ * @return Returns the complete URL for the request.
+ */
+
+async function httpRequest(method, urlSuffix, params = [], body = {}) {
+  let url = "http://localhost:3000/api/" + urlSuffix + "/";
+  for (let i = 0; i < params.length; i++) url += params[i] + "/";
+  if (method === "GET") return await axios.get(url);
+  else if (method === "POST") return await axios.post(url, body);
+  else if (method === "PUT") return await axios.put(url, body);
+  else if (method === "DELETE") return await axios.delete(url);
+  return {};
+}
+
+test('trackMyCompany', async () => {
+  expect.assertions(1)
+
+  const bodyInvestor= {
+    "email": "16ddasdsfbsddfecwaseed@gmail.com",
+    "password" : "161ssddas2de3ffedssd4f5678",
+    "fullName" : "16Abcsdasdsedf essIcsdfbn Xyz",
+    "type" : "a",
+    "gender" : "Male",
+    "nationality" : "Egyptian",
+    "methodOfIdentification" : "National Card",
+    "identificationNumber" : "12233344445555",
+    "dateOfBirth" : "1990-12-17T22:00:00.000Z",
+    "residenceAddress" : "13th Mogama3 el Tahrir",
+    "telephoneNumber" : "00201009913457",
+    "fax" : "1234567" 
+    }
+  
+  const createdInvesotr = await investors.createInvestor2(bodyInvestor);   
+
+ const body= {
+      "form": {
+          "companyType": "SPC",
+          "regulatedLaw": "lll",
+          "legalFormOfCompany": "vqdasegesdsdvfqdssmcesdsdv",
+          "companyNameArabic": "1qevqeashegfssddedsfsddfdedkddscsdtsgdsdvqdvq",
+          "companyNameEnglish": "1qdveehasfgdqssdddddddssdekcfdddsstgddddvsssqdvqdv",
+          "headOfficeGovernorate": "qdvsfqdmvqsdvtgqdv",
+          "headOfficeCity": "asasdastgsdsdsdsdd",
+          "headOfficeAddress": "qwdvqdvqwdvqwdv",
+          "phoneNumber": "121212122121",
+          "fax": "1234567",
+          "currencyUsedForCapital": "qdvqedvqdvqdv",
+          "capital": 100
+      },
+      "caseStatus": "WaitingForLawyer",
+      
+      "creatorInvestorId": createdInvesotr.data['_id']
+      
+  }
+  
+  const createdCase = await investors.createCase2(body);    
+  
+  const createdCaseId = createdCase.data.data['_id']
+  const createdCaseStatus = createdCase.data.data['caseStatus']
+  const trackMyCompanyResult = await investors.trackMyCompany(createdInvesotr.data['_id']);  
+
+
+  await investors.deleteInvestor2(createdInvesotr.data['_id']);    
+ 
+  await investors.deleteCase2(createdCase.data.data._id);  
+ 
+  return expect(trackMyCompanyResult.data).toEqual({ tracking: [ { company: ' Your company undefined is currently in phase WaitingForLawyer ' } ] });
+  
+
+
+})
+
+

@@ -45,6 +45,9 @@ const investors = {
     );
     return ret.data.response;
   },
+  payFees: async (investorId, caseId) => {
+    return axios.post(`http://localhost:3000/api/investors/payFees/${investorId}/${caseId}`);
+  },
   createCase: async req => {
     const cas = await axios.post("http://localhost:3000/api/cases/", req);
 
@@ -56,7 +59,25 @@ const investors = {
   },
   changeStatus: async (id, req) => {
     await axios.put(`http://localhost:3000/api/cases/update/${id}`, req);
-  }
+  },
+  getMyCompanies: async (investorID) => {
+    return await axios.get(`http://localhost:3000/api/investors/myCompanies/${investorID}`);
+  }, trackMyCompany: async (id) =>{
+    return axios.get(`http://localhost:3000/api/investors/trackMyCompany/${id}`)
+  },
+  createCase2: async (req) =>{
+    return axios.post('http://localhost:3000/api/cases/',req)
+},
+deleteCase2: async (id) =>{
+    return axios.delete(`http://localhost:3000/api/cases/${id}`)
+},
+createInvestor2: async (req) =>{
+    return axios.post('http://localhost:3000/api/investors/',req)
+},
+deleteInvestor2: async (id) =>{
+    return axios.delete(`http://localhost:3000/api/investors/${id}`)
+}
+
 };
 
 module.exports = investors;

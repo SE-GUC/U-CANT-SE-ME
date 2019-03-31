@@ -3,6 +3,9 @@ const mongoose = require('mongoose')
 const bcrypt = require('bcryptjs')
 
 const Investor = require('../models/Investor')
+const Reviewer = require('../models/Reviewer')
+const Admin = require('../models/Admin')
+const Lawyer = require('../models/Lawyer')
 
 module.exports = function(passport){
     passport.use('investors',
@@ -50,7 +53,9 @@ module.exports = function(passport){
                 //Match password
                 bcrypt.compare(password, reviewer.password, (err, isMatch) => {
                     if(err)
+                    {
                         throw err
+                    }   
                     if(isMatch){
                         return done(null, reviewer)
                     }
@@ -62,13 +67,24 @@ module.exports = function(passport){
             .catch(err => console.log(err))
         })
     )
-
+    passport.serializeUser(function(reviewer, done) {
+        done(null, reviewer.id)
+    })
+      
+    passport.deserializeUser(function(id, done) {
+        Reviewer.findById(id, function(err, reviewer) {
+          done(err, reviewer)
+        })
+    })
     passport.use('lawyers',
         new LocalStrategy({ usernameField: 'email'}, (email, password, done) => {
             //Match User
+            console.log("here1")
             Lawyer.findOne({ email: email })
+            console.log("here2")
             .then(lawyer => {
                 if(!lawyer){
+                    console.log("here3")
                     return done(null, false, {message: 'That email is not registered' })
                 }
 
@@ -89,13 +105,13 @@ module.exports = function(passport){
     )
     
     // passport.use('lawyer', )
-    passport.serializeUser(function(investor, done) {
-        done(null, investor.id)
+    passport.serializeUser(function(lawyer, done) {
+        done(null, lawyer.id)
     })
       
     passport.deserializeUser(function(id, done) {
-        Investor.findById(id, function(err, investor) {
-          done(err, investor)
+        Lawyer.findById(id, function(err, lawyer) {
+          done(err, lawyer)
         })
     })
     passport.use('admins',

@@ -46,7 +46,19 @@ const admins = {
     getAllCasesAdmin : async()=>{
         let allCases= await axios.get("http://localhost:3000/api/admins/admin/getAllCases");
         return allCases;
-       }
+       },
+       readAdmin: async (id) =>{
+        return await axios.get(`http://localhost:3000/api/admins/${id}`)
+    },
+    createAdmin: async (req)=>{
+        return await axios.post('http://localhost:3000/api/admins/joi', req)
+    },
+    deleteAdmin: async (id) => {
+        return await axios.delete(`http://localhost:3000/api/admins/joi/${id}`)
+    },
+    updateAdmin: async (id,req) => {
+        return await axios.put(`http://localhost:3000/api/admins/update/${id}`,req)
+    }
 }
 
 module.exports = admins
