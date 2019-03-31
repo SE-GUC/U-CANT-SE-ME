@@ -53,7 +53,7 @@ exports.updateReviewer = async function(req, res) {
   var reviewer = await Reviewer.findById(reviewerID);
   if (!reviewer)
     return res.status(404).send({ error: "Reviewer does not exist" });
-  const oldPassword = req.body.oldPassword;
+ // const oldPassword = req.body.oldPassword;
   try {
     const isValidated = validator.updateValidation(req.body);
     if (isValidated.error)
@@ -61,11 +61,11 @@ exports.updateReviewer = async function(req, res) {
         .status(400)
         .send({ error: isValidated.error.details[0].message });
 
-    if (!oldPassword)
-      return res.status(404).send({ error: "There is no verificaiton" });
-    if (!(reviewer.password == oldPassword)) {
-      return res.status(404).send({ error: "password doesnot match" });
-    } else {
+    // if (!oldPassword)
+    //   return res.status(404).send({ error: "There is no verificaiton" });
+    // if (!(reviewer.password == oldPassword)) {
+    //   return res.status(404).send({ error: "password doesnot match" });
+    // } else {
       if (req.body.username) var username = req.body.username;
       else username = reviewer.username;
       if (req.body.fullName) var fullName = req.body.fullName;
@@ -81,7 +81,7 @@ exports.updateReviewer = async function(req, res) {
         email
       });
       res.json({ msg: "Reviewer updated successfully" });
-    }
+   // }
   } catch (error) {
     // We will be handling the error later
     return res.status(404).send({ error: "Reviewer does not exist" });
