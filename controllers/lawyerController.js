@@ -6,7 +6,7 @@ const mongoValidator = require("validator");
 const Lawyer = require("../models/Lawyer");
 const caseController = require("./caseController")
 const LawyerGettingAllCasesAuthenticated=true;
-
+const bcrypt=require("../routes/api/utils/encryption");
 // module Case
 const Case = require("../models/Case.js")
 
@@ -57,7 +57,10 @@ exports.updateLawyer = async function(req, res) {
       return;
     }
     if (!req.body.email) req.body.email = lawyer.email;
-    if (!req.body.password) req.body.password = lawyer.password;
+    if (!req.body.password){ req.body.password = lawyer.password;}
+     else{
+       req.body.password=bcrypt.hashPassword(req.body.password);
+     }
     if (!req.body.fullName) req.body.fullName = lawyer.fullName;
     if (!req.body.username) req.body.username = lawyer.username;
     const email = req.body.email;
