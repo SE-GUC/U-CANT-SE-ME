@@ -8,6 +8,24 @@ test("Get all notifications", async () => {
   expect.assertions(0);
   const {data}=await notifications.getAll();
  });
+ test("Get notification by id ", async () => {
+  
+  
+  
+  const investor=await notifications.createInvestor();
+  const cas = await notifications.createCase(investor._id);
+   const body =  {
+      "emailOfRecipient": "zeyad.khattab@gmail.com",
+        "message": "Hey, Can you see US ?!!",
+        "caseID": cas._id,
+         "recipientId": investor._id
+       };
+    const {data}= await notifications.createNotification(body);
+    await notifications.readNotification(data.data._id) 
+    await notifications.deleteCase(cas._id);
+    await notifications.deleteInvestor(investor._id);
+    await notifications.deleteNotification(data.data._id);
+});
 
 test("Create a notification ", async () => {
   expect.assertions(1);
