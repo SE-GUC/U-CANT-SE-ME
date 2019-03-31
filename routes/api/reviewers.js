@@ -32,5 +32,8 @@ router.get("/getAllUnsignedCases/:id", reviewerController.getWaitingForReviewerC
 
 router.get("/assignCase/:id/:caseId", reviewerController.getSpecificWaitingForReviewerCase);
 
+//login
+router.post('/login', reviewerController.login)
+
 module.exports = router;
 

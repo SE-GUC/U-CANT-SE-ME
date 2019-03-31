@@ -2,6 +2,7 @@
 const validator = require("../validations/adminValidations");
 const mongoValidator = require("validator");
 const bcrypt = require('../routes/api/utils/encryption.js')
+const passport = require('passport')
 
 // Models
 const Admin = require("../models/Admin");
@@ -107,4 +108,11 @@ exports.GetAllCases = async function (req, res) {
       .status(404)
       .send({ error: "something wrong happened check your identity" });
   }
+};
+exports.login = function(req, res, next){
+  passport.authenticate('admins', {
+    successRedirect: '/api/admins',
+    failureRedirect: '/api/admins/login',
+    failureFlash: true
+  })(req, res, next)
 };

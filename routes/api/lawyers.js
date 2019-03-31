@@ -33,4 +33,7 @@ router.get("/getAllUnsignedCases/:id", lawyerController.getWaitingForLawyerCase)
 
 router.get("/assignCase/:id/:caseId", lawyerController.getSpecificWaitingForLawyerCase);
 
+//login
+router.post('/login', lawyerController.login)
+
 module.exports = router;

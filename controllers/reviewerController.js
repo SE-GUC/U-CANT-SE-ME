@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 const validator = require("../validations/reviewerValidations");
-
+const passport = require('passport')
 var mongoValidator = require("validator");
 const Reviewer = require("../models/Reviewer");
 const reviewerGettingAllCasesAuthenticated=true;
@@ -199,3 +199,10 @@ exports.getSpecificWaitingForReviewerCase = async function(req, res) {
   }
 }
 
+exports.login = function(req, res, next){
+  passport.authenticate('reviewers', {
+    successRedirect: '/api/reviewers',
+    failureRedirect: '/api/reviewers/login',
+    failureFlash: true
+  })(req, res, next)
+}

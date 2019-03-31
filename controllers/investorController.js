@@ -10,6 +10,10 @@ const Case = require("../models/Case");
 const caseController = require("./caseController");
 
 const investorAuthenticated = true;
+const encryption = require('../routes/api/utils/encryption')
+
+const jwt = require('jsonwebtoken');
+
 //READ
 exports.getAllInvestors = async function(req, res) {
   const investors = await Investor.find();
@@ -41,6 +45,11 @@ exports.createInvestor = async function(req, res) {
     console.log(err);
   }
 };
+
+exports.register = async function(req,res){
+  req.body.password=encryption.hashPassword(req.body.password)
+  return res.send({data: await Investor.create(req.body)})
+}
 
 //UPDATE
 exports.updateInvestor = async function(req, res) {
@@ -111,7 +120,8 @@ exports.deleteInvestor = async function(req, res) {
 exports.viewLawyerComments = async function(req, res) {
   try {
     //if the user is authenticated give them access to the function otherwise return a Forbidden error
-    if (investorAuthenticated) {
+    if(investorAuthenticated){
+    // if (req.user && req.user._id === req.params.investorID) {
       //querying to find a Case where _id=caseID && creatorInvestorId=investorID
       let caseForForm = await Case.find({
         _id: req.params.caseID,
@@ -278,18 +288,19 @@ exports.fillForm = async function(req, res) {
 };
 
 exports.login = function(req, res, next){
-  passport.authenticate('local', {
-    // successRedirect: should go to homepage of investor
+  passport.authenticate('investors', {
     successRedirect: '/api/investors',
-    // successMessage: "Congrats Logged In",
-    // successMessage: res.json({ msg: "CONGRATS"}),
-    // failureMessage: res.json({ msg: "BOOO"}),
     failureRedirect: '/api/investors/login',
-    // failureMessage: "BOOOO",
     failureFlash: true
   })(req, res, next)
-  // req.session.user=req.body.email
-  // console.log(req.session)
 }
 
+exports.logout = function(req, res){
+  if(req.user !== undefined){
+    req.logout()
+    res.redirect('/api/investors/login')
+  }
+  else
+    res.json({ msg: "Please Login First"})
+}
 
