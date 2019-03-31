@@ -61,9 +61,10 @@ const mycase =  {
         const caseHabd=await lawyer.changeStatus(caseID,'habd')
     }catch(err)
     {
-        const caseHabd=await lawyer.getCase(caseID)
-        expect(caseHabd.data.caseStatus).not.toBe('habd')
+       
     }
+    const caseHabd=await lawyer.getCase(caseID)
+    expect(caseHabd.data.caseStatus).not.toBe('habd')
     
     await lawyer.deleteCase(createdCase.data.data._id)
     await lawyer.deleteInvestor(createdInvestor.data._id)
