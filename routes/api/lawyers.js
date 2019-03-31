@@ -4,6 +4,7 @@ const router = express.Router();
 
 // module Lawyer Controller
 const lawyerController = require("../../controllers/lawyerController")
+const caseController = require("../../controllers/caseController")
 
 
 //Read
@@ -32,5 +33,8 @@ router.put('/updateCaseStatus/:caseId/:caseStatus', lawyerController.AcceptRejec
 router.get("/getAllUnsignedCases/:id", lawyerController.getWaitingForLawyerCase);
 
 router.get("/assignCase/:id/:caseId", lawyerController.getSpecificWaitingForLawyerCase);
+
+//get last lawyer worked on case
+router.get("/getCaseLastLawyer/:id", caseController.getCaseLastLawyer);
 
 module.exports = router;

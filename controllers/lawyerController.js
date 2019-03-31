@@ -202,3 +202,5 @@ exports.getSpecificWaitingForLawyerCase = async function(req, res) {
   }
 }
 
+
+
