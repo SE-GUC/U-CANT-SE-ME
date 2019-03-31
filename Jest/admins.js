@@ -33,7 +33,11 @@ const admins = {
     },
     getLastLawyer: async (id) =>{
         return await axios.get(`http://localhost:3000/api/reviewers/getCaseLastLawyer/${id}`)
-    }
+    },
+    getAllCasesAdmin : async()=>{
+        let allCases= await axios.get("http://localhost:3000/api/admins/admin/getAllCases");
+        return allCases;
+       }
 }
 
 module.exports = admins

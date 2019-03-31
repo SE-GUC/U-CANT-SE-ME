@@ -177,7 +177,7 @@ test('get last lawyer worked on a case', async () => {
   const lawyer = await reviewers.createLawyer(bodyLawyer)
   const lawyerId = lawyer.data.data['_id']
 
-  console.log(lawyer)
+
   const bodyInvestor = {
       "email": "30ddyafsbfdssdfdvcf@gmail.com",
       "password": "3161f23ffsfsddsvf4df567y",
@@ -196,9 +196,6 @@ test('get last lawyer worked on a case', async () => {
   const createdInvestor = await reviewers.createInvestor(bodyInvestor);
   
   
-  console.log(lawyerId)
-  console.log(createdInvestor.data['_id'])
-
   const body = {
       "form": {
           "companyType": "SPC",
@@ -223,12 +220,54 @@ test('get last lawyer worked on a case', async () => {
   const createdCase = await reviewers.createCase(body)
 
  const lastLawyer = await reviewers.getLastLawyer(createdCase.data.data._id);  
- console.log(lastLawyer.data)
-    
-//   console.log(createdCase.data.data._id)
+
 
   await reviewers.deleteCase(createdCase.data.data._id)
   await reviewers.deleteLawyer(lawyerId)
   await reviewers.deleteInvestor(createdInvestor.data['_id'])    
   expect(lastLawyer.data).toEqual({ lawyerName: '3youssef mohamed joez' });
-})  
+});
+
+test('testing reviewer Get All Cases',async()=>{
+  expect.assertions(1);
+  let investorBody= {
+    "email": "yehaihiahia23joenjoe1hiahiaha@gmail.com",
+    "password" : "12345678",
+    "fullName" : "Abc Ibn Xyz",
+    "type" : "a",
+    "gender" : "Female",
+    "nationality" : "Egyptian",
+    "methodOfIdentification" : "National Card",
+    "identificationNumber" : "12233344445555",
+    "dateOfBirth" : "1990-12-17T22:00:00.000Z",
+    "residenceAddress" : "13th Mogama3 el Tahrir",
+    "telephoneNumber" : "00201009913457",
+    "fax" : "1234567" 
+  };
+  const investorCreated= await reviewers.createInvestor(investorBody);
+  let form ={
+        
+    "form": {
+        "companyType": "SPC",
+        "regulatedLaw": "712",
+        "legalFormOfCompany": "DON312321TDELETE",
+        "companyNameArabic": "ahm1ass21djoeasdas3e3213123dy3yehia1112312ouwss,xzmcxz",
+        "companyNameEnglish": "ah1m3123joedasdasdasdeadyehia31123do112312ndo",
+        "headOfficeGovernorate": "DONTDELETE",
+        "headOfficeCity": "DONTDELETE",
+        "headOfficeAddress": "DONT312312DELETE",
+        "phoneNumber": "121212122121",
+        "fax": "1234567",
+        "currencyUsedForCapital": "DO3123NTDELETE",
+        "capital": 100
+    },
+    "caseStatus": "WaitingForLawyer",
+      "creatorInvestorId": investorCreated.data._id
+};
+
+const caseCreated= await reviewers.createCase(form);
+ const allCases= await reviewers.getAllCasesReviewer();
+ expect(allCases.data.data.length).not.toBe(0);
+ await reviewers.deleteCase(caseCreated.data.data._id);
+ await reviewers.deleteInvestor(investorCreated.data._id);
+});

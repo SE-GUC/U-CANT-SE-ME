@@ -44,6 +44,10 @@ const reviewers = {
         },
         getLastLawyer: async (id) =>{
             return await axios.get(`http://localhost:3000/api/reviewers/getCaseLastLawyer/${id}`)
+        },
+        getAllCasesReviewer : async()=>{
+                let allCases= await axios.get("http://localhost:3000/api/reviewers/reviewer/getAllCases");
+                return allCases;
         }
         
 };
