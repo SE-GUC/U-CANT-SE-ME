@@ -44,7 +44,13 @@ const reviewers = {
         },
         getLastLawyer: async (id) =>{
             return await axios.get(`http://localhost:3000/api/reviewers/getCaseLastLawyer/${id}`)
-        }
+        },
+        readReviewer: async (id) =>{
+                return await axios.get(`http://localhost:3000/api/reviewers/${id}`)
+        },
+        updateReviewer: async (id,req) => {
+                return await axios.put(`http://localhost:3000/api/reviewers/${id}`,req)
+            }
         
 };
 module.exports = reviewers;

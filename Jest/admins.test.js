@@ -57,7 +57,7 @@ test('As an admin I should be able to login', async() => {
 })
 
 test('get last lawyer worked on a case', async () => {
-    expect.assertions(2)
+    expect.assertions(1)
     bodyLawyer = {
         "username": "4ahmefddfyvoedfvsdussesf9d8f6",
         "password": "4ahmefddeflvasdfdzzou6fd",
@@ -67,7 +67,7 @@ test('get last lawyer worked on a case', async () => {
     const lawyer = await admins.createLawyer(bodyLawyer)
     const lawyerId = lawyer.data.data['_id']
 
-    console.log(lawyer)
+    
     const bodyInvestor = {
         "email": "40ddysddafsbfdssdfdvcf@gmail.com",
         "password": "4161dsdf23ffsfsddsvf4df567y",
