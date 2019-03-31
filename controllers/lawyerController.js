@@ -215,7 +215,7 @@ exports.addCommentAsLawyer = async function(req,res){
     if (checkCase.length === 0)
       return res.status(404).send("Case not Found");
     if(lawyerAuthenticated){
-      if(checkCase[0].assignedLawyerId!==req.params.lawyerID)
+      if(checkCase[0].assignedLawyerId+""!==req.params.lawyerID+"")
         return res.status(403).send({error: "Only assigned Lawyers to this Case can comment on it" });
       if(checkCase[0].caseStatus !== "OnUpdate" && checkCase[0].caseStatus !== "WaitingForLawyer")
         return res.status(403).send({error: "Access Denied: This Case is currently Locked for you." });

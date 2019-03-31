@@ -26,7 +26,7 @@ test('Add comment as a Reviewer with caseStatus = WaitingForReviewer & he is ass
 
 //** CREATE INVESTOR **//
   const testInvestor = {
-    email:"niss@gmhail.com",
+    email:"nisfsffffffffj@gmhail.com",
     password:"verystrongpassword",
     fullName:"yolo",
     type:"f",
@@ -44,10 +44,10 @@ test('Add comment as a Reviewer with caseStatus = WaitingForReviewer & he is ass
 
 //** CREATE REVIEWER **//
   const testReviewer = {
-    username:"Abdgsbfdc",
+    username:"Abdffffsfbfdc",
     password:"12312gg12g12",
     fullName:"Abfvgnggk",
-    email:"A@ggdnfdk"
+    email:"A@ggfffffffndk"
   }
   //const createdReviewer = await Reviewer.create(testReviewer);
   const createdReviewer = await reviewers.createReviewer(testReviewer);
@@ -58,8 +58,8 @@ test('Add comment as a Reviewer with caseStatus = WaitingForReviewer & he is ass
         companyType: 'SPC',
         regulatedLaw: 'lll',
         legalFormOfCompany: 'Mojes3',
-        companyNameArabic: 'gsghfhfgefe',
-        companyNameEnglish: 'bssgfnghflsz',
+        companyNameArabic: 'nhffffffffffhfgefe',
+        companyNameEnglish: 'bsfnfffffnghflsz',
         headOfficeGovernorate: 'Joes3',
         headOfficeCity: 'Mantas3',
         headOfficeAddress: 'Shamss3',
@@ -68,7 +68,7 @@ test('Add comment as a Reviewer with caseStatus = WaitingForReviewer & he is ass
         currencyUsedForCapital: 'EGP',
         capital: 1000000
     },
-    caseStatus: 'WaitingForLawyer',
+    caseStatus: 'WaitingForReviewer',
     creatorInvestorId: createdInvestor.data._id,
     assignedReviewerId: createdReviewer.data.data._id
   }
@@ -76,15 +76,16 @@ test('Add comment as a Reviewer with caseStatus = WaitingForReviewer & he is ass
   const createdCase = await reviewers.createCase(testCase);
 
 //** Comment Body **//
-  const body = {
+  const req = {
     body: "test jest"
   }
   console.log(createdReviewer.data.data._id);
   console.log(createdInvestor.data._id);
   console.log(createdCase.data.data._id);
-  await reviewers.addCommentAsReviewer(body, createdReviewer.data.data._id, createdCase.data.data._id);
+  await reviewers.addCommentAsReviewer(req, createdReviewer.data.data._id, createdCase.data.data._id);
   const actualCase = await Case.findOne(testCase);
-  expect(actualCase.comments[comments.length-1].body).toEqual(body);
+  expect(actualCase.comments[actualCase.comments.length-1].body).toEqual(req.body);
   await Case.deleteOne(testCase);
   await Investor.deleteOne(testInvestor);
+  await Reviewer.deleteOne(testReviewer);
 });

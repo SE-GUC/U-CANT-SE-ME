@@ -212,7 +212,7 @@ exports.addCommentAsReviewer = async function(req,res){
     if (checkCase.length === 0)
       return res.status(404).send("Case not Found");
     if(reviewerAuthenticated){
-      if(checkCase[0].assignedReviewerId!==req.params.reviewerID)
+      if(checkCase[0].assignedReviewerId+""!==req.params.reviewerID+"")
         return res.status(403).send({error: "Only assigned Reviewers to this Case can comment on it" });
       if(checkCase[0].caseStatus !== "Rejected" && checkCase[0].caseStatus !== "WaitingForReviewer")
         return res.status(403).send({error: "Access Denied: This Case is currently Locked for you." });
