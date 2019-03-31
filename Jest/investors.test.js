@@ -1,4 +1,4 @@
-t wo/**
+/**
  * @jest-environment node
  */
 
