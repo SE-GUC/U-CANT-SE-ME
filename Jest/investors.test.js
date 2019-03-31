@@ -799,3 +799,62 @@ async function httpRequest(method, urlSuffix, params = [], body = {}) {
   else if (method === "DELETE") return await axios.delete(url);
   return {};
 }
+
+test('trackMyCompany', async () => {
+  expect.assertions(1)
+
+  const bodyInvestor= {
+    "email": "16ddasdsfbsddfecwaseed@gmail.com",
+    "password" : "161ssddas2de3ffedssd4f5678",
+    "fullName" : "16Abcsdasdsedf essIcsdfbn Xyz",
+    "type" : "a",
+    "gender" : "Male",
+    "nationality" : "Egyptian",
+    "methodOfIdentification" : "National Card",
+    "identificationNumber" : "12233344445555",
+    "dateOfBirth" : "1990-12-17T22:00:00.000Z",
+    "residenceAddress" : "13th Mogama3 el Tahrir",
+    "telephoneNumber" : "00201009913457",
+    "fax" : "1234567" 
+    }
+  
+  const createdInvesotr = await investors.createInvestor2(bodyInvestor);   
+
+ const body= {
+      "form": {
+          "companyType": "SPC",
+          "regulatedLaw": "lll",
+          "legalFormOfCompany": "vqdasegesdsdvfqdssmcesdsdv",
+          "companyNameArabic": "1qevqeashegfssddedsfsddfdedkddscsdtsgdsdvqdvq",
+          "companyNameEnglish": "1qdveehasfgdqssdddddddssdekcfdddsstgddddvsssqdvqdv",
+          "headOfficeGovernorate": "qdvsfqdmvqsdvtgqdv",
+          "headOfficeCity": "asasdastgsdsdsdsdd",
+          "headOfficeAddress": "qwdvqdvqwdvqwdv",
+          "phoneNumber": "121212122121",
+          "fax": "1234567",
+          "currencyUsedForCapital": "qdvqedvqdvqdv",
+          "capital": 100
+      },
+      "caseStatus": "WaitingForLawyer",
+      
+      "creatorInvestorId": createdInvesotr.data['_id']
+      
+  }
+  
+  const createdCase = await investors.createCase2(body);    
+  
+  const createdCaseId = createdCase.data.data['_id']
+  const createdCaseStatus = createdCase.data.data['caseStatus']
+  const trackMyCompanyResult = await investors.trackMyCompany(createdInvesotr.data['_id']);  
+
+
+  await investors.deleteInvestor2(createdInvesotr.data['_id']);    
+ 
+  await investors.deleteCase2(createdCase.data.data._id);  
+ 
+  return expect(trackMyCompanyResult.data).toEqual({ tracking: [ { company: ' Your company undefined is currently in phase WaitingForLawyer ' } ] });
+  
+
+
+})
+
