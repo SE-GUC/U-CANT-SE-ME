@@ -10,7 +10,7 @@ let caseId = ''
 
 test('Create All Dependencies', async() => {
     const investor = {
-        email:"moe@moe.moe",
+        email:"moe@moe.moe.com",
         password:"dontusethispassword",
         fullName:"MoeMoeMoe",
         type:"CEO",
@@ -23,17 +23,17 @@ test('Create All Dependencies', async() => {
         telephoneNumber:"01007063067",
         fax:"123456789"
     }
-    createdInvestor  = await investors.registerInvestor(investor)
-    createdEmail = createdInvestor.data.data.email
+    createdInvestor  = await investors.createInvestor(investor)
+    createdEmail = createdInvestor.data.email
     createdPassword = investor.password
-    investorId = createdInvestor.data.data._id
+    investorId = createdInvestor.data._id
     const mycase =  {
         form: {
             companyType: 'SPC',
             regulatedLaw: 'lll',
-            legalFormOfCompany: 'NonProfitMan',
-            companyNameArabic: 'شركة مو التجاريةMoeMan',
-            companyNameEnglish: 'Moe CompanyMoeee',
+            legalFormOfCompany: 'ManNonProfitManTheMan',
+            companyNameArabic: 'شركة مو التجاريةMoeManTheManMan',
+            companyNameEnglish: 'Moe CompanyMoeeeTheMANNNMan',
             headOfficeGovernorate: 'California',
             headOfficeCity: 'San Francisco',
             headOfficeAddress: '123st.',
@@ -46,12 +46,12 @@ test('Create All Dependencies', async() => {
         creatorInvestorId: investorId
     }
     const createdCase = await investors.createCase(mycase)
-    caseId = createdCase.data.data._id    
+    caseId = createdCase.data.data._id 
     const updatedCase = {
         form: {
             companyType: 'SPC',
             regulatedLaw: 'lll',
-            legalFormOfCompany: 'NonProfitMan',
+            legalFormOfCompany: 'NonProfitManTheMan',
             headOfficeGovernorate: 'California',
             headOfficeCity: 'San Francisco',
             headOfficeAddress: '123st.',
@@ -73,7 +73,7 @@ test('Create All Dependencies', async() => {
             }
         ]
     }
-    await investors.updateCase(caseId, updatedCase)
+    await investors.updateCase(caseId, updatedCase)    
 })    
 
 test('Viewing Lawyers Comments On My Case', async() => {
