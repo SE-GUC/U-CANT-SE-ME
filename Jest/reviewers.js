@@ -50,7 +50,11 @@ const reviewers = {
         },
         updateReviewer: async (id,req) => {
                 return await axios.put(`http://localhost:3000/api/reviewers/${id}`,req)
-            }
+            },
+        getAllCasesReviewer : async()=>{
+                let allCases= await axios.get("http://localhost:3000/api/reviewers/reviewer/getAllCases");
+                return allCases;
+  }
         
 };
 module.exports = reviewers;
