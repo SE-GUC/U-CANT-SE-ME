@@ -2,7 +2,7 @@
 const validator = require("../validations/adminValidations");
 const mongoValidator = require("validator");
 const bcrypt = require('../routes/api/utils/encryption.js')
-
+const passport = require('passport')
 // Models
 const Admin = require("../models/Admin");
 const adminGettingAllCasesAuthenticated = true;
@@ -121,3 +121,11 @@ exports.registerReviewer = async function(req, res){
   console.log("hena")
   return res.send({data: await reviewerController.createReviewer(req, res)})
 }
+
+exports.loginAdmin = function(req, res, next){
+  passport.authenticate('admins', {
+    successRedirect: '/api/admins',
+    failureRedirect: '/api/admins/login',
+    failureFlash: true
+  })(req, res, next)
+};

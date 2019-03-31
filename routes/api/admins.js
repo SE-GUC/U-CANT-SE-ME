@@ -33,4 +33,7 @@ router.post('/registerLawyer', adminController.registerLawyer)
 //Register Reviewer
 router.post('/registerReviewer', adminController.registerReviewer);
 
+//Login
+router.post('/login', adminController.loginAdmin)
+
 module.exports = router;
