@@ -9,10 +9,10 @@ test('create a lawyer', async()=>{
 
     expect.assertions(5);
     let body = {
-        email: "fafasfgag67bobo.gamed@gmail.com",
-        password: "mememe6m7emeboboememe",
-        fullName: "ahmed76mmeememebobo",
-        username: "joeO7b6o7bo"
+        email: "fafasfgag670bobo.gamed@gmail.com",
+        password: "mememe60m7emeboboememe",
+        fullName: "ahmed706mmeememebobo",
+        username: "joeO70b6o7bo"
       };
 
     const createLawyer = await functions.createLawyer(body);
@@ -31,10 +31,10 @@ test('delete a lawyer ', async()=>{
   jest.setTimeout(10000);
     expect.assertions(2);
     let body = {
-        email: "dsadasdah16med@sab7oboil.com",
-        password: "msascdem637sem31231bobo2e",
-        fullName: "ahmedmca26sdasdamds7aemboboes",
-        username: "jxbsOsd4d26ff7bobo"
+        email: "dsadasdah106med@0sab7oboil.com",
+        password: "msascd0em6370sem31231bobo2e",
+        fullName: "ahmed0mca260sdasdamds7aemboboes",
+        username: "jxbsOsd40d026ff7bobo"
       };
       const createLawyer = await functions.createLawyer(body);
       const info =createLawyer.data.data;
@@ -50,21 +50,21 @@ test('delete a lawyer ', async()=>{
 test('testing updateLawyer', async()=>{
   expect.assertions(2);
   let body = {
-    email: "dsadbobo.co6m",
-    password: "bobobobobobobo6b",
-    fullName: "bobobobob6bsss",
-    username: "obsobsodbo6ds"
+    email: "dsadbo3123bo.1co60m12",
+    password: "bobo3213b1obobo0bobo612b",
+    fullName: "bobo3123bob1ob6b0sss12",
+    username: "obsob3122sod1bo6d0s12"
   };
   const newLawyer = await functions.createLawyer(body);
   const id =newLawyer.data.data._id;
   let bodyForUpdate={
-    email:"bsdobdosb7od@gg7",
-    password:"bobob7obob.c7omss"
+    email:"bsdob132dosb72od@1gg7120",
+    password:"bobob732ob2ob.1c7o0ms12s"
   };
  const updateLawyer=  await functions.updateLawyer(id,bodyForUpdate);
   const getLawyerAfterUpdate=await functions.getOneLawyer(id);
    expect(String(getLawyerAfterUpdate.data.email)).toBe(bodyForUpdate.email);
-   expect(getLawyerAfterUpdate.data.password).toBe(bodyForUpdate.password);
+   expect(getLawyerAfterUpdate.data.password).not.toBe(newLawyer.data.data.password);
  const deleteLawyer= await functions.deleteLawyer(id);
 });
 
@@ -72,10 +72,10 @@ test('testing updateLawyer', async()=>{
 test('testing get One Lawyer ', async()=>{
   expect.assertions(5);
   let body = {
-    email: "bosdb7ods@g1ilzz7.com",
-    password: "bs7odbzzzo1d7sbosd",
-    fullName: "bsd7bo1bzzzz7",
-    username: "bos7dbod1szz7o"
+    email: "bosdb7od10s@g1ilzz7.com",
+    password: "bs7odb10zzzo1d7sbosd",
+    fullName: "bsd7bo110bzzzz7",
+    username: "bos7dbod101szz7o"
   };
 
   const createLawyer = await functions.createLawyer(body);
@@ -95,10 +95,10 @@ test('testing get One Lawyer ', async()=>{
 test('testing getAllLawyers', async()=>{
   expect.assertions(2);
   let body = {
-      email: "bobob7obob7@gmail.com",
-      password: "bo7bos7dsdlv",
-      fullName: "bds7o7bdsobdsb",
-      username: "bsd7obod7sbodso"
+      email: "bobob7obob007@gmail.com",
+      password: "bo7bos7d00sdlv",
+      fullName: "bds7o7bdso00bdsb",
+      username: "bsd7obod70s0bodso"
     };
   const createLawyer= await functions.createLawyer(body);
   const getAllLawyers =await functions.getLawyers();
