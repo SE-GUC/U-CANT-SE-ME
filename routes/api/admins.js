@@ -27,4 +27,10 @@ router.get('/admin/getAllCases',adminController.GetAllCases);
 //get last lawyer worked on case
 router.get("/getCaseLastLawyer/:id", caseController.getCaseLastLawyer);
 
+//Register Lawyer
+router.post('/registerLawyer', adminController.registerLawyer)
+
+//Register Reviewer
+router.post('/registerReviewer', adminController.registerReviewer);
+
 module.exports = router;
