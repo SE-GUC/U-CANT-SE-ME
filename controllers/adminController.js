@@ -2,12 +2,13 @@
 const validator = require("../validations/adminValidations");
 const mongoValidator = require("validator");
 const bcrypt = require('../routes/api/utils/encryption.js')
-
+const passport = require('passport')
 // Models
 const Admin = require("../models/Admin");
 const adminGettingAllCasesAuthenticated = true;
 const caseController = require("./caseController");
-
+const reviewerController = require('./reviewerController')
+const lawyerController = require('./lawyerController')
 // Get certain admin
 
 exports.getAdmin = async function (req, res) {
@@ -107,4 +108,24 @@ exports.GetAllCases = async function (req, res) {
       .status(404)
       .send({ error: "something wrong happened check your identity" });
   }
+};
+
+//as admin i should be able to register lawyer
+exports.registerLawyer = async function(req,res){
+  req.body.password=bcrypt.hashPassword(req.body.password)
+  return res.send({data: await lawyerController.createLawyer(req, res)})
+}
+//as admin i should be able to register reviwer
+exports.registerReviewer = async function(req, res){
+  req.body.password = bcrypt.hashPassword(req.body.password)
+  console.log("hena")
+  return res.send({data: await reviewerController.createReviewer(req, res)})
+}
+
+exports.loginAdmin = function(req, res, next){
+  passport.authenticate('admins', {
+    successRedirect: '/api/admins',
+    failureRedirect: '/api/admins/login',
+    failureFlash: true
+  })(req, res, next)
 };
