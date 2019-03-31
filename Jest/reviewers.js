@@ -57,7 +57,7 @@ const reviewers = {
   },
     changeStatus: async (caseID,status) => {
         return await axios.put(`http://localhost:3000/api/reviewers/updateCaseStatus/${caseID}/${status}`)
-    },
+    }
         
 };
 
