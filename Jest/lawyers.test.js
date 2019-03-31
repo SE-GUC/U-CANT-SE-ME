@@ -19,15 +19,15 @@ ObjectId = require('mongodb').ObjectID;
 
 test('lawyer fill form', async() => {
     const lawyer = {
-        username: "scrsssern",
+        username: "scrsssssdserrrn",
         password: "xyzasdfghdfghhjhhbb",
         fullName: "johnhahbsfasfsa1 samir",
-        email: "Modssed2@gmail.com"
+        email: "Modsxsssssced2@gmail.com"
     }
     const createdLawyer = await lawyers.createLawyer(lawyer)
     const lawId = await createdLawyer.data.data._id
     const investor = {
-        email:"shamssssTddvecdcsjgfgjstfi7656@gmail.com",
+        email:"shamssssTdssdvssecdcsjgfgjstfi7656@gmail.com",
         password:"verystrongpassword",
         fullName:"randomnametest",
         type:"a",
@@ -47,8 +47,8 @@ test('lawyer fill form', async() => {
             companyType: 'SPC',
             regulatedLaw: 'lll',
             legalFormOfCompany: 'Moes31',
-            companyNameArabic: 'Fadiscssdsc31dscf3gsdrydtfyjg72ddefeff4ef6578',
-            companyNameEnglish: 'Ronsisccdsdfdfcgyshdcs31389ddd2ffef3efef47676976',
+            companyNameArabic: 'Fadiscssssdsc3fd1dscf3gsdrydtfyjg72ddefeff4ef6578',
+            companyNameEnglish: 'Ronsisssccdsdfdfcgyshdcs31389dhgdd2ffef3efef47676976',
             headOfficeGovernorate: 'Joes3',
             headOfficeCity: 'Mantas3',
             headOfficeAddress: 'Shamss3',
