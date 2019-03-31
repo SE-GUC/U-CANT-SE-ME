@@ -83,7 +83,7 @@ test('As an investor I should be view my fees', async() => {
             "creatorInvestorId": investor._id
             
         }
-    const cas = await investors.createCase(investor._id,req);
+    const cas = await investors.createCase(req);
     let res= await investors.viewMyFees(investor._id);
     
     expect(res).toBe('you do not have any accepted company requests')

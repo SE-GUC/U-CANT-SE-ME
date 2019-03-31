@@ -28,7 +28,7 @@ const investors = {
         
 
     },
-    createCase: async (id,req) =>{
+    createCase: async (req) =>{
         
         const cas=await axios.post('http://localhost:3000/api/cases/',req);
        
