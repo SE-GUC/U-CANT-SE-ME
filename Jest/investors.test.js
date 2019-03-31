@@ -36,7 +36,7 @@ test('As an Investor viewing all my companies with 1 accepted & 1 pending should
 
 //** CREATE INVESTOR **//
   const testInvestor = {
-    email:"investoremailjest1@gmail.com",
+    email:"investoremailj2est1@gmail.com",
     password:"verystrongpassword",
     fullName:"yolo",
     type:"f",
@@ -57,7 +57,7 @@ test('As an Investor viewing all my companies with 1 accepted & 1 pending should
         companyType: 'SPC',
         regulatedLaw: 'lll',
         legalFormOfCompany: 'Mojes3',
-        companyNameArabic: 'companyjest11',
+        companyNameArabic: 'companyjest111',
         companyNameEnglish: 'engname1',
         headOfficeGovernorate: 'Joes3',
         headOfficeCity: 'Mantas3',
@@ -77,7 +77,7 @@ test('As an Investor viewing all my companies with 1 accepted & 1 pending should
         companyType: 'SPC',
         regulatedLaw: 'lll',
         legalFormOfCompany: 'Mojes3',
-        companyNameArabic: 'companyjest22',
+        companyNameArabic: 'companyjest222',
         companyNameEnglish: 'engname2',
         headOfficeGovernorate: 'Joes3',
         headOfficeCity: 'Mantas3',
@@ -96,7 +96,7 @@ test('As an Investor viewing all my companies with 1 accepted & 1 pending should
     const testCompany = {
         socialInsuranceNumber: "88888888888888",
         investorID: createdInvestor._id,
-        companyName: "companyjest11",
+        companyName: "companyjest111",
         companyType: "SPC",
         caseID: createdCase._id,
         dateOfCreation: '1/1/2018'
@@ -105,7 +105,7 @@ test('As an Investor viewing all my companies with 1 accepted & 1 pending should
     const testCompany1 = {
         socialInsuranceNumber: "88888888888888",
         investorID: createdInvestor._id,
-        companyName: "companyjest22",
+        companyName: "companyjest222",
         companyType: "SPC",
         caseID: createdCase1._id,
         dateOfCreation: '1/1/2018'
