@@ -5,6 +5,7 @@
 const lawyers = require('./lawyers')
 //const cases = require('./cases')
 const Case = require("../models/Case");
+const Lawyer = require("../models/Lawyer");
 let caseID = ''
 
 const axios = require('axios')
@@ -17,13 +18,37 @@ axios.defaults.adapter = httpAdapter;
 ObjectId = require('mongodb').ObjectID;
 
 test('lawyer fill form', async() => {
-    const cas =  {
+    const lawyer = {
+        username: "scrsssern",
+        password: "xyzasdfghdfghhjhhbb",
+        fullName: "johnhahbsfasfsa1 samir",
+        email: "Modssed2@gmail.com"
+    }
+    const createdLawyer = await lawyers.createLawyer(lawyer)
+    const lawId = await createdLawyer.data.data._id
+    const investor = {
+        email:"shamssssTddvecdcsjgfgjstfi7656@gmail.com",
+        password:"verystrongpassword",
+        fullName:"randomnametest",
+        type:"a",
+        gender:"Male",
+        nationality:"Egyptian",
+        methodOfIdentification:"National Card",
+        identificationNumber:"12233344445555",
+        dateOfBirth:"1990-12-17T22:00:00.000Z",
+        residenceAddress:"13th Mogama3 el Tahrir",
+        telephoneNumber:"00201009913457",
+        fax:"1234567"
+    }
+    const createdInvestor  = await lawyers.createInvestor(investor)
+    const invId = await createdInvestor.data._id
+    const mycase =  {
         form: {
             companyType: 'SPC',
             regulatedLaw: 'lll',
-            legalFormOfCompany: 'Moes3',
-            companyNameArabic: 'testestestestestestestest',
-            companyNameEnglish: 'testestestestestestestestestestest',
+            legalFormOfCompany: 'Moes31',
+            companyNameArabic: 'Fadiscssdsc31dscf3gsdrydtfyjg72ddefeff4ef6578',
+            companyNameEnglish: 'Ronsisccdsdfdfcgyshdcs31389ddd2ffef3efef47676976',
             headOfficeGovernorate: 'Joes3',
             headOfficeCity: 'Mantas3',
             headOfficeAddress: 'Shamss3',
@@ -33,16 +58,17 @@ test('lawyer fill form', async() => {
             capital: 100
         },
         caseStatus: 'WaitingForLawyer',
-        assignedLawyerId:'5c9d62cabbbd0a30248a1ec3',
-        assignedReviewerId:'5c9d0503f353963ea4632b42',
-        creatorInvestorId: '5c9cff4caabdd207e4fddc7c'
+        creatorInvestorId: invId
     }
 expect.assertions(1)
-const createdCase = await lawyers.fillForm("5c9d62cabbbd0a30248a1ec3",cas)
+const createdCase = await lawyers.fillForm(lawId,mycase)
 const afterCreation = await lawyers.getTheCase(createdCase.data.data['_id'])
-return expect(afterCreation.data.data.form).toEqual(cas.form) 
-    && expect(afterCreation.data.data.caseStatus).toEqual(cas.caseStatus) 
-    && expect(afterCreation.data.data.assignedLawyerId).toEqual(cas.assignedLawyerId) 
-    && expect(afterCreation.data.data.assignedReviewerId).toEqual(cas.assignedReviewerId)
-    && expect(afterCreation.data.data.creatorLawyerId).toEqual("5c9e163ad2578b259c90fa3f")
+    expect(afterCreation.data.data.form).toEqual(mycase.form) 
+    && expect(afterCreation.data.data.caseStatus).toEqual(mycase.caseStatus) 
+    && expect(afterCreation.data.data.assignedLawyerId).toEqual(mycase.assignedLawyerId) 
+    && expect(afterCreation.data.data.assignedReviewerId).toEqual(mycase.assignedReviewerId)
+    && expect(afterCreation.data.data.creatorLawyerId).toEqual(lawId)
+await lawyers.deleteCase(createdCase.data.data['_id'])
+await lawyers.deleteInvestor(invId)
+await lawyers.deleteLawyer(lawId)
 })
