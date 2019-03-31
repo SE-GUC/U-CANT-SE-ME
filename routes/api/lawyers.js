@@ -40,4 +40,6 @@ router.get("/getCaseLastLawyer/:id", caseController.getCaseLastLawyer);
 //Login
 router.post('/login', lawyerController.loginLawyer)
 
+//As a lawyer i should be able to update a company establishment form made by my self.
+router.put("/update/:id/:caseId",lawyerController.updateCompanyForm);
 module.exports = router;
