@@ -3,6 +3,19 @@
  */
 const reviewers = require("./reviewers");
 
+const Case = require("../models/Case");
+const Investor = require("../models/Investor");
+const Reviewer = require("../models/Reviewer");
+
+const db = require("../config/keys").mongoURI;
+const mongoose = require("mongoose");
+
+const axios = require('axios')
+const httpAdapter = require('axios/lib/adapters/http')
+const host = 'http://localhost';
+
+axios.defaults.host = host;
+axios.defaults.adapter = httpAdapter;
 
 test("As a reviewer i should be able to see all unsigned cases", async () => {
   
