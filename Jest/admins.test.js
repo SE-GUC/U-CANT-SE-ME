@@ -40,3 +40,18 @@ test('Registering a Reviewer', async () => {
         return expect(isMatch).toBeTruthy()
     })
 })
+test('As an admin I should be able to login', async() => {
+    const createAdmin={
+        username:"YahiaBadr3",
+        fullName:"Yahia Hisham",
+        password:"yaya1234"
+    };
+    const createdAdmin = await admins.createAdmin(createAdmin);
+    const loginInfo={
+        username:"YahiaBadr3",
+        password:"yaya1234"
+    };
+    const loginResult = await admins.loginAdmin(loginInfo)
+    expect(loginResult.data.data.length).toBeGreaterThan(0);
+    await admins.deleteAdmin(createdAdmin.data.data["_id"]);
+})
