@@ -97,5 +97,4 @@ const investors = {
         await axios.put(`http://localhost:3000/api/cases/update/${id}`,req);
     }
 }
-
 module.exports = investors
