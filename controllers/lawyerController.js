@@ -2,11 +2,12 @@
 const mongoose = require("mongoose");
 const validator = require("../validations/lawyerValidations");
 const mongoValidator = require("validator");
+const passport = require('passport')
 // module Lawyer
 const Lawyer = require("../models/Lawyer");
 const caseController = require("./caseController")
 const LawyerGettingAllCasesAuthenticated=true;
-
+const bcrypt=require("../routes/api/utils/encryption");
 // module Case
 const Case = require("../models/Case.js")
 
@@ -57,7 +58,10 @@ exports.updateLawyer = async function(req, res) {
       return;
     }
     if (!req.body.email) req.body.email = lawyer.email;
-    if (!req.body.password) req.body.password = lawyer.password;
+    if (!req.body.password){ req.body.password = lawyer.password;}
+     else{
+       req.body.password=bcrypt.hashPassword(req.body.password);
+     }
     if (!req.body.fullName) req.body.fullName = lawyer.fullName;
     if (!req.body.username) req.body.username = lawyer.username;
     const email = req.body.email;
@@ -202,3 +206,33 @@ exports.getSpecificWaitingForLawyerCase = async function(req, res) {
   }
 }
 
+exports.loginLawyer = function(req, res, next){
+  passport.authenticate('lawyers', {
+    successRedirect: '/api/lawyers',
+    failureRedirect: '/api/lawyers/login',
+    failureFlash: true
+  })(req, res, next)
+};
+exports.updateCompanyForm = async function(req, res) {
+  if(!mongoValidator.isMongoId(req.params.id) || !mongoValidator.isMongoId(req.params.caseId))
+    return res.json("Invalid ID")
+try{
+   if(lawyerAuthenticated){
+       let lawyer = await Lawyer.findById(req.params.id)
+     if(lawyer===null)
+       return res.json("Lawyer Does Not Exist")
+     let selectedCase = await Case.findById(req.params.caseId);
+     if(selectedCase.creatorLawyerId== lawyer.id ){
+       req.params.id = req.params.caseId;
+       caseController.updateCase(req, res);
+     }
+     else
+       return res.json("Not the lawyer that created this case")      
+   }
+   else
+     res.status(403).send({error: "Forbidden." })
+}
+catch(error){
+   res.json({msg: "An error has occured."})
+}
+};

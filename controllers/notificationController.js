@@ -2,21 +2,28 @@
 const mongoose = require('mongoose')
 const validator = require('../validations/notificationValidations')
 const idValidator = require("validator");
+const axios = require('axios')
+const nodemailer = require('nodemailer');
 // Models
 const Notification = require("../models/Notification");
 const Investor = require("../models/Investor");
+const Reviewer = require("../models/Reviewer");
 const Lawyer = require("../models/Lawyer");
 const Case = require("../models/Case");
 // Get all notifications
 
+const caseController = require("./caseController");
 exports.getAllNotifications = async function(req, res) {
+
     try {
+      
       const notifications = await Notification.find();
       res.json({ data: notifications });
     } catch (error) {
       res.send({ error: "Oops something went wrong!" });
       console.log(error);
     }
+    
   };
   // Get notification by ID
 
@@ -44,9 +51,11 @@ exports.getAllNotifications = async function(req, res) {
 
 // create a notification
 exports.createNotification = async function(req, res) {
-    try {
   
+ 
+    try {
         const isValidated = validator.createValidation(req.body)
+        
         if (isValidated.error) return res.status(400).send({ error: isValidated.error.details[0].message })
         const recipientId = req.body.recipientId;
         const caseID= req.body.caseID;
@@ -166,4 +175,51 @@ exports.updateNotification = async function (req,res){
       }  
     }
 };
-
+exports.notifyInvestorByFees = async function(case1,req) {
+  const recipientId=case1.creatorInvestorId;
+  const investor= await Investor.findById(recipientId);
+  const fees=caseController.calcFees(case1);
+  const message = "Dear " + investor.fullName+" , your request for company "+case1.form.companyNameEnglish+" has been accepted and you are required to pay the fees " + fees;
+  const email=investor.email;
+ 
+  req={
+    "recipientId":recipientId,
+    "message":message,
+    "emailOfRecipient":email,
+    "caseID":case1._id
+  }
+  const notification = await axios.post('http://localhost:3000/api/notifications/', req)
+  const reviewer=await Reviewer.findById(case1.assignedReviewerId);
+ 
+  sendMail(notification.data.data,reviewer)
+  return(notification);
+ };
+ function sendMail(notification,reviewer){
+   var transporter = nodemailer.createTransport({
+    service: 'gmail',
+    auth: {
+      // user: 'sumergiteme@gmail.com',
+      user : reviewer.email,
+      // pass: 'U-CANT-SE-ME'
+      pass: reviewer.password
+    }
+  });
+  
+  var mailOptions = {
+    // from: 'sumergiteme@gmail.com',
+    from: reviewer.email,
+    // to: 'zeyad.khattab97@gmail.com',
+    to: notification.emailOfRecipient,
+    subject: 'Company Request Accepted',
+    text: notification.message
+  };
+  
+  transporter.sendMail(mailOptions, function(error, info){
+    if (error) {
+      console.log(error);
+    } else {
+      console.log('Email sent: ' + info.response);
+    }
+  
+ });
+}
