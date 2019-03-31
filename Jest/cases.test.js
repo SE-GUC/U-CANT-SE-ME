@@ -106,7 +106,7 @@ test('Creating a case', async () => {
 
 test('Update a case',async () => {
     const investor = {
-        email:"shamsTebsting1u109yydtdfcdsifdve8s8y989r7u77779u798829y878900u90@gmail.com",
+        email:"shamscbsting1u109yydtdfcdsifdve8s8y989r7u77779u798829y878900u90@gmail.com",
         password:"verystrongpassword",
         fullName:"randomnametest",
         type:"a",
@@ -126,8 +126,8 @@ test('Update a case',async () => {
             companyType: 'SPC',
             regulatedLaw: 'lll',
             legalFormOfCompany: 'Moes3',
-            companyNameArabic: 'shamste6edsc9sfvfsn889du7tyi8289r7h8u87yy29721d1n879u687563434',
-            companyNameEnglish: 'bardoteesdc8vf6s8fn79du8stih89r87y8u872y29y7n21d134u34389786543',
+            companyNameArabic: 'shamste6eddcsc9sfvfsn889du7tyi8289r7h8u87yy29721d1n879u687563434',
+            companyNameEnglish: 'bardoteescdc8vf6s8fn79du8stih89r87y8u872y29y7n21d134u34389786543',
             headOfficeGovernorate: 'Joes3',
             headOfficeCity: 'Mantas3',
             headOfficeAddress: 'Shamss3',
@@ -145,8 +145,8 @@ test('Update a case',async () => {
             companyType: 'SPC',
             regulatedLaw: 'lll',
             legalFormOfCompany: 'Moes5',
-            companyNameArabic: 'newtyes8scdvft2s9e8fh78di78799877r8888e2',
-            companyNameEnglish: 'newtestsc8dv9fysh7e8fid27889787787r8e2',
+            companyNameArabic: 'newtydes8scdvft2s9e8fh78di78799877r8888e2',
+            companyNameEnglish: 'newtedstsc8dv9fysh7e8fid27889787787r8e2',
             headOfficeGovernorate: 'Joes5',
             headOfficeCity: 'Mantas5',
             headOfficeAddress: 'Shamss5',
@@ -170,7 +170,7 @@ test('Update a case',async () => {
 
 test('Delete a case', async () => {
     const investor = {
-        email:"shamsTebsting1u1r09ydyfdtdfcdsifdve8s8y989r79y878900u90@gmail.com",
+        email:"shamsTebscvtcicng1u1r09ydyfdtdfcdsifdve8s8y989r79y878900u90@gmail.com",
         password:"verystrongpassword",
         fullName:"randomnametest",
         type:"a",
@@ -190,8 +190,8 @@ test('Delete a case', async () => {
             companyType: 'SPC',
             regulatedLaw: 'lll',
             legalFormOfCompany: 'Moes3',
-            companyNameArabic: 'shamsterst22f9087656187405547890',
-            companyNameEnglish: 'bardoterst2f2098760610278957890',
+            companyNameArabic: 'shamxscctcerst22f9087656187405547890',
+            companyNameEnglish: 'bardocxtccerst2f2098760610278957890',
             headOfficeGovernorate: 'Joes3',
             headOfficeCity: 'Mantas3',
             headOfficeAddress: 'Shamss3',
@@ -205,9 +205,11 @@ test('Delete a case', async () => {
     }
     const createdCase  = await cases.createCase(mycase)
     caseID = createdCase.data.data['_id']
-    expect.assertions(0)
+    expect.assertions(1)
     const findCase = await cases.readCase(caseID)
     await cases.deleteCase(caseID)
-    expect.not.arrayContaining(findCase.data.data)
+    const allCases = await cases.default()
+    console.log(allCases)
+    expect(allCases).toEqual(expect.not.arrayContaining([expect.objectContaining(findCase.data.data)]))
     await cases.deleteInvestor(createdInvestor.data._id)
 })
