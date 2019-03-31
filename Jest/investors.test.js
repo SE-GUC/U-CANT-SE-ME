@@ -73,11 +73,12 @@ test("Create an investor duplicate email test", async () => {
 
   try {
     await investors.createInvestor(body);
+    await investors.deleteInvestor(res.data._id);
     expect(0).toBe(1); //If no status 400 test must fail
   } catch (err) {
-    //expect(0).toBe(0); //Else test passes
+    await investors.deleteInvestor(res.data._id);
+    expect(0).toBe(0); //Else test passes
   }
-  await investors.deleteInvestor(res.data._id);
 });
 
 //CREATE
@@ -426,3 +427,301 @@ test("As an investor I should be view my fees", async () => {
   expect(fees).not.toBe(0);
   expect(name).toEqual("DONTD4536ELETE");
 });
+
+//Pay Fees
+test("Investor Paying Fees success test", async () => {
+  expect.assertions(1);
+  const payingInvestorData = {
+    email: "richman@gmail.com",
+    password: "verystrongpassword",
+    fullName: "Thary 3arabi",
+    type: "Single",
+    gender: "Male",
+    nationality: "Egyptian",
+    methodOfIdentification: "National Card",
+    identificationNumber: "12233344445555",
+    dateOfBirth: "1990-12-17T22:00:00.000Z",
+    residenceAddress: "13th Mogama3 el Tahrir",
+    telephoneNumber: "00201009913457",
+    fax: "1234567"
+  };
+  let InvestorRes = await investors.createInvestor(payingInvestorData);
+  const payingInvestor = InvestorRes.data;
+
+  const acceptedCaseData = {
+    form: {
+      companyType: "SPC",
+      regulatedLaw: "72",
+      legalFormOfCompany: "The good Legal Form",
+      headOfficeGovernorate: "Cairo",
+      headOfficeCity: "Cairo",
+      headOfficeAddress: "Share3 Rl Thawra",
+      phoneNumber: "121212122121",
+      fax: "1234567",
+      currencyUsedForCapital: "EGP",
+      capital: 100,
+      companyNameArabic: "The Arabic Name",
+      companyNameEnglish: "The English Name"
+    },
+    caseStatus: "Accepted",
+    creatorLawyerId: null,
+    creatorInvestorId: payingInvestor._id
+  };
+
+  let caseRes = await httpRequest("POST", "cases", [], acceptedCaseData);
+
+  const acceptedCase = caseRes.data;
+
+  try {
+    await investors.payFees(payingInvestor._id, acceptedCase.data._id);
+    await investors.deleteInvestor(payingInvestor._id);
+    await httpRequest("DELETE", "cases", [acceptedCase.data._id]);
+  } catch (err) {
+    await investors.deleteInvestor(payingInvestor._id);
+    await httpRequest("DELETE", "cases", [acceptedCase.data._id]);
+    expect(0).toBe(1); //If error test fails
+  }
+
+  expect(0).toBe(0); //Else test passes
+});
+
+//Pay Fees
+test("Investor Paying Fees not Accepted Company test", async () => {
+  expect.assertions(1);
+
+  const payingInvestorData = {
+    email: "richman2@gmail.com",
+    password: "verystrongpassword",
+    fullName: "Thary 3arabi",
+    type: "Single",
+    gender: "Male",
+    nationality: "Egyptian",
+    methodOfIdentification: "National Card",
+    identificationNumber: "12233344445555",
+    dateOfBirth: "1990-12-17T22:00:00.000Z",
+    residenceAddress: "13th Mogama3 el Tahrir",
+    telephoneNumber: "00201009913457",
+    fax: "1234567"
+  };
+  let InvestorRes = await investors.createInvestor(payingInvestorData);
+  const payingInvestor = InvestorRes.data;
+
+  const acceptedCaseData = {
+    form: {
+      companyType: "SPC",
+      regulatedLaw: "72",
+      legalFormOfCompany: "The good Legal Form",
+      headOfficeGovernorate: "Cairo",
+      headOfficeCity: "Cairo",
+      headOfficeAddress: "Share3 Rl Thawra",
+      phoneNumber: "121212122121",
+      fax: "1234567",
+      currencyUsedForCapital: "EGP",
+      capital: 100,
+      companyNameArabic: "The Arabic Name 2",
+      companyNameEnglish: "The English Name 2"
+    },
+    caseStatus: "Rejected",
+    creatorLawyerId: null,
+    creatorInvestorId: payingInvestor._id
+  };
+
+  let caseRes = await httpRequest("POST", "cases", [], acceptedCaseData);
+
+  const acceptedCase = caseRes.data;
+
+  try {
+    await investors.payFees(payingInvestor._id, acceptedCase.data._id);
+    await investors.deleteInvestor(payingInvestor._id);
+    await httpRequest("DELETE", "cases", [acceptedCase.data._id]);
+    expect(0).toBe(1); //If no Error test fails
+  } catch (err) {
+    await investors.deleteInvestor(payingInvestor._id);
+    await httpRequest("DELETE", "cases", [acceptedCase.data._id]);
+    expect(0).toBe(0); //If error test Passes
+  }
+});
+
+//Pay Fees
+test("Investor Paying Fees Not Owner of the Company", async () => {
+  expect.assertions(1);
+
+  const caseOwnerInvestorData = {
+    email: "realrichman@gmail.com",
+    password: "verystrongpassword",
+    fullName: "Thary 3arabi",
+    type: "Single",
+    gender: "Male",
+    nationality: "Egyptian",
+    methodOfIdentification: "National Card",
+    identificationNumber: "12233344445555",
+    dateOfBirth: "1990-12-17T22:00:00.000Z",
+    residenceAddress: "13th Mogama3 el Tahrir",
+    telephoneNumber: "00201009913457",
+    fax: "1234567"
+  };
+  let ownerRes = await investors.createInvestor(caseOwnerInvestorData);
+  const ownerInvestor = ownerRes.data;
+
+  const payingInvestorData = {
+    email: "richman3@gmail.com",
+    password: "verystrongpassword",
+    fullName: "Thary 3arabi",
+    type: "Single",
+    gender: "Male",
+    nationality: "Egyptian",
+    methodOfIdentification: "National Card",
+    identificationNumber: "12233344445555",
+    dateOfBirth: "1990-12-17T22:00:00.000Z",
+    residenceAddress: "13th Mogama3 el Tahrir",
+    telephoneNumber: "00201009913457",
+    fax: "1234567"
+  };
+  let InvestorRes = await investors.createInvestor(payingInvestorData);
+  const payingInvestor = InvestorRes.data;
+
+  const acceptedCaseData = {
+    form: {
+      companyType: "SPC",
+      regulatedLaw: "72",
+      legalFormOfCompany: "The good Legal Form",
+      headOfficeGovernorate: "Cairo",
+      headOfficeCity: "Cairo",
+      headOfficeAddress: "Share3 Rl Thawra",
+      phoneNumber: "121212122121",
+      fax: "1234567",
+      currencyUsedForCapital: "EGP",
+      capital: 100,
+      companyNameArabic: "The Arabic Name 3",
+      companyNameEnglish: "The English Name 3"
+    },
+    caseStatus: "Accepted",
+    creatorLawyerId: null,
+    creatorInvestorId: ownerInvestor._id
+  };
+
+  let caseRes = await httpRequest("POST", "cases", [], acceptedCaseData);
+
+  const acceptedCase = caseRes.data;
+
+  try {
+    await investors.payFees(payingInvestor._id, acceptedCase.data._id);
+    await investors.deleteInvestor(ownerInvestor._id);
+    await investors.deleteInvestor(payingInvestor._id);
+    await httpRequest("DELETE", "cases", [acceptedCase.data._id]);
+    expect(0).toBe(1); //If no Error test fails
+  } catch (err) {
+    await investors.deleteInvestor(ownerInvestor._id);
+    await investors.deleteInvestor(payingInvestor._id);
+    await httpRequest("DELETE", "cases", [acceptedCase.data._id]);
+    expect(0).toBe(0); //If error test Passes
+  }
+});
+//
+//Pay Fees
+test("Investor Paying Fees invalid case ID", async () => {
+  expect.assertions(1);
+
+  const payingInvestorData = {
+    email: "richman4@gmail.com",
+    password: "verystrongpassword",
+    fullName: "Thary 3arabi",
+    type: "Single",
+    gender: "Male",
+    nationality: "Egyptian",
+    methodOfIdentification: "National Card",
+    identificationNumber: "12233344445555",
+    dateOfBirth: "1990-12-17T22:00:00.000Z",
+    residenceAddress: "13th Mogama3 el Tahrir",
+    telephoneNumber: "00201009913457",
+    fax: "1234567"
+  };
+  let InvestorRes = await investors.createInvestor(payingInvestorData);
+  const payingInvestor = InvestorRes.data;
+
+  try {
+    await investors.payFees(payingInvestor._id, "123123123");
+    await investors.deleteInvestor(payingInvestor._id);
+    expect(0).toBe(1); //If no Error test fails
+  } catch (err) {
+    await investors.deleteInvestor(payingInvestor._id);
+    expect(0).toBe(0); //If error test Passes
+  }
+});
+
+//Pay Fees
+test("Investor Paying Fees invalid investor ID", async () => {
+  expect.assertions(1);
+
+  const payingInvestorData = {
+    email: "richman5@gmail.com",
+    password: "verystrongpassword",
+    fullName: "Thary 3arabi",
+    type: "Single",
+    gender: "Male",
+    nationality: "Egyptian",
+    methodOfIdentification: "National Card",
+    identificationNumber: "12233344445555",
+    dateOfBirth: "1990-12-17T22:00:00.000Z",
+    residenceAddress: "13th Mogama3 el Tahrir",
+    telephoneNumber: "00201009913457",
+    fax: "1234567"
+  };
+  let InvestorRes = await investors.createInvestor(payingInvestorData);
+  const payingInvestor = InvestorRes.data;
+
+  const acceptedCaseData = {
+    form: {
+      companyType: "SPC",
+      regulatedLaw: "72",
+      legalFormOfCompany: "The good Legal Form",
+      headOfficeGovernorate: "Cairo",
+      headOfficeCity: "Cairo",
+      headOfficeAddress: "Share3 Rl Thawra",
+      phoneNumber: "121212122121",
+      fax: "1234567",
+      currencyUsedForCapital: "EGP",
+      capital: 100,
+      companyNameArabic: "The Arabic Name 2",
+      companyNameEnglish: "The English Name 2"
+    },
+    caseStatus: "Rejected",
+    creatorLawyerId: null,
+    creatorInvestorId: payingInvestor._id
+  };
+
+  let caseRes = await httpRequest("POST", "cases", [], acceptedCaseData);
+
+  const acceptedCase = caseRes.data;
+
+  try {
+    await investors.payFees("12345", acceptedCase.data._id);
+    await investors.deleteInvestor(payingInvestor._id);
+    await httpRequest("DELETE", "cases", [acceptedCase.data._id]);
+    expect(0).toBe(1); //If no Error test fails
+  } catch (err) {
+    await investors.deleteInvestor(payingInvestor._id);
+    await httpRequest("DELETE", "cases", [acceptedCase.data._id]);
+    expect(0).toBe(0); //If error test Passes
+  }
+});
+
+const axios = require("axios");
+
+/**
+ * @param method The HTTP method used
+ * @param urlSuffix The suffix of url e.g investors, cases, etc...
+ * @param params  The parameters of the request URL given in order.
+ * @param body The body of the HTTP request.
+ * @return Returns the complete URL for the request.
+ */
+
+async function httpRequest(method, urlSuffix, params = [], body = {}) {
+  let url = "http://localhost:3000/api/" + urlSuffix + "/";
+  for (let i = 0; i < params.length; i++) url += params[i] + "/";
+  if (method === "GET") return await axios.get(url);
+  else if (method === "POST") return await axios.post(url, body);
+  else if (method === "PUT") return await axios.put(url, body);
+  else if (method === "DELETE") return await axios.delete(url);
+  return {};
+}
