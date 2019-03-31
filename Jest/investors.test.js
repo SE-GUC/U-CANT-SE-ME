@@ -63,7 +63,6 @@ test('As an investor I should be able to login', async() => {
         password: createdPassword
     }
     const loginResult = await investors.login(loginInfo)
-    await investors.deleteInvestor(req);
     return expect(loginResult.data.length).toBeGreaterThan(0)
 }) 
 
