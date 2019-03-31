@@ -9,10 +9,10 @@ test("As a lawyer i should be able to see all unsigned cases", async () => {
   // expect.assertions(1);
   //create new lawyer
   const lawyer = {
-    email: "yaya.gamed80@gmail.com",//unique
+    email: "yaya.gamed465580@gmail.com",//unique
     password: "yayayayayyaya",
     fullName: "mantaisreal",
-    username: "yayagamed80"//unique
+    username: "yaya565656gamed80"//unique
   };
   
   const createdLawyer = await lawyers.createLawyer(lawyer);
@@ -40,16 +40,16 @@ test("As a lawyer i should be able to select a specific case", async () =>{
   // expect.assertions(1);
   //create new lawyer
   const lawyer = {
-    email: "yaya_new80@gmail.com",//unique
+    email: "yaya45345657_new80@gmail.com",//unique
     password: "yayayayayyaya",
     fullName: "mantaisreal",
-    username: "yaya_new80"//unique
+    username: "yaya4556763_new80"//unique
   };
   const createdLawyer = await lawyers.createLawyer(lawyer);
   const lawyerId = createdLawyer.data.data["_id"];
   //create new case
   const investor = {
-    email:"yahiabashayakalb80@gmail.com",//unique
+    email:"yahiabasha4545345yakalb80@gmail.com",//unique
     password:"verystrongpassword",
     fullName:"randomnametest",
     type:"a",
@@ -68,8 +68,8 @@ const mycase =  {
         companyType: 'SPC',
         regulatedLaw: 'lll',
         legalFormOfCompany: 'Moes3',
-        companyNameArabic: 'yayaforbeauty80',//unique
-        companyNameEnglish: 'yayaforbeuty80',//unique
+        companyNameArabic: 'yayafo3545rbeauty80',//unique
+        companyNameEnglish: 'yayaf4567orbeuty80',//unique
         headOfficeGovernorate: 'Joes3',
         headOfficeCity: 'Mantas3',
         headOfficeAddress: 'Shamss3',
@@ -117,7 +117,7 @@ let registeredReviewer = ''
 test('Create All Dependencies', async() => {
     jest.setTimeout(50000)
     const investor = {
-        email:"Mw4tb4t4btvrvw@gmail.com",
+        email:"Mw4tb4t4b456578tvrvw@gmail.com",
         password:"vehaetb4b4tb3rfbdssword",
         fullName:"ma3vtb4tb4bt4tbcweeers",
         type:"aetb",
@@ -135,10 +135,10 @@ test('Create All Dependencies', async() => {
     
     const lawyer = 
     {
-        username:"Mefgbr4bt4bfegb",
+        username:"Mefgbr4bt445567bfegb",
         password:"krefebtbceg",
         fullName:"Mbdefbebttbcweevymo",
-        email:"m5g3tb3tbf77e@noHomo.com"
+        email:"m5g3tb3t4556574bf77e@noHomo.com"
     }
     registeredLawyer= await lawyers.createLawyer(lawyer) 
     const mycase =  {
@@ -146,8 +146,8 @@ test('Create All Dependencies', async() => {
             companyType: 'SPC',
             regulatedLaw: 'lll',
             legalFormOfCompany: 'NonProfitMan',
-            companyNameArabic: 'ma0db3t3bt3tbetbi',
-            companyNameEnglish: 'manb3tb3tbedvzadcbtbebeby',
+            companyNameArabic: 'ma0db3t4563bt3tbetbi',
+            companyNameEnglish: 'ma436nb3tb3tbedvzadcbtbebeby',
             headOfficeGovernorate: 'California',
             headOfficeCity: 'San Francisco',
             headOfficeAddress: '123st.',

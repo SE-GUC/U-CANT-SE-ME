@@ -9,10 +9,10 @@ test('Registering a Lawyer', async () => {
     jest.setTimeout(50000)
     const lawyer = 
     {
-        username:"MantaLetaw2",
+        username:"Manta1453Letaw2",
         password:"pasHere",
         fullName:"JoHbete CenAAA",
-        email:"mantba@gmail.com"
+        email:"mantb1a@gmail.com"
     }
     const registeredLawyer= await admins.registerLawyer(lawyer)
     await admins.deleteLawyer(registeredLawyer.data.data._id)
@@ -27,10 +27,10 @@ test('Registering a Reviewer', async () => {
     jest.setTimeout(50000)
     const Reviewer = 
     {
-        username:"MantaRttb79",
+        username:"MantaR3452t1tb79",
         password:"passworderong",
         fullName:"Mantaveomo",
-        email:"manlsdvverb579@noHomo.com"
+        email:"manlsdvv1erb579@noHomo.com"
     }
     const registeredReviewer= await admins.registerReviewer(Reviewer)
     await admins.deleteReviewer(registeredReviewer.data.data._id)    

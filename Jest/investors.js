@@ -13,7 +13,7 @@ const investors = {
         let req=
         {
           
-            "email": "notificationTest@gmail.com",
+            "email": "notificatio3546nTest@gmail.com",
             "password": "$2a$10$Ja.2twjd0KSVVyULqh7HCeEtu0aJM9ej9LiK5kth3C0AKMBoREqxC",
             "fullName": "Notification Test",
             "type": "a",
@@ -39,8 +39,8 @@ const investors = {
                 "companyType": "SPC",
                 "regulatedLaw": "72",
                 "legalFormOfCompany": "DONTDELETE",
-                "companyNameArabic": "DONTDELETE",
-                "companyNameEnglish": "DONTDELETE",
+                "companyNameArabic": "DONTDE352LETE",
+                "companyNameEnglish": "DONTD4536ELETE",
                 "headOfficeGovernorate": "DONTDELETE",
                 "headOfficeCity": "DONTDELETE",
                 "headOfficeAddress": "DONTDELETE",
