@@ -1,6 +1,6 @@
 const axios = require("axios");
 
-const functions = {
+const lawyers = {
   getLawyers: async () => {
     let getAll = await axios.get("http://localhost:3000/api/lawyers");
     return getAll;
@@ -48,6 +48,18 @@ const functions = {
   },
   deleteCase: async id => {
     return axios.delete(`http://localhost:3000/api/cases/${id}`);
+  },
+  default: async () => {
+        return axios.get('http://localhost:3000/api/lawyers/')
+  },
+  viewTasks: async (lawyerID) => {
+        return axios.get(`http://localhost:3000/api/lawyers/lawyerTasks/${lawyerID}`)
+  },
+  deleteReviewer: async (id) => {
+        return axios.delete(`http://localhost:3000/api/reviewers/${id}`)
+  },
+  createReviewer: async (req)=>{
+        return axios.post(`http://localhost:3000/api/reviewers/`, req)
   }
 };
-module.exports = functions;
+module.exports = lawyers;

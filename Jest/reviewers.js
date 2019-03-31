@@ -1,15 +1,15 @@
 const axios = require('axios');
-const functions = {
+const reviewers = {
         getAllCases: async () => {
                 return await axios.get("http://localhost:3000/api/cases/")
         },
         getCase: async (id) => {
                 return await axios.get(`http://localhost:3000/api/cases/${id}`)
         },
-	getWaitingForReviewersCase: async (id) => {
+	      getWaitingForReviewersCase: async (id) => {
                 return await axios.get(`http://localhost:3000/api/reviewers/getAllUnsignedCases/${id}`)
         },
-	getSpecificWaitingForReviewersCase: async (id,caseId) => {
+	      getSpecificWaitingForReviewersCase: async (id,caseId) => {
                 return await axios.get(`http://localhost:3000/api/reviewers/assignCase/${id}/${caseId}`)
         },
         createInvestor: async (req)=>{
@@ -29,8 +29,19 @@ const functions = {
         },
         deleteReviewer: async id => {
                 return axios.delete(`http://localhost:3000/api/reviewers/${id}`);
+        },
+        default: async () => {
+                return axios.get('http://localhost:3000/api/reviewers/')
+        },
+        viewTasks: async (reviewerID) => {
+                return axios.get(`http://localhost:3000/api/reviewers/reviewerTasks/${reviewerID}`)
+        },
+        deleteLawyer: async (id) => {
+                return axios.delete(`http://localhost:3000/api/lawyers/${id}`)
+        },
+        createLawyer: async (req)=>{
+                return axios.post(`http://localhost:3000/api/lawyers/`, req)
         }
-
         
 };
-module.exports = functions;
+module.exports = reviewers;
