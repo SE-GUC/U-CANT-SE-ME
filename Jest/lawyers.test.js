@@ -8,16 +8,18 @@ test('As a lawyer I should be able to login', async() => {
     // const loginInfo ;
     const lawyer = 
     {
-        username:"yayayay1235",
-        password:"pasHere",
+        username:"y20",
+        password:"basha",
         fullName:"JoHbete CenAAA",
-        email:"yayayaya1235@gmail.com"
+        email:"y20@gmail.com"
     }
+    console.log("here1")
     const registeredLawyer= await lawyers.registerLawyer(lawyer)
+    console.log("here")
     const loginInfo =
     {
-        email:"yayayaya1235@gmail.com",
-        password:"pasHere"
+        email:"y20@gmail.com",
+        password:"basha"
     }
     const loginResult = await lawyers.login(loginInfo)
     expect(loginResult.data.length).toBeGreaterThan(0)
@@ -29,10 +31,10 @@ test("As a lawyer i should be able to see all unsigned cases", async () => {
   // expect.assertions(1);
   //create new lawyer
   const lawyer = {
-    email: "yaya.gamed80@gmail.com",//unique
+    email: "yaya.gamed81@gmail.com",//unique
     password: "yayayayayyaya",
     fullName: "mantaisreal",
-    username: "yayagamed80"//unique
+    username: "yayagamed81"//unique
   };
   
   const createdLawyer = await lawyers.createLawyer(lawyer);

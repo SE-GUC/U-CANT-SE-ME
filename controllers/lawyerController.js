@@ -204,8 +204,8 @@ exports.getSpecificWaitingForLawyerCase = async function(req, res) {
 }
 exports.login = function(req, res, next){
   passport.authenticate('lawyers', {
-    successRedirect: '/api/investors',
-    failureRedirect: '/api/investors/login',
+    successRedirect: '/api/lawyers',
+    failureRedirect: '/api/lawyers/login',
     failureFlash: true
   })(req, res, next)
 }
