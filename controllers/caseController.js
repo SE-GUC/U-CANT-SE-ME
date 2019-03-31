@@ -9,7 +9,7 @@ const Investor = require("../models/Investor");
 const Reviewer = require("../models/Reviewer");
 
 //Get a Case with a specific ID (get certain case)
-exports.getCase = async function(req, res) {
+exports.getCase = async function (req, res) {
   try {
     const caseId = req.params.id;
     if (!mongoValidator.isMongoId(caseId))
@@ -25,7 +25,7 @@ exports.getCase = async function(req, res) {
 };
 
 //Get all cases
-exports.getAllCases = async function(req, res) {
+exports.getAllCases = async function (req, res) {
   try {
     const cases = await Case.find();
     res.json({ data: cases });
@@ -65,22 +65,28 @@ async function verfiyReferentialIntegrity(req) {
   if (req.assignedLawyerId && !(await Lawyer.findById(req.assignedLawyerId)))
     return { error: "Assigned Lawyer doesn't exist" };
 
+
   if (
     req.assignedReviewerId &&
-    !(await Lawyer.findById(req.assignedReviewerId))
+    !(await Reviewer.findById(req.assignedReviewerId))
   )
+
     return { error: "Assigned Reviewer doesn't exist" };
 
   return { success: "The case satisfies refrential Integrity" };
 }
 
 async function verfiyGeneralCompanyRules(req) {
-  var countArabic = await Case.find({
-    "form.companyNameArabic": req.form.companyNameArabic
-  }).count();
-  var countEnglish = await Case.find({
-    "form.companyNameEnglish": req.form.companyNameEnglish
-  }).count();
+  var countArabic = 0;
+  if(req.form.companyNameArabic)
+    await Case.find({
+      "form.companyNameArabic": req.form.companyNameArabic
+    }).count();
+  var countEnglish = 0;
+  if(req.form.companyNameEnglish)
+    await Case.find({
+      "form.companyNameEnglish": req.form.companyNameEnglish
+    }).count();
   console.log(req);
   if (countArabic > 0 || countEnglish > 0)
     return { error: "Company's name already Exist" };
@@ -136,7 +142,7 @@ async function verfiySSCRules(req) {
 }
 
 //Create a case
-exports.createCase = async function(req, res) {
+exports.createCase = async function (req, res) {
   try {
     const { error } = validator.createValidation(req.body);
     if (error) return res.status(400).send(error.details[0].message);
@@ -162,7 +168,7 @@ exports.createCase = async function(req, res) {
 };
 
 //Delete a case
-exports.deleteCase = async function(req, res) {
+exports.deleteCase = async function (req, res) {
   try {
     const caseID = req.params.id;
     if (!mongoValidator.isMongoId(caseID))
@@ -189,7 +195,7 @@ async function addMissingAttributes(req) {
 }
 
 //Update a case
-exports.updateCase = async function(req, res) {
+exports.updateCase = async function (req, res) {
   try {
     if (!mongoValidator.isMongoId(req.params.id))
       return res.status(404).send({ error: "Invalid case ID" });
@@ -221,3 +227,32 @@ exports.updateCase = async function(req, res) {
     console.log(error);
   }
 };
+
+// As a Entity Employee, I should be able view the name of the last lawyer who worked on a specific case from the cases page.
+exports.getCaseLastLawyer = async function (req, res) {
+  try {
+
+    const caseId = req.params.id;
+    if (!mongoValidator.isMongoId(caseId))
+      return res.status(404).send({ error: "Invalid ID" });
+    const neededCase = await Case.findById(caseId);
+    if (!neededCase)
+      return res.status(400).send({ err: "Case entered not found" });
+
+    const lawyerid = neededCase.assignedLawyerId;
+    const lawyer = await Lawyer.findById(lawyerid)
+
+    if (!lawyer) {
+
+        return res.status(400).send({ msg: "This case was never assigned lawyer" });
+     
+
+    } else {
+      res.json({ lawyerName: lawyer.fullName });
+    }
+
+  }
+  catch (error) {
+    res.json({ msg: "An error has occured." })
+  }
+}
