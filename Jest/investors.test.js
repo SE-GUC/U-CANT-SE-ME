@@ -283,7 +283,7 @@ test('Create All Dependencies', async() => {
         telephoneNumber:"01007063067",
         fax:"123456789"
     }
-    createdInvestor  = await investors.createInvestor(investor)
+    createdInvestor  = await investors.registerInvestor(investor)
     createdEmail = createdInvestor.data.email
     createdPassword = investor.password
     investorId = createdInvestor.data._id
