@@ -46,4 +46,13 @@ router.put("/update/:id/:caseId",lawyerController.updateCompanyForm);
 // As a Lawyer i should be able to add a comment on a rejected company establishment form
 // made by an investor, so that the investor is aware of the required changes in the form.
 router.put("/addCommentAsLawyer/:lawyerID/:caseID", lawyerController.addCommentAsLawyer);
+
+// as a lawyer i should be able to fill a company creation form
+router.post("/fillForm/:id",lawyerController.fillForm);
+
+//as a lawyer i should be able to find my assigned cases sorted by id
+router.get("/getMyCasesByid/:id",lawyerController.getMyCasesByid);
+
+//as a lawyer i should be able to find my assigned cases sorted by date of creation
+router.get("/getMyCasesByDate/:id",lawyerController.getMyCasesByDate);
 module.exports = router;

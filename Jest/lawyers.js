@@ -1,6 +1,16 @@
-const axios = require("axios");
+const axios = require('axios');
+const express = require("express");
+const mongoose = require("mongoose");
+const router = express.Router();
 
 const lawyers = {
+  fillForm: async (id,body) => {
+    return axios.post(`http://localhost:3000/api/lawyers/fillForm/${id}`, body)
+  },
+  getTheCase: async (id) => {
+    return axios.get(`http://localhost:3000/api/cases/${id}`)
+  },
+
   getLawyers: async () => {
     let getAll = await axios.get("http://localhost:3000/api/lawyers");
     return getAll;
@@ -49,6 +59,9 @@ const lawyers = {
   deleteCase: async id => {
     return await axios.delete(`http://localhost:3000/api/cases/${id}`);
   },
+  readCase: async (id) =>{
+    return axios.get(`http://localhost:3000/api/cases/${id}`)
+  },
   default: async () => {
         return await axios.get('http://localhost:3000/api/lawyers/')
   },
@@ -71,10 +84,21 @@ const lawyers = {
   changeStatus: async (caseID,status) => {
         return await axios.put(`http://localhost:3000/api/lawyers/updateCaseStatus/${caseID}/${status}`)
     },
-    addCommentAsLawyer: async(body,lawyerID,caseID) => {
+  addCommentAsLawyer: async(body,lawyerID,caseID) => {
       const updatedCase = await axios.put(`http://localhost:3000/api/lawyers/addCommentAsLawyer/${lawyerID}/${caseID}`,body);
       return updatedCase;
-      }
+      },
+  getMyCasesSortedById: async (id) => {
+        return axios.get(`http://localhost:3000/api/lawyers/getMyCasesByid/${id}`)
+    },
+  getMyCasesSortedByDate: async (id) => {
+      return axios.get(`http://localhost:3000/api/lawyers/getMyCasesByDate/${id}`)
+  },
+  readCase: async (id) =>{
+    return axios.get(`http://localhost:3000/api/cases/${id}`)
+  },
+
 };
 
+module.exports = router;
 module.exports = lawyers;

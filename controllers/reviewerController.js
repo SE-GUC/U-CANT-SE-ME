@@ -237,3 +237,17 @@ exports.addCommentAsReviewer = async function(req,res){
     res.json({msg: "An error has occured."})
   }
 }
+
+exports.getMyCasesByid = async function(req,res) {
+  if(!mongoValidator.isMongoId(req.params.id))return res.status(400).send({ err : "Invalid reviewer id" });
+  const reviewer = await Reviewer.findById(req.params.id);
+  if(!reviewer) return res.status(400).send({ err : "Reviewer not found" });
+  res.json(await Case.find({"assignedReviewerId": req.params.id}).sort({_id: 1}));
+}
+
+exports.getMyCasesByDate = async function(req,res) {
+  if(!mongoValidator.isMongoId(req.params.id))return res.status(400).send({ err : "Invalid reviewer id" });
+  const reviewer = await Reviewer.findById(req.params.id);
+  if(!reviewer) return res.status(400).send({ err : "Reviewer not found" });
+  res.json(await Case.find({"assignedReviewerId": req.params.id}).sort({caseCreationDate: 1}));
+}

@@ -1,4 +1,8 @@
-const axios = require('axios');
+const axios = require('axios')
+const express = require("express");
+const mongoose = require("mongoose");
+const router = express.Router();
+
 const reviewers = {
         getAllCases: async () => {
                 return await axios.get("http://localhost:3000/api/cases/")
@@ -70,6 +74,16 @@ const reviewers = {
     addCommentAsReviewer: async(body,reviewerID,caseID) => {
         const updatedCase = await axios.put(`http://localhost:3000/api/reviewers/addCommentAsReviewer/${reviewerID}/${caseID}`,body);
         return updatedCase;
+        },
+    getMyCasesSortedById: async (id) => {
+        return axios.get(`http://localhost:3000/api/reviewers/getMyCasesByid/${id}`)
+        },
+    getMyCasesSortedByDate: async (id) => {
+        return axios.get(`http://localhost:3000/api/reviewers/getMyCasesByDate/${id}`)
+        },
+    readCase: async (id) =>{
+        return axios.get(`http://localhost:3000/api/cases/${id}`)
         }
 };
+module.exports = router;
 module.exports = reviewers;
