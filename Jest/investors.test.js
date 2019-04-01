@@ -282,68 +282,122 @@ let createdPassword = "";
 let investorId = "";
 let caseId = "";
 
-test("Create All Dependencies", async () => {
+test('Create All Dependencies', async() => {
   const investor = {
-    email: "moe@moe.moe",
-    password: "dontusethispassword",
-    fullName: "MoeMoeMoe",
-    type: "CEO",
-    gender: "Male",
-    nationality: "Egyptian",
-    methodOfIdentification: "National Card",
-    identificationNumber: "12233344445555",
-    dateOfBirth: "1997-12-15T22:00:00.000Z",
-    residenceAddress: "Rehab City",
-    telephoneNumber: "01007063067",
-    fax: "123456789"
-  };
-  createdInvestor = await investors.registerInvestor(investor);
-  createdEmail = createdInvestor.data.data.email;
-  createdPassword = investor.password;
-  investorId = createdInvestor.data.data._id;
-});
+      email:"moemfaeaefeafaefoe@gmail.com",
+      password:"dontusethispassword",
+      fullName:"MoeMoeMoeMofaeaefaefe",
+      type:"CEO",
+      gender:"Male",
+      nationality:"Egyptian",
+      methodOfIdentification:"National Card",
+      identificationNumber:"12233344445555",
+      dateOfBirth:"1997-12-15T22:00:00.000Z",
+      residenceAddress:"Rehab City",
+      telephoneNumber:"01007063067",
+      fax:"123456789"
+  }
+  createdInvestor  = await investors.registerInvestor(investor)
+  createdEmail = createdInvestor.data.data.email
+  createdPassword = investor.password
+  investorId = createdInvestor.data.data._id
+  const mycase =  {
+      form: {
+          companyType: 'SPC',
+          regulatedLaw: 'lll',
+          legalFormOfCompany: 'NonProffeaitaef',
+          companyNameArabic: 'moeManaefeaf',
+          companyNameEnglish: 'Moe moooafaefeEEECompany Man',
+          headOfficeGovernorate: 'California',
+          headOfficeCity: 'San Francisco',
+          headOfficeAddress: '123st.',
+          phoneNumber: '01007063067',
+          fax: '987654321',
+          currencyUsedForCapital: 'EGP',
+          capital: 100
+      },
+      caseStatus: 'WaitingForLawyer',
+      creatorInvestorId: createdInvestor.data.data._id
+  }
+  const createdCase = await investors.createCase(mycase)
+  caseId = createdCase._id 
+  const updatedCase = {
+      form: {
+          companyType: 'SPC',
+          regulatedLaw: 'lll',
+          legalFormOfCompany: 'MaafenManNonPfearofitManTheManManMannnnnnnnnn',
+          headOfficeGovernorate: 'California',
+          headOfficeCity: 'San Francisco',
+          headOfficeAddress: '123st.',
+          phoneNumber: '01007063067',
+          fax: '987654321',
+          currencyUsedForCapital: 'EGP',
+          capital: 100
+      },
+      caseStatus: 'WaitingForLawyer',
+      comments:[
+          {
+              author:"Moe",
+              body:"Good Company!"
+              
+          },
+          {
+              author:"MoeMan",
+              body:"I second Moe"	
+          }
+      ]
+  }
+  await investors.updateCase(caseId, updatedCase)    
+})
 
 test("Registering an investor", async () => {
-  const investor = {
-    email: "moemoemoe5@faegmail.com",
-    password: "12345678fea",
-    fullName: "bala ibn bafeala abo",
-    type: "cfea",
-    gender: "Male",
-    nationality: "Egyptian",
-    methodOfIdentification: "National Card",
-    identificationNumber: "12233344445555",
-    dateOfBirth: "1990-12-17T22:00:00.000Z",
-    residenceAddress: "13th Mogama3 el Tahrir",
-    telephoneNumber: "00201009913457",
-    fax: "1234567"
-  };
-  expect.assertions(0);
-  const registeredInvestor = await investors.registerInvestor(investor);
-  await investors.deleteInvestor(registeredInvestor.data.data._id);
-  encryption.comparePassword(
-    investor.password,
-    registeredInvestor.data.data.password,
-    function(err, isMatch) {
-      if (err) throw err;
-      return expect(isMatch).toBeTruthy();
-    }
-  );
+const investor = {
+  email: "moemoemoe5@faegmail.com",
+  password: "12345678fea",
+  fullName: "bala ibn bafeala abo",
+  type: "cfea",
+  gender: "Male",
+  nationality: "Egyptian",
+  methodOfIdentification: "National Card",
+  identificationNumber: "12233344445555",
+  dateOfBirth: "1990-12-17T22:00:00.000Z",
+  residenceAddress: "13th Mogama3 el Tahrir",
+  telephoneNumber: "00201009913457",
+  fax: "1234567"
+};
+expect.assertions(0);
+const registeredInvestor = await investors.registerInvestor(investor);
+await investors.deleteInvestor(registeredInvestor.data.data._id);
+encryption.comparePassword(
+  investor.password,
+  registeredInvestor.data.data.password,
+  function(err, isMatch) {
+    if (err) throw err;
+    return expect(isMatch).toBeTruthy();
+  }
+);
 });
 
 test("As an investor I should be able to login", async () => {
+
   const loginInfo = {
-    email: createdEmail,
-    password: createdPassword
-  };
-  const loginResult = await investors.login(loginInfo);
-  return expect(loginResult.data.length).toBeGreaterThan(0);
+  email: createdEmail,
+  password: createdPassword
+};
+
+const loginResult = await investors.login(loginInfo);
+return expect(loginResult.data.length).toBeGreaterThan(0);
 });
 
-test("Delete All Dependencies", async () => {
-  await investors.deleteInvestor(investorId);
-});
+test('Viewing Lawyers Comments On My Case', async() => {
+  let comments = await investors.viewComments(investorId, caseId)
+  return expect(comments.data.comments.length).toBeGreaterThan(0)
+})
 
+test('Delete All Dependencies', async () => {
+  await investors.deleteInvestor(investorId)
+  await investors.deleteCase(caseId)
+})
 test("As an investor I should be view my fees", async () => {
   expect.assertions(3);
   let req = {
