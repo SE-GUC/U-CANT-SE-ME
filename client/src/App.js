@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
+import TrackMyCompany from './components/TrackMyCompany';
+
 
 class App extends Component {
   render() {
@@ -9,7 +11,7 @@ class App extends Component {
         <header className="App-header">
           <img src={logo} className="App-logo" alt="logo" />
           <p>
-            hello
+            hello yoyo
           </p>
           <a
             className="App-link"
@@ -18,6 +20,7 @@ class App extends Component {
             rel="noopener noreferrer"
           >
             Learn React
+        <TrackMyCompany/>
           </a>
         </header>
       </div>
