@@ -17,14 +17,14 @@ class Comments extends Component {
 
 render(){
   return this.state.comments.map((comment) => (
-    <Comment key={comment.id} comment={comment} />
+    <Comment key={comment._id} comment={comment} />
   ))
   }
 }
 
 // PropTypes
-Comments.propTypes = {
-    comments: PropTypes.array.isRequired
-}
+// Comments.propTypes = {
+//     comments: PropTypes.array.isRequired
+// }
 
 export default Comments;

@@ -53,27 +53,27 @@ export class Comment extends Component {
     const {author, body, date} = this.props.comment;
     return (
       <div style={this.getStyle()}>
-        <p>
+        {/* <p> */}
             {/* <input type="checkbox" onChange={this.props.markRead.bind(this, _id)} /> {' '} */}
           {/* { author } */}
           {/* { '\n' } */}
           {/* { body } */}
           {/* { '\n' } */}
           {/* { date } */}
-        </p>
-        <p>
+        {/* </p> */}
+        {/* <p> */}
             <h3 style={this.authorStyle()}>{author}</h3>
             <h4 style={this.commentStyle()}>{body}</h4>
             <h5 style={this.dateStyle()}>{this.formatTime(date)}</h5>
-        </p>
+        {/* </p> */}
       </div>
     )
   }
 }
 
 // PropTypes
-Comment.propTypes = {
-    comments: PropTypes.object.isRequired
-}
+// Comment.propTypes = {
+//     comments: PropTypes.object.isRequired
+// }
 
 export default Comment
