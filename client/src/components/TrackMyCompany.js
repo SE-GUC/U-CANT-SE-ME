@@ -16,11 +16,10 @@ export default class TrackMyCompany extends React.Component{
 //        });
 
        async componentDidMount() {
-        const res = await axios.get('http://localhost:5000/api/notifications');
+        const res = await axios.get('http://localhost:5000/api/notifications/');
         const { data: posts }=res
-        console.log(res)
-        console.log("posts")
-        console.log(posts)
+       
+        console.log(posts.data)
         this.setState({posts: posts.data });
         console.log('sds')
     };
@@ -30,7 +29,9 @@ export default class TrackMyCompany extends React.Component{
             return(
                 <ul>
                 <p>hi
-                    {console.log(this.state.posts.id)}
+                    {this.state.posts.map(x=>(
+                        <li key={x._id}>{x._id}</li>
+                    ))}
                  {this.state.posts._id}
                  </p> 
                     </ul>
