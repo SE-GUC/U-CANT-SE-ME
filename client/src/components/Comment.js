@@ -14,15 +14,6 @@ export class Comment extends Component {
     authorStyle = () => {
         return{
             fontFamily: 'Century Gothic'
-            // background: '#D5DBDB',
-            // padding: '5px',
-            // borderBottom: '1px #34495E solid',
-            // borderRight: '1px #34495E solid',
-            // borderTop: '1px #34495E solid',
-            // borderLeft: '1px #34495E solid',
-            // marginTop: '0px', 
-            // margin: '0px 0'
-            // borderStyle: 'dotted'
         }
     }
     commentStyle = () => {
@@ -30,18 +21,11 @@ export class Comment extends Component {
             background: '#f4f4f4',
             padding: '10px',
             fontFamily: 'Consolas'
-            // border: '3px dotted burlywood'
-            // borderBottom: '3px #34495E solid',
-            // borderRight: '3px #34495E solid',
-            // borderTop: '3px #34495E solid',
-            // borderLeft: '3px #34495E solid',
-            // borderStyle: 'dotted'
         }
     }
     dateStyle = () => {
         return{
             fontFamily: 'Perpetua'
-            // fontWeight: '800'
         }
     }
 
@@ -53,19 +37,9 @@ export class Comment extends Component {
     const {author, body, date} = this.props.comment;
     return (
       <div style={this.getStyle()}>
-        {/* <p> */}
-            {/* <input type="checkbox" onChange={this.props.markRead.bind(this, _id)} /> {' '} */}
-          {/* { author } */}
-          {/* { '\n' } */}
-          {/* { body } */}
-          {/* { '\n' } */}
-          {/* { date } */}
-        {/* </p> */}
-        {/* <p> */}
-            <h3 style={this.authorStyle()}>{author}</h3>
-            <h4 style={this.commentStyle()}>{body}</h4>
-            <h5 style={this.dateStyle()}>{this.formatTime(date)}</h5>
-        {/* </p> */}
+        <h3 style={this.authorStyle()}>{author}</h3>
+        <h4 style={this.commentStyle()}>{body}</h4>
+        <h5 style={this.dateStyle()}>{this.formatTime(date)}</h5>
       </div>
     )
   }

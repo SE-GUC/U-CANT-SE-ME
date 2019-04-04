@@ -12,7 +12,6 @@ class Comments extends Component {
         const caseID="5ca62338fd83c24bf091758f"
         const {data: comments} = await axios.get(`http://localhost:5000/api/investors/lawyerComments/${investorID}/${caseID}`)
         this.setState({comments: comments.comments})
-        // console.log('data', req.data)
     }
 
 render(){
