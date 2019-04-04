@@ -3,6 +3,7 @@ const mongoose = require("mongoose");
 const passport = require('passport')
 const flash = require('connect-flash')
 const session = require('express-session')
+var cors = require('cors');
 //Require Route Handlers
 const investors = require("./routes/api/investors");
 const lawyers = require("./routes/api/lawyers");
@@ -30,7 +31,7 @@ mongoose
 //Middleware
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
-
+app.use(cors());
 //Express session
 app.use(
   session({
