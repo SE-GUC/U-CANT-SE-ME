@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 import Header from './components/layout/Header';
 import './App.css';
-import MyCompanies from './components/pages/MyCompanies';
 
 class App extends Component {
   render() {
@@ -15,11 +14,9 @@ class App extends Component {
             <h1>Home</h1>
           </React.Fragment>
         )} />
-        <Route path="/MyCompanies" component={MyCompanies}/>
         </div>
       </Router>
     );
   }
 }
-
 export default App;
