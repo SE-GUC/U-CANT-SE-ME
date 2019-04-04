@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-import PropTypes from 'prop-types'
 import moment from 'moment'
 
 export class Comment extends Component {
@@ -44,10 +43,5 @@ export class Comment extends Component {
     )
   }
 }
-
-// PropTypes
-// Comment.propTypes = {
-//     comments: PropTypes.object.isRequired
-// }
 
 export default Comment

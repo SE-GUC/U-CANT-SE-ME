@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import Comment from './Comment';
-import PropTypes from 'prop-types';
 import axios from 'axios';
 
 class Comments extends Component {
@@ -15,15 +14,10 @@ class Comments extends Component {
     }
 
 render(){
-  return this.state.comments.map((comment) => (
-    <Comment key={comment._id} comment={comment} />
-  ))
+  return (
+      this.state.comments.map((comment) => (<Comment key={comment._id} comment={comment} />
+  )))
   }
 }
-
-// PropTypes
-// Comments.propTypes = {
-//     comments: PropTypes.array.isRequired
-// }
 
 export default Comments;

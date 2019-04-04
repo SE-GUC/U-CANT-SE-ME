@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import Comments from './components/Comments';
 import './App.css';
+import Comments from './components/Comments';
 import Header from './components/layout/Header'
 
 class App extends Component {
