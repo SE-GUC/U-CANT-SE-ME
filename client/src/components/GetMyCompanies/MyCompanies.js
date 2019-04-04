@@ -13,20 +13,12 @@ class MyCompanies extends Component {
     .then(res => {
       if(Array.isArray(res.data.data))
         this.setState({MyCompanies: res.data.data})
-      else{
-        
-      }
 })}
 
   render() {
     return this.state.MyCompanies.map((company) => (
         <GetMyCompaniesItem key={company._id} company={company} />
         ))
-    // return (
-    //   <div className="MyCompanies">
-    //     <h1>My Companies</h1>
-    //   </div>
-    // )
   }
 }
 export default MyCompanies

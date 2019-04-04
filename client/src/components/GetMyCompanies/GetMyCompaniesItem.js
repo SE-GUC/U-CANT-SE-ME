@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-import PropTypes from 'prop-types';
 
 export class GetMyCompaniesItem extends Component {
   render() {
@@ -13,8 +12,4 @@ export class GetMyCompaniesItem extends Component {
     )
   }
 }
-
-// GetMyCompaniesItem.propTypes = {
-//   company: PropTypes.object.isRequired
-// }
 export default GetMyCompaniesItem
