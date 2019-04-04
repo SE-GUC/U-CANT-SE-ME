@@ -3,6 +3,7 @@ const mongoose = require("mongoose");
 const passport = require('passport')
 const flash = require('connect-flash')
 const session = require('express-session')
+const cors = require('cors');
 //Require Route Handlers
 const investors = require("./routes/api/investors");
 const lawyers = require("./routes/api/lawyers");
@@ -17,6 +18,8 @@ const externalEntities = require("./routes/api/externalEntities");
 require('./config/passport')(passport)
 
 const app = express();
+
+app.use(cors());
 
 //Getting Mongo's connection URI
 const db = require("./config/keys").mongoURI;
@@ -73,5 +76,5 @@ app.use((req, res) => {
   res.status(404).send({ err: "We can not find what you are looking for" });
 });
 
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 5000;
 app.listen(port, () => console.log(`Listening on port ${port}...`));
