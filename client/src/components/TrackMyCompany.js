@@ -16,11 +16,11 @@ export default class TrackMyCompany extends React.Component{
 //        });
 
        async componentDidMount() {
-        const res = await axios.get('http://localhost:5000/api/notifications/');
+        const res = await axios.get('http://localhost:5000/api/investors/trackMyCompany/5ca6229afd83c24bf091758e');
         const { data: posts }=res
        
-        console.log(posts.data)
-        this.setState({posts: posts.data });
+        console.log(posts.tracking)
+        this.setState({posts: posts.tracking });
         console.log('sds')
     };
 
@@ -28,14 +28,23 @@ export default class TrackMyCompany extends React.Component{
         render(){
             return(
                 <ul>
-                <p>hi
+                <p>
                     {this.state.posts.map(x=>(
-                        <li key={x._id}>{x._id}</li>
+                        <li style={this.style()} key={x.company}>{x.company} 
+                        </li>
+                      
                     ))}
                  {this.state.posts._id}
                  </p> 
                     </ul>
             )
+        }
+        style = () => {
+            return{
+               // backgroundColor: '#f4a341',
+                color: '#f4a341',
+                
+            }
         }
     };
 
