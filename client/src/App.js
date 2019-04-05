@@ -4,6 +4,8 @@ import Header from './components/layout/Header';
 import './App.css';
 import Comments from './components/ViewComments/Comments'
 
+import MyCompanies from './components/GetMyCompanies/MyCompanies';
+
 class App extends Component {
   render() {
     return (
@@ -16,6 +18,7 @@ class App extends Component {
           </React.Fragment>
         )} />
         <Route path="/viewComments" component={Comments}/>
+        <Route path="/MyCompanies" component={MyCompanies}/>
         </div>
       </Router>
     );
