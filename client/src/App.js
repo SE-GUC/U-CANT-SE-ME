@@ -22,8 +22,6 @@ class App extends Component {
           </React.Fragment>
         )} />
         <Route path="/LoginInternalPortal" component={LoginInternalPortal}/>
-        <Route path="/LoginReviewer" component={LoginReviewer}/>
-
 
         <Route path="/TrackMyCompany" component={TrackMyCompany}/>
 
