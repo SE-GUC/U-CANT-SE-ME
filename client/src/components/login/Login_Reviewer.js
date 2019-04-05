@@ -75,13 +75,12 @@ export default class Login extends Component {
       <div>
       <label>Select Your Account Type</label>
         <br />
-        <select id="type" onChange={this.handleChange}>
+        <select className="form-control" id="type" style={styles.label} onChange={this.handleChange}>
           <option value="" />
           <option value="Admin">Admin</option>
           <option value="Reviewer">Reviewer</option>
           <option value="Lawyer">Lawyer</option>
         </select>
-        <br />
         <label id="Error_Type" style={styles.content}>
           You Have to Select an Account Type
         </label>
