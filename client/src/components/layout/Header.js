@@ -12,7 +12,6 @@ function Header() {
     | <Link style={linkStyle} to="/viewComments">Comments</Link> 
     | <Link style={linkStyle} to="/InvestorRegister">Register Investor</Link>   
     | <Link style={linkStyle} to="/ViewMyFees">View my Fees</Link> 
-    | <Link style={linkStyle} to="/ViewMyFees">View my Fees</Link>
     | <Link style={linkStyle} to="/RegisterLawyer">Register Lawyer</Link> 
     | <Link style={linkStyle} to="/RegisterReviewer">Register Reviewer</Link> 
 
