@@ -214,7 +214,7 @@ exports.loginReviewer = function(req, res, next){
         email : reviewer[0].email
       }
       const token = jwt.sign(payload, tokenKey,{expiresIn:'1h'})
-      res.json({msg: 'You are logged in! Welcome!', data : `Bearer ${token}`})
+      res.json({data : `${token}`})
       return res
       // return res.redirect('/api/reviewers/' + reviewer[0]._id);
     });
