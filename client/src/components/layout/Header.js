@@ -6,7 +6,7 @@ function Header() {
     <header style={headerStyle}>
       <h1>SUMERGITE</h1>
       <Link style={linkStyle} to="/">Home</Link> |
-      <Link style={linkStyle} to="/LoginReviewer">Login Reviewer</Link> 
+      <Link style={linkStyle} to="/LoginInternalPortal">Login InternalPortal</Link> 
     </header>
   )
 }
