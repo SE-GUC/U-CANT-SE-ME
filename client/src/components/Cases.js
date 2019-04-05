@@ -8,13 +8,10 @@ import axios from 'axios';
     };
     async componentDidMount(){
 
-      axios.get(`http://localhost:5000/api/cases`)
-        .then(res => {
-          if(Array.isArray(res.data.data))
-            this.setState({cases: res.data.data})
-        })
-         console.log(this.state.cases);
-        // console.log(getCases.data.data);
+        const getCases = await axios.get("http://localhost:5000/api/cases");
+        this.setState({cases: getCases.data.data});
+         console.log(getCases.data.data);
+    
         // my comments to understand arrayOfCases 
         // getCases.data.data[0]  the first case in the array 
     };
