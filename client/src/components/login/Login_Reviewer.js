@@ -30,10 +30,12 @@ export default class Login extends Component {
         res = await axios.post("http://localhost:5000/api/reviewers/login",body);
       else if (type === "Lawyer")
         res = await axios.post("http://localhost:5000/api/lawyers/login", body);
-      else 
+      else{
+        document.getElementById("Error_Type").style.display = "inline";
         return alert("Select Account Type");
+      }
       document.getElementById("Error").style.display = "none";
-      // console.log(res)
+      document.getElementById("Error_Type").style.display = "none";
       if (type === "Lawyer")
         this.setState({
           id: res.data._id
@@ -46,6 +48,7 @@ export default class Login extends Component {
       alert("Welcome! You have logged in!");
     } catch (err) {
       document.getElementById("Error").style.display = "inline";
+      document.getElementById("Error_Type").style.display = "none";
       alert("Worng Email or Password");
     }
   };
@@ -61,11 +64,16 @@ export default class Login extends Component {
         display: "none",
         color: "red",
         fontWeight: "bold"
+      },
+      label: {
+        width: "30%",
+        minWidth:"200px",
+        margin:"auto"
       }
     };
     return (
-      <div className="Login">
-        <label>Select Your Account Type</label>
+      <div>
+      <label>Select Your Account Type</label>
         <br />
         <select id="type" onChange={this.handleChange}>
           <option value="" />
@@ -74,49 +82,28 @@ export default class Login extends Component {
           <option value="Lawyer">Lawyer</option>
         </select>
         <br />
-        <br />
-        <label>Email</label>
-        <br />
-        <input
-          type="text"
-          id="email"
-          placeholder="Your Email"
-          onChange={this.handleChange}
-        />
-        <br />
-        <br />
-        <label>Password</label>
-        <br />
-        <input
-          type="password"
-          id="password"
-          placeholder="Your Password"
-          onChange={this.handleChange}
-        />
-        <br />
-        <br />
-        <label id="Error" style={styles.content}>
-          Worng Email or Password
+        <label id="Error_Type" style={styles.content}>
+          You Have to Select an Account Type
         </label>
         <br />
-        <button onClick={this.handleSubmit}>Login</button>
+      <div className="form-group">
+        <label>Email address</label>
+        <input style={styles.label} onChange={this.handleChange} type="text" className="form-control" id="email" placeholder="Enter email"/>
+        <small id="emailHelp" className="form-text text-muted">SUMERGITE will never share your email with anyone else.</small>
       </div>
-    //   <form>
-    //   <div class="form-group">
-    //     <label for="exampleInputEmail1">Email address</label>
-    //     <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email">
-    //     <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
-    //   </div>
-    //   <div class="form-group">
-    //     <label for="exampleInputPassword1">Password</label>
-    //     <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
-    //   </div>
-    //   <div class="form-check">
-    //     <input type="checkbox" class="form-check-input" id="exampleCheck1">
-    //     <label class="form-check-label" for="exampleCheck1">Check me out</label>
-    //   </div>
-    //   <button type="submit" class="btn btn-primary">Submit</button>
-    //  </form>
+      <div className="form-group">
+        <label>Password</label>
+        <input style={styles.label} onChange={this.handleChange} type="password" className="form-control" id="password" placeholder="Password"/>
+      </div>
+      <label id="Error" style={styles.content}>
+           Worng Email or Password
+      </label>
+      <br/>
+      <button className="btn btn-primary" onClick={this.handleSubmit}>Login</button>
+     <div className="dropdown-divider"></div>
+  <a className="dropdown-item" href="#">New around here? Sign up</a>
+  <a className="dropdown-item" href="#">Forgot password?</a>
+     </div>
     );
   }
 }
