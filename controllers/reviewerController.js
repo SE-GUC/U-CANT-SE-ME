@@ -6,6 +6,8 @@ const Reviewer = require("../models/Reviewer");
 const reviewerGettingAllCasesAuthenticated=true;
 const caseController = require("./caseController")
 const passport = require('passport')
+const jwt = require('jsonwebtoken')
+const tokenKey = require('../config/keys_dev').secretOrKey
 // module Case
 const Case = require("../models/Case.js")
 
@@ -207,7 +209,14 @@ exports.loginReviewer = function(req, res, next){
     req.logIn(user,  async function(err) {
       if (err) { return next(err); }
       var reviewer = await Reviewer.where("email" , req.body.email);
-      return res.redirect('/api/reviewers/' + reviewer[0]._id);
+      const payload = {
+        id : reviewer[0]._id,
+        email : reviewer[0].email
+      }
+      const token = jwt.sign(payload, tokenKey,{expiresIn:'1h'})
+      res.json({msg: 'You are logged in! Welcome!', data : `Bearer ${token}`})
+      return res
+      // return res.redirect('/api/reviewers/' + reviewer[0]._id);
     });
   })(req, res, next)
   };

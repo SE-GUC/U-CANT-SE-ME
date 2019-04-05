@@ -33,6 +33,7 @@ export default class Login extends Component {
       else 
         return alert("Select Account Type");
       document.getElementById("Error").style.display = "none";
+      console.log(res)
       if (type === "Lawyer")
         this.setState({
           id: res.data._id
