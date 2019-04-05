@@ -4,6 +4,7 @@ import Header from './components/layout/Header';
 import './App.css';
 
 import MyCompanies from './components/GetMyCompanies/MyCompanies';
+import Cases from './components/Cases';
 
 class App extends Component {
   render() {
@@ -17,6 +18,7 @@ class App extends Component {
           </React.Fragment>
         )} />
         <Route path="/MyCompanies" component={MyCompanies}/>
+        <Route path="/GetAllCases" component={Cases}/>
         </div>
       </Router>
     );
