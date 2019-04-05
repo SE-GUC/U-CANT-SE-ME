@@ -17,11 +17,15 @@ export default class Login extends Component {
       email: this.state.email,
       password: this.state.password
     };
+    const bodyAdmin = {
+      username : this.state.email,
+      password: this.state.password
+    }
     const type = this.state.type;
     var res = {};
     try {
       if (type === "Admin")
-        res = await axios.post("http://localhost:5000/api/admins/login", body);
+        res = await axios.post("http://localhost:5000/api/admins/login", bodyAdmin);
       else if (type === "Reviewer")
         res = await axios.post("http://localhost:5000/api/reviewers/login",body);
       else if (type === "Lawyer")
@@ -67,7 +71,7 @@ export default class Login extends Component {
         <label>Email</label>
         <br />
         <input
-          type="email"
+          type="text"
           id="email"
           placeholder="Your Email"
           onChange={this.handleChange}

@@ -207,12 +207,19 @@ exports.getSpecificWaitingForLawyerCase = async function(req, res) {
 }
 
 exports.loginLawyer = function(req, res, next){
-  passport.authenticate('lawyers', {
-    successRedirect: '/api/lawyers',
-    failureRedirect: '/api/lawyers/login',
-    failureFlash: true
+  passport.authenticate('lawyers',
+  async function(err,user){
+    if (err) { return next(err); }
+    if (!user) { return res.redirect('/api/lawyers/login'); }
+    req.logIn(user,  async function(err) {
+      if (err) { return next(err); }
+      var lawyer = await Lawyer.where("email" , req.body.email);
+      return res.redirect('/api/lawyers/' + lawyer[0]._id);
+    });
   })(req, res, next)
-};
+  };
+
+
 exports.updateCompanyForm = async function(req, res) {
   if(!mongoValidator.isMongoId(req.params.id) || !mongoValidator.isMongoId(req.params.caseId))
     return res.json("Invalid ID")

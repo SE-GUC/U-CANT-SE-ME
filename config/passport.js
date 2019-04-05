@@ -79,14 +79,13 @@ module.exports = function(passport){
     passport.use('lawyers',
         new LocalStrategy({ usernameField: 'email'}, (email, password, done) => {
             //Match User
-            console.log("here1")
             Lawyer.findOne({ email: email })
-            console.log("here2")
             .then(lawyer => {
                 if(!lawyer){
-                    console.log("here3")
+                    console.log(lawyer)
                     return done(null, false, {message: 'That email is not registered' })
                 }
+                console.log("here4")
 
                 //Match password
                 bcrypt.compare(password, lawyer.password, (err, isMatch) => {
