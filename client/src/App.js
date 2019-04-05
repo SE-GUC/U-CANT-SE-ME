@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 import Header from './components/layout/Header';
+import LoginReviewer from './components/login/Login_Reviewer';
 import './App.css';
 
 class App extends Component {
@@ -14,6 +15,7 @@ class App extends Component {
             <h1>Home</h1>
           </React.Fragment>
         )} />
+        <Route path="/LoginReviewer" component={LoginReviewer}/>
         </div>
       </Router>
     );
