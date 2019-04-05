@@ -3,6 +3,12 @@ import { BrowserRouter as Router, Route } from 'react-router-dom';
 import Header from './components/layout/Header';
 import LoginInternalPortal from './components/login/Login_InternalPortal';
 import './App.css';
+import Comments from './components/ViewComments/Comments'
+
+
+import TrackMyCompany from './components/TrackMyCompany';
+import MyCompanies from './components/GetMyCompanies/MyCompanies';
+import ViewMyFees from './components/ViewMyFees/ViewMyFees';
 
 class App extends Component {
   render() {
@@ -16,6 +22,17 @@ class App extends Component {
           </React.Fragment>
         )} />
         <Route path="/LoginInternalPortal" component={LoginInternalPortal}/>
+        <Route path="/LoginReviewer" component={LoginReviewer}/>
+
+
+        <Route path="/TrackMyCompany" component={TrackMyCompany}/>
+
+        <Route path="/viewComments" component={Comments}/>
+
+        <Route path="/MyCompanies" component={MyCompanies}/>
+
+        <Route path="/ViewMyFees" component={ViewMyFees}/>
+
         </div>
       </Router>
     );
