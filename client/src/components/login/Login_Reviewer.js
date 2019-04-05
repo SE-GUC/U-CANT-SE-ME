@@ -73,6 +73,7 @@ export default class Login extends Component {
     };
     return (
       <div>
+        <h1>Welcome to the Internal Portal Login!</h1>
       <label>Select Your Account Type</label>
         <br />
         <select className="form-control" id="type" style={styles.label} onChange={this.handleChange}>
