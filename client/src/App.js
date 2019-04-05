@@ -2,9 +2,13 @@ import React, { Component } from 'react';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 import Header from './components/layout/Header';
 import './App.css';
-
+import Comments from './components/ViewComments/Comments'
+import TrackMyCompany from './components/TrackMyCompany';
 import MyCompanies from './components/GetMyCompanies/MyCompanies';
 import Cases from './components/Cases';
+import InvestorRegister from './components/InvestorRegister'
+import ViewMyFees from './components/ViewMyFees/ViewMyFees';
+
 
 class App extends Component {
   render() {
@@ -17,8 +21,22 @@ class App extends Component {
             <h1>Home</h1>
           </React.Fragment>
         )} />
+
+
+        <Route path="/TrackMyCompany" component={TrackMyCompany}/>
+
+        <Route path="/viewComments" component={Comments}/>
+
         <Route path="/MyCompanies" component={MyCompanies}/>
+
         <Route path="/GetAllCases" component={Cases}/>
+
+
+
+        <Route path="/InvestorRegister" component={InvestorRegister}/>
+          
+        <Route path="/ViewMyFees" component={ViewMyFees}/>
+
         </div>
       </Router>
     );
