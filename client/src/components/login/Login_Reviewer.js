@@ -18,25 +18,30 @@ export default class Login extends Component {
       password: this.state.password
     };
     const bodyAdmin = {
-      username : this.state.email,
+      username: this.state.email,
       password: this.state.password
-    }
+    };
     const type = this.state.type;
     var res = {};
     try {
       if (type === "Admin")
-        res = await axios.post("http://localhost:5000/api/admins/login", bodyAdmin);
+        res = await axios.post("http://localhost:5000/api/admins/login",bodyAdmin);
       else if (type === "Reviewer")
         res = await axios.post("http://localhost:5000/api/reviewers/login",body);
       else if (type === "Lawyer")
         res = await axios.post("http://localhost:5000/api/lawyers/login", body);
-      else
+      else 
         return alert("Select Account Type");
       document.getElementById("Error").style.display = "none";
-      console.log(res)
-      this.setState({
-        id: res.data.data._id
-      });
+      if (type === "Lawyer")
+        this.setState({
+          id: res.data._id
+        });
+      else
+        this.setState({
+          id: res.data.data._id
+        });
+      console.log(this.state);
     } catch (err) {
       document.getElementById("Error").style.display = "inline";
       alert("Worng Email or Password");
@@ -53,7 +58,7 @@ export default class Login extends Component {
       content: {
         display: "none",
         color: "red",
-        fontWeight:"bold"
+        fontWeight: "bold"
       }
     };
     return (
