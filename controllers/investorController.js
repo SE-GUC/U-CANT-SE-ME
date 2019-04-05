@@ -45,7 +45,19 @@ exports.createInvestor = async function(req, res) {
 };
 exports.register = async function(req,res){
   req.body.password=encryption.hashPassword(req.body.password)
-  return res.send({data: await Investor.create(req.body)})
+  const { error } = validator.createValidation(req.body);
+  if (error) return res.status(400).send(error.details[0].message);
+  if (
+    req.body.nationality === "Egyptian" &&
+    req.body.identificationNumber.length != 14
+  )
+    return res.status(400).send("Incorrect National ID number");
+  try {
+    const investor = await Investor.create(req.body);
+    res.send(investor);
+  } catch (err) {
+    res.status(400).send({ msg: "Oops something went wrong" });
+  }
 }
 //UPDATE
 exports.updateInvestor = async function(req, res) {

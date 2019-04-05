@@ -7,6 +7,7 @@ import Comments from './components/ViewComments/Comments'
 
 import TrackMyCompany from './components/TrackMyCompany';
 import MyCompanies from './components/GetMyCompanies/MyCompanies';
+import InvestorRegister from './components/InvestorRegister'
 
 
 class App extends Component {
@@ -28,6 +29,7 @@ class App extends Component {
 
         <Route path="/MyCompanies" component={MyCompanies}/>
 
+        <Route path="/InvestorRegister" component={InvestorRegister}/>
         </div>
       </Router>
     );
