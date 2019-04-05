@@ -203,7 +203,7 @@ exports.trackMyCompany = async function(req, res) {
         result.push({
           company:
             " Your company " +
-            cases[i].companyNameEnglish +
+            cases[i].form.companyNameEnglish +
             " is currently in phase " +
             cases[i].caseStatus +
             " "
