@@ -1,11 +1,13 @@
-import React, { Component } from 'react'
-
+import React, { Component } from 'react';
+import Manager from './Manager';
 export default class Managers extends Component {
   render() {
     return (
-      <div>
-        
-      </div>
+      this.props.managersArray.map((x) => (
+       <Manager key={x._id} manager={x} />
+         ))
+         
     )
+    
   }
 }

@@ -1,14 +1,21 @@
 import React, { Component } from 'react'
 import axios from 'axios';
-import PreviouslyAssignedReviewers from './caseComponents/PreviouslyAssignedReviewers';
+import Managers from './caseComponents/Managers';
 export default class Case extends Component {
+  getStyle = () => {
+    return{
+        background: '#f4f4f4',
+        padding: '10px',
+        borderBottom: '1px #ccc dotted'
+    } 
+}
   state={
     assignedLawyerEmail:'not assigned yet',
     assignedReviewerEmail:'not assigned yet',
     caseCreationDate:'',
     caseStatus:'',
-    creatorInvestorEmail:'',
-    creatorLawyerEmail:'',
+    creatorInvestorEmail:'not created by investor',
+    creatorLawyerEmail:'not created by lawyer',
     //missing
     form:[],
     //missing
@@ -52,32 +59,31 @@ export default class Case extends Component {
   render() {
     
     return (
-      <div>
-        
-        <h1>companyNameArabic:{this.state.form.companyNameArabic}</h1>
-        <h4>companyNameEnglish:{this.state.form.companyNameEnglish}</h4>
-        <h4>companyType:{this.state.form.companyType}</h4>
-        <h4>capital:{this.state.form.capital}</h4>
-        <h4>currencyUsedForCapital:{this.state.form.currencyUsedForCapital}</h4>
-        <h4>fax:{this.state.form.fax}</h4>
-        <h4>headOfficeAddress:{this.state.form.headOfficeAddress}</h4>
-        <h4>headOfficeCity:{this.state.form.headOfficeCity}</h4>
-        <h4>headOfficeGovernorate:{this.state.form.headOfficeGovernorate}</h4>
-        <h4>legalFormOfCompany:{this.state.form.legalFormOfCompany}</h4>
-        <h4>phoneNumber:{this.state.form.phoneNumber}</h4>
-        <h4>regulatedLaw:{this.state.form.regulatedLaw}</h4>
-        <h4>caseCreationDate:{this.state.caseCreationDate}</h4>
-        <h4>assignedLawyerEmail:{this.state.assignedLawyerEmail}</h4>
-        <h4>assignedReviewerEmail:{this.state.assignedReviewerEmail}</h4>
-        <h4>CreatorInvestorEmail:{this.state.creatorInvestorEmail}</h4>
-        <h4>creatorLawyerEmail:{this.state.creatorLawyerEmail}</h4>
-        <h4>caseStatus:{this.state.caseStatus}</h4>
-       
-        this.state.previouslyAssignedReviewers.map((reviewer) => (
-       <previouslyAssignedReviewers key={reviewer._id} reviewer={reviewer} />
-        ))
-
-      </div>
+      <div style={this.getStyle()}>
+        <h1>Case</h1>
+        <h2>companyNameArabic:{this.state.form.companyNameArabic}</h2>
+        <h2>companyNameEnglish:{this.state.form.companyNameEnglish}</h2>
+        <h3>caseCreationDate:{this.state.caseCreationDate}</h3>
+        <h3>assignedLawyerEmail:{this.state.assignedLawyerEmail}</h3>
+        <h3>assignedReviewerEmail:{this.state.assignedReviewerEmail}</h3>
+        <h3>CreatorInvestorEmail:{this.state.creatorInvestorEmail}</h3>
+        <h3>creatorLawyerEmail:{this.state.creatorLawyerEmail}</h3>
+        <h3>caseStatus:{this.state.caseStatus}</h3>
+        <h1>Form</h1>
+        <h3>companyType:{this.state.form.companyType}</h3>
+        <h3>capital:{this.state.form.capital}</h3>
+        <h3>currencyUsedForCapital:{this.state.form.currencyUsedForCapital}</h3>
+        <h3>fax:{this.state.form.fax}</h3>
+        <h3>headOfficeAddress:{this.state.form.headOfficeAddress}</h3>
+        <h3>headOfficeCity:{this.state.form.headOfficeCity}</h3>
+        <h3>headOfficeGovernorate:{this.state.form.headOfficeGovernorate}</h3>
+        <h3>legalFormOfCompany:{this.state.form.legalFormOfCompany}</h3>
+        <h3>phoneNumber:{this.state.form.phoneNumber}</h3>
+        <h3>regulatedLaw:{this.state.form.regulatedLaw}</h3>
+        <Managers managersArray={this.state.managers} />
+      
+       </div>
+     
     )
   }
 }
