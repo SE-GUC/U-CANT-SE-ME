@@ -42,6 +42,7 @@ export default class Login extends Component {
           id: res.data.data._id
         });
       console.log(this.state);
+      alert("Welcome! You have logged in!");
     } catch (err) {
       document.getElementById("Error").style.display = "inline";
       alert("Worng Email or Password");

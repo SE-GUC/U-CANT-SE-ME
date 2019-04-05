@@ -85,7 +85,6 @@ module.exports = function(passport){
                     console.log(lawyer)
                     return done(null, false, {message: 'That email is not registered' })
                 }
-                console.log("here4")
 
                 //Match password
                 bcrypt.compare(password, lawyer.password, (err, isMatch) => {
