@@ -209,14 +209,14 @@ exports.loginReviewer = function(req, res, next){
     req.logIn(user,  async function(err) {
       if (err) { return next(err); }
       var reviewer = await Reviewer.where("email" , req.body.email);
-      const payload = {
-        id : reviewer[0]._id,
-        email : reviewer[0].email
-      }
-      const token = jwt.sign(payload, tokenKey,{expiresIn:'1h'})
-      res.json({data : `${token}`})
-      return res
-      // return res.redirect('/api/reviewers/' + reviewer[0]._id);
+      // const payload = {
+      //   id : reviewer[0]._id,
+      //   email : reviewer[0].email
+      // }
+      // const token = jwt.sign(payload, tokenKey,{expiresIn:'1h'})
+      // res.json({data : `${token}`})
+      // return res
+      return res.redirect('/api/reviewers/' + reviewer[0]._id);
     });
   })(req, res, next)
   };
