@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import axios from 'axios';
+import PreviouslyAssignedReviewers from './caseComponents/PreviouslyAssignedReviewers';
 export default class Case extends Component {
   state={
     assignedLawyerEmail:'not assigned yet',
@@ -65,15 +66,17 @@ export default class Case extends Component {
         <h4>legalFormOfCompany:{this.state.form.legalFormOfCompany}</h4>
         <h4>phoneNumber:{this.state.form.phoneNumber}</h4>
         <h4>regulatedLaw:{this.state.form.regulatedLaw}</h4>
+        <h4>caseCreationDate:{this.state.caseCreationDate}</h4>
+        <h4>assignedLawyerEmail:{this.state.assignedLawyerEmail}</h4>
+        <h4>assignedReviewerEmail:{this.state.assignedReviewerEmail}</h4>
+        <h4>CreatorInvestorEmail:{this.state.creatorInvestorEmail}</h4>
+        <h4>creatorLawyerEmail:{this.state.creatorLawyerEmail}</h4>
+        <h4>caseStatus:{this.state.caseStatus}</h4>
+       
+        this.state.previouslyAssignedReviewers.map((reviewer) => (
+       <previouslyAssignedReviewers key={reviewer._id} reviewer={reviewer} />
+        ))
 
-
-
-         <h4>caseCreationDate:{this.state.caseCreationDate}</h4>
-         <h4>assignedLawyerEmail:{this.state.assignedLawyerEmail}</h4>
-         <h4>assignedReviewerEmail:{this.state.assignedReviewerEmail}</h4>
-         <h4>CreatorInvestorEmail:{this.state.creatorInvestorEmail}</h4>
-         <h4>creatorLawyerEmail:{this.state.creatorLawyerEmail}</h4>
-         <h4>caseStatus:{this.state.caseStatus}</h4>
       </div>
     )
   }
