@@ -11,6 +11,7 @@ function Header() {
     | <Link style={linkStyle} to="/TrackMyCompany">Track my companies</Link>
     | <Link style={linkStyle} to="/viewComments">Comments</Link> 
     | <Link style={linkStyle} to="/InvestorRegister">Register Investor</Link>   
+    | <Link style={linkStyle} to="/ViewMyFees">View my Fees</Link> 
     </header>
   )
 }
