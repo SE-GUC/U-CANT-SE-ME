@@ -13,9 +13,7 @@ export default class TrackMyCompany extends React.Component {
         const res = await axios.get('http://localhost:5000/api/investors/trackMyCompany/5ca6229afd83c24bf091758e');
         const { data: posts } = res
 
-        console.log(posts.tracking)
-        this.setState({ posts: posts.tracking });
-        console.log('sds')
+        this.setState({ posts: posts.tracking });        
     };
 
     render() {
