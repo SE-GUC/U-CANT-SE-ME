@@ -3,6 +3,8 @@ import { BrowserRouter as Router, Route } from 'react-router-dom';
 import Header from './components/layout/Header';
 import './App.css';
 
+import TrackMyCompany from './components/TrackMyCompany';
+
 class App extends Component {
   render() {
     return (
@@ -14,6 +16,7 @@ class App extends Component {
             <h1>Home</h1>
           </React.Fragment>
         )} />
+        <Route path="/TrackMyCompany" component={TrackMyCompany}/>
         </div>
       </Router>
     );
