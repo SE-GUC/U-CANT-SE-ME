@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import axios from 'axios';
-
 export default class Case extends Component {
   state={
     assignedLawyerEmail:'not assigned yet',
@@ -10,13 +9,13 @@ export default class Case extends Component {
     creatorInvestorEmail:'',
     creatorLawyerEmail:'',
     //missing
-    form:'',
+    form:[],
     //missing
-    managers:'',
+    managers:[],
     //missing
-    previouslyAssignedLawyers:'',
+    previouslyAssignedLawyers:[],
     //missing
-    previouslyAssignedReviewers:''
+    previouslyAssignedReviewers:[]
   }
   async componentDidMount(){
     const{assignedLawyerId,assignedReviewerId,caseCreationDate,caseStatus,creatorInvestorId,
@@ -53,6 +52,21 @@ export default class Case extends Component {
     
     return (
       <div>
+        
+        <h1>companyNameArabic:{this.state.form.companyNameArabic}</h1>
+        <h4>companyNameEnglish:{this.state.form.companyNameEnglish}</h4>
+        <h4>companyType:{this.state.form.companyType}</h4>
+        <h4>capital:{this.state.form.capital}</h4>
+        <h4>currencyUsedForCapital:{this.state.form.currencyUsedForCapital}</h4>
+        <h4>fax:{this.state.form.fax}</h4>
+        <h4>headOfficeAddress:{this.state.form.headOfficeAddress}</h4>
+        <h4>headOfficeCity:{this.state.form.headOfficeCity}</h4>
+        <h4>headOfficeGovernorate:{this.state.form.headOfficeGovernorate}</h4>
+        <h4>legalFormOfCompany:{this.state.form.legalFormOfCompany}</h4>
+        <h4>phoneNumber:{this.state.form.phoneNumber}</h4>
+        <h4>regulatedLaw:{this.state.form.regulatedLaw}</h4>
+
+
 
          <h4>caseCreationDate:{this.state.caseCreationDate}</h4>
          <h4>assignedLawyerEmail:{this.state.assignedLawyerEmail}</h4>
