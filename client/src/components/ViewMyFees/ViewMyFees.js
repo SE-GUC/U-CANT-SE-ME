@@ -3,20 +3,21 @@ import axios from "axios";
 import ViewMyFeesItem from "./ViewMyFeesItem";
 import PayMyFees from "./PayMyFeesItem";
 
+const investorId = "5ca7594f3f074a35383a61a3";
+// const investorId="5ca6229afd83c24bf091758e"
+
 class ViewMyFees extends Component {
   state = {
     fees: []
   };
   
   componentDidMount() {
-    const investorID = "5ca7594f3f074a35383a61a3";
-    // const investorID="5ca6229afd83c24bf091758e"
     // const { data: fees } = await axios.get(
-    //   `http://localhost:5000/api/investors/viewMyFees/${investorID}/`
+    //   `http://localhost:5000/api/investors/viewMyFees/${investorId}/`
     // );
     // this.setState({ fees: fees.response });
     axios
-      .get(`http://localhost:5000/api/investors/viewMyFees/${investorID}/`)
+      .get(`http://localhost:5000/api/investors/viewMyFees/${investorId}/`)
       .then(res => this.setState({ fees: res.data.response }));
   }
 
@@ -33,7 +34,7 @@ class ViewMyFees extends Component {
       this.state.fees.map(fees => (
         <div key={fees.companyName} style = {this.getStyle()}>
           <ViewMyFeesItem fees={fees} valid={true} />
-          <PayMyFees />
+          <PayMyFees investorId = {investorId} caseId = {fees._id}/>
         </div>
       ))
     ) : (
