@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 import Header from './components/layout/Header';
+import LoginInternalPortal from './components/login/Login_InternalPortal';
 import './App.css';
 import Comments from './components/ViewComments/Comments'
 
@@ -21,7 +22,7 @@ class App extends Component {
             <h1>Home</h1>
           </React.Fragment>
         )} />
-
+        <Route path="/LoginInternalPortal" component={LoginInternalPortal}/>
 
         <Route path="/TrackMyCompany" component={TrackMyCompany}/>
 

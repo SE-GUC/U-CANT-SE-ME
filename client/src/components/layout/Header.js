@@ -5,8 +5,8 @@ function Header() {
   return (
     <header style={headerStyle}>
       <h1>SUMERGITE</h1>
-
       <Link style={linkStyle} to="/">Home</Link> 
+    | <Link style={linkStyle} to="/LoginInternalPortal">Login InternalPortal</Link> 
     | <Link style={linkStyle} to="/MyCompanies">My Companies</Link> 
     | <Link style={linkStyle} to="/TrackMyCompany">Track my companies</Link>
     | <Link style={linkStyle} to="/viewComments">Comments</Link> 

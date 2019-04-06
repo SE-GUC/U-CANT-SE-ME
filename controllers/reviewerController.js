@@ -6,6 +6,8 @@ const Reviewer = require("../models/Reviewer");
 const reviewerGettingAllCasesAuthenticated=true;
 const caseController = require("./caseController")
 const passport = require('passport')
+const jwt = require('jsonwebtoken')
+const tokenKey = require('../config/keys_dev').secretOrKey
 // module Case
 const Case = require("../models/Case.js")
 
@@ -200,12 +202,24 @@ exports.getSpecificWaitingForReviewerCase = async function(req, res) {
 }
 
 exports.loginReviewer = function(req, res, next){
-  passport.authenticate('reviewers', {
-    successRedirect: '/api/reviewers',
-    failureRedirect: '/api/reviewers/login',
-    failureFlash: true
+  passport.authenticate('reviewers',
+  async function(err,user){
+    if (err) { return next(err); }
+    if (!user) { return res.redirect('/login'); }
+    req.logIn(user,  async function(err) {
+      if (err) { return next(err); }
+      var reviewer = await Reviewer.where("email" , req.body.email);
+      // const payload = {
+      //   id : reviewer[0]._id,
+      //   email : reviewer[0].email
+      // }
+      // const token = jwt.sign(payload, tokenKey,{expiresIn:'1h'})
+      // res.json({data : `${token}`})
+      // return res
+      return res.redirect('/api/reviewers/' + reviewer[0]._id);
+    });
   })(req, res, next)
-};
+  };
 
 //As a Reviewer i should be able to add a comment on a rejected company establishment-
 //form, so that the lawyer is aware of the required changes in the form.
