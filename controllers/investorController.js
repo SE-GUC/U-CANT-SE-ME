@@ -256,7 +256,7 @@ exports.viewMyFees = async function(req, res) {
   let result = [];
   for (let i = 0; i < cases.length; i++) {
     const fees = calcFees(cases[i]);
-    result.push({ companyName: cases[i].form.companyNameEnglish, fees: fees });
+    result.push({ _id: cases[i]._id, companyName: cases[i].form.companyNameEnglish, fees: fees });
   }
   if (result.length == 0)
     res.json({ response: "you do not have any accepted company requests" });
