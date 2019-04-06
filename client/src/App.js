@@ -10,6 +10,8 @@ import TrackMyCompany from './components/TrackMyCompany';
 import MyCompanies from './components/GetMyCompanies/MyCompanies';
 import InvestorRegister from './components/InvestorRegister'
 import ViewMyFees from './components/ViewMyFees/ViewMyFees';
+import RegisterLawyer from './components/RegisterLawyer';
+import RegisterReviewer from './components/RegisterReviewer';
 
 class App extends Component {
   render() {
@@ -31,9 +33,14 @@ class App extends Component {
         <Route path="/MyCompanies" component={MyCompanies}/>
 
 
+
         <Route path="/InvestorRegister" component={InvestorRegister}/>
           
-        <Route path="/ViewMyFees" component={ViewMyFees}/>
+        <Route path="/ViewMyFees" component={ViewMyFees}/>        
+        <Route path="/RegisterLawyer" component={RegisterLawyer}/>
+
+        <Route path="/RegisterReviewer" component={RegisterReviewer}/>
+
         </div>
       </Router>
     );
