@@ -285,7 +285,7 @@ exports.getCaseLastLawyer = async function (req, res) {
 
   }
   catch (error) {
-    res.json({ msg: "An error has occured." })
+    res.status(403).json({ msg: "An error has occured." })
   }
 }
  
