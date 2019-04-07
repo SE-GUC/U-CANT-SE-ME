@@ -55,9 +55,7 @@ export default class lawyerUpdateCase extends React.Component {
           
 
 
-          console.log("hena")
-        console.log(body)
-        console.log("hafsh5ak")
+          
             const caseID='5ca8a6c06f7661e423afc714'
             const lawyerID='5ca76f5f00b48e09001936e7'
             try
