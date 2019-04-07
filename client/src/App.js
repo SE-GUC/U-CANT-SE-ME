@@ -10,6 +10,8 @@ import TrackMyCompany from './components/TrackMyCompany';
 import MyCompanies from './components/GetMyCompanies/MyCompanies';
 import InvestorRegister from './components/InvestorRegister'
 import ViewMyFees from './components/ViewMyFees/ViewMyFees';
+import RegisterLawyer from './components/RegisterLawyer';
+import RegisterReviewer from './components/RegisterReviewer';
 import LawyerFillForm from './components/LawyerFillForm/LawyerFillForm';
 import InvestorFillForm from'./components/InvestorFillForm/InvestorFillForm'
 
