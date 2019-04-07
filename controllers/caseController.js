@@ -179,7 +179,7 @@ exports.deleteCase = async function (req, res) {
     const deletedCase = await Case.findByIdAndRemove(caseID);
     res.json({ msg: "Case was deleted successfully", data: deletedCase });
   } catch (error) {
-    res.status(403).send({ error: "Oops something went wrong!" });
+    res.send({ error: "Oops something went wrong!" });
     console.log(error);
   }
 };
@@ -244,7 +244,7 @@ exports.updateCase = async function (req, res) {
       NotificationController.notifyInvestorByFees(newCase);
     res.send({ msg: "Case updated successfully" });
   } catch (error) {
-    res.send({ error: "Oops something went wrong" });
+    res.status(403).send({ error: "Oops something went wrong" });
     console.log(error);
   }
 };
@@ -285,7 +285,7 @@ exports.getCaseLastLawyer = async function (req, res) {
 
   }
   catch (error) {
-    res.status(403).json({ msg: "An error has occured." })
+    res.json({ msg: "An error has occured." })
   }
 }
  
