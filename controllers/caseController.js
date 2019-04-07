@@ -179,7 +179,7 @@ exports.deleteCase = async function (req, res) {
     const deletedCase = await Case.findByIdAndRemove(caseID);
     res.json({ msg: "Case was deleted successfully", data: deletedCase });
   } catch (error) {
-    res.send({ error: "Oops something went wrong!" });
+    res.status(403).send({ error: "Oops something went wrong!" });
     console.log(error);
   }
 };
