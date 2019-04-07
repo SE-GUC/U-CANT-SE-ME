@@ -90,6 +90,9 @@ export default class RegisterReviewer extends React.Component {
                 this.setState({val:'Oops something went wrong!'})
             }
         }
+        else{
+            this.setState({val:''})
+        }
     }
 
 
