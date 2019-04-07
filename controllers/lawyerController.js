@@ -222,19 +222,27 @@ exports.loginLawyer = function(req, res, next){
 
 exports.updateCompanyForm = async function(req, res) {
   if(!mongoValidator.isMongoId(req.params.id) || !mongoValidator.isMongoId(req.params.caseId))
-    return res.json("Invalid ID")
+  res.status(403).send({error: "Invalid IDs" })
 try{
    if(lawyerAuthenticated){
        let lawyer = await Lawyer.findById(req.params.id)
      if(lawyer===null)
-       return res.json("Lawyer Does Not Exist")
+       res.status(403).send({error: "lawyer Does Not Exist" })
      let selectedCase = await Case.findById(req.params.caseId);
-     if(selectedCase.creatorLawyerId== lawyer.id ){
+     if(selectedCase===null)
+       res.status(403).send({error: "Case Does Not Exist" })
+       if(selectedCase.creatorLawyerId== null ){
+        res.status(403).send({error: "This case can not be updated" })
+      }
+       if(!(selectedCase.caseStatus==='OnUpdate'))
+         res.status(403).send({error: "This case can not be updated" })
+    
+     if(req.params.id==selectedCase.creatorLawyerId){
        req.params.id = req.params.caseId;
        caseController.updateCase(req, res);
      }
-     else
-       return res.json("Not the lawyer that created this case")      
+     else     
+       res.status(403).send({error: "Not the lawyer that created this case" })
    }
    else
      res.status(403).send({error: "Forbidden." })
