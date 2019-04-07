@@ -86,10 +86,13 @@ export default class RegisterLawyer extends React.Component {
             }
             catch
             {
-                this.state.usernameError='make sure the email is unique'
+                this.state.usernameError='make sure the username is unique'
                 this.state.emailError='make sure the email is unique'
                 this.setState({val:'Username or Email are not unique'})
             }
+        }
+        else{
+            this.setState({val:''})
         }
     }
     render() {
