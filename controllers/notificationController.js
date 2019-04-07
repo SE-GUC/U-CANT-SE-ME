@@ -188,14 +188,13 @@ exports.notifyInvestorByFees = async function(case1,req) {
     "emailOfRecipient":email,
     "caseID":case1._id
   }
-  const notification = await axios.post('http://localhost:3000/api/notifications/', req)
   const reviewer=await Reviewer.findById(case1.assignedReviewerId);
- 
-  sendMail(notification.data.data,reviewer)
+  const notification = await axios.post('http://localhost:3000/api/notifications/', req);
+  await sendMail(notification.data.data,reviewer)
   return(notification);
  };
- function sendMail(notification,reviewer){
-   var transporter = nodemailer.createTransport({
+ async function sendMail(notification,reviewer){
+   var transporter = await nodemailer.createTransport({
     service: 'gmail',
     auth: {
       // user: 'sumergiteme@gmail.com',
