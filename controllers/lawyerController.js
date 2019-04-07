@@ -229,7 +229,15 @@ try{
      if(lawyer===null)
        return res.json("Lawyer Does Not Exist")
      let selectedCase = await Case.findById(req.params.caseId);
-     if(selectedCase.creatorLawyerId== lawyer.id ){
+     if(selectedCase===null)
+       return res.json("Case Does Not Exist")
+       if(selectedCase.creatorLawyerId== null ){
+        return res.json("This case can not be updated") 
+      }
+       if(!(selectedCase.caseStatus==='OnUpdate'))
+         return res.json("This case can not be updated") 
+    
+     if(req.params.id==selectedCase.creatorLawyerId){
        req.params.id = req.params.caseId;
        caseController.updateCase(req, res);
      }
