@@ -38,6 +38,10 @@ class App extends Component {
         <Route path="/InvestorRegister" component={InvestorRegister}/>
           
         <Route path="/ViewMyFees" component={ViewMyFees}/>
+          
+        <Route path="/RegisterLawyer" component={RegisterLawyer}/>
+
+        <Route path="/RegisterReviewer" component={RegisterReviewer}/>
 
         <Route path="/LawyerFillForm" component={LawyerFillForm}/>
 
