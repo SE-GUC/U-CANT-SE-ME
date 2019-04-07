@@ -9,7 +9,7 @@ const stripe = require("stripe")(stripeSecretKey);
 const Investor = require("../models/Investor");
 const validator = require("../validations/investorValidations");
 const Case = require("../models/Case");
-const encryption = require("../routes/api/utils/encryption")
+const encryption = require("../routes/api/utils/encryption");
 const caseController = require("./caseController");
 
 const investorAuthenticated = true;
@@ -43,8 +43,8 @@ exports.createInvestor = async function(req, res) {
     res.status(400).send({ msg: "Oops something went wrong" });
   }
 };
-exports.register = async function(req,res){
-  req.body.password=encryption.hashPassword(req.body.password)
+exports.register = async function(req, res) {
+  req.body.password = encryption.hashPassword(req.body.password);
   const { error } = validator.createValidation(req.body);
   if (error) return res.status(400).send(error.details[0].message);
   if (
@@ -58,7 +58,7 @@ exports.register = async function(req,res){
   } catch (err) {
     res.status(400).send({ msg: "Oops something went wrong" });
   }
-}
+};
 //UPDATE
 exports.updateInvestor = async function(req, res) {
   if (!mongoValidator.isMongoId(req.params.id))
@@ -256,7 +256,11 @@ exports.viewMyFees = async function(req, res) {
   let result = [];
   for (let i = 0; i < cases.length; i++) {
     const fees = calcFees(cases[i]);
-    result.push({ _id: cases[i]._id, companyName: cases[i].form.companyNameEnglish, fees: fees });
+    result.push({
+      _id: cases[i]._id,
+      companyName: cases[i].form.companyNameEnglish,
+      fees: fees
+    });
   }
   if (result.length == 0)
     res.json({ response: "you do not have any accepted company requests" });
@@ -305,22 +309,12 @@ exports.payFees = async function(req, res) {
   const fees = calcFees(selectedCase);
 
   //Pay the fees
-  stripe.customers
+  stripe.charges
     .create({
-      email: investor.email
-    })
-    .then(customer => {
-      return stripe.customers.createSource(customer.id, {
-        source: "tok_visa"
-      });
-    })
-    .then(source => {
-      return stripe.charges.create({
-        amount: fees * 100,
-        description: "Company Esatblishment Fees",
-        currency: "EGP",
-        customer: source.customer
-      });
+      amount: fees * 100,
+      currency: "EGP",
+      description: "Company Esatblishment Fees",
+      source: req.body.tokenId
     })
     .then(charge => {
       return res.send({ msg: "The Fees are payed successfully" });
@@ -347,9 +341,8 @@ exports.fillForm = async function(req, res) {
   }
 };
 
-
-exports.login = function(req, res, next){
-  passport.authenticate('investors', {
+exports.login = function(req, res, next) {
+  passport.authenticate("investors", {
     // successRedirect: should go to homepage of investor
     successRedirect: "/api/investors",
     // successMessage: "Congrats Logged In",

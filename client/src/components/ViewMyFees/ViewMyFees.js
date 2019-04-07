@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import axios from "axios";
 import ViewMyFeesItem from "./ViewMyFeesItem";
-import PayMyFees from "./PayMyFeesItem";
+import PayMyFees from "../PayMyFees/PayMyFeesItem";
 
 const investorId = "5ca7594f3f074a35383a61a3";
 // const investorId="5ca6229afd83c24bf091758e"
