@@ -6,7 +6,7 @@ import './App.css';
 import Comments from './components/ViewComments/Comments'
 import TrackMyCompany from './components/TrackMyCompany';
 import MyCompanies from './components/GetMyCompanies/MyCompanies';
-import Cases from './components/Cases';
+import Cases from './components/caseComponents/Cases';
 import InvestorRegister from './components/InvestorRegister'
 import ViewMyFees from './components/ViewMyFees/ViewMyFees';
 import RegisterLawyer from './components/RegisterLawyer';

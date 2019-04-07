@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import axios from 'axios';
-import Managers from './caseComponents/Managers';
+import Managers from './Managers';
 export default class Case extends Component {
   getStyle = () => {
     return{
@@ -16,13 +16,9 @@ export default class Case extends Component {
     caseStatus:'',
     creatorInvestorEmail:'not created by investor',
     creatorLawyerEmail:'not created by lawyer',
-    //missing
     form:[],
-    //missing
     managers:[],
-    //missing
     previouslyAssignedLawyers:[],
-    //missing
     previouslyAssignedReviewers:[]
   }
   async componentDidMount(){
@@ -35,7 +31,7 @@ export default class Case extends Component {
       let  getCreatorLawyer ='';
       if(assignedLawyerId!==null){
         getAssignedLawyer =await axios.get(`http://localhost:5000/api/lawyers/${assignedLawyerId}`);
-        this.setState({assignedLawyerEmail: getAssignedLawyer.data.data.email}); 
+        this.setState({assignedLawyerEmail: getAssignedLawyer.data.email}); 
       }
       if(assignedReviewerId!==null){
         getAssignedReviewer =await axios.get(`http://localhost:5000/api/reviewers/${assignedReviewerId}`);
@@ -43,7 +39,7 @@ export default class Case extends Component {
       }
       if(creatorLawyerId!==null){
         getCreatorLawyer =await axios.get(`http://localhost:5000/api/lawyers/${creatorLawyerId}`);
-        this.setState({creatorLawyerEmail: getCreatorLawyer.data.data.email}); 
+        this.setState({creatorLawyerEmail: getCreatorLawyer.data.email}); 
       }
       if(creatorInvestorId!==null){
         getCreatorInvestor =await axios.get(`http://localhost:5000/api/investors/${creatorInvestorId}`);
