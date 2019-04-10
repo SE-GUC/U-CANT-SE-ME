@@ -1,16 +1,16 @@
-const mongoose = require("mongoose");
-const ObjectId = require("mongodb").ObjectID;
-const mongoValidator = require("validator");
-const passport = require("passport");
-
-const stripeSecretKey = require("../config/keys").stripeSecretKey;
-const stripe = require("stripe")(stripeSecretKey);
-
-const Investor = require("../models/Investor");
-const validator = require("../validations/investorValidations");
-const Case = require("../models/Case");
-const encryption = require("../routes/api/utils/encryption");
-const caseController = require("./caseController");
+const mongoose = require("mongoose")
+const mongoValidator = require("validator")
+const passport = require("passport")
+const nodemailer = require('nodemailer')
+const async = require('async')
+const stripeSecretKey = require("../config/keys").stripeSecretKey
+const stripe = require("stripe")(stripeSecretKey)
+const crypto = require('crypto')
+const Investor = require('../models/Investor')
+const validator = require('../validations/investorValidations')
+const Case = require('../models/Case')
+const encryption = require('../routes/api/utils/encryption')
+const caseController = require('./caseController')
 
 const investorAuthenticated = true;
 //READ
@@ -341,17 +341,123 @@ exports.fillForm = async function(req, res) {
   }
 };
 
-exports.login = function(req, res, next) {
-  passport.authenticate("investors", {
-    // successRedirect: should go to homepage of investor
-    successRedirect: "/api/investors",
-    // successMessage: "Congrats Logged In",
-    // successMessage: res.json({ msg: "CONGRATS"}),
-    // failureMessage: res.json({ msg: "BOOO"}),
-    failureRedirect: "/api/investors/login",
-    // failureMessage: "BOOOO",
-    failureFlash: true
-  })(req, res, next);
-  // req.session.user=req.body.email
-  // console.log(req.session)
-};
+exports.login = async function(req, res, next){
+  passport.authenticate('investors',
+  async function(err,investor){
+    if (err) { return next(err) }
+    if (!investor) { return res.redirect('/login') }
+    req.login(investor,  async function(err) {
+      if (err) { return next(err) }
+      let investor = await Investor.where("email" , req.body.email)
+      return res.redirect('/api/investors/' + investor[0]._id)
+    })
+  })(req, res, next)
+}
+
+exports.forgot = function(req, res, next) {
+  async.waterfall([
+    function(done) {
+      crypto.randomBytes(20, function(err, buf) {
+        let token = buf.toString('hex')
+        done(err, token)
+      })
+    },
+    function(token, done) {
+      Investor.findOne({ email: req.body.email }, function(err, investor) {
+        if (!investor) {
+          req.flash('error', 'No account with that email address exists.')
+          return res.redirect('/forgot')
+        }
+
+        investor.resetPasswordToken = token
+        investor.resetPasswordExpires = Date.now() + 3600000 // 1 hour
+
+        investor.save(function(err) {
+          done(err, token, investor)
+        })
+      })
+    },
+    function(token, user, done) {
+      let transporter = nodemailer.createTransport({
+        service: 'gmail',
+        auth: {
+          user: 'sumergiteme@gmail.com',
+          pass: 'U-CANT-SE-ME'
+        }
+      })
+
+      let mailOptions = {
+        to: user.email,
+        from: 'sumergiteme@gmail.com',
+        subject: 'Password Reset Request',
+        text: 'Hello '+ user.fullName+ ',\n\n' +
+          'You are receiving this because you (or someone else) have requested the reset of the password for your account.\n\n' +
+          'Please click on the following link, or paste this into your browser to complete the process:\n\n' +
+          'http://localhost:5000/api/investors/reset/' + token + '\n\n' +
+          'If you did not request this, please ignore this email and your password will remain unchanged.\n\n' +
+          'Do not share this link with anyone.\n'
+      }
+      transporter.sendMail(mailOptions, function(error, info){
+        if (error) {
+          console.log(error);
+        } else {
+          console.log('Email sent: ' + info.response);
+        }
+      
+     })
+    }
+  ], function(err) {
+    if (err) return next(err)
+    res.redirect('/forgot')
+  })
+}
+
+exports.reset = function(req, res){
+  async.waterfall([
+    function(done) {
+      Investor.findOne({ resetPasswordToken: req.params.token, resetPasswordExpires: { $gt: Date.now() } }, function(err, user) {
+        if (!user) {
+          req.flash('error', 'Password reset token is invalid or has expired.')
+          return res.redirect('back')
+        }
+
+        user.password = encryption.hashPassword(req.body.password)
+        user.resetPasswordToken = undefined
+        user.resetPasswordExpires = undefined
+
+        user.save(function(err) {
+          req.logIn(user, function(err) {
+            done(err, user)
+          })
+        })
+      })
+    },
+    function(user, done) {
+      let transporter = nodemailer.createTransport({
+          service: 'gmail',
+          auth: {
+            user: 'sumergiteme@gmail.com',
+            pass: 'U-CANT-SE-ME'
+          }
+        })
+      let mailOptions = {
+        to: user.email,
+        from: 'sumergiteme@gmail.com',
+        subject: 'Your password has been changed',
+        text: 'Hello '+ user.fullName+ ',\n\n' +
+          'This is a confirmation that the password for your account ' + user.email + ' has just been changed.\n'
+      }
+      transporter.sendMail(mailOptions, function(err, info) {
+          if (error) {
+              console.log(error)
+          } else {
+              console.log('Email sent: ' + info.response)
+          }
+        req.flash('success', 'Success! Your password has been changed.')
+        done(err)
+      })
+    }
+  ], function(err) {
+    res.redirect('/')
+  })
+}

@@ -8,6 +8,10 @@ const caseController = require("./caseController")
 const passport = require('passport')
 const jwt = require('jsonwebtoken')
 const tokenKey = require('../config/keys_dev').secretOrKey
+const encryption = require('../routes/api/utils/encryption')
+const crypto = require('crypto')
+const nodemailer = require('nodemailer')
+const async = require('async')
 // module Case
 const Case = require("../models/Case.js")
 
@@ -264,4 +268,112 @@ exports.getMyCasesByDate = async function(req,res) {
   const reviewer = await Reviewer.findById(req.params.id);
   if(!reviewer) return res.status(400).send({ err : "Reviewer not found" });
   res.json(await Case.find({"assignedReviewerId": req.params.id}).sort({caseCreationDate: 1}));
+}
+
+exports.forgot = function(req, res, next) {
+  async.waterfall([
+    function(done) {
+      crypto.randomBytes(20, function(err, buf) {
+        let token = buf.toString('hex')
+        done(err, token)
+      })
+    },
+    function(token, done) {
+      Reviewer.findOne({ email: req.body.email }, function(err, reviewer) {
+        if (!reviewer) {
+          req.flash('error', 'No account with that email address exists.')
+          return res.redirect('/forgot')
+        }
+
+        reviewer.resetPasswordToken = token
+        reviewer.resetPasswordExpires = Date.now() + 3600000 // 1 hour
+
+        reviewer.save(function(err) {
+          done(err, token, reviewer)
+        })
+      })
+    },
+    function(token, user, done) {
+      let transporter = nodemailer.createTransport({
+        service: 'gmail',
+        auth: {
+          user: 'sumergiteme@gmail.com',
+          pass: 'U-CANT-SE-ME'
+        }
+      })
+
+      let mailOptions = {
+        to: user.email,
+        from: 'sumergiteme@gmail.com',
+        subject: 'Password Reset Request',
+        text: 'Hello '+ user.fullName+ ',\n\n' +
+          'You are receiving this because you (or someone else) have requested the reset of the password for your account.\n\n' +
+          'Please click on the following link, or paste this into your browser to complete the process:\n\n' +
+          'http://localhost:5000/api/reviewers/reset/' + token + '\n\n' +
+          'If you did not request this, please ignore this email and your password will remain unchanged.\n\n' +
+          'Do not share this link with anyone.\n'
+      }
+      transporter.sendMail(mailOptions, function(error, info){
+        if (error) {
+          console.log(error);
+        } else {
+          console.log('Email sent: ' + info.response);
+        }
+      
+     })
+    }
+  ], function(err) {
+    if (err) return next(err)
+    res.redirect('/forgot')
+  })
+}
+
+exports.reset = function(req, res){
+  async.waterfall([
+    function(done) {
+      Reviewer.findOne({ resetPasswordToken: req.params.token, resetPasswordExpires: { $gt: Date.now() } }, function(err, user) {
+        if (!user) {
+          req.flash('error', 'Password reset token is invalid or has expired.')
+          return res.redirect('back')
+        }
+
+        user.password = encryption.hashPassword(req.body.password)
+        user.resetPasswordToken = undefined
+        user.resetPasswordExpires = undefined
+
+        user.save(function(err) {
+          req.logIn(user, function(err) {
+            done(err, user)
+          })
+        })
+      })
+    },
+    function(user, done) {
+      let transporter = nodemailer.createTransport({
+          service: 'gmail',
+          auth: {
+            user: 'sumergiteme@gmail.com',
+            pass: 'U-CANT-SE-ME'
+          }
+        })
+      let mailOptions = {
+        to: user.email,
+        from: 'sumergiteme@gmail.com',
+        subject: 'Your password has been changed',
+        text: 'Hello '+ user.fullName+ ',\n\n' +
+          'This is a confirmation that the password for your account ' + user.email + ' has just been changed.\n'
+      }
+      transporter.sendMail(mailOptions, function(err, info) {
+          if (error) {
+              console.log(error)
+          } else {
+              console.log('Email sent: ' + info.response)
+          }
+        req.flash('success', 'Success! Your password has been changed.')
+        done(err)
+      })
+    }
+  ], function(err) {
+    res.redirect('/')
+  })
 }
