@@ -383,6 +383,9 @@ exports.forgot = function(req, res, next) {
         auth: {
           user: 'sumergiteme@gmail.com',
           pass: 'U-CANT-SE-ME'
+        },
+        tls:{
+          rejectUnauthorized: false
         }
       })
 
@@ -438,6 +441,9 @@ exports.reset = function(req, res){
           auth: {
             user: 'sumergiteme@gmail.com',
             pass: 'U-CANT-SE-ME'
+          },
+          tls:{
+            rejectUnauthorized: false
           }
         })
       let mailOptions = {
