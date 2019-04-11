@@ -17,6 +17,7 @@ import lawyerUpdateCase from './components/lawyerUpdateCase'
 import LawyerViewAllCases from './components/caseComponents/LawyerViewAllCases';
 import ReviewerViewAllCases from './components/caseComponents/ReviewerViewAllCases';
 import AdminViewAllCases from './components/caseComponents/AdminViewAllCases';
+import InvestorUpdateCase from './components/InvestorUpdateCase'
 class App extends Component {
   render() {
     return (
@@ -57,6 +58,7 @@ class App extends Component {
         <Route path="/ReviewerViewAllCases" component={ReviewerViewAllCases}/>
         <Route path="/AdminViewAllCases" component={AdminViewAllCases}/>
 
+        <Route path="/InvestorUpdateCase" component={InvestorUpdateCase}/>
         </div>
       </Router>
     );

@@ -2,7 +2,7 @@ import React from 'react'
 import axios from 'axios';
 const Joi = require("joi");
 const mongoValidator = require("validator");
-export default class lawyerUpdateCase extends React.Component {
+export default class InvestorUpdateCase extends React.Component {
     
     constructor(props) {
             super(props)
@@ -37,7 +37,7 @@ export default class lawyerUpdateCase extends React.Component {
         me.setState({faxR:''});
         me.setState({currencyUsedForCapitalR:''});
         me.setState({capitalR:''});
-        var form=document.getElementById("lawyerUpdate")
+        var form=document.getElementById("InvestorUpdate")
         const body =  {
             form:{
              
@@ -47,7 +47,6 @@ export default class lawyerUpdateCase extends React.Component {
           body.form.companyType=form.companyType.value
           if(!(form.regulatedLaw.value==="")){
             body.form.regulatedLaw=form.regulatedLaw.value
-
             Joi.validate({regulatedLaw:body.form.regulatedLaw}, {regulatedLaw: Joi.string().min(2)}, function (error) {
               if(error)
               {
@@ -58,7 +57,6 @@ export default class lawyerUpdateCase extends React.Component {
           }
           if(!(form.legalFormOfCompany.value==="")){
            body.form.legalFormOfCompany=form.legalFormOfCompany.value
-
             Joi.validate({legalFormOfCompany:body.form.legalFormOfCompany}, {legalFormOfCompany: Joi.string().min(2)}, function (error) {
               if(error)
               {
@@ -69,7 +67,6 @@ export default class lawyerUpdateCase extends React.Component {
           }
           if(!(form.companyNameArabic.value==="")){
             body.form.companyNameArabic=form.companyNameArabic.value
-
             Joi.validate({companyNameArabic:body.form.companyNameArabic}, {companyNameArabic: Joi.string().min(2)}, function (error) {
               if(error)
               {
@@ -80,7 +77,6 @@ export default class lawyerUpdateCase extends React.Component {
           }
           if(!(form.companyNameEnglish.value==="")){
             body.form.companyNameEnglish=form.companyNameEnglish.value
-
             Joi.validate({companyNameEnglish:body.form.companyNameEnglish}, {companyNameEnglish: Joi.string().min(2)}, function (error) {
               if(error)
               {
@@ -91,7 +87,6 @@ export default class lawyerUpdateCase extends React.Component {
           }
           if(!(form.headOfficeGovernorate.value==="")){
             body.form.headOfficeGovernorate=form.headOfficeGovernorate.value
-
             Joi.validate({headOfficeGovernorate:body.form.headOfficeGovernorate}, {headOfficeGovernorate: Joi.string().min(2)}, function (error) {
               if(error)
               {
@@ -102,7 +97,6 @@ export default class lawyerUpdateCase extends React.Component {
           }
           if(!(form.headOfficeCity.value==="")){
             body.form.headOfficeCity=form.headOfficeCity.value
-
             Joi.validate({headOfficeCity:body.form.headOfficeCity}, {headOfficeCity: Joi.string().min(2)}, function (error) {
               if(error)
               {
@@ -113,7 +107,6 @@ export default class lawyerUpdateCase extends React.Component {
           }
           if(!(form.headOfficeAddress.value==="")){
             body.form.headOfficeAddress=form.headOfficeAddress.value
-
             Joi.validate({headOfficeAddress:body.form.headOfficeAddress}, {headOfficeAddress: Joi.string().min(2)}, function (error) {
               if(error)
               {
@@ -124,7 +117,6 @@ export default class lawyerUpdateCase extends React.Component {
           }
           if(!(form.phoneNumber.value==="")){
             body.form.phoneNumber=form.phoneNumber.value
-
             Joi.validate({phoneNumber:body.form.phoneNumber}, {phoneNumber: Joi.string().trim().regex(/^[0-9]{7,14}$/)}, function (error) {
               if(error)
               {
@@ -135,7 +127,6 @@ export default class lawyerUpdateCase extends React.Component {
           }
           if(!(form.fax.value==="")){
             body.form.fax=form.fax.value
-
             Joi.validate({fax:body.form.fax}, {fax: Joi.string().trim().regex(/^[0-9]{7,14}$/)}, function (error) {
               if(error)
               {
@@ -146,7 +137,6 @@ export default class lawyerUpdateCase extends React.Component {
           }
           if(!(form.currencyUsedForCapital.value==="")){
             body.form.currencyUsedForCapital=form.currencyUsedForCapital.value
-
             Joi.validate({currencyUsedForCapital:body.form.currencyUsedForCapital}, {currencyUsedForCapital: Joi.string().min(2)}, function (error) {
               if(error)
               {
@@ -157,7 +147,6 @@ export default class lawyerUpdateCase extends React.Component {
           }
           if(!(form.capital.value==="")){
             body.form.capital=form.capital.value
-            
             Joi.validate({capital:body.form.capital}, {capital: Joi.number()}, function (error) {
               if(error)
               {
@@ -166,18 +155,17 @@ export default class lawyerUpdateCase extends React.Component {
               }    
           });
           }
-          const caseID='5ca8a6c06f7661e423afc714'
-
-          const lawyerID='5ca76f5f00b48e09001936e7'
-          if(!mongoValidator.isMongoId(lawyerID) || !mongoValidator.isMongoId(caseID)){
+          const caseID='5ca62338fd83c24bf091758f'
+          const InvestorID='5ca6229afd83c24bf091758e'
+          if(!mongoValidator.isMongoId(InvestorID) || !mongoValidator.isMongoId(caseID)){
             valid=false;
-            this.setState({err:'Invalid either lawyerID or CaseID'})
+            this.setState({err:'Invalid either InvestorID or CaseID'})
           }
           if(valid)
         {
             try
             {
-              await axios.put(`http://localhost:5000/api/lawyers/update/${lawyerID}/${caseID}`,body)
+              await axios.put(`http://localhost:5000/api/investors/updateForm/${InvestorID}/${caseID}`,body)
               this.setState({val:'Successfully updated'})
             }
             catch
@@ -199,7 +187,7 @@ export default class lawyerUpdateCase extends React.Component {
           <div>
               <br/>
               <h2>Update Case</h2>
-            <form id="lawyerUpdate">
+            <form id="InvestorUpdate">
             {this.state.err}
             Company type: <select className="form-control" name="companyType"  >
           <option value="">Choose type</option>
@@ -220,7 +208,7 @@ export default class lawyerUpdateCase extends React.Component {
           {this.state.companyNameEnglishR}<br/>
           <br/>
           head office governorate: <input type="text" name="headOfficeGovernorate"/><br/>
-          {this.state.companyNameEnglishR}<br/>
+          {this.state.headOfficeGovernorateR}<br/>
           <br/>
           head office city: <input type="text" name="headOfficeCity"/><br/>
           {this.state.headOfficeGovernorateR}<br/>
