@@ -60,4 +60,12 @@ router.post('/forgot', lawyerController.forgot)
 
 router.post('/reset/:token', lawyerController.reset)
 
+
+//As a lawyer i should be able to request change from the investor on his case
+router.put('/requestUpdate/:caseId/:assignedLawyerId', lawyerController.requestUpdate);
+
+//As a lawyer i should update my case status after a reviewer requested a change
+router.put('/resumeWorkOnCase/:caseId/:assignedLawyerId', lawyerController.resumeWorkOnCase);
+
+
 module.exports = router;
