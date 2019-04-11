@@ -14,6 +14,8 @@ import RegisterReviewer from './components/RegisterReviewer';
 import LawyerFillForm from './components/LawyerFillForm/LawyerFillForm';
 import InvestorFillForm from'./components/InvestorFillForm/InvestorFillForm'
 import lawyerUpdateCase from './components/lawyerUpdateCase'
+import LawyerGetCasesSorted from './components/LawyerGetCasesSorted/LawyerGetCasesSorted'
+import ReviewerGetCasesSorted from './components/ReviewerGetCasesSorted/ReviewerGetCasesSorted'
 class App extends Component {
   render() {
     return (
@@ -50,6 +52,10 @@ class App extends Component {
 
         <Route path="/InvestorFillForm" component={InvestorFillForm}/>
         <Route path="/lawyerUpdateCase" component={lawyerUpdateCase}/>
+
+        <Route path="/LawyerGetCasesSorted" component={LawyerGetCasesSorted}/>
+
+        <Route path="/ReviewerGetCasesSorted" component={ReviewerGetCasesSorted}/>
 
         </div>
       </Router>
