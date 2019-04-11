@@ -472,7 +472,7 @@ exports.resumeWorkOnCase = async function(req, res)
     
     try
     {
-      await Case.findByIdAndUpdate(req.params.caseId,{"caseStatus":"WaitingForReviewer"})
+      await Case.findByIdAndUpdate(req.params.caseId,{"caseStatus":"AssignedToReviewer"})
       res.json(await Case.findById(req.params.caseId))
     }
     catch(error)
