@@ -6,16 +6,26 @@ class LastLawyer extends Component {
         lawyer: ''
     }
     async componentDidMount() {
+        
         const caseID = "5ca8b10e6f7661e423afc716"
-        const { data: lawyer } = await axios.get(`http://localhost:5000/api/admins/getCaseLastLawyer/${caseID}`)
-        console.log(lawyer.lawyerName)
-        this.setState({ lawyer: lawyer.lawyerName })
+        
+        //the next line to try case which has not been assigned to lawyer , comment the above line if you want to try.
+        //const caseID = "5ca62338fd83c24bf091758f"
+         
+        axios.get(`http://localhost:5000/api/admins/getCaseLastLawyer/${caseID}`)
+            .then(res => {
+                if (res.data.lawyerName)
+                    this.setState({ lawyer: "Last lawyer who worked on the case is " + res.data.lawyerName + "." })
+
+            }).catch(res => {
+                this.setState({ lawyer: "This case is never assigned to lawyer yet." })
+            })
     }
 
     render() {
         return (
             <div style={this.getStyle()}>
-                <h1 style={this.lineStyle()}> Last lawyer who worked on the case is {this.state.lawyer}. </h1>
+                <h1 style={this.lineStyle()}> {this.state.lawyer} </h1>
             </div>
         )
     }
