@@ -15,9 +15,11 @@ import LawyerFillForm from './components/LawyerFillForm/LawyerFillForm';
 import InvestorFillForm from'./components/InvestorFillForm/InvestorFillForm'
 import lawyerUpdateCase from './components/lawyerUpdateCase'
 import LoginExternalPortal from './components/login/Login_ExternalPortal'
+import LastLawyer from './components/LastLawyer'
 import LawyerViewCase from './components/caseComponents/LawyerViewCase';
 import ReviewerViewCase from './components/caseComponents/ReviewerViewCase';
 import InvestorUpdateCase from './components/InvestorUpdateCase'
+
 class App extends Component {
   render() {
     return (
@@ -55,9 +57,11 @@ class App extends Component {
         <Route path="/InvestorFillForm" component={InvestorFillForm}/>
         <Route path="/lawyerUpdateCase" component={lawyerUpdateCase}/>
         <Route path="/login" component={LoginExternalPortal} />
+        <Route path="/LastLawyer" component={LastLawyer}/>
         <Route path="/LawyerViewCase" component={LawyerViewCase}/>
         <Route path="/ReviewerViewCase" component={ReviewerViewCase}/>
         <Route path="/InvestorUpdateCase" component={InvestorUpdateCase}/>
+
         </div>
       </Router>
     );
