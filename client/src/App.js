@@ -16,6 +16,7 @@ import InvestorFillForm from'./components/InvestorFillForm/InvestorFillForm'
 import lawyerUpdateCase from './components/lawyerUpdateCase'
 import LawyerViewCase from './components/caseComponents/LawyerViewCase';
 import ReviewerViewCase from './components/caseComponents/ReviewerViewCase';
+import InvestorUpdateCase from './components/InvestorUpdateCase'
 class App extends Component {
   render() {
     return (
@@ -54,7 +55,7 @@ class App extends Component {
         <Route path="/lawyerUpdateCase" component={lawyerUpdateCase}/>
         <Route path="/LawyerViewCase" component={LawyerViewCase}/>
         <Route path="/ReviewerViewCase" component={ReviewerViewCase}/>
-
+        <Route path="/InvestorUpdateCase" component={InvestorUpdateCase}/>
         </div>
       </Router>
     );
