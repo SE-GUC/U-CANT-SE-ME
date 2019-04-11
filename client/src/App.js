@@ -7,6 +7,7 @@ import Comments from './components/ViewComments/Comments'
 import TrackMyCompany from './components/TrackMyCompany';
 import MyCompanies from './components/GetMyCompanies/MyCompanies';
 import Cases from './components/caseComponents/Cases';
+import CasesSummary from './components/caseComponents/CasesSummary';
 import InvestorRegister from './components/InvestorRegister'
 import ViewMyFees from './components/ViewMyFees/ViewMyFees';
 import RegisterLawyer from './components/RegisterLawyer';
@@ -19,7 +20,6 @@ import LastLawyer from './components/LastLawyer'
 import LawyerViewCase from './components/caseComponents/LawyerViewCase';
 import ReviewerViewCase from './components/caseComponents/ReviewerViewCase';
 import InvestorUpdateCase from './components/InvestorUpdateCase'
-
 class App extends Component {
   render() {
     return (
@@ -40,6 +40,7 @@ class App extends Component {
         <Route path="/MyCompanies" component={MyCompanies}/>
 
         <Route path="/GetAllCases" component={Cases}/>
+        <Route path="/CasesSummary" component={CasesSummary}/>
 
 
 
