@@ -51,7 +51,9 @@ const InvestorSchema = new Schema({
   fax: {
     type: String,
     required: false
-  }
+  },
+  resetPasswordToken: String,
+  resetPasswordExpires: Date
 });
 
 module.exports = Investor = mongoose.model("investors", InvestorSchema);
