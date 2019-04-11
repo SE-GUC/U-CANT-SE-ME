@@ -164,8 +164,7 @@ exports.updateForm = async function(req, res) {
     //   ? oldCase.assignedReviewerId.toString()
     //   : null;
     req.params.id = req.params.caseId;
-    console.log("ana wselt")
-    if(oldCase.caseStatus==="OnUpdate")
+    if(oldCase.caseStatus==="OnUpdate" && oldCase.creatorLawyerId===null)
       await caseController.updateCase(req, res);
     else
     return res.status(403).send({ error: "Case is not in update status" });
