@@ -26,6 +26,17 @@ export default class lawyerUpdateCase extends React.Component {
     submit= async()=> {
         var valid=true;
         const me =this
+        me.setState({regulatedLawR:''});
+        me.setState({legalFormOfCompanyR:''});
+        me.setState({companyNameArabicR:''});
+        me.setState({companyNameEnglishR:''});
+        me.setState({headOfficeGovernorateR:''});
+        me.setState({headOfficeCityR:''});
+        me.setState({headOfficeAddressR:''});
+        me.setState({phoneNumberR:''});
+        me.setState({faxR:''});
+        me.setState({currencyUsedForCapitalR:''});
+        me.setState({capitalR:''});
         var form=document.getElementById("lawyerUpdate")
         const body =  {
             form:{
@@ -36,6 +47,7 @@ export default class lawyerUpdateCase extends React.Component {
           body.form.companyType=form.companyType.value
           if(!(form.regulatedLaw.value==="")){
             body.form.regulatedLaw=form.regulatedLaw.value
+
             Joi.validate({regulatedLaw:body.form.regulatedLaw}, {regulatedLaw: Joi.string().min(2)}, function (error) {
               if(error)
               {
@@ -46,6 +58,7 @@ export default class lawyerUpdateCase extends React.Component {
           }
           if(!(form.legalFormOfCompany.value==="")){
            body.form.legalFormOfCompany=form.legalFormOfCompany.value
+
             Joi.validate({legalFormOfCompany:body.form.legalFormOfCompany}, {legalFormOfCompany: Joi.string().min(2)}, function (error) {
               if(error)
               {
@@ -56,6 +69,7 @@ export default class lawyerUpdateCase extends React.Component {
           }
           if(!(form.companyNameArabic.value==="")){
             body.form.companyNameArabic=form.companyNameArabic.value
+
             Joi.validate({companyNameArabic:body.form.companyNameArabic}, {companyNameArabic: Joi.string().min(2)}, function (error) {
               if(error)
               {
@@ -66,6 +80,7 @@ export default class lawyerUpdateCase extends React.Component {
           }
           if(!(form.companyNameEnglish.value==="")){
             body.form.companyNameEnglish=form.companyNameEnglish.value
+
             Joi.validate({companyNameEnglish:body.form.companyNameEnglish}, {companyNameEnglish: Joi.string().min(2)}, function (error) {
               if(error)
               {
@@ -76,6 +91,7 @@ export default class lawyerUpdateCase extends React.Component {
           }
           if(!(form.headOfficeGovernorate.value==="")){
             body.form.headOfficeGovernorate=form.headOfficeGovernorate.value
+
             Joi.validate({headOfficeGovernorate:body.form.headOfficeGovernorate}, {headOfficeGovernorate: Joi.string().min(2)}, function (error) {
               if(error)
               {
@@ -86,6 +102,7 @@ export default class lawyerUpdateCase extends React.Component {
           }
           if(!(form.headOfficeCity.value==="")){
             body.form.headOfficeCity=form.headOfficeCity.value
+
             Joi.validate({headOfficeCity:body.form.headOfficeCity}, {headOfficeCity: Joi.string().min(2)}, function (error) {
               if(error)
               {
@@ -96,6 +113,7 @@ export default class lawyerUpdateCase extends React.Component {
           }
           if(!(form.headOfficeAddress.value==="")){
             body.form.headOfficeAddress=form.headOfficeAddress.value
+
             Joi.validate({headOfficeAddress:body.form.headOfficeAddress}, {headOfficeAddress: Joi.string().min(2)}, function (error) {
               if(error)
               {
@@ -106,6 +124,7 @@ export default class lawyerUpdateCase extends React.Component {
           }
           if(!(form.phoneNumber.value==="")){
             body.form.phoneNumber=form.phoneNumber.value
+
             Joi.validate({phoneNumber:body.form.phoneNumber}, {phoneNumber: Joi.string().trim().regex(/^[0-9]{7,14}$/)}, function (error) {
               if(error)
               {
@@ -116,6 +135,7 @@ export default class lawyerUpdateCase extends React.Component {
           }
           if(!(form.fax.value==="")){
             body.form.fax=form.fax.value
+
             Joi.validate({fax:body.form.fax}, {fax: Joi.string().trim().regex(/^[0-9]{7,14}$/)}, function (error) {
               if(error)
               {
@@ -126,6 +146,7 @@ export default class lawyerUpdateCase extends React.Component {
           }
           if(!(form.currencyUsedForCapital.value==="")){
             body.form.currencyUsedForCapital=form.currencyUsedForCapital.value
+
             Joi.validate({currencyUsedForCapital:body.form.currencyUsedForCapital}, {currencyUsedForCapital: Joi.string().min(2)}, function (error) {
               if(error)
               {
@@ -136,6 +157,7 @@ export default class lawyerUpdateCase extends React.Component {
           }
           if(!(form.capital.value==="")){
             body.form.capital=form.capital.value
+            
             Joi.validate({capital:body.form.capital}, {capital: Joi.number()}, function (error) {
               if(error)
               {
