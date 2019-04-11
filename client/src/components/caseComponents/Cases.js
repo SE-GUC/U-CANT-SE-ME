@@ -10,7 +10,6 @@ import axios from 'axios';
 
         const getCases = await axios.get("http://localhost:5000/api/cases");
         this.setState({cases: getCases.data.data});
-         console.log(getCases.data.data);
     
         // my comments to understand arrayOfCases 
         // getCases.data.data[0]  the first case in the array 
