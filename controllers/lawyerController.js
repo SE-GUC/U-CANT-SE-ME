@@ -413,3 +413,74 @@ exports.reset = function(req, res){
     res.redirect('/')
   })
 }
+
+exports.requestUpdate = async function(req, res)
+{ 
+  if(lawyerAuthenticated)
+  {
+    if(!mongoValidator.isMongoId(req.params.caseId) )
+    return res.status(400).send({ err : "Invalid case id" });
+    
+    let myCase = await Case.findById(req.params.caseId)
+    
+    if(myCase === null)
+    return res.status(400).send({ err : "Invalid case id" });
+    
+    if(myCase.assignedReviewerId !== null)
+    return res.status(400).send({ err : "You are not the one required to update" });
+
+    if(toString(myCase.assignedLawyerId) !== toString(req.params.assignedLawyerId))
+    return res.status(400).send({ err : "This is not your case" });
+    
+    if(myCase.caseStatus==="OnUpdate")
+    return res.status(400).send({err: "This case is not updated yet"})
+    
+    try
+    {
+      await Case.findByIdAndUpdate(req.params.caseId,{"caseStatus":"OnUpdate"})
+      res.json(await Case.findById(req.params.caseId))
+    }
+    catch(error)
+    {
+      res.json({msg:"A fatal error has occured, could not update the case status."})
+    }
+  }
+  else
+  return res.status(403).send({error: "Forbidden." })
+}
+
+exports.resumeWorkOnCase = async function(req, res)
+{ 
+  if(lawyerAuthenticated)
+  {
+    if(!mongoValidator.isMongoId(req.params.caseId) )
+    return res.status(400).send({ err : "Invalid case id" });
+    
+    let myCase = await Case.findById(req.params.caseId)
+    
+    if(myCase === null)
+    return res.status(400).send({ err : "Invalid case id" });
+    
+    if(myCase.assignedReviewerId === null)
+    return res.status(400).send({ err : "You are not the one required to update" });
+
+    if(toString(myCase.assignedLawyerId) !== toString(req.params.assignedLawyerId))
+    return res.status(400).send({ err : "This is not your case" });
+    
+    if(myCase.caseStatus!=="OnUpdate")
+    return res.status(400).send({err: "This case is not in the update state"})
+    
+    try
+    {
+      await Case.findByIdAndUpdate(req.params.caseId,{"caseStatus":"WaitingForReviewer"})
+      res.json(await Case.findById(req.params.caseId))
+    }
+    catch(error)
+    {
+      res.json({msg:"A fatal error has occured, could not update the case status."})
+    }
+  }
+  else
+  return res.status(403).send({error: "Forbidden." })
+}
+
