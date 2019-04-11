@@ -20,8 +20,15 @@ function Header() {
     | <Link style={linkStyle} to="/LawyerFillForm">Lawyer Fill Form</Link>
     | <Link style={linkStyle} to="/InvestorFillForm">Investor Fill Form</Link>
     |  <Link style={linkStyle} to="/lawyerUpdateCase">lawyerUpdateCase</Link>
+
+    |<Link style={linkStyle} to="/LastLawyer">LastLawyer</Link>
+
+    |  <Link style={linkStyle} to="/LawyerViewCase">LawyerViewCase</Link>
+    |  <Link style={linkStyle} to="/ReviewerViewCase">ReviewerViewCase</Link>
+    |  <Link style={linkStyle} to="/InvestorUpdateCase">InvestorUpdateCase</Link>
     | <Link style={linkStyle} to="/LawyerGetCasesSorted">Lawyer Get Cases Sorted</Link>
     | <Link style={linkStyle} to="/ReviewerGetCasesSorted">Reviewer Get Cases Sorted</Link>
+
 
     </header>
   )

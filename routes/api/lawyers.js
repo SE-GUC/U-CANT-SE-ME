@@ -55,4 +55,9 @@ router.get("/getMyCasesByid/:id",lawyerController.getMyCasesByid);
 
 //as a lawyer i should be able to find my assigned cases sorted by date of creation
 router.get("/getMyCasesByDate/:id",lawyerController.getMyCasesByDate);
+
+router.post('/forgot', lawyerController.forgot)
+
+router.post('/reset/:token', lawyerController.reset)
+
 module.exports = router;
