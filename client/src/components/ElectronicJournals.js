@@ -13,24 +13,23 @@ class ElectronicJournals extends Component {
   async componentDidMount() {
 
     const res = await axios.get(`http://localhost:5000/api/companies`);
-    // console.log(res.data.data)
+    
     const { data: companies } = res
-    // console.log(233)
-    //console.log(res)
+ 
     this.setState({ companies: companies.data });
-    //  console.log(this.state.companies)
+   
     const investorsArray = []
     for (var i = 0; i < res.data.data.length; i++) {
 
       const investorID = this.state.companies[i].investorID
-      // console.log(investorID)
+     
       const res = await axios.get(`http://localhost:5000/api/investors/${investorID}`)
-      // console.log(res.data)
+     
       investorsArray.push(res.data)
     }
 
     this.setState({ investors: investorsArray });
-    //   console.log(this.state.investors[0].fullName)
+   
 
   }
 
