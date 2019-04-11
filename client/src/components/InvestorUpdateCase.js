@@ -26,6 +26,17 @@ export default class InvestorUpdateCase extends React.Component {
     submit= async()=> {
         var valid=true;
         const me =this
+        me.setState({regulatedLawR:''});
+        me.setState({legalFormOfCompanyR:''});
+        me.setState({companyNameArabicR:''});
+        me.setState({companyNameEnglishR:''});
+        me.setState({headOfficeGovernorateR:''});
+        me.setState({headOfficeCityR:''});
+        me.setState({headOfficeAddressR:''});
+        me.setState({phoneNumberR:''});
+        me.setState({faxR:''});
+        me.setState({currencyUsedForCapitalR:''});
+        me.setState({capitalR:''});
         var form=document.getElementById("InvestorUpdate")
         const body =  {
             form:{
