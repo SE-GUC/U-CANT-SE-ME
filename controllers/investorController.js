@@ -147,26 +147,30 @@ exports.updateForm = async function(req, res) {
     if (!investorAuthenticated)
       return res.status(403).send({ error: "Investor has no Access" });
     if (!mongoValidator.isMongoId(req.params.investorId))
-      return res.status(400).send({ error: "Invalid Investor ID" });
+      return res.status(403).send({ error: "Invalid Investor ID" });
     if (!mongoValidator.isMongoId(req.params.caseId))
-      return res.status(400).send({ error: "Invalid Case ID" });
+      return res.status(403).send({ error: "Invalid Case ID" });
     const oldCase = await Case.findById(req.params.caseId);
-    if (!oldCase) return res.status(404).send({ error: "Case doesn't Exist" });
+    if (!oldCase) return res.status(403).send({ error: "Case doesn't Exist" });
+    const neededInvestor = await Investor.findById(req.params.investorId);
+    if (!neededInvestor) return res.status(403).send({ error: "investor doesn't Exist" });
     if (oldCase.creatorInvestorId.toString() !== req.params.investorId)
-      return res
-        .status(403)
-        .send({ error: "Investor can only update his/her Forms" });
-    req.body.caseStatus = oldCase.caseStatus;
-    req.body.assignedLawyerId = oldCase.assignedLawyerId
-      ? oldCase.assignedLawyerId.toString()
-      : null;
-    req.body.assignedReviewerId = oldCase.assignedReviewerId
-      ? oldCase.assignedReviewerId.toString()
-      : null;
+      return res.status(403).send({ error: "Not the case Creator" });
+    // req.body.caseStatus = oldCase.caseStatus;
+    // req.body.assignedLawyerId = oldCase.assignedLawyerId
+    //   ? oldCase.assignedLawyerId.toString()
+    //   : null;
+    // req.body.assignedReviewerId = oldCase.assignedReviewerId
+    //   ? oldCase.assignedReviewerId.toString()
+    //   : null;
     req.params.id = req.params.caseId;
-    await caseController.updateCase(req, res);
+    console.log("ana wselt")
+    if(oldCase.caseStatus==="OnUpdate")
+      await caseController.updateCase(req, res);
+    else
+    return res.status(403).send({ error: "Case is not in update status" });
   } catch (err) {
-    res.send({ msg: "Oops something went wrong" });
+    res.send({ msg: "something went wrong" });
   }
 };
 

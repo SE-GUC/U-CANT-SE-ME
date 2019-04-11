@@ -2,7 +2,7 @@ import React from 'react'
 import axios from 'axios';
 const Joi = require("joi");
 const mongoValidator = require("validator");
-export default class lawyerUpdateCase extends React.Component {
+export default class InvestorUpdateCase extends React.Component {
     
     constructor(props) {
             super(props)
@@ -26,7 +26,7 @@ export default class lawyerUpdateCase extends React.Component {
     submit= async()=> {
         var valid=true;
         const me =this
-        var form=document.getElementById("lawyerUpdate")
+        var form=document.getElementById("InvestorUpdate")
         const body =  {
             form:{
              
@@ -145,17 +145,16 @@ export default class lawyerUpdateCase extends React.Component {
           });
           }
           const caseID='5ca8a6c06f7661e423afc714'
-
-          const lawyerID='5ca76f5f00b48e09001936e7'
-          if(!mongoValidator.isMongoId(lawyerID) || !mongoValidator.isMongoId(caseID)){
+          const InvestorID='5ca6229afd83c24bf091758e'
+          if(!mongoValidator.isMongoId(InvestorID) || !mongoValidator.isMongoId(caseID)){
             valid=false;
-            this.setState({err:'Invalid either lawyerID or CaseID'})
+            this.setState({err:'Invalid either InvestorID or CaseID'})
           }
           if(valid)
         {
             try
             {
-              await axios.put(`http://localhost:5000/api/lawyers/update/${lawyerID}/${caseID}`,body)
+              await axios.put(`http://localhost:5000/api/investors/updateForm/${InvestorID}/${caseID}`,body)
               this.setState({val:'Successfully updated'})
             }
             catch
@@ -177,7 +176,7 @@ export default class lawyerUpdateCase extends React.Component {
           <div>
               <br/>
               <h2>Update Case</h2>
-            <form id="lawyerUpdate">
+            <form id="InvestorUpdate">
             {this.state.err}
             Company type: <select className="form-control" name="companyType"  >
           <option value="">Choose type</option>
@@ -198,7 +197,7 @@ export default class lawyerUpdateCase extends React.Component {
           {this.state.companyNameEnglishR}<br/>
           <br/>
           head office governorate: <input type="text" name="headOfficeGovernorate"/><br/>
-          {this.state.companyNameEnglishR}<br/>
+          {this.state.headOfficeGovernorateR}<br/>
           <br/>
           head office city: <input type="text" name="headOfficeCity"/><br/>
           {this.state.headOfficeGovernorateR}<br/>
