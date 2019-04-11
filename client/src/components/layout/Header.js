@@ -20,6 +20,8 @@ function Header() {
     | <Link style={linkStyle} to="/LawyerFillForm">Lawyer Fill Form</Link>
     | <Link style={linkStyle} to="/InvestorFillForm">Investor Fill Form</Link>
     |  <Link style={linkStyle} to="/lawyerUpdateCase">lawyerUpdateCase</Link>
+    |  <Link style={linkStyle} to="/ElectronicJournals">Electronic Journals</Link>
+
 
     </header>
   )
