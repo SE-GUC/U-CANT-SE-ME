@@ -58,6 +58,9 @@ render(){
         <label id="Error" style={styles.error} class="text-danger"> Wrong Email or Password</label>
         <br />
         <button type="button" class="btn btn-outline-primary" onClick={this.handleSubmit}>Login</button>
+        <div className="dropdown-divider"></div>
+            <a className="dropdown-item" href="#">New around here? Sign up</a>
+            <a className="dropdown-item" href="#">Forgot password?</a>
     </div>
     )}
 }
