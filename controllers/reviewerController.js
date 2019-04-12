@@ -234,9 +234,9 @@ exports.addCommentAsReviewer = async function(req,res){
     const checkReviewer = await Reviewer.find({ _id: req.params.reviewerID });
     const checkCase = await Case.find({ _id: req.params.caseID });
     if (checkReviewer.length === 0)
-      return res.status(404).send("Reviewer not Found");
+      return res.status(404).send({error:"Reviewer not Found"});
     if (checkCase.length === 0)
-      return res.status(404).send("Case not Found");
+      return res.status(404).send({error:"Case not Found"});
     if(reviewerAuthenticated){
       if(checkCase[0].assignedReviewerId+""!==req.params.reviewerID+"")
         return res.status(403).send({error: "Only assigned Reviewers to this Case can comment on it" });

@@ -24,11 +24,15 @@ import LoginExternalPortal from './components/login/Login_ExternalPortal'
 import LastLawyer from './components/LastLawyer'
 import LawyerViewCase from './components/caseComponents/LawyerViewCase';
 import ReviewerViewCase from './components/caseComponents/ReviewerViewCase';
+
+import addComment from './components/AddComment';
+
 import LawyerViewAllCases from './components/caseComponents/LawyerViewAllCases';
 import ReviewerViewAllCases from './components/caseComponents/ReviewerViewAllCases';
 import AdminViewAllCases from './components/caseComponents/AdminViewAllCases';
 import LawyerGetCasesSorted from './components/LawyerGetCasesSorted/LawyerGetCasesSorted'
 import ReviewerGetCasesSorted from './components/ReviewerGetCasesSorted/ReviewerGetCasesSorted'
+
 import InvestorUpdateCase from './components/InvestorUpdateCase';
 import ReviewerViewTasks from './components/caseComponents/ReviewerViewTasks';
 import LawyerViewTasks from './components/caseComponents/LawyerViewTasks';
@@ -71,8 +75,12 @@ class App extends Component {
         <Route path="/InvestorFillForm" component={InvestorFillForm}/>
         <Route path="/lawyerUpdateCase" component={lawyerUpdateCase}/>
 
+        <Route path="/addComment" component={addComment}/>
+
+
 
         <Route path="/ElectronicJournals" component={ElectronicJournals}/>
+
 
         <Route path="/login" component={LoginExternalPortal} />
 
