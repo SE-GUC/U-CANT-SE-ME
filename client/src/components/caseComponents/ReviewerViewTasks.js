@@ -16,10 +16,30 @@ export default class ReviewerViewTasks extends Component {
         this.setState({cases: getCases.data.Tasks});
 
     };
-
+    accept=async (caseId)=>
+    {
+        try
+        {
+            await axios.put(`http://localhost:5000/api/reviewers/updateCaseStatus/${caseId}/Accepted`);
+            const newArr=this.state.cases.filter(function(value, index, arr){
+                return caseId === value._id;
+            });
+            if(this.state.cases.length===1)
+                this.setState({cases:[]})
+            else
+                this.setState({cases:newArr})
+        }
+        catch(error)
+        {
+            throw error;
+        }
+    }
     render() {
         return (this.state.cases.map((x) => (
-            <Case key={x._id} case={x} />
+            <div>
+                <Case key={x._id} case={x} />
+                <button onClick={() => this.accept(x._id)}>Accept</button>
+            </div>
         ))
         )
       }

@@ -151,7 +151,7 @@ exports.AcceptRejectForm = async function(req, res)
     {
         if(!mongoValidator.isMongoId(req.params.caseId) || await Case.findById(req.params.caseId)===null)
             return res.status(400).send({ err : "Invalid case id" })
-        if(req.params.caseStatus!=="OnUpdate" && req.params.caseStatus!=="WaitingForLawyer" && req.params.caseStatus!=="AssginedToLawyer" && req.params.caseStatus!=="WaitingForReviewer" && req.params.caseStatus!=="AssginedToReviewer")
+        if(req.params.caseStatus!=="OnUpdate" && req.params.caseStatus!=="WaitingForLawyer" && req.params.caseStatus!=="AssignedToLawyer" && req.params.caseStatus!=="WaitingForReviewer" && req.params.caseStatus!=="AssignedToReviewer")
             return res.status(400).send({err: "Invalid new status"})
         try
         {
