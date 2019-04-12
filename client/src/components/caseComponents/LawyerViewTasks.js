@@ -14,12 +14,24 @@ export default class LawyerViewTasks extends Component {
         const id =this.state.LawyerID;
         const getCases = await axios.get(`http://localhost:5000/api/lawyers/lawyerTasks/${id}`);
         this.setState({cases: getCases.data.Tasks});
-
     };
     accept=async (caseId)=>
     {
-        await axios.put(`http://localhost:5000/api/lawyers/updateCaseStatus/${caseId}/WaitingForReviewer`);
-        this.componentDidMount()
+        try
+        {
+            await axios.put(`http://localhost:5000/api/lawyers/updateCaseStatus/${caseId}/WaitingForReviewer`);
+            const newArr=this.state.cases.filter(function(value, index, arr){
+                return caseId === value._id;
+            });
+            if(this.state.cases.length===1)
+                this.setState({cases:[]})
+            else
+                this.setState({cases:newArr})
+        }
+        catch(error)
+        {
+            throw error;
+        }
     }
     render() {
         return (this.state.cases.map((x) => (
