@@ -47,10 +47,9 @@ class ElectronicJournals extends Component {
           })}
           {this.state.investors.map(investor => {
             s[j] = s[j] + ". The investor of the company is " + investor.fullName + " he is an " + investor.nationality + " investor, born in "
-              + investor.dateOfBirth + " and lives in " + investor.residenceAddress + ". To contact him , you can use telephone " + investor.telephoneNumber
-              + " or fax " + investor.fax + " or email " + investor.email + " . The company is one of the companies established in Sumerge "
-              + ", which combine innovation with solid technology expertise and deep business understanding to transform how you do business. They offer disruptive solutions that solve business challenges,"
-              + " grow organizations, shape industries, empower your people and touch your customers’ lives. "
+              + investor.dateOfBirth + ". To contact him , you can use telephone " + investor.telephoneNumber
+              + " or fax " + investor.fax + " or email " + investor.email + " .  "
+            
             j++
           })}
 
