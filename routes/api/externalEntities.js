@@ -1,4 +1,6 @@
 const express = require("express");
+
+
 const router = express.Router();
 
 const externalEntityController = require("../../controllers/externalEntityController")
@@ -16,5 +18,8 @@ router.put("/:id", externalEntityController.updateExternalEntity);
 
 // DELETE
 router.delete("/:id",externalEntityController.deleteExternalEntity);
+
+router.post('/create-pdf',externalEntityController.infoIN);
+
 
 module.exports = router;

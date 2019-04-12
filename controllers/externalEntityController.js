@@ -5,6 +5,7 @@ const cases=require("../models/Case");
 const investors=require("../models/Investor");
 const ExternalEntity = require("../models/ExternalEntity");
 const validator = require('../validations/externalEntityValidations');
+const pdf=require('html-pdf');
 
 // GET
 exports.getAllExternalEntities = async function(req, res) {
@@ -87,7 +88,8 @@ exports.deleteExternalEntity = async function(req, res) {
     res.json({msg: "An error has occured"});
   }
 };
-infoIN=async function (caseID){
+exports.infoIN=async function (req,res){
+  var caseID=req.body.name;
   var form =await cases.findById(mongoose.Types.ObjectId(caseID));
   var companyName = form.form.companyNameArabic;
   var investor=await investors.findById(mongoose.Types.ObjectId(form.creatorInvestorId));
@@ -171,7 +173,7 @@ var band6="";
   html1 += "</tr></table>";
 
   var band7="";
-  if(managers.length===1&&oneManagerGender=="female"){
+  if(form.managers.length===1&&oneManagerGender=="female"){
   band7= "<p>"+" يتولى إدارة الشركة مؤسس الشركة أو مدير أو أكثر يعينهم مؤسس الشركة على النحو التالي:"+"</p>";
   band7+=html1;
   band7+= "<p>"+" و تباشر المديرة/ المديرات (حسب عدد المديرين) وظائفها / وظائفهم  (حسب عدد المديرين)  لمدة غير محدد"
@@ -182,7 +184,7 @@ var band6="";
   else{
 
   
-  if(managers.length===1&&oneManagerGender=="male"){
+  if(form.managers.length===1&&oneManagerGender=="male"){
     band7= "<p>"+" يتولى إدارة الشركة مؤسس الشركة أو مدير أو أكثر يعينهم مؤسس الشركة على النحو التالي:"+"</p>";
     band7+=html1;
     band7+="<p>"+"و يباشر المدير/ المديرون (حسب عدد المديرين) وظائفه / وظائفهم  (حسب عدد المديرين) لمدة غير محددة ويسرى في شأن مدير الشركة حكم المادة (89) من قانون الشركات ، مع مراعاة ألا يكون غير محظور عليه إدارة الشركات طبقاً لأحكام القانون . ولا يجوز للمدير أن يتولى إدارة شركة أخرى أياً كان نوعها إذا كانت تعمل في ذات النشاط الذي تزاوله الشركة أو أحد فروعها ، كما لا يجوز له أن يتعاقد مع الشركة التي يتولى إدارتها لحسابه أو لحساب غيره ، أو يمارس لحساب الغير نشاطاً من نوع النشاط الذى تزاوله الشركة ."+"</p>"
@@ -195,5 +197,14 @@ var band6="";
   
   }
 }
+var all =`<!doctype html><html><div>`;
+all+=band0+band1+band2+band3+band4+band5+band6+band7+band8+band9+band10+` </div></html>`;
 
+pdf.create(all, {}).toFile('result.pdf', (err) => {
+
+  if(err) {
+     return console.log('error');
+ }
+res.send(Promise.resolve()) 
+});
 };
