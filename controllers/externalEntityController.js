@@ -1,10 +1,11 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const router = express.Router();
-
+const axios=require('axios');
 const ExternalEntity = require("../models/ExternalEntity");
 const validator = require('../validations/externalEntityValidations');
-
+const Investor = require("../models/Investor");
+const Case = require("../models/Case");
 // GET
 exports.getAllExternalEntities = async function(req, res) {
   const externalEntities = await ExternalEntity.find();
@@ -86,3 +87,28 @@ exports.deleteExternalEntity = async function(req, res) {
     res.json({msg: "An error has occured"});
   }
 };
+
+exports.notifyExternalEntity = async function (req) {
+  const cas=await Case.findById(req.params.id);
+  const regulatedLaw=cas.form.regulatedLaw;
+  const companyNameArabic=cas.form.companyNameArabic;
+  const creatorInvestorId=cas.creatorInvestorId;
+  const investor=await Investor.findById(creatorInvestorId);
+  const investorName=investor.fullName;
+  const nationality=investor.nationality;
+  const capital=cas.form.capital;
+  const currency=cas.form.currencyUsedForCapital;
+  createAndDownloadPdf({name:investorName}); 
+}
+
+createAndDownloadPdf = (data) => {
+
+  axios.post('http://localhost:5000/api/externalEntities/create-pdf', data)
+  // .then(()=> console.log("done with POSt"))
+  .then(() => axios.get('http://localhost:5000/api/externalEntities/fetch-pdf/fetch-pdf'))
+  // .then((res) => { 
+  // const pdfBlob = new Blob([res.data], { type: 'application/pdf' });
+  // });
+};
+
+
