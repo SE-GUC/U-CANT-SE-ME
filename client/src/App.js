@@ -18,7 +18,6 @@ import LoginExternalPortal from './components/login/Login_ExternalPortal'
 import LastLawyer from './components/LastLawyer'
 import LawyerViewCase from './components/caseComponents/LawyerViewCase';
 import ReviewerViewCase from './components/caseComponents/ReviewerViewCase';
-import InvestorUpdateCase from './components/InvestorUpdateCase'
 import LawyerGetCasesSorted from './components/LawyerGetCasesSorted/LawyerGetCasesSorted'
 import ReviewerGetCasesSorted from './components/ReviewerGetCasesSorted/ReviewerGetCasesSorted'
 import InvestorUpdateCase from './components/InvestorUpdateCase';
