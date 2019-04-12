@@ -17,27 +17,29 @@ const FormTemplateSchema = new Schema({
         fieldType: {
           type: String,
           enum: [
-              "TEXT",
-              "NUMBER",
-              "TEXT_NUMBER",
-              "DATE",
-              "GOVERNATE",
-              "CITY",
-              "CURRENCY",
-              "NATIONALITY",
-              "MANAGER"
+            "TEXT",
+            "NUMBER",
+            "TEXT_NUMBER",
+            "DATE",
+            "GOVERNATE",
+            "CITY",
+            "CURRENCY"
           ],
           required: true
         },
         isRequired: Boolean,
         isUnique: Boolean,
         minVal: Number,
-        maxVal: Number,
+        maxVal: Number
       }
     ],
     required: true
   },
-  rules : String
+  hasManagers: {
+    type: Boolean,
+    required: true
+  },
+  rulesFunction: String
 });
 
 module.exports = FormTemplate = mongoose.model(
