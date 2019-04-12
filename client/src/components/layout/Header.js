@@ -25,6 +25,8 @@ function Header() {
     |  <Link style={linkStyle} to="/LawyerViewCase">LawyerViewCase</Link>
     |  <Link style={linkStyle} to="/ReviewerViewCase">ReviewerViewCase</Link>
     |  <Link style={linkStyle} to="/InvestorUpdateCase">InvestorUpdateCase</Link>
+    |  <Link style={linkStyle} to="/ReviewerViewTasks">ReviewerViewTasks</Link>
+    |  <Link style={linkStyle} to="/LawyerViewTasks">LawyerViewTasks</Link>
 
 
     </header>

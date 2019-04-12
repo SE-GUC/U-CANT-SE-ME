@@ -18,8 +18,10 @@ import LoginExternalPortal from './components/login/Login_ExternalPortal'
 import LastLawyer from './components/LastLawyer'
 import LawyerViewCase from './components/caseComponents/LawyerViewCase';
 import ReviewerViewCase from './components/caseComponents/ReviewerViewCase';
-import InvestorUpdateCase from './components/InvestorUpdateCase'
 import addComment from './components/AddComment';
+import InvestorUpdateCase from './components/InvestorUpdateCase';
+import ReviewerViewTasks from './components/caseComponents/ReviewerViewTasks';
+import LawyerViewTasks from './components/caseComponents/LawyerViewTasks';
 
 class App extends Component {
   render() {
@@ -63,7 +65,9 @@ class App extends Component {
         <Route path="/LawyerViewCase" component={LawyerViewCase}/>
         <Route path="/ReviewerViewCase" component={ReviewerViewCase}/>
         <Route path="/InvestorUpdateCase" component={InvestorUpdateCase}/>
-
+        <Route path="/ReviewerViewTasks" component={ReviewerViewTasks}/>
+        <Route path="/LawyerViewTasks" component={LawyerViewTasks}/>
+          
         </div>
       </Router>
     );
