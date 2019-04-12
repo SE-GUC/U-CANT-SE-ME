@@ -7,6 +7,8 @@ import Comments from './components/ViewComments/Comments'
 import TrackMyCompany from './components/TrackMyCompany';
 import MyCompanies from './components/GetMyCompanies/MyCompanies';
 import Cases from './components/caseComponents/Cases';
+import CasesSummary from './components/caseComponents/CasesSummary';
+import CaseSwitch from './components/caseComponents/CaseSwitch';
 import InvestorRegister from './components/InvestorRegister'
 import ViewMyFees from './components/ViewMyFees/ViewMyFees';
 import RegisterLawyer from './components/RegisterLawyer';
@@ -18,6 +20,9 @@ import LoginExternalPortal from './components/login/Login_ExternalPortal'
 import LastLawyer from './components/LastLawyer'
 import LawyerViewCase from './components/caseComponents/LawyerViewCase';
 import ReviewerViewCase from './components/caseComponents/ReviewerViewCase';
+import LawyerViewAllCases from './components/caseComponents/LawyerViewAllCases';
+import ReviewerViewAllCases from './components/caseComponents/ReviewerViewAllCases';
+import AdminViewAllCases from './components/caseComponents/AdminViewAllCases';
 import LawyerGetCasesSorted from './components/LawyerGetCasesSorted/LawyerGetCasesSorted'
 import ReviewerGetCasesSorted from './components/ReviewerGetCasesSorted/ReviewerGetCasesSorted'
 import InvestorUpdateCase from './components/InvestorUpdateCase';
@@ -44,6 +49,7 @@ class App extends Component {
         <Route path="/MyCompanies" component={MyCompanies}/>
 
         <Route path="/GetAllCases" component={Cases}/>
+        <Route path="/CasesSummary" component={CasesSummary}/>
 
 
 
@@ -65,6 +71,11 @@ class App extends Component {
         <Route path="/LawyerViewCase" component={LawyerViewCase}/>
         <Route path="/ReviewerViewCase" component={ReviewerViewCase}/>
         <Route path="/InvestorUpdateCase" component={InvestorUpdateCase}/>
+        <Route path="/CaseSwitch" component={CaseSwitch}/>
+
+        <Route path="/LawyerViewAllCases" component={LawyerViewAllCases}/>
+        <Route path="/ReviewerViewAllCases" component={ReviewerViewAllCases}/>
+        <Route path="/AdminViewAllCases" component={AdminViewAllCases}/>
         <Route path="/LawyerGetCasesSorted" component={LawyerGetCasesSorted}/>
 
         <Route path="/ReviewerGetCasesSorted" component={ReviewerGetCasesSorted}/>
