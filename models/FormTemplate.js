@@ -23,14 +23,19 @@ const FormTemplateSchema = new Schema({
             "DATE",
             "GOVERNATE",
             "CITY",
-            "CURRENCY"
+            "CURRENCY",
+            "DROPLIST"
           ],
           required: true
         },
         isRequired: Boolean,
         isUnique: Boolean,
         minVal: Number,
-        maxVal: Number
+        maxVal: Number,
+        options : {
+          type : [String],
+          default: []
+        }
       }
     ],
     required: true

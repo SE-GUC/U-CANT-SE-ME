@@ -45,11 +45,9 @@ exports.updateFormTemplate = async function(req, res) {
     return res.status(400).send({ error: "Invalid ID format!" });
   const formTemplate = await FormTemplate.findById(req.params.id);
 
-  if(!req.body.formName)
-    req.body.formName = formTemplate.formName;
-  if(!req.body.hasManagers)
-    req.body.hasManagers = formTemplate.hasManagers;
-  if(!req.body.rulesFunction && formTemplate.rulesFunction)
+  if (!req.body.formName) req.body.formName = formTemplate.formName;
+  if (!req.body.hasManagers) req.body.hasManagers = formTemplate.hasManagers;
+  if (!req.body.rulesFunction && formTemplate.rulesFunction)
     req.body.rulesFunction = formTemplate.rulesFunction;
 
   const { error } = validator.formTemplateUpdateValidation(req.body);
@@ -57,7 +55,10 @@ exports.updateFormTemplate = async function(req, res) {
 
   try {
     await FormTemplate.findByIdAndUpdate(req.params.id, req.body);
-    res.send({ msg: "Form Template successfully Updated!" });
+    res.send({
+      msg: "Form Template successfully Updated!",
+      data: await FormTemplate.findById(req.params.id)
+    });
   } catch (error) {
     res.status(400).send({ error: "Form Template name already exists" });
   }
@@ -77,6 +78,7 @@ exports.deleteFormTemplate = async function(req, res) {
 
 //make an an instance of the ruleFunction
 exports.makeRuleFunction = function(rulesFunction) {
-    let wrapper = "function (investor, form, managers = []) { " + rulesFunction + " } ";
-    return new Function("return " + wrapper);
+  let wrapper =
+    "function (investor, form, managers = []) { " + rulesFunction + " } ";
+  return new Function("return " + wrapper);
 };

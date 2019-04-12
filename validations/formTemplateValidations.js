@@ -13,7 +13,7 @@ module.exports = {
     };
 
     try {
-        formTemplateController.makeRuleFunction(formTemplate.rulesFunction);
+      formTemplateController.makeRuleFunction(formTemplate.rulesFunction);
     } catch (error) {
       return {
         error: { details: [{ message: "Error Parsing the Rules Function" }] }
@@ -30,13 +30,15 @@ module.exports = {
           "DATE",
           "GOVERNATE",
           "CITY",
-          "CURRENCY"
+          "CURRENCY",
+          "DROPLIST"
         ])
         .required(),
       isRequired: Joi.boolean(),
       isUnique: Joi.boolean(),
       minVal: Joi.number(),
-      maxVal: Joi.number()
+      maxVal: Joi.number(),
+      options: Joi.array()
     };
 
     for (
@@ -60,7 +62,7 @@ module.exports = {
     };
 
     try {
-        formTemplateController.makeRuleFunction(formTemplate.rulesFunction);
+      formTemplateController.makeRuleFunction(formTemplate.rulesFunction);
     } catch (error) {
       return {
         error: { details: [{ message: "Error Parsing the Rules Function" }] }
@@ -68,20 +70,24 @@ module.exports = {
     }
 
     const fieldUpdateSchema = {
-      fieldName: Joi.string(),
-      fieldType: Joi.string().valid([
-        "TEXT",
-        "NUMBER",
-        "TEXT_NUMBER",
-        "DATE",
-        "GOVERNATE",
-        "CITY",
-        "CURRENCY"
-      ]),
+      fieldName: Joi.string().required(),
+      fieldType: Joi.string()
+        .valid([
+          "TEXT",
+          "NUMBER",
+          "TEXT_NUMBER",
+          "DATE",
+          "GOVERNATE",
+          "CITY",
+          "CURRENCY",
+          "DROPLIST"
+        ])
+        .required(),
       isRequired: Joi.boolean(),
       isUnique: Joi.boolean(),
       minVal: Joi.number(),
-      maxVal: Joi.number()
+      maxVal: Joi.number(),
+      options: Joi.array()
     };
 
     for (
