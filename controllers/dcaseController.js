@@ -64,71 +64,6 @@ async function verfiyReferentialIntegrity(req) {
   return { success: "The case satisfies refrential Integrity" };
 }
 
-async function verfiyGeneralCompanyRules(req) {
-  var countArabic = 0;
-  if (req.form.companyNameArabic)
-    await Case.find({
-      "form.companyNameArabic": req.form.companyNameArabic
-    }).count();
-  var countEnglish = 0;
-  if (req.form.companyNameEnglish)
-    await Case.find({
-      "form.companyNameEnglish": req.form.companyNameEnglish
-    }).count();
-  console.log(req);
-  if (countArabic > 0 || countEnglish > 0)
-    return { error: "Company's name already Exist" };
-
-  for (let i = 0; req.managers && i < req.managers.length; i++) {
-    if (
-      req.managers[i].managerNationality === "Egyptian" &&
-      (req.managers[i].managerIdType !== "NID" ||
-        req.managers[i].managerIdNumber.length !== 14)
-    )
-      return { error: "Incorrect Manager National ID" };
-  }
-  return { success: "Company Satisfies the general rules" };
-}
-
-async function verfiySPCRules(req) {
-  const checkInvestor = await Investor.findById(req.creatorInvestorId);
-  if (
-    checkInvestor &&
-    checkInvestor.nationality !== "Egyptian" &&
-    req.form.capital < 100000
-  ) {
-    return { error: "Invalid capital" };
-  }
-  if (req.managers && req.managers.length > 0)
-    return { error: "SPC Companies can not have any managers" };
-  return { success: "Company Satisfies the SPC rules" };
-}
-
-async function verfiySSCRules(req) {
-  const checkCase = await Case.findOne({
-    creatorInvestorId: req.creatorInvestorId,
-    "form.companyType": "SSC"
-  });
-  if (checkCase) return { error: "Investor entered has an existent SSC case" };
-  if (
-    req.form.capital &&
-    (req.form.capital < 50000 || req.form.capital.toString().length > 12)
-  )
-    return { error: "Invalid capital" };
-  const checkInvestor = await Investor.findById(req.creatorInvestorId);
-  if (checkInvestor && checkInvestor.nationality !== "Egyptian") {
-    var egyptianManager = false;
-    for (let i = 0; req.managers && i < req.managers.length; i++)
-      egyptianManager |= req.managers[i].managerNationality === "Egyptian";
-    if (!egyptianManager)
-      return {
-        error:
-          "There must be a single Egyptian Manager in case of a forginer founder"
-      };
-  }
-  return { success: "Company Satisfies the SSC rules" };
-}
-
 //Create a case
 exports.createCase = async function(req, res) {
   try {
@@ -136,15 +71,6 @@ exports.createCase = async function(req, res) {
     if (error) return res.status(400).send(error.details[0].message);
 
     var check = await verfiyReferentialIntegrity(req.body);
-    if (!check.success) return res.status(400).send(check.error);
-
-    check = await verfiyGeneralCompanyRules(req.body);
-    if (!check.success) return res.status(400).send(check.error);
-
-    if (req.body.form.companyType === "SPC")
-      check = await verfiySPCRules(req.body);
-    else check = await verfiySSCRules(req.body);
-
     if (!check.success) return res.status(400).send(check.error);
 
     const newCase = await Case.create(req.body);
@@ -157,23 +83,16 @@ exports.createCase = async function(req, res) {
 
 //Delete a case
 exports.deleteCase = async function(req, res) {
-  try {
-    const caseID = req.params.id;
-    if (!mongoValidator.isMongoId(caseID))
-      return res.status(404).send({ error: "Invalid ID" });
-    const neededCase = await Case.findById(caseID);
-    if (!neededCase)
-      return res.status(400).send({ err: "Case entered not found" });
-    const deletedCase = await Case.findByIdAndRemove(caseID);
-    res.json({ msg: "Case was deleted successfully", data: deletedCase });
-  } catch (error) {
-    res.send({ error: "Oops something went wrong!" });
-    console.log(error);
-  }
+  const caseID = req.params.id;
+  if (!mongoValidator.isMongoId(caseID))
+    return res.status(400).send({ error: "Invalid ID" });
+  const neededCase = await Case.findByIdAndRemove(caseID);
+  if (!neededCase)
+    return res.status(404).send({ err: "Case entered not found" });
+  res.send({ msg: "Case was deleted successfully", data: deletedCase });
 };
 
 //update
-
 async function addMissingAttributes(req) {
   const oldCase = await Case.findById(req.params.id);
   if (!req.body.form.companyNameArabic)
@@ -202,10 +121,10 @@ async function addMissingAttributes(req) {
 exports.updateCase = async function(req, res) {
   try {
     if (!mongoValidator.isMongoId(req.params.id))
-      return res.status(404).send({ error: "Invalid case ID" });
+      return res.status(400).send({ error: "Invalid case ID" });
     const exist = await Case.findById(req.params.id);
     if (!exist)
-      return res.status(400).send({ error: "case entered not found" });
+      return res.status(404).send({ error: "case entered not found" });
 
     const { error } = validator.updateValidation(req.body);
     if (error) return res.status(400).send(error.details[0].message);
@@ -213,31 +132,25 @@ exports.updateCase = async function(req, res) {
     var check = await verfiyReferentialIntegrity(req.body);
     if (!check.success) return res.status(400).send(check.error);
 
-    check = await verfiyGeneralCompanyRules(req.body);
-    if (!check.success) return res.status(400).send(check.error);
-
-    if (req.body.form.companyType === "SPC")
-      check = await verfiySPCRules(req.body);
-    else check = await verfiySSCRules(req.body);
-
-    if (!check.success) return res.status(400).send(check.error);
-
     await addMissingAttributes(req);
     await Case.findByIdAndUpdate(req.params.id, req.body);
+
     const newCase = await Case.findById(req.params.id);
     if (newCase.caseStatus === "Accepted")
       NotificationController.notifyInvestorByFees(newCase);
+
     res.send({ msg: "Case updated successfully" });
   } catch (error) {
     res.status(403).send({ error: "Oops something went wrong" });
     console.log(error);
   }
 };
-exports.calcFees = function(case1) {
-  if (case1.form.regulatedLaw.includes("72")) {
+
+exports.calcFees = function(targetCase) {
+  if (targetCase.form.regulatedLaw.includes("72")) {
     return 610;
   }
-  const capital = case1.form.capital;
+  const capital = targetCase.form.capital;
   let ans = 56;
   ans += Math.min(1000, Math.max(100, capital / 1000.0));
   ans += Math.min(1000, Math.max(10, capital / 400.0));
@@ -262,9 +175,9 @@ exports.getCaseLastLawyer = async function(req, res) {
         .status(400)
         .send({ msg: "This case was never assigned lawyer" });
     } else {
-      res.json({ lawyerName: lawyer.fullName });
+      res.send({ lawyerName: lawyer.fullName });
     }
   } catch (error) {
-    res.json({ msg: "An error has occured." });
+    res.send({ msg: "An error has occured." });
   }
 };

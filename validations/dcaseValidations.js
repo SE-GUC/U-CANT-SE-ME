@@ -77,20 +77,6 @@ module.exports = {
       managers: Joi
     };
 
-    // const caseProprities = (({
-    //   caseStatus,
-    //   creatorInvestorId,
-    //   creatorLawyerId,
-    //   assignedLawyerId,
-    //   assignedReviewerId
-    // }) => ({
-    //   caseStatus,
-    //   creatorInvestorId,
-    //   creatorLawyerId,
-    //   assignedLawyerId,
-    //   assignedReviewerId
-    // }))(request);
-
     //Validate Case data related to the System
     var validation = Joi.validate(request, caseCreateSchema);
     if (validation.error) return validation;

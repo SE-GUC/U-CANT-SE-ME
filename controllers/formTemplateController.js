@@ -45,6 +45,11 @@ exports.updateFormTemplate = async function(req, res) {
     return res.status(400).send({ error: "Invalid ID format!" });
   const formTemplate = await FormTemplate.findById(req.params.id);
 
+  if (!formTemplate)
+  return res
+    .status(404)
+    .send({ error: "The given form template is not found!" });
+
   if (!req.body.formName) req.body.formName = formTemplate.formName;
   if (!req.body.hasManagers) req.body.hasManagers = formTemplate.hasManagers;
   if (!req.body.rulesFunction && formTemplate.rulesFunction)
