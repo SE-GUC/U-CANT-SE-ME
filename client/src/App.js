@@ -8,6 +8,7 @@ import TrackMyCompany from './components/TrackMyCompany';
 import MyCompanies from './components/GetMyCompanies/MyCompanies';
 import Cases from './components/caseComponents/Cases';
 import CasesSummary from './components/caseComponents/CasesSummary';
+import CaseSwitch from './components/caseComponents/CaseSwitch';
 import InvestorRegister from './components/InvestorRegister'
 import ViewMyFees from './components/ViewMyFees/ViewMyFees';
 import RegisterLawyer from './components/RegisterLawyer';
@@ -62,6 +63,7 @@ class App extends Component {
         <Route path="/LawyerViewCase" component={LawyerViewCase}/>
         <Route path="/ReviewerViewCase" component={ReviewerViewCase}/>
         <Route path="/InvestorUpdateCase" component={InvestorUpdateCase}/>
+        <Route path="/CaseSwitch" component={CaseSwitch}/>
 
         </div>
       </Router>

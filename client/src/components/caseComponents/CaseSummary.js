@@ -55,14 +55,14 @@ export default class CaseSummary extends Component {
     
     return (
       <div style={this.getStyle()}>
-        <h1>Case</h1>
-        <h2>companyNameArabic:{this.state.form.companyNameArabic}</h2>
-        <h2>companyNameEnglish:{this.state.form.companyNameEnglish}</h2>
-        <h3>caseCreationDate:{this.state.caseCreationDate}</h3>
-        <h3>caseStatus:{this.state.caseStatus}</h3>
-        <h1>Form</h1>
-        <h3>companyType:{this.state.form.companyType}</h3>
-        <h3>phoneNumber:{this.state.form.phoneNumber}</h3>
+        <h5>Case</h5>
+        <p>Arabic Name: {this.state.form.companyNameArabic}</p>
+        <p>English Name : {this.state.form.companyNameEnglish}</p>
+        <p>Creation Date: {this.state.caseCreationDate}</p>
+        <p>Status: {this.state.caseStatus}</p>
+        <h5>Form</h5>
+        <p>CompanyType: {this.state.form.companyType}</p>
+        <p>PhoneNumber: {this.state.form.phoneNumber}</p>
        </div>
      
     )
