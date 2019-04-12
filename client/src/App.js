@@ -21,6 +21,9 @@ import LastLawyer from './components/LastLawyer'
 import LawyerViewCase from './components/caseComponents/LawyerViewCase';
 import ReviewerViewCase from './components/caseComponents/ReviewerViewCase';
 import InvestorUpdateCase from './components/InvestorUpdateCase'
+import LawyerViewAllCases from './components/caseComponents/LawyerViewAllCases';
+import ReviewerViewAllCases from './components/caseComponents/ReviewerViewAllCases';
+import AdminViewAllCases from './components/caseComponents/AdminViewAllCases';
 class App extends Component {
   render() {
     return (
@@ -65,6 +68,9 @@ class App extends Component {
         <Route path="/InvestorUpdateCase" component={InvestorUpdateCase}/>
         <Route path="/CaseSwitch" component={CaseSwitch}/>
 
+        <Route path="/LawyerViewAllCases" component={LawyerViewAllCases}/>
+        <Route path="/ReviewerViewAllCases" component={ReviewerViewAllCases}/>
+        <Route path="/AdminViewAllCases" component={AdminViewAllCases}/>
         </div>
       </Router>
     );
