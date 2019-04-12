@@ -46,7 +46,7 @@ class ElectronicJournals extends Component {
             i++
           })}
           {this.state.investors.map(investor => {
-            s[j] = s[j] + ". The investor of the company is " + investor.fullName + " he is an " + investor.nationality + " investor, born in "
+            s[j] = s[j] + ". The investor of the company is " + investor.fullName + " he/she is an " + investor.nationality + " investor, born in "
               + investor.dateOfBirth + ". To contact him , you can use telephone " + investor.telephoneNumber
               + " or fax " + investor.fax + " or email " + investor.email + " .  "
             
