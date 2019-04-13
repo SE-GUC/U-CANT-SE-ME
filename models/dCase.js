@@ -66,6 +66,10 @@ const CaseSchema = new Schema({
     default: [],
     required: false
   },
+  companyType: {
+    type: String,
+    required: true
+  },
   form: {
     type: Object,
     required: true

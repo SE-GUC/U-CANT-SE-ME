@@ -74,7 +74,7 @@ exports.createCase = async function(req, res) {
     if (!check.success) return res.status(400).send(check.error);
 
     const newCase = await Case.create(req.body);
-    res.json({ msg: "Case was created successfully", data: newCase });
+    res.send({ msg: "Case was created successfully", data: newCase });
   } catch (error) {
     res.send({ error: "Oops something went wrong!" });
     console.log(error);

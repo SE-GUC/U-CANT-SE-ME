@@ -44,6 +44,8 @@ const FormTemplateSchema = new Schema({
     type: Boolean,
     required: true
   },
+  managersMinNumber: Number,
+  managersMaxNumber: Number,
   rulesFunction: String
 });
 
