@@ -93,7 +93,26 @@ exports.deleteExternalEntity = async function(req, res) {
 exports.generateSPCPdf = async function(req,res){
  
   const caseId=req.params.id;
+  const html=await getHTMLForSPc(caseId);
   const fileName='decision'+caseId+'.pdf';
+  pdf.create(html, {}).toFile(fileName, (err,Response) => {
+  if(err) {
+    return console.log('error');
+  }
+  
+  res.sendFile(Response.filename);
+  })
+  
+}
+
+exports.viewSPCHtml=async function(req,res){
+ 
+  const caseId=req.params.id;
+  const html=await getHTMLForSPc(caseId);
+  res.send(html);
+  
+};
+getHTMLForSPc = async function(caseId){
   const cas=await Case.findById(caseId);
   const regulatedLaw=cas.form.regulatedLaw;
   const companyNameArabic=cas.form.companyNameArabic;
@@ -106,12 +125,7 @@ exports.generateSPCPdf = async function(req,res){
   
   const html=toSPCHTML({investorName:investorName,companyNameArabic:companyNameArabic,nationality:nationality
   ,capital:capital,currency:currency});
-  pdf.create(html, {}).toFile(fileName, (err) => {
-  if(err) {
-    return console.log('error');
-  }
-  res.send(Promise.resolve())
-  });
+  return html;
 }
 
 toSPCHTML = function(data){

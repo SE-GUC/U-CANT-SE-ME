@@ -21,9 +21,6 @@ router.delete("/:id",externalEntityController.deleteExternalEntity);
 // the generateSPCPdf function should be callled
 router.get("/pdf/:id", externalEntityController.generateSPCPdf);
 
-router.get('/fetch-pdf/:id', (req, res) => {
-    const fileName='decision'+req.params.id+'.pdf';
-    res.sendFile(`C://Users//Zeyad//Desktop//Semester 6//SE//project//U-CANT-SE-ME//`+fileName);
-  });
 
-  module.exports = router;
+
+module.exports = router;
