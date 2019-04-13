@@ -7,6 +7,8 @@ import Comments from './components/ViewComments/Comments'
 import TrackMyCompany from './components/TrackMyCompany';
 import MyCompanies from './components/GetMyCompanies/MyCompanies';
 import Cases from './components/caseComponents/Cases';
+import CasesSummary from './components/caseComponents/CasesSummary';
+import CaseSwitch from './components/caseComponents/CaseSwitch';
 import InvestorRegister from './components/InvestorRegister'
 import ViewMyFees from './components/ViewMyFees/ViewMyFees';
 import RegisterLawyer from './components/RegisterLawyer';
@@ -14,9 +16,27 @@ import RegisterReviewer from './components/RegisterReviewer';
 import LawyerFillForm from './components/LawyerFillForm/LawyerFillForm';
 import InvestorFillForm from'./components/InvestorFillForm/InvestorFillForm'
 import lawyerUpdateCase from './components/lawyerUpdateCase'
+
+import ElectronicJournals from './components/ElectronicJournals'
+
+import LoginExternalPortal from './components/login/Login_ExternalPortal'
+
+import LastLawyer from './components/LastLawyer'
 import LawyerViewCase from './components/caseComponents/LawyerViewCase';
 import ReviewerViewCase from './components/caseComponents/ReviewerViewCase';
-import InvestorUpdateCase from './components/InvestorUpdateCase'
+
+import addComment from './components/AddComment';
+
+import LawyerViewAllCases from './components/caseComponents/LawyerViewAllCases';
+import ReviewerViewAllCases from './components/caseComponents/ReviewerViewAllCases';
+import AdminViewAllCases from './components/caseComponents/AdminViewAllCases';
+import LawyerGetCasesSorted from './components/LawyerGetCasesSorted/LawyerGetCasesSorted'
+import ReviewerGetCasesSorted from './components/ReviewerGetCasesSorted/ReviewerGetCasesSorted'
+
+import InvestorUpdateCase from './components/InvestorUpdateCase';
+import ReviewerViewTasks from './components/caseComponents/ReviewerViewTasks';
+import LawyerViewTasks from './components/caseComponents/LawyerViewTasks';
+
 class App extends Component {
   render() {
     return (
@@ -37,6 +57,7 @@ class App extends Component {
         <Route path="/MyCompanies" component={MyCompanies}/>
 
         <Route path="/GetAllCases" component={Cases}/>
+        <Route path="/CasesSummary" component={CasesSummary}/>
 
 
 
@@ -53,9 +74,30 @@ class App extends Component {
 
         <Route path="/InvestorFillForm" component={InvestorFillForm}/>
         <Route path="/lawyerUpdateCase" component={lawyerUpdateCase}/>
+
+        <Route path="/addComment" component={addComment}/>
+
+
+
+        <Route path="/ElectronicJournals" component={ElectronicJournals}/>
+
+
+        <Route path="/login" component={LoginExternalPortal} />
+
+        <Route path="/LastLawyer" component={LastLawyer}/>
         <Route path="/LawyerViewCase" component={LawyerViewCase}/>
         <Route path="/ReviewerViewCase" component={ReviewerViewCase}/>
         <Route path="/InvestorUpdateCase" component={InvestorUpdateCase}/>
+        <Route path="/CaseSwitch" component={CaseSwitch}/>
+
+        <Route path="/LawyerViewAllCases" component={LawyerViewAllCases}/>
+        <Route path="/ReviewerViewAllCases" component={ReviewerViewAllCases}/>
+        <Route path="/AdminViewAllCases" component={AdminViewAllCases}/>
+        <Route path="/LawyerGetCasesSorted" component={LawyerGetCasesSorted}/>
+
+        <Route path="/ReviewerGetCasesSorted" component={ReviewerGetCasesSorted}/>
+        <Route path="/ReviewerViewTasks" component={ReviewerViewTasks}/>
+        <Route path="/LawyerViewTasks" component={LawyerViewTasks}/>
         </div>
       </Router>
     );

@@ -399,7 +399,7 @@ exports.forgot = function(req, res, next) {
         text: 'Hello '+ user.fullName+ ',\n\n' +
           'You are receiving this because you (or someone else) have requested the reset of the password for your account.\n\n' +
           'Please click on the following link, or paste this into your browser to complete the process:\n\n' +
-          'http://localhost:5000/api/investors/reset/' + token + '\n\n' +
+          'http://localhost:3000/investors/reset/' + token + '\n\n' +
           'If you did not request this, please ignore this email and your password will remain unchanged.\n\n' +
           'Do not share this link with anyone.\n'
       }
@@ -409,7 +409,7 @@ exports.forgot = function(req, res, next) {
         } else {
           console.log('Email sent: ' + info.response);
         }
-      
+        res.json({ msg: 'success' })
      })
     }
   ], function(err) {
@@ -462,11 +462,47 @@ exports.reset = function(req, res){
           } else {
               console.log('Email sent: ' + info.response)
           }
-        req.flash('success', 'Success! Your password has been changed.')
-        done(err)
-      })
+          req.flash('success', 'Success! Your password has been changed.')
+          done(err)
+        })
+      res.json({ msg: 'success' })
     }
   ], function(err) {
     res.redirect('/')
   })
+}
+
+exports.resumeWorkOnCase = async function(req, res)
+{ 
+  if(investorAuthenticated)
+  {
+    if(!mongoValidator.isMongoId(req.params.caseId) )
+    return res.status(400).send({ err : "Invalid case id" });
+    
+    let myCase = await Case.findById(req.params.caseId)
+    
+    if(myCase === null)
+    return res.status(400).send({ err : "Invalid case id" });
+    
+    if(myCase.assignedReviewerId !== null)
+    return res.status(400).send({ err : "You are not the one required to update" });
+
+    if(toString(myCase.creatorInvestorId) !== toString(req.params.creatorInvestorId))
+    return res.status(400).send({ err : "This is not your case" });
+    
+    if(myCase.caseStatus!=="OnUpdate")
+    return res.status(400).send({err: "This case is not in the update state"})
+    
+    try
+    {
+      await Case.findByIdAndUpdate(req.params.caseId,{"caseStatus":"AssignedToLawyer"})
+      res.json(await Case.findById(req.params.caseId))
+    }
+    catch(error)
+    {
+      res.json({msg:"A fatal error has occured, could not update the case status."})
+    }
+  }
+  else
+  return res.status(403).send({error: "Forbidden." })
 }

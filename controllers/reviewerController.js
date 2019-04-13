@@ -155,7 +155,7 @@ exports.AcceptRejectForm = async function(req, res)
     {
        if(!mongoValidator.isMongoId(req.params.caseId) || await Case.findById(req.params.caseId)===null)
             return res.status(400).send({ err : "Invalid case id" })
-        if(req.params.caseStatus!=="OnUpdate" && req.params.caseStatus!=="WaitingForLawyer" && req.params.caseStatus!=="AssginedToLawyer" && req.params.caseStatus!=="WaitingForReviewer" && req.params.caseStatus!=="AssginedToReviewer" && req.params.caseStatus!=="Accepted" && req.params.caseStatus!="Rejected")
+        if(req.params.caseStatus!=="OnUpdate" && req.params.caseStatus!=="WaitingForLawyer" && req.params.caseStatus!=="AssignedToLawyer" && req.params.caseStatus!=="WaitingForReviewer" && req.params.caseStatus!=="AssignedToReviewer" && req.params.caseStatus!=="Accepted" && req.params.caseStatus!="Rejected")
             return res.status(400).send({err: "Invalid new status"})
         try
         {
@@ -234,9 +234,9 @@ exports.addCommentAsReviewer = async function(req,res){
     const checkReviewer = await Reviewer.find({ _id: req.params.reviewerID });
     const checkCase = await Case.find({ _id: req.params.caseID });
     if (checkReviewer.length === 0)
-      return res.status(404).send("Reviewer not Found");
+      return res.status(404).send({error:"Reviewer not Found"});
     if (checkCase.length === 0)
-      return res.status(404).send("Case not Found");
+      return res.status(404).send({error:"Case not Found"});
     if(reviewerAuthenticated){
       if(checkCase[0].assignedReviewerId+""!==req.params.reviewerID+"")
         return res.status(403).send({error: "Only assigned Reviewers to this Case can comment on it" });
@@ -267,7 +267,7 @@ exports.getMyCasesByDate = async function(req,res) {
   if(!mongoValidator.isMongoId(req.params.id))return res.status(400).send({ err : "Invalid reviewer id" });
   const reviewer = await Reviewer.findById(req.params.id);
   if(!reviewer) return res.status(400).send({ err : "Reviewer not found" });
-  res.json(await Case.find({"assignedReviewerId": req.params.id}).sort({caseCreationDate: 1}));
+  res.json(await Case.find({"assignedReviewerId": req.params.id}).sort({caseCreationDate: -1}));
 }
 
 exports.forgot = function(req, res, next) {
@@ -312,7 +312,7 @@ exports.forgot = function(req, res, next) {
         text: 'Hello '+ user.fullName+ ',\n\n' +
           'You are receiving this because you (or someone else) have requested the reset of the password for your account.\n\n' +
           'Please click on the following link, or paste this into your browser to complete the process:\n\n' +
-          'http://localhost:5000/api/reviewers/reset/' + token + '\n\n' +
+          'http://localhost:3000/reviewers/reset/' + token + '\n\n' +
           'If you did not request this, please ignore this email and your password will remain unchanged.\n\n' +
           'Do not share this link with anyone.\n'
       }
@@ -322,7 +322,7 @@ exports.forgot = function(req, res, next) {
         } else {
           console.log('Email sent: ' + info.response);
         }
-      
+        res.json({ msg: 'success' })
      })
     }
   ], function(err) {
@@ -374,11 +374,47 @@ exports.reset = function(req, res){
           } else {
               console.log('Email sent: ' + info.response)
           }
-        req.flash('success', 'Success! Your password has been changed.')
-        done(err)
-      })
+          req.flash('success', 'Success! Your password has been changed.')
+          done(err)
+        })
+      res.json({ msg: 'success' })
     }
   ], function(err) {
     res.redirect('/')
   })
+}
+
+exports.requestUpdate = async function(req, res)
+{ 
+  if(reviewerAuthenticated)
+  {
+    if(!mongoValidator.isMongoId(req.params.caseId) )
+    return res.status(400).send({ err : "Invalid case id" });
+    
+    let myCase = await Case.findById(req.params.caseId)
+    
+    if(myCase === null)
+    return res.status(400).send({ err : "Invalid case id" });
+    
+    if(myCase.assignedLawyerId === null)
+    return res.status(400).send({ err : "You are not the one required to update" });
+
+    if(toString(myCase.assignedReviewerId) !== toString(req.params.assignedReviewerId))
+    return res.status(400).send({ err : "This is not your case" });
+    
+    if(myCase.caseStatus==="OnUpdate")
+    return res.status(400).send({err: "This case is not updated yet"})
+    
+    try
+    {
+      await Case.findByIdAndUpdate(req.params.caseId,{"caseStatus":"OnUpdate"})
+      res.json(await Case.findById(req.params.caseId))
+    }
+    catch(error)
+    {
+      res.json({msg:"A fatal error has occured, could not update the case status."})
+    }
+  }
+  else
+  return res.status(403).send({error: "Forbidden." })
 }

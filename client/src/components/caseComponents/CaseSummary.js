@@ -1,9 +1,6 @@
 import React, { Component } from 'react'
 import axios from 'axios';
-import Managers from './Managers';
-import { Link } from 'react-router-dom';
-
-export default class Case extends Component {
+export default class CaseSummary extends Component {
   getStyle = () => {
     return{
         background: '#f4f4f4',
@@ -58,29 +55,14 @@ export default class Case extends Component {
     
     return (
       <div style={this.getStyle()}>
-        <h1>Case</h1>
-        <Link to={{pathname: "/addComment",state:{caseID: this.props.case._id}}}>Add Comment</Link>
-        <h2>companyNameArabic:{this.state.form.companyNameArabic}</h2>
-        <h2>companyNameEnglish:{this.state.form.companyNameEnglish}</h2>
-        <h3>caseCreationDate:{this.state.caseCreationDate}</h3>
-        <h3>assignedLawyerEmail:{this.state.assignedLawyerEmail}</h3>
-        <h3>assignedReviewerEmail:{this.state.assignedReviewerEmail}</h3>
-        <h3>CreatorInvestorEmail:{this.state.creatorInvestorEmail}</h3>
-        <h3>creatorLawyerEmail:{this.state.creatorLawyerEmail}</h3>
-        <h3>caseStatus:{this.state.caseStatus}</h3>
-        <h1>Form</h1>
-        <h3>companyType:{this.state.form.companyType}</h3>
-        <h3>capital:{this.state.form.capital}</h3>
-        <h3>currencyUsedForCapital:{this.state.form.currencyUsedForCapital}</h3>
-        <h3>fax:{this.state.form.fax}</h3>
-        <h3>headOfficeAddress:{this.state.form.headOfficeAddress}</h3>
-        <h3>headOfficeCity:{this.state.form.headOfficeCity}</h3>
-        <h3>headOfficeGovernorate:{this.state.form.headOfficeGovernorate}</h3>
-        <h3>legalFormOfCompany:{this.state.form.legalFormOfCompany}</h3>
-        <h3>phoneNumber:{this.state.form.phoneNumber}</h3>
-        <h3>regulatedLaw:{this.state.form.regulatedLaw}</h3>
-        <Managers managersArray={this.state.managers} />
-      
+        <h5>Case</h5>
+        <p>Arabic Name: {this.state.form.companyNameArabic}</p>
+        <p>English Name : {this.state.form.companyNameEnglish}</p>
+        <p>Creation Date: {this.state.caseCreationDate}</p>
+        <p>Status: {this.state.caseStatus}</p>
+        <h5>Form</h5>
+        <p>CompanyType: {this.state.form.companyType}</p>
+        <p>PhoneNumber: {this.state.form.phoneNumber}</p>
        </div>
      
     )

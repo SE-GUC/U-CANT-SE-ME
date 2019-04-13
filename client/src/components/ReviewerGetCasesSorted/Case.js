@@ -1,8 +1,6 @@
 import React, { Component } from 'react'
 import axios from 'axios';
 import Managers from './Managers';
-import { Link } from 'react-router-dom';
-
 export default class Case extends Component {
   getStyle = () => {
     return{
@@ -59,7 +57,6 @@ export default class Case extends Component {
     return (
       <div style={this.getStyle()}>
         <h1>Case</h1>
-        <Link to={{pathname: "/addComment",state:{caseID: this.props.case._id}}}>Add Comment</Link>
         <h2>companyNameArabic:{this.state.form.companyNameArabic}</h2>
         <h2>companyNameEnglish:{this.state.form.companyNameEnglish}</h2>
         <h3>caseCreationDate:{this.state.caseCreationDate}</h3>

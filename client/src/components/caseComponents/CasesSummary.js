@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
-import Case from './Case';
 import axios from 'axios';
+import CaseSummary from './CaseSummary';
 
- class Cases extends Component {
+ class CasesSummary extends Component {
     state ={
         cases :[]
     };
@@ -10,17 +10,14 @@ import axios from 'axios';
 
         const getCases = await axios.get("http://localhost:5000/api/cases");
         this.setState({cases: getCases.data.data});
-    
-        // my comments to understand arrayOfCases 
-        // getCases.data.data[0]  the first case in the array 
     };
     render() {
         return (this.state.cases.map((x) => (
-       <Case key={x._id} case={x} />
+       <CaseSummary id ={x._id}key={x._id} case={x} />
         ))
         )
       }
 };
 
-export default Cases
+export default CasesSummary
 
