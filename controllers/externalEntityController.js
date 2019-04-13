@@ -86,3 +86,14 @@ exports.deleteExternalEntity = async function(req, res) {
     res.json({msg: "An error has occured"});
   }
 };
+exports.notifyEntities=async function(caseId,caseType){
+  const externalEntities = await ExternalEntity.find();
+  const url='http://localhost:5000/api/externalEntities/pdf/'+caseId;
+  const body={url:url};
+  for(let i=0;i<externalEntities.length;i++)
+  {
+    let entity=externalEntities[i];
+    let postURL = entity.socket;
+    await axios.post(postURL,body);
+  }
+}
