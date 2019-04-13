@@ -342,7 +342,7 @@ exports.forgot = function(req, res, next) {
         text: 'Hello '+ user.fullName+ ',\n\n' +
           'You are receiving this because you (or someone else) have requested the reset of the password for your account.\n\n' +
           'Please click on the following link, or paste this into your browser to complete the process:\n\n' +
-          'http://localhost:5000/api/lawyers/reset/' + token + '\n\n' +
+          'http://localhost:3000/lawyers/reset/' + token + '\n\n' +
           'If you did not request this, please ignore this email and your password will remain unchanged.\n\n' +
           'Do not share this link with anyone.\n'
       }
@@ -352,7 +352,7 @@ exports.forgot = function(req, res, next) {
         } else {
           console.log('Email sent: ' + info.response);
         }
-      
+        res.json({ msg: 'success' })
      })
     }
   ], function(err) {
@@ -405,9 +405,10 @@ exports.reset = function(req, res){
           } else {
               console.log('Email sent: ' + info.response)
           }
-        req.flash('success', 'Success! Your password has been changed.')
-        done(err)
-      })
+          req.flash('success', 'Success! Your password has been changed.')
+          done(err)
+        })
+      res.json({ msg: 'success' })
     }
   ], function(err) {
     res.redirect('/')

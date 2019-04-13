@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@material-ui/core": "^3.9.3",
     "mdbreact": "^4.12.0",
     "moment": "^2.24.0",
     "react": "^16.8.6",
@@ -11,7 +12,9 @@
     "react-scripts": "^2.1.8",
     "react-stepper-horizontal": "^1.0.11",
     "react-stripe-elements": "^2.0.3",
-    "react-widgets": "^4.4.10"
+    "react-widgets": "^4.4.10",
+    "semantic-ui-css": "^2.4.1",
+    "semantic-ui-react": "^0.86.0"
   },
   "scripts": {
     "start": "react-scripts start",
