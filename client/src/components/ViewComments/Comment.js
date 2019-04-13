@@ -17,7 +17,7 @@ export class Comment extends Component {
               margin: 10,
           },
           orangeAvatar: {
-            margin: 10,
+            margin: 'auto',
             color: '#fff',
             backgroundColor: deepOrange[500],
             },
