@@ -67,7 +67,7 @@ async function verfiyReferentialIntegrity(req) {
 //Create a case
 exports.createCase = async function(req, res) {
   try {
-    const { error } = validator.createValidation(req.body);
+    const { error } = await validator.createValidation(req.body);
     if (error) return res.status(400).send(error.details[0].message);
 
     var check = await verfiyReferentialIntegrity(req.body);
@@ -89,7 +89,7 @@ exports.deleteCase = async function(req, res) {
   const neededCase = await Case.findByIdAndRemove(caseID);
   if (!neededCase)
     return res.status(404).send({ err: "Case entered not found" });
-  res.send({ msg: "Case was deleted successfully", data: deletedCase });
+  res.send({ msg: "Case was deleted successfully", data: neededCase });
 };
 
 //update

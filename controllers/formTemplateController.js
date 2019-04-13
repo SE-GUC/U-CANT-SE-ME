@@ -94,7 +94,8 @@ function validateField(fieldValue, field) {
   let fieldType = field.fieldType,
     fieldSchema = {},
     minVal,
-    maxVal;
+    maxVal,
+    found = false;
   switch (fieldType) {
     case "TEXT":
       minVal = field.minVal ? field.minVal : 1;
@@ -120,7 +121,9 @@ function validateField(fieldValue, field) {
       fieldSchema = {
         field: Joi.string()
           .trim()
-          .regex(/^[0-9]{minVal,maxVal}$/)
+          .regex(/^\d+$/)
+          .min(minVal)
+          .max(maxVal)
       };
       break;
     case "DATE":
@@ -137,7 +140,6 @@ function validateField(fieldValue, field) {
       break;
     case "GOVERNATE":
       let governoratesData = require("../data/governorates.json");
-      let found = false;
       for (let i = 0; i < governoratesData.length && !found; i++) {
         found |= governoratesData[i].nameInEnglish === fieldValue;
         found |= governoratesData[i].nameInArabic === fieldValue;
@@ -153,7 +155,6 @@ function validateField(fieldValue, field) {
       return { success: "Form is valid!" };
     case "CITY":
       let citiesData = require("../data/cities.json");
-      let found = false;
       for (let i = 0; i < citiesData.length && !found; i++) {
         found |= citiesData[i].nameInEnglish === fieldValue;
         found |= citiesData[i].nameInArabic === fieldValue;
@@ -167,9 +168,8 @@ function validateField(fieldValue, field) {
       return { success: "Form is valid!" };
     case "CURRENCY":
       let currenciesData = require("../data/currencies.json");
-      let found = false;
       for (let i = 0; i < currenciesData.length && !found; i++)
-        found |= currenciesData[i].code === fieldValue;
+        found |= currenciesData[i].cc === fieldValue;
       if (!found)
         return {
           error: {
@@ -185,10 +185,15 @@ function validateField(fieldValue, field) {
       };
       break;
   }
-  return Joi.validate({ field: fieldValue }, fieldSchema);
+
+  const validation = Joi.validate({ field: fieldValue }, fieldSchema);
+  if (validation.error)
+    validation.error.details[0].message =
+      field.fieldName + " " + validation.error.details[0].message;
+  return validation;
 }
 
-exports.validateForm = (form, formTemplate) => {
+exports.validateForm = async (form, formTemplate) => {
   const fields = formTemplate.fields;
   for (let i = 0; i < fields.length; i++) {
     const field = fields[i];
@@ -196,14 +201,15 @@ exports.validateForm = (form, formTemplate) => {
       let validation = validateField(form[field.fieldName], field);
       if (validation.error) return validation;
       if (field.isUnique) {
-        let fieldNameInCase = "form." + field.fieldName;
-        const instance = Case.find({ fieldNameInCase: form[field.fieldName] });
+        let condition = {};
+        condition["form." + field.fieldName] = form[field.fieldName];
+        const instance = await Case.findOne(condition);
         if (instance)
           return {
             error: {
               details: [
                 {
-                  message: `${field.fieldValue} inside the ${
+                  message: `\"${form[field.fieldName]}\" inside the ${
                     field.fieldName
                   } field already exist!`
                 }

@@ -4,12 +4,16 @@ const FormTemplate = require("../models/FormTemplate");
 const formTemplateController = require("../controllers/formTemplateController");
 
 module.exports = {
-  formCreateValidation: (newCase, formTemplate) => {
-    let validation = formTemplateController.validateForm(
-      newCase.form,
-      formTemplate
-    );
-    if (validation.error) return validation;
+  formCreateValidation: async (newCase, formTemplate) => {
+    try {
+      let validation = await formTemplateController.validateForm(
+        newCase.form,
+        formTemplate
+      );
+      if (validation.error) return validation;
+    } catch (error) {
+      return { error : error };
+    }
 
     if (formTemplate.hasManagers) {
       let minVal = formTemplate.managersMinNumber
@@ -31,7 +35,7 @@ module.exports = {
           }
         };
     } else {
-      if (newCase.managers.length > 0)
+      if (newCase.managers && newCase.managers.length > 0)
         return {
           error: {
             details: [
@@ -48,7 +52,7 @@ module.exports = {
         formTemplate.rulesFunction
       )();
       const valid = rulesFunction(
-        Investor.findById(newCase.creatorInvestorId),
+        await Investor.findById(newCase.creatorInvestorId),
         newCase.form,
         newCase.managers
       );
@@ -116,17 +120,15 @@ module.exports = {
     return validation;
   },
 
-  createValidation: request => {
+  createValidation: async request => {
     const caseCreateSchema = {
       caseStatus: Joi.string()
         .valid(["WaitingForLawyer", "WaitingForReviewer"])
         .required(),
       creatorInvestorId: Joi.required(),
       creatorLawyerId: Joi,
-      assignedLawyerId: Joi,
-      assignedReviewerId: Joi,
-      companyType: Joi,
-      form: Joi,
+      companyType: Joi.required(),
+      form: Joi.required(),
       managers: Joi
     };
 
@@ -138,7 +140,9 @@ module.exports = {
     validation = module.exports.managersCreateValidation(request.managers);
     if (validation && validation.error) return validation;
 
-    const formTemplate = FormTemplate.find({ formName: request.companyType });
+    const formTemplate = await FormTemplate.findOne({
+      formName: request.companyType
+    });
 
     if (!formTemplate)
       return {
@@ -150,9 +154,12 @@ module.exports = {
           ]
         }
       };
-      
+
     //Validate Case data related to the Form
-    validation = module.exports.formCreateValidation(request, formTemplate);
+    validation = await module.exports.formCreateValidation(
+      request,
+      formTemplate
+    );
     return validation;
   },
 
