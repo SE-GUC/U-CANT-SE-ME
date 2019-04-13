@@ -7,6 +7,7 @@ const ExternalEntity = require("../models/ExternalEntity");
 const validator = require('../validations/externalEntityValidations');
 const Investor = require("../models/Investor");
 const Case = require("../models/Case");
+const mongoValidator = require("validator")
 // GET
 exports.getAllExternalEntities = async function(req, res) {
   const externalEntities = await ExternalEntity.find();
@@ -93,7 +94,12 @@ exports.deleteExternalEntity = async function(req, res) {
 exports.generateSPCPdf = async function(req,res){
  
   const caseId=req.params.id;
-  const html=await getHTMLForSPc(caseId);
+  if (!mongoValidator.isMongoId(caseId))
+    return res.status(400).send({ err: "Invalid Case Id" });
+  const cas=await Case.findById(caseId);
+  if (!cas)
+    return res.status(400).send({ err: "Case entered not found" });
+  const html=await getHTMLForSPC(cas);
   const fileName='decision'+caseId+'.pdf';
   pdf.create(html, {}).toFile(fileName, (err,response) => {
   if(err) {
@@ -108,12 +114,16 @@ exports.generateSPCPdf = async function(req,res){
 exports.viewSPCHtml=async function(req,res){
  
   const caseId=req.params.id;
-  const html=await getHTMLForSPc(caseId);
+  if (!mongoValidator.isMongoId(caseId))
+    return res.status(400).send({ err: "Invalid Case Id" });
+  const cas=await Case.findById(caseId);
+  if (!cas)
+    return res.status(400).send({ err: "Case entered not found" });
+  const html=await getHTMLForSPC(cas);
   res.send(html);
   
 };
-getHTMLForSPc = async function(caseId){
-  const cas=await Case.findById(caseId);
+getHTMLForSPC = async function(cas){
   const regulatedLaw=cas.form.regulatedLaw;
   const companyNameArabic=cas.form.companyNameArabic;
   const creatorInvestorId=cas.creatorInvestorId;
