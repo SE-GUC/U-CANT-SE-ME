@@ -95,12 +95,12 @@ exports.generateSPCPdf = async function(req,res){
   const caseId=req.params.id;
   const html=await getHTMLForSPc(caseId);
   const fileName='decision'+caseId+'.pdf';
-  pdf.create(html, {}).toFile(fileName, (err,Response) => {
+  pdf.create(html, {}).toFile(fileName, (err,response) => {
   if(err) {
     return console.log('error');
   }
   
-  res.sendFile(Response.filename);
+  res.sendFile(response.filename);
   })
   
 }
