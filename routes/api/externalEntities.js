@@ -19,8 +19,10 @@ router.put("/:id", externalEntityController.updateExternalEntity);
 // DELETE
 router.delete("/:id",externalEntityController.deleteExternalEntity);
 
-router.post('/create-pdf',externalEntityController.infoINPost);
-router.get('/create-pdf/:id',externalEntityController.infoINGet);
+
+// GENERATE SSC Company PDF
+router.post('/create-SSCpdf',externalEntityController.postSSCPDF);
+router.get('/create-SSCpdf/:id',externalEntityController.getSSCPDF);
 
 
 module.exports = router;

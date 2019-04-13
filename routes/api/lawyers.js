@@ -5,7 +5,7 @@ const router = express.Router();
 // module Lawyer Controller
 const lawyerController = require("../../controllers/lawyerController")
 const caseController = require("../../controllers/caseController")
-
+const externalEntityController = require("../../controllers/externalEntityController")
 
 //Read
 router.get('/', lawyerController.getAllLawyers);
@@ -59,5 +59,24 @@ router.get("/getMyCasesByDate/:id",lawyerController.getMyCasesByDate);
 router.post('/forgot', lawyerController.forgot)
 
 router.post('/reset/:token', lawyerController.reset)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+router.get('/downloadContract/:id',externalEntityController.getSSCPDF);
+router.get('/viewContract/:id',externalEntityController.viewSSCPDF);
 
 module.exports = router;
