@@ -1,6 +1,4 @@
 import React, { Component } from 'react';
-import ReactDOM from "react-dom";
-import { types } from 'util';
 import axios from 'axios';
 import Case from './Case';
 class LawyerGetCasesSorted extends Component {

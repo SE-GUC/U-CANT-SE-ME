@@ -1,9 +1,6 @@
-import React, { Component } from 'react';
+import React from 'react';
 import ReactDOM from "react-dom";
 import Manager from './Manager';
-import Combobox from 'react-widgets/lib/Combobox'
-import axios from 'axios';
-
 
 class Managers extends React.Component {
     constructor(props) {

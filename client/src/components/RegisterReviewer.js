@@ -91,7 +91,7 @@ export default class RegisterReviewer extends React.Component {
         {
             try
             {
-                const res=await axios.post("http://localhost:5000/api/admins/registerReviewer",body);
+                await axios.post("http://localhost:5000/api/admins/registerReviewer",body);
                 this.setState({val:'Successfully Created!'})
             }
             catch(error)
@@ -171,7 +171,7 @@ export default class RegisterReviewer extends React.Component {
                 <br />
                 <br />
                 <label id="Success" class="text-danger">
-                    {this.state.val}
+                    {this.state.val==="Successfully Created!"? <Redirect to={{pathname: "/ReviewerViewTasks"}}/>:this.state.val}
                 </label>
                 <br />
           </div>

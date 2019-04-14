@@ -22,7 +22,7 @@ export default class ReviewerViewCase extends Component {
     
     async handelClick (index) {
         const id =this.state.reviwerID;
-        const res = await axios.get(`http://localhost:5000/api/reviewers/assigncase/${id}/${index}`);
+        await axios.get(`http://localhost:5000/api/reviewers/assigncase/${id}/${index}`);
         // console.log(res.data)
         alert("You Have Taken This Case")
         window.location.reload()

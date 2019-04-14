@@ -91,7 +91,7 @@ export default class RegisterLawyer extends React.Component {
         {
             try
             {
-                const res=await axios.post("http://localhost:5000/api/admins/registerLawyer",body);
+                await axios.post("http://localhost:5000/api/admins/registerLawyer",body);
                 this.setState({val:'Successfully Created!'})
             }
             catch

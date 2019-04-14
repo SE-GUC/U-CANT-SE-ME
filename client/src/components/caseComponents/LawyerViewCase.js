@@ -22,7 +22,7 @@ export default class LawyerViewCase extends Component {
     
     async handelClick (index) {
         const id =this.state.lawyerID;
-        const res = await axios.get(`http://localhost:5000/api/lawyers/assigncase/${id}/${index}`);
+        await axios.get(`http://localhost:5000/api/lawyers/assigncase/${id}/${index}`);
         // console.log(res.data)
         alert("You Have Taken This Case")
         window.location.reload()

@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { Link } from 'react-router-dom';
 import axios from "axios";
 // import { Button, FormGroup, FormControl } from "react-bootstrap";
 export default class Login extends Component {
@@ -101,8 +102,8 @@ export default class Login extends Component {
       <br/>
       <button className="btn btn-primary" onClick={this.handleSubmit}>Login</button>
      <div className="dropdown-divider"></div>
-  <a className="dropdown-item" href="#">New around here? Sign up</a>
-  <a className="dropdown-item" href="#">Forgot password?</a>
+     <Link to={{pathname: "/Home"}} className="dropdown-item">New around here? Sign up</Link>
+     <Link to={{pathname: "/Home"}} className="dropdown-item">Forgot password?</Link>
      </div>
     );
   }
