@@ -37,6 +37,7 @@ import InvestorUpdateCase from './components/InvestorUpdateCase';
 import ReviewerViewTasks from './components/caseComponents/ReviewerViewTasks';
 import LawyerViewTasks from './components/caseComponents/LawyerViewTasks';
 import updateInvestorProfile from './components/updateInvestorProfile';
+import CreateFormTemplate from './CreateFormTemplate/CreateFormTemplate';
 class App extends Component {
   render() {
     return (
@@ -100,6 +101,7 @@ class App extends Component {
         <Route path="/LawyerViewTasks" component={LawyerViewTasks}/>
 
         <Route path="/updateInvestorProfile" component={updateInvestorProfile}/>
+        <Route path="/createFormTemplate" component={CreateFormTemplate}/>
         </div>
       </Router>
     );

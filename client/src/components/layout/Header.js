@@ -43,6 +43,7 @@ function Header() {
     |  <Link style={linkStyle} to="/ReviewerViewTasks">ReviewerViewTasks</Link>
     |  <Link style={linkStyle} to="/LawyerViewTasks">LawyerViewTasks</Link>
     |  <Link style={linkStyle} to="/updateInvestorProfile">updateInvestorProfile</Link>
+    |  <Link style={linkStyle} to="/CreateFormTemplate">CreateFormTemplate</Link>
     </header>
   )
 }
