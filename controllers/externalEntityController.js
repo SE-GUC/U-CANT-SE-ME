@@ -1,10 +1,13 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const router = express.Router();
-
+const axios=require('axios');
+const pdf=require('html-pdf');
 const ExternalEntity = require("../models/ExternalEntity");
 const validator = require('../validations/externalEntityValidations');
-
+const Investor = require("../models/Investor");
+const Case = require("../models/Case");
+const mongoValidator = require("validator")
 // GET
 exports.getAllExternalEntities = async function(req, res) {
   const externalEntities = await ExternalEntity.find();
@@ -86,6 +89,7 @@ exports.deleteExternalEntity = async function(req, res) {
     res.json({msg: "An error has occured"});
   }
 };
+
 exports.notifyEntities=async function(caseId,caseType){
   const externalEntities = await ExternalEntity.find();
   const suffix=caseType==='SPC'?'pdf':'create-SSCpdf';
@@ -98,3 +102,95 @@ exports.notifyEntities=async function(caseId,caseType){
     await axios.post(postURL,body);
   }
 }
+
+
+
+exports.generateSPCPdf = async function(req,res){
+ 
+  const caseId=req.params.id;
+  if (!mongoValidator.isMongoId(caseId))
+    return res.status(400).send({ err: "Invalid Case Id" });
+  const cas=await Case.findById(caseId);
+  if (!cas)
+    return res.status(400).send({ err: "Case entered not found" });
+  const html=await getHTMLForSPC(cas);
+  const fileName='decision'+caseId+'.pdf';
+  pdf.create(html, {}).toFile(fileName, (err,response) => {
+  if(err) {
+    return console.log('error');
+  }
+  
+  res.sendFile(response.filename);
+  })
+  
+}
+
+exports.viewSPCHtml=async function(req,res){
+ 
+  const caseId=req.params.id;
+  if (!mongoValidator.isMongoId(caseId))
+    return res.status(400).send({ err: "Invalid Case Id" });
+  const cas=await Case.findById(caseId);
+  if (!cas)
+    return res.status(400).send({ err: "Case entered not found" });
+  const html=await getHTMLForSPC(cas);
+  res.send(html);
+  
+};
+getHTMLForSPC = async function(cas){
+  const regulatedLaw=cas.form.regulatedLaw;
+  const companyNameArabic=cas.form.companyNameArabic;
+  const creatorInvestorId=cas.creatorInvestorId;
+  const investor=await Investor.findById(creatorInvestorId);
+  const investorName=investor.fullName;
+  const nationality=investor.nationality;
+  const capital=cas.form.capital;
+  const currency=cas.form.currencyUsedForCapital;
+  
+  const html=toSPCHTML({investorName:investorName,companyNameArabic:companyNameArabic,nationality:nationality
+  ,capital:capital,currency:currency});
+  return html;
+}
+
+toSPCHTML = function(data){
+    
+  return `
+  <!doctype html>
+  <html>
+  <div>
+    <h3>122:رقم
+    <h3> التاريخ
+    <h1> السید الأستاذ / مدیر مكتب سجل تجارى الاستثمار
+    <h1> تحیة طیبة ،،،،،،
+    <h1> hey:${data.investorName}</h1>
+    <p>
+    یرجى التكرم بالإحاطة بأن قانون الاستثمار الصادر بالقانون رقم ٧٢ لسنة ٢٠١٧ ولائحتة التنفیذیة
+    قد سمحا بوجود المنشأة الفردیة كأحد الأشكال القانونیة التي یمكن أن تزاول الأغراض المنصوص علیھا فى قانون
+    الاستثمار ولائحتھ التنفیذیة.
+    </p>
+    علما بأن بیاناتھا الرئیسیة على النحو التالى :-
+    
+    اسم المنشأة :${data.companyNameArabic} لصاحبھا : ${data.investorName}
+    اسم صاحب المنشأة : ${data.investorName} (جنسیتھ : ${data.nationality}
+     ${data.capital}:رأس المال
+     مع مراعاة أحكام القوانین واللوائح والقرارات الساریة وعلى المنشأة الحصول على كافة التراخیص اللازمة
+     لمباشرة نشاطھا .
+     المركز الرئیسي : ٢٦٠ شارع جسر السویس - القاھره
+     وحیث أن الھیئة العامة للاستثمار والمناطق الحرة قد وافقت على إقامة المنشأة الفردیة الموضح بیاناتھا أعلاه
+     بالنظر لأن غرضھا یندرج ضمن الأغراض المحددة فى قانون الاستثمار ولائحتھ التنفیذیة، لذلك یرجى التفضل بقید المنشأة الفردیة
+     المشار إلیھا فى السجل التجاري طرف مكتبكم الموقر ، كما نرجو من سیادتكم موافاتنا بما یفید قیدھا فى السجل
+     التجارى طرف مكتبكم .
+     یلتزم صاحب المنشاة بتقدیم سند حیازة المكان الذى ستزاول فیھ المنشأة نشاطھا خلال عام من تاریخ القید فى السجل التجارى , و فى حالة عدم الالتزام جاز للھیئة
+     اتخاذ إجراءات محو قید المنشأة من السجل التجارى.
+     لا ینشىء ھذا الكتاب أي حق للمنشأة في مزاولة غرضھا إلا بعد الحصول على التراخیص اللازمة لمزاولة غرضھا من الجھات المختصة .
+     ینشر ھذا الخطاب فى صحیفة الاستثمار
+     ،،،،،،، وتفضلوا بقبول فائق الاحترام 
+     مدیر عام
+     الإدارة العامة للعقود و قرارات التأسیس
+     دالیا نبیل
+    </div>
+    </html>
+    `;
+};
+
+
