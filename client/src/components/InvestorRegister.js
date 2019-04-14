@@ -180,8 +180,8 @@ export default class InvestorRegister extends React.Component {
                         />
                     </FormControl>
                     <br />
-                    {this.state.fullNameError}<br/>
-                    <br />
+                    <label id="Error" class="text-danger"> {this.state.fullNameError}</label>
+                    <br/> 
                     <FormControl>    
                         <InputLabel>Email</InputLabel>
                         <Input
@@ -190,8 +190,8 @@ export default class InvestorRegister extends React.Component {
                         />
                     </FormControl>
                     <br />
-                    {this.state.emailError}<br/>
-                    <br />
+                    <label id="Error" class="text-danger"> {this.state.emailError}</label>
+                    <br/> 
                     <FormControl>    
                         <InputLabel htmlFor="adornment-password">Password</InputLabel>
                             <Input
@@ -200,8 +200,8 @@ export default class InvestorRegister extends React.Component {
                             />
                     </FormControl>
                     <br />
-                    {this.state.passwordError}<br/>
-                    <br />
+                    <label id="Error" class="text-danger"> {this.state.passwordError}</label>
+                    <br/> 
                     Type:   <select id="type">
                                 <option value="fullTimeInvestor">Full Time Investor</option>
                             </select><br/>
@@ -217,7 +217,8 @@ export default class InvestorRegister extends React.Component {
                             />
                     </FormControl>
                     <br />
-                    {this.state.nationalityError}<br/>
+                    <label id="Error" class="text-danger"> {this.state.nationalityError}</label>
+                    <br/> 
                     Method Of Identification:   <select id="methodOfIdentification">
                                                     <option value="Passport">Passport</option>
                                                     <option value="National ID">National ID</option>
@@ -231,11 +232,11 @@ export default class InvestorRegister extends React.Component {
                             />
                     </FormControl>
                     <br />
-                    {this.state.identificationNumberError}<br/>
-                    <br />
+                    <label id="Error" class="text-danger"> {this.state.identificationNumberError}</label>
+                    <br/> 
                     Date Of Birth: <input type="date" name="dateOfBirth"/><br/>
-                    {this.state.dateOfBirthError}<br/>
-            
+                    <label id="Error" class="text-danger"> {this.state.dateOfBirthError}</label>
+                    <br/>             
                     <FormControl>    
                         <InputLabel>Residence Address</InputLabel>
                             <Input
@@ -244,7 +245,8 @@ export default class InvestorRegister extends React.Component {
                             />
                     </FormControl>
                     <br />
-                    {this.state.residenceAddressError}<br/>
+                    <label id="Error" class="text-danger"> {this.state.residenceAddressError}</label>
+                    <br/>
                     <FormControl>    
                         <InputLabel>Telephone Number</InputLabel>
                             <Input
@@ -253,7 +255,8 @@ export default class InvestorRegister extends React.Component {
                             />
                     </FormControl>
                     <br />
-                    {this.state.telephoneNumberError}<br/> 
+                    <label id="Error" class="text-danger"> {this.state.telephoneNumberError}</label>
+                    <br/> 
                     <FormControl>    
                         <InputLabel>Fax</InputLabel>
                             <Input
@@ -262,7 +265,8 @@ export default class InvestorRegister extends React.Component {
                             />
                     </FormControl>
                     <br />
-                    {this.state.faxError}<br/> 
+                    <label id="Error" class="text-danger"> {this.state.faxError}</label>
+                    <br/> 
                 </form>
                 <br />
                 <Button variant="outlined" color="primary" onClick={this.submit}>
