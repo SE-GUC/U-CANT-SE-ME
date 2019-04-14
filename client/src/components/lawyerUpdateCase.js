@@ -1,5 +1,10 @@
 import React from 'react'
 import axios from 'axios';
+import Button from '@material-ui/core/Button'
+import Input from '@material-ui/core/Input'
+import InputLabel from '@material-ui/core/InputLabel'
+import FormControl from '@material-ui/core/FormControl'
+
 const Joi = require("joi");
 const mongoValidator = require("validator");
 export default class lawyerUpdateCase extends React.Component {
@@ -177,11 +182,13 @@ export default class lawyerUpdateCase extends React.Component {
         {
             try
             {
+              console.log('body', body)
               await axios.put(`http://localhost:5000/api/lawyers/update/${lawyerID}/${caseID}`,body)
               this.setState({val:'Successfully updated'})
             }
-            catch
+            catch (error)
             {
+              console.log('error', error)
               this.setState({companyNameArabicR: 'make sure arabic company name is unique'})
               this.setState({companyNameEnglishR: 'make sure english company name is unique'})
               this.setState({val:'make sure that you are the creator of this case,the case is in update status and these IDs exsist'})
@@ -195,54 +202,156 @@ export default class lawyerUpdateCase extends React.Component {
       }
 
     render() {
+      const styles = {
+        label: {
+          width: "30%",
+          minWidth:"200px",
+          margin:"auto"
+        }
+      }
         return (
           <div>
               <br/>
-              <h2>Update Case</h2>
+              <h2 class="text-center text-info">Update Case</h2>
             <form id="lawyerUpdate">
             {this.state.err}
-            Company type: <select className="form-control" name="companyType"  >
-          <option value="">Choose type</option>
-          <option value="SPC">SPC</option>
-          <option value="SSC">SSC</option>
-        </select>
+            Company type 
+            <br />
+            <select className="form-control" name="companyType" style={styles.label} >
+              <option value="">Choose type</option>
+              <option value="SPC">SPC</option>
+              <option value="SSC">SSC</option>
+            </select>
           <br/>
-          Regulated law: <input type="text" name="regulatedLaw"/><br/>
-          {this.state.regulatedLawR}<br/>
+          <FormControl>    
+            <InputLabel>Regulated Law</InputLabel>
+            <Input
+                type='text'
+                name="regulatedLaw"
+                multiline
+                />
+          </FormControl>
+          <br />
+          {this.state.regulatedLawR}
           <br/>
-          Legal form of company: <input type="text" name="legalFormOfCompany"/><br/>
-          {this.state.legalFormOfCompanyR}<br/>
+          <FormControl>    
+            <InputLabel>Legal Form Of Company</InputLabel>
+            <Input
+                type='text'
+                name="legalFormOfCompany"
+                multiline
+            />
+          </FormControl>
+          <br />
+          {this.state.legalFormOfCompanyR}
           <br/>
-          Company name in arabic: <input type="text" name="companyNameArabic"/><br/>
-          {this.state.companyNameArabicR}<br/>
+          <FormControl>    
+            <InputLabel>Arabic Company Name</InputLabel>
+            <Input
+                type='text'
+                name="companyNameArabic"
+                multiline
+            />
+          </FormControl>
+          <br />
+          <label id="Error" class="text-danger">{this.state.companyNameArabicR}</label>
           <br/>
-          Company name in english: <input type="text" name="companyNameEnglish"/><br/>
-          {this.state.companyNameEnglishR}<br/>
+          <FormControl>    
+            <InputLabel>English Company Name</InputLabel>
+            <Input
+                type='text'
+                name="companyNameEnglish"
+                multiline
+            />
+          </FormControl>
+          <br />
+          <label id="Error" class="text-danger">{this.state.companyNameEnglishR}</label>
           <br/>
-          head office governorate: <input type="text" name="headOfficeGovernorate"/><br/>
-          {this.state.companyNameEnglishR}<br/>
+          <FormControl>    
+            <InputLabel>Head Office Governorate</InputLabel>
+            <Input
+                type='text'
+                name="headOfficeGovernorate"
+                multiline
+            />
+          </FormControl>
+          <br />
+          <label id="Error" class="text-danger">{this.state.headOfficeGovernorateR}</label>
           <br/>
-          head office city: <input type="text" name="headOfficeCity"/><br/>
-          {this.state.headOfficeGovernorateR}<br/>
+          <FormControl>    
+            <InputLabel>Head Office City</InputLabel>
+            <Input
+                type='text'
+                name="headOfficeCity"
+                multiline
+            />
+          </FormControl>
+          <br />
+          <label id="Error" class="text-danger">{this.state.headOfficeCityR}</label>
           <br/>
-          head office address: <input type="text" name="headOfficeAddress"/><br/>
-          {this.state.headOfficeAddressR}<br/>
+          <FormControl>    
+            <InputLabel>Head Office Address</InputLabel>
+            <Input
+                type='text'
+                name="headOfficeAddress"
+                multiline
+            />
+          </FormControl>
+          <br />
+          <label id="Error" class="text-danger">{this.state.headOfficeAddressR}</label>
           <br/>
-          phone number: <input type="text" name="phoneNumber"/><br/>
-          {this.state.phoneNumberR}<br/>
+          <FormControl>    
+            <InputLabel>Phone Number</InputLabel>
+            <Input
+                type='text'
+                name="phoneNumber"
+                multiline
+            />
+          </FormControl>
+          <br />
+          <label id="Error" class="text-danger">{this.state.phoneNumberR}</label>
           <br/>
-          fax: <input type="text" name="fax"/><br/>
-          {this.state.faxR}<br/>
+          <FormControl>    
+            <InputLabel>Fax Number</InputLabel>
+            <Input
+                type='text'
+                name="fax"
+                multiline
+            />
+          </FormControl>
+          <br />
+          <label id="Error" class="text-danger">{this.state.faxR}</label>
           <br/>
-          currency used for capital: <input type="text" name="currencyUsedForCapital"/><br/>
-          {this.state.currencyUsedForCapitalR}<br/>
+          <FormControl>    
+            <InputLabel>Currency</InputLabel>
+            <Input
+                type='text'
+                name="currencyUsedForCapital"
+                multiline
+            />
+          </FormControl>
+          <br />
+          <label id="Error" class="text-danger">{this.state.currencyUsedForCapitalR}</label>
           <br/>
-          capital: <input type="text" name="capital"/><br/>
-          {this.state.capitalR}<br/>
+          <FormControl>    
+            <InputLabel>Capital</InputLabel>
+            <Input
+                type='text'
+                name="capital"
+                multiline
+            />
+          </FormControl>
+          <br />
+          <label id="Error" class="text-danger">{this.state.capitalR}</label>
+          <br/>
           <br/>
                 </form>
-                <button onClick={this.submit}>submit</button><br/>
-                {this.state.val}
+                <Button variant="outlined" color="primary" onClick={this.submit}>
+                  Submit
+                </Button>
+                {/* <button onClick={this.submit}>submit</button><br/> */}
+                <br />
+                <br />
                 
           </div>
         );

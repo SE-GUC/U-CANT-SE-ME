@@ -9,7 +9,7 @@ import InputLabel from '@material-ui/core/InputLabel'
 import IconButton from '@material-ui/core/IconButton'
 import InputAdornment from '@material-ui/core/InputAdornment'
 import FormControl from '@material-ui/core/FormControl'
-// import { Button, FormGroup, FormControl } from "react-bootstrap";
+
 export default class Login extends Component {
   constructor(props) {
     super(props);
@@ -43,7 +43,6 @@ export default class Login extends Component {
         res = await axios.post("http://localhost:5000/api/lawyers/login", body);
       else{
         document.getElementById("Error_Type").style.display = "inline";
-        // return alert("Select Account Type");
       }
       document.getElementById("Error").style.display = "none";
       document.getElementById("Error_Type").style.display = "none";
@@ -55,8 +54,6 @@ export default class Login extends Component {
         this.setState({
           id: res.data.data._id
         });
-      console.log(this.state);
-      // alert("Welcome! You have logged in!");
     } catch (error) {
       if(error.message === 'You Have To Select an Account Type'){
         document.getElementById('Error_Type').style.display = 'inline'
@@ -66,9 +63,6 @@ export default class Login extends Component {
         document.getElementById('Error_Type').style.display = 'none'
         document.getElementById('Error').style.display = 'inline'
       }
-      // document.getElementById("Error").style.display = "inline";
-      // document.getElementById("Error_Type").style.display = "none";
-      // alert("Worng Email or Password");
     }
   };
   handleChange = event => {
@@ -81,8 +75,6 @@ export default class Login extends Component {
     const styles = {
       content: {
         display: "none"
-        // color: "red",
-        // fontWeight: "bold"
       },
       label: {
         width: "30%",
