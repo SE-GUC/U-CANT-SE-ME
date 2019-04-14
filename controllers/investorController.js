@@ -62,55 +62,55 @@ exports.register = async function(req, res) {
 //UPDATE
 exports.updateInvestor = async function(req, res) {
   if (!mongoValidator.isMongoId(req.params.id))
-    return res.status(400).send({ err: "Invalid Investor Id" });
+  return res.status(400).send({ err: "Invalid Investor Id" });
   const investor = await Investor.findById(req.params.id);
   if (!investor) return res.status(404).send("Investor not Found");
-
+  
   if (!req.body.email) req.body.email = investor.email;
-
+  
   if (!req.body.password) req.body.password = investor.password;
-
+  
   if (!req.body.fullName) req.body.fullName = investor.fullName;
-
+  
   if (!req.body.type) req.body.type = investor.type;
 
   if (!req.body.gender) req.body.gender = investor.gender;
-
+  
   if (!req.body.nationality) req.body.nationality = investor.nationality;
-
+  
   if (!req.body.methodOfIdentification)
-    req.body.methodOfIdentification = investor.methodOfIdentification;
-
+  req.body.methodOfIdentification = investor.methodOfIdentification;
+  
   if (!req.body.identificationNumber)
-    req.body.identificationNumber = investor.identificationNumber;
-
+  req.body.identificationNumber = investor.identificationNumber;
+  
   if (!req.body.dateOfBirth) req.body.dateOfBirth = investor.dateOfBirth;
-
+  
   if (!req.body.residenceAddress)
     req.body.residenceAddress = investor.residenceAddress;
 
-  if (!req.body.telephoneNumber)
+    if (!req.body.telephoneNumber)
     req.body.telephoneNumber = investor.telephoneNumber;
-
-  if (!req.body.residenceAddress) req.body.fax = investor.fax;
-
-  if (
-    req.body.nationality === "Egyptian" &&
-    req.body.identificationNumber.length != 14
-  )
-    return res.status(400).send("Incorrect National ID number");
-
-  const { error } = validator.updateValidation(req.body);
-  if (error) return res.status(400).send(error.details[0].message);
-
-  try {
-    await Investor.findByIdAndUpdate(req.params.id, req.body);
-    res.send({ msg: "Investor updated successfully" });
-  } catch (err) {
-    res.send({ msg: "Oops something went wrong" });
-  }
-};
-
+    
+    if (!req.body.residenceAddress) req.body.fax = investor.fax;
+    
+    // if (
+    //   req.body.nationality === "Egyptian" &&
+    //   req.body.identificationNumber.length != 14
+    //   )
+    //   return res.status(400).send("Incorrect National ID number");
+      
+      const { error } = validator.updateValidation(req.body);
+      if (error) return res.status(400).send(error.details[0].message);
+    try {
+      
+      await Investor.findByIdAndUpdate(req.params.id, req.body);
+      res.send({ msg: "Investor updated successfully" });
+    } catch (error) {
+      return res.status(400).send({ error: "Oops something went wrong" });
+    }
+  };
+  
 exports.deleteInvestor = async function(req, res) {
   try {
     if (!mongoValidator.isMongoId(req.params.id))

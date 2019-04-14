@@ -95,6 +95,20 @@ exports.deleteExternalEntity = async function(req, res) {
   }
 };
 
+exports.notifyEntities=async function(caseId,caseType){
+  const externalEntities = await ExternalEntity.find();
+  const suffix=caseType==='SPC'?'pdf':'create-SSCpdf';
+  const url='http://localhost:5000/api/externalEntities/'+suffix+'/'+caseId;
+  const body={url:url};
+  for(let i=0;i<externalEntities.length;i++)
+  {
+    let entity=externalEntities[i];
+    let postURL = entity.socket;
+    await axios.post(postURL,body);
+  }
+}
+
+
 exports.postSSCPDF=async function (req,res){
   var caseID=req.body.name;
   if (!mongoValidator.isMongoId(caseID))
@@ -105,6 +119,7 @@ if (!oneCase)
 
 var html=await makingHtmlForSSC(caseID);
 var allHtml =`<!doctype html><html><div>`+html+` </div></html>`;
+
 
 pdf.create(allHtml, {}).toFile(caseID+'.pdf', (err) => {
 
