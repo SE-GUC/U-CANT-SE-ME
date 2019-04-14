@@ -6,6 +6,8 @@ import "prismjs/components/prism-javascript";
 import "prismjs/components/prism-markup";
 import axios from "axios";
 
+const { serverURI } = require("../../config/keys");
+
 class CreateFormTemplate extends Component {
   state = { code: `` };
 
@@ -19,7 +21,7 @@ class CreateFormTemplate extends Component {
     }
     axios
       .post(
-        `http://localhost:5000/api/admins/createFormTemplate/`,
+        serverURI + `/admins/createFormTemplate/`,
         formTemplate
       )
       .then(res => {

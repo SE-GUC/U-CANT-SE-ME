@@ -5,6 +5,8 @@ import { Link } from 'react-router-dom';
 import moment from 'moment'
 import TextField from "@material-ui/core/TextField"
 
+const { serverURI } = require("../../config/keys");
+
 export default class Case extends Component {
   
   state={
@@ -28,19 +30,19 @@ export default class Case extends Component {
       let getCreatorInvestor='';
       let  getCreatorLawyer ='';
       if(assignedLawyerId!==null){
-        getAssignedLawyer =await axios.get(`http://localhost:5000/api/lawyers/${assignedLawyerId}`);
+        getAssignedLawyer =await axios.get(serverURI + `/lawyers/${assignedLawyerId}`);
         this.setState({assignedLawyerEmail: getAssignedLawyer.data.email}); 
       }
       if(assignedReviewerId!==null){
-        getAssignedReviewer =await axios.get(`http://localhost:5000/api/reviewers/${assignedReviewerId}`);
+        getAssignedReviewer =await axios.get(serverURI + `/reviewers/${assignedReviewerId}`);
         this.setState({assignedReviewerEmail: getAssignedReviewer.data.data.email}); 
       }
       if(creatorLawyerId!==null){
-        getCreatorLawyer =await axios.get(`http://localhost:5000/api/lawyers/${creatorLawyerId}`);
+        getCreatorLawyer =await axios.get(serverURI + `/lawyers/${creatorLawyerId}`);
         this.setState({creatorLawyerEmail: getCreatorLawyer.data.email}); 
       }
       if(creatorInvestorId!==null){
-        getCreatorInvestor =await axios.get(`http://localhost:5000/api/investors/${creatorInvestorId}`);
+        getCreatorInvestor =await axios.get(serverURI + `/investors/${creatorInvestorId}`);
         this.setState({creatorInvestorEmail: getCreatorInvestor.data.email}); 
       }
       this.setState({caseStatus:caseStatus});
