@@ -4,6 +4,7 @@ import '../App.css';
 import Comment from './ViewComments/Comment';
 import Button from '@material-ui/core/Button'
 import SendIcon from '@material-ui/icons/Send'
+import TextField from "@material-ui/core/TextField"
 
 class AddComment extends Component {
   state = {
@@ -42,7 +43,21 @@ class AddComment extends Component {
           )): null}
         </div>
         <div>
-          <textarea class="form-control md-textarea" type="text" placeholder="Add comment here" onChange={this.handleTextBox}/>
+        <TextField
+          id="standard-full-width"
+          label="Comment"
+          style={{ margin: 8 }}
+          placeholder="Type Comment Here..."
+          helperText="Make it descriptive!"
+          fullWidth
+          multiline
+          margin="normal"
+          onChange={this.handleTextBox}
+          InputLabelProps={{
+            shrink: true
+          }}
+        />
+          {/* <textarea class="form-control md-textarea" type="text" placeholder="Add comment here" onChange={this.handleTextBox}/> */}
           {this.state.actionMsg===''?null:<div class={this.state.actionMsg==="Comment added successfully!"?"alert alert-success":"alert alert-danger"} role="alert">{this.state.actionMsg}</div>}
           <Button variant="outlined" color="primary" onClick={async()=> {
             try{
@@ -65,6 +80,8 @@ class AddComment extends Component {
           }}>Add Comment
             <SendIcon />
           </Button>
+          <br /> 
+          <br />
         </div>
       </header>
     );
