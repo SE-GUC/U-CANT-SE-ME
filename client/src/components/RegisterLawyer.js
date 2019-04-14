@@ -8,7 +8,7 @@ import Visibility from '@material-ui/icons/Visibility'
 import VisibilityOff from '@material-ui/icons/VisibilityOff'
 import IconButton from '@material-ui/core/IconButton'
 import InputAdornment from '@material-ui/core/InputAdornment'
-import { Redirect } from 'react-router-dom';
+import { Redirect } from 'react-router-dom'
 const Joi = require("joi");
 export default class RegisterLawyer extends React.Component {
     
@@ -113,7 +113,7 @@ export default class RegisterLawyer extends React.Component {
     render() {
         return (
           <div>
-              <Redirect to={{pathname: "/RegisterReviewer"}}/>
+              {/* <Redirect to={{pathname: "/RegisterReviewer"}}/> */}
               <br/>
               <h3 class="text-center text-info">Register</h3>
             <form id="RegisterLawyer">
@@ -172,7 +172,7 @@ export default class RegisterLawyer extends React.Component {
                 </Button>
                 <br />
                 <br />
-                <label id="Success" class="text-success">
+                <label id="Success" class="text-danger">
                     {this.state.val}
                 </label>
                 <br />
