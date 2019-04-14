@@ -68,10 +68,10 @@ async function verfiyReferentialIntegrity(req) {
 exports.createCase = async function(req, res) {
   try {
     const { error } = await validator.createValidation(req.body);
-    if (error) return res.status(400).send(error.details[0].message);
+    if (error) return res.status(400).send({ error: error.details[0].message });
 
     var check = await verfiyReferentialIntegrity(req.body);
-    if (!check.success) return res.status(400).send(check.error);
+    if (!check.success) return res.status(400).send({ error: check.error });
 
     const newCase = await Case.create(req.body);
     res.send({ msg: "Case was created successfully", data: newCase });
@@ -88,33 +88,23 @@ exports.deleteCase = async function(req, res) {
     return res.status(400).send({ error: "Invalid ID" });
   const neededCase = await Case.findByIdAndRemove(caseID);
   if (!neededCase)
-    return res.status(404).send({ err: "Case entered not found" });
+    return res.status(404).send({ error: "Case entered not found" });
   res.send({ msg: "Case was deleted successfully", data: neededCase });
 };
 
 //update
-async function addMissingAttributes(req) {
-  const oldCase = await Case.findById(req.params.id);
-  if (!req.body.form.companyNameArabic)
-    req.body.form.companyNameArabic = oldCase.form.companyNameArabic;
-  if (!req.body.form.companyNameEnglish)
-    req.body.form.companyNameEnglish = oldCase.form.companyNameEnglish;
-  if (!req.body.form.regulatedLaw)
-    req.body.form.regulatedLaw = oldCase.form.regulatedLaw;
-  if (!req.body.form.legalFormOfCompany)
-    req.body.form.legalFormOfCompany = oldCase.form.legalFormOfCompany;
-  if (!req.body.form.headOfficeGovernorate)
-    req.body.form.headOfficeGovernorate = oldCase.form.headOfficeGovernorate;
-  if (!req.body.form.headOfficeCity)
-    req.body.form.headOfficeCity = oldCase.form.headOfficeCity;
-  if (!req.body.form.headOfficeAddress)
-    req.body.form.headOfficeAddress = oldCase.form.headOfficeAddress;
-  if (!req.body.form.phoneNumber)
-    req.body.form.phoneNumber = oldCase.form.phoneNumber;
-  if (!req.body.form.fax) req.body.form.fax = oldCase.form.fax;
-  if (!req.body.form.currencyUsedForCapital)
-    req.body.form.currencyUsedForCapital = oldCase.form.currencyUsedForCapital;
-  if (!req.body.form.capital) req.body.form.capital = oldCase.form.capital;
+async function addMissingAttributes(newCase, oldCase) {
+  if (!newCase.caseStatus) newCase.caseStatus = oldCase.caseStatus;
+  if (!newCase.caseCreationDate)
+    newCase.caseCreationDate = oldCase.caseCreationDate;
+  if (!newCase.casecreatorInvestorIdStatus)
+    newCase.creatorInvestorId = oldCase.creatorInvestorId;
+  if (!newCase.caseStatus) newCase.caseStatus = oldCase.caseStatus;
+  if (!newCase.caseStatus) newCase.caseStatus = oldCase.caseStatus;
+  if (!newCase.caseStatus) newCase.caseStatus = oldCase.caseStatus;
+  for (let atr in oldCase.form)
+    if (!newCase.form.hasOwnProperty(atr) && atr !== "_id" && atr !== "__v")
+      newCase.form[atr] = oldCase.form[atr];
 }
 
 //Update a case
@@ -122,18 +112,28 @@ exports.updateCase = async function(req, res) {
   try {
     if (!mongoValidator.isMongoId(req.params.id))
       return res.status(400).send({ error: "Invalid case ID" });
+
     const exist = await Case.findById(req.params.id);
     if (!exist)
       return res.status(404).send({ error: "case entered not found" });
 
-    const { error } = validator.updateValidation(req.body);
-    if (error) return res.status(400).send(error.details[0].message);
+    const { error } = await validator.updateValidation(
+      req.body,
+      exist.companyType
+    );
+
+    if (error) return res.status(400).send({ error: error.details[0].message });
 
     var check = await verfiyReferentialIntegrity(req.body);
-    if (!check.success) return res.status(400).send(check.error);
+    if (!check.success) return res.status(400).send({ error: check.error });
 
-    await addMissingAttributes(req);
-    await Case.findByIdAndUpdate(req.params.id, req.body);
+    if(req.body.form) {
+      const oldForm = exist.form;
+      for(let atr in oldForm)
+        if(!req.body.form.hasOwnProperty(atr))
+          req.body.form[atr] = oldForm[atr];
+    }
+    await Case.updateOne({ _id: req.params.id }, { $set: { ...req.body } });
 
     const newCase = await Case.findById(req.params.id);
     if (newCase.caseStatus === "Accepted")
@@ -165,7 +165,7 @@ exports.getCaseLastLawyer = async function(req, res) {
       return res.status(404).send({ error: "Invalid ID" });
     const neededCase = await Case.findById(caseId);
     if (!neededCase)
-      return res.status(400).send({ err: "Case entered not found" });
+      return res.status(400).send({ error: "Case entered not found" });
 
     const lawyerid = neededCase.assignedLawyerId;
     const lawyer = await Lawyer.findById(lawyerid);

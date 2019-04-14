@@ -90,6 +90,18 @@ exports.makeRuleFunction = function(rulesFunction) {
   return new Function("return " + wrapper);
 };
 
+function errorMessage(msg) {
+  return {
+    error: {
+      details: [
+        {
+          message: msg
+        }
+      ]
+    }
+  };
+}
+
 function validateField(fieldValue, field) {
   let fieldType = field.fieldType,
     fieldSchema = {},
@@ -145,13 +157,7 @@ function validateField(fieldValue, field) {
         found |= governoratesData[i].nameInArabic === fieldValue;
       }
       if (!found)
-        return {
-          error: {
-            details: [
-              { message: `This Governorate: ${fieldValue} doesn't exist!` }
-            ]
-          }
-        };
+        return errorMessage(`This Governorate: ${fieldValue} doesn't exist!`);
       return { success: "Form is valid!" };
     case "CITY":
       let citiesData = require("../data/cities.json");
@@ -160,24 +166,14 @@ function validateField(fieldValue, field) {
         found |= citiesData[i].nameInArabic === fieldValue;
       }
       if (!found)
-        return {
-          error: {
-            details: [{ message: `This City: ${fieldValue} doesn't exist!` }]
-          }
-        };
+        return errorMessage(`This City: ${fieldValue} doesn't exist!`);
       return { success: "Form is valid!" };
     case "CURRENCY":
       let currenciesData = require("../data/currencies.json");
       for (let i = 0; i < currenciesData.length && !found; i++)
         found |= currenciesData[i].cc === fieldValue;
       if (!found)
-        return {
-          error: {
-            details: [
-              { message: `This Currency: ${fieldValue} doesn't exist!` }
-            ]
-          }
-        };
+        return errorMessage(`This Currency: ${fieldValue} doesn't exist!`);
       return { success: "Form is valid!" };
     case "DROPLIST":
       fieldSchema = {
@@ -193,7 +189,7 @@ function validateField(fieldValue, field) {
   return validation;
 }
 
-exports.validateForm = async (form, formTemplate) => {
+exports.validateForm = async (form, formTemplate, update) => {
   const fields = formTemplate.fields;
   for (let i = 0; i < fields.length; i++) {
     const field = fields[i];
@@ -205,25 +201,15 @@ exports.validateForm = async (form, formTemplate) => {
         condition["form." + field.fieldName] = form[field.fieldName];
         const instance = await Case.findOne(condition);
         if (instance)
-          return {
-            error: {
-              details: [
-                {
-                  message: `\"${form[field.fieldName]}\" inside the ${
-                    field.fieldName
-                  } field already exist!`
-                }
-              ]
-            }
-          };
+          return errorMessage(
+            `\"${form[field.fieldName]}\" inside the ${
+              field.fieldName
+            } field already exist!`
+          );
       }
     } else {
-      if (field.isRequired)
-        return {
-          error: {
-            details: [{ message: `${field.fieldName} must be entered!` }]
-          }
-        };
+      if (field.isRequired && !update)
+        return errorMessage(`${field.fieldName} must be entered!`);
     }
   }
   for (let atr in form) {
@@ -231,11 +217,7 @@ exports.validateForm = async (form, formTemplate) => {
     for (let i = 0; i < fields.length && !found; i++)
       found = atr === fields[i].fieldName;
     if (!found)
-      return {
-        error: {
-          details: [{ message: `${atr} isn't allowed in the form template` }]
-        }
-      };
+      return errorMessage(`${atr} isn't allowed in the form template`);
   }
   return { success: "Form is valid!" };
 };
