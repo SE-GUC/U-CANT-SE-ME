@@ -11,7 +11,8 @@ export default class AdminProfile extends Component {
             caseSwitch: false,
             viewAllCases: false,
             registerLawyer: false,
-            registerReviewer: false
+            registerReviewer: false,
+            createFormTemplate: false
         }
       }
   render() {
@@ -22,7 +23,8 @@ export default class AdminProfile extends Component {
             this.state.caseSwitch? <Redirect to={{pathname: "/CaseSwitch"}}/>:
             this.state.viewAllCases? <Redirect to={{pathname: "/AdminViewAllCases"}}/>:
             this.state.registerLawyer? <Redirect to={{pathname: "/RegisterLawyer"}}/>:
-            this.state.registerReviewer? <Redirect to={{pathname: "/RegisterReviewer"}}/>:<div/>
+            this.state.registerReviewer? <Redirect to={{pathname: "/RegisterReviewer"}}/>:
+            this.state.createFormTemplate? <Redirect to={{pathname: "/CreateFormTemplate"}}/>:<div/>
         }
         <Button variant="primary" size="large" onClick={() => {
         this.setState({caseSummary: true})
@@ -48,6 +50,11 @@ export default class AdminProfile extends Component {
         this.setState({registerReviewer: true})
       }}>
                 Register Reviewer
+        </Button>
+        <Button variant="primary" size="large" onClick={() => {
+        this.setState({createFormTemplate: true})
+      }}>
+                Create Form Template
         </Button>
       </div>
     )
