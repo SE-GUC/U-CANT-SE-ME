@@ -3,12 +3,15 @@ const mongoose = require("mongoose");
 const passport = require('passport')
 const flash = require('connect-flash')
 const session = require('express-session')
+const cors = require('cors');
 //Require Route Handlers
 const investors = require("./routes/api/investors");
 const lawyers = require("./routes/api/lawyers");
 const reviewers = require("./routes/api/reviewers");
 const admins = require("./routes/api/admins");
 const cases = require("./routes/api/cases");
+const dcases = require("./routes/api/dcases");
+const formTemplates = require("./routes/api/formTemplates");
 const companies = require("./routes/api/companies");
 const notifications = require("./routes/api/notifications");
 const externalEntities = require("./routes/api/externalEntities");
@@ -17,6 +20,8 @@ const externalEntities = require("./routes/api/externalEntities");
 require('./config/passport')(passport)
 
 const app = express();
+
+app.use(cors());
 
 //Getting Mongo's connection URI
 const db = require("./config/keys").mongoURI;
@@ -65,6 +70,8 @@ app.use("/api/reviewers", reviewers);
 app.use("/api/admins", admins);
 app.use("/api/companies", companies);
 app.use("/api/cases", cases);
+app.use("/api/dcases", dcases);
+app.use("/api/formTemplates", formTemplates);
 app.use("/api/notifications", notifications);
 app.use("/api/externalEntities", externalEntities);
 
@@ -73,5 +80,5 @@ app.use((req, res) => {
   res.status(404).send({ err: "We can not find what you are looking for" });
 });
 
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 5000;
 app.listen(port, () => console.log(`Listening on port ${port}...`));

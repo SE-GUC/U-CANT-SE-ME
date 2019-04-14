@@ -5,7 +5,7 @@ const router = express.Router();
 // module Lawyer Controller
 const lawyerController = require("../../controllers/lawyerController")
 const caseController = require("../../controllers/caseController")
-
+const externalEntityController = require("../../controllers/externalEntityController")
 
 //Read
 router.get('/', lawyerController.getAllLawyers);
@@ -55,4 +55,39 @@ router.get("/getMyCasesByid/:id",lawyerController.getMyCasesByid);
 
 //as a lawyer i should be able to find my assigned cases sorted by date of creation
 router.get("/getMyCasesByDate/:id",lawyerController.getMyCasesByDate);
+
+router.post('/forgot', lawyerController.forgot)
+
+router.post('/reset/:token', lawyerController.reset)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+router.get('/downloadContract/:id',externalEntityController.getSSCPDF);
+router.get('/viewContract/:id',externalEntityController.viewSSCPDF);
+
+
+//As a lawyer i should be able to request change from the investor on his case
+router.put('/requestUpdate/:caseId/:assignedLawyerId', lawyerController.requestUpdate);
+
+//As a lawyer i should update my case status after a reviewer requested a change
+router.put('/resumeWorkOnCase/:caseId/:assignedLawyerId', lawyerController.resumeWorkOnCase);
+// As a lawyer I should be able to view the generated decision/form for some case
+router.get('/viewDecision/:id',externalEntityController.viewSPCHtml)
+// As a lawyer, I should be able to download the pdf for a decision
+router.get('/downloadDecision/:id',externalEntityController.generateSPCPdf)
 module.exports = router;

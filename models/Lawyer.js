@@ -19,6 +19,8 @@ const lawyerSchema = new Schema({
     type: String,
     unique: true,
     required: true
-  }
+  },
+  resetPasswordToken: String,
+  resetPasswordExpires: Date
 });
 module.exports = Lawyer = mongoose.model("lawyers", lawyerSchema);

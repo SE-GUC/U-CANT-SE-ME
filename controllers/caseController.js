@@ -192,6 +192,25 @@ async function addMissingAttributes(req) {
     req.body.form.companyNameArabic = oldCase.form.companyNameArabic;
   if (!req.body.form.companyNameEnglish)
     req.body.form.companyNameEnglish = oldCase.form.companyNameEnglish;
+    if (!req.body.form.regulatedLaw)
+    req.body.form.regulatedLaw = oldCase.form.regulatedLaw;
+    if (!req.body.form.legalFormOfCompany)
+    req.body.form.legalFormOfCompany = oldCase.form.legalFormOfCompany;
+    if (!req.body.form.headOfficeGovernorate)
+    req.body.form.headOfficeGovernorate = oldCase.form.headOfficeGovernorate;
+    if (!req.body.form.headOfficeCity)
+    req.body.form.headOfficeCity = oldCase.form.headOfficeCity;
+    if (!req.body.form.headOfficeAddress)
+    req.body.form.headOfficeAddress = oldCase.form.headOfficeAddress;
+    if (!req.body.form.phoneNumber)
+    req.body.form.phoneNumber = oldCase.form.phoneNumber;
+    if (!req.body.form.fax)
+    req.body.form.fax = oldCase.form.fax;
+    if (!req.body.form.currencyUsedForCapital)
+    req.body.form.currencyUsedForCapital = oldCase.form.currencyUsedForCapital;
+    if (!req.body.form.capital)
+    req.body.form.capital = oldCase.form.capital;
+    
 }
 
 //Update a case
@@ -225,7 +244,7 @@ exports.updateCase = async function (req, res) {
       NotificationController.notifyInvestorByFees(newCase);
     res.send({ msg: "Case updated successfully" });
   } catch (error) {
-    res.send({ error: "Oops something went wrong" });
+    res.status(403).send({ error: "Oops something went wrong" });
     console.log(error);
   }
 };
