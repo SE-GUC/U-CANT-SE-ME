@@ -38,7 +38,10 @@ import ReviewerViewTasks from './components/caseComponents/ReviewerViewTasks';
 import LawyerViewTasks from './components/caseComponents/LawyerViewTasks';
 import Forgot from './components/forgotAndReset/forgot'
 import Reset from './components/forgotAndReset/reset'
-
+import InvestorProfile from './components/InvestorProfile'
+import LawyerProfile from './components/LawyerProfile'
+import ReviewerProfile from './components/ReviewerProfile'
+import AdminProfile from './components/AdminProfile'
 class App extends Component {
   render() {
     return (
@@ -102,6 +105,10 @@ class App extends Component {
         <Route path="/LawyerViewTasks" component={LawyerViewTasks}/>
         <Route path="/forgot" component={Forgot}/>
         <Route path="/:type/reset/:token" component={Reset}/>
+        <Route path="/profile/:id" component={InvestorProfile}/>
+        <Route path="/internalPortal/lawyer/profile/:id" component={LawyerProfile}/>
+        <Route path="/internalPortal/reviewer/profile/:id" component={ReviewerProfile}/>
+        <Route path="/internalPortal/admin/profile/:id" component={AdminProfile}/>
         </div>
       </Router>
     );
