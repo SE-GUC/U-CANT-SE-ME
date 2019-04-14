@@ -1,0 +1,1508 @@
+[
+    {
+        "govNameInArabic": "القاهرة",
+        "govNameInEnglish": "Cairo",
+        "nameInArabic": "القاهرة",
+        "nameInEnglish": "Cairo"
+    },
+    {
+        "govNameInArabic": "الجيزة",
+        "govNameInEnglish": "Giza",
+        "nameInArabic": "الجيزة",
+        "nameInEnglish": "Giza"
+    },
+    {
+        "govNameInArabic": "الجيزة",
+        "govNameInEnglish": "Giza",
+        "nameInArabic": "السادس من أكتوبر",
+        "nameInEnglish": "Sixth of October"
+    },
+    {
+        "govNameInArabic": "الجيزة",
+        "govNameInEnglish": "Giza",
+        "nameInArabic": "الشيخ زايد",
+        "nameInEnglish": "Cheikh Zayed"
+    },
+    {
+        "govNameInArabic": "الجيزة",
+        "govNameInEnglish": "Giza",
+        "nameInArabic": "الحوامدية",
+        "nameInEnglish": "Hawamdiyah"
+    },
+    {
+        "govNameInArabic": "الجيزة",
+        "govNameInEnglish": "Giza",
+        "nameInArabic": "البدرشين",
+        "nameInEnglish": "Al Badrasheen"
+    },
+    {
+        "govNameInArabic": "الجيزة",
+        "govNameInEnglish": "Giza",
+        "nameInArabic": "الصف",
+        "nameInEnglish": "Saf"
+    },
+    {
+        "govNameInArabic": "الجيزة",
+        "govNameInEnglish": "Giza",
+        "nameInArabic": "أطفيح",
+        "nameInEnglish": "Atfih"
+    },
+    {
+        "govNameInArabic": "الجيزة",
+        "govNameInEnglish": "Giza",
+        "nameInArabic": "العياط",
+        "nameInEnglish": "Al Ayat"
+    },
+    {
+        "govNameInArabic": "الجيزة",
+        "govNameInEnglish": "Giza",
+        "nameInArabic": "الباويطي",
+        "nameInEnglish": "Al-Bawaiti"
+    },
+    {
+        "govNameInArabic": "الجيزة",
+        "govNameInEnglish": "Giza",
+        "nameInArabic": "منشأة القناطر",
+        "nameInEnglish": "ManshiyetAl Qanater"
+    },
+    {
+        "govNameInArabic": "الجيزة",
+        "govNameInEnglish": "Giza",
+        "nameInArabic": "أوسيم",
+        "nameInEnglish": "Oaseem"
+    },
+    {
+        "govNameInArabic": "الجيزة",
+        "govNameInEnglish": "Giza",
+        "nameInArabic": "كرداسة",
+        "nameInEnglish": "Kerdasa"
+    },
+    {
+        "govNameInArabic": "الجيزة",
+        "govNameInEnglish": "Giza",
+        "nameInArabic": "أبو النمرس",
+        "nameInEnglish": "Abu Nomros"
+    },
+    {
+        "govNameInArabic": "الجيزة",
+        "govNameInEnglish": "Giza",
+        "nameInArabic": "كفر غطاطي",
+        "nameInEnglish": "Kafr Ghati"
+    },
+    {
+        "govNameInArabic": "الجيزة",
+        "govNameInEnglish": "Giza",
+        "nameInArabic": "منشأة البكاري",
+        "nameInEnglish": "Manshiyet Al Bakari"
+    },
+    {
+        "govNameInArabic": "الأسكندرية",
+        "govNameInEnglish": "Alexandria",
+        "nameInArabic": "الأسكندرية",
+        "nameInEnglish": "Alexandria"
+    },
+    {
+        "govNameInArabic": "الأسكندرية",
+        "govNameInEnglish": "Alexandria",
+        "nameInArabic": "برج العرب",
+        "nameInEnglish": "Burj Al Arab"
+    },
+    {
+        "govNameInArabic": "الأسكندرية",
+        "govNameInEnglish": "Alexandria",
+        "nameInArabic": "برج العرب الجديدة",
+        "nameInEnglish": "New Burj Al Arab"
+    },
+    {
+        "govNameInArabic": "القليوبية",
+        "govNameInEnglish": "Qaliubiya",
+        "nameInArabic": "بنها",
+        "nameInEnglish": "Banha"
+    },
+    {
+        "govNameInArabic": "القليوبية",
+        "govNameInEnglish": "Qaliubiya",
+        "nameInArabic": "قليوب",
+        "nameInEnglish": "Qalyub"
+    },
+    {
+        "govNameInArabic": "القليوبية",
+        "govNameInEnglish": "Qaliubiya",
+        "nameInArabic": "شبرا الخيمة",
+        "nameInEnglish": "Shubra Al Khaimah"
+    },
+    {
+        "govNameInArabic": "القليوبية",
+        "govNameInEnglish": "Qaliubiya",
+        "nameInArabic": "القناطر الخيرية",
+        "nameInEnglish": "Al Qanater Charity"
+    },
+    {
+        "govNameInArabic": "القليوبية",
+        "govNameInEnglish": "Qaliubiya",
+        "nameInArabic": "الخانكة",
+        "nameInEnglish": "Khanka"
+    },
+    {
+        "govNameInArabic": "القليوبية",
+        "govNameInEnglish": "Qaliubiya",
+        "nameInArabic": "كفر شكر",
+        "nameInEnglish": "Kafr Shukr"
+    },
+    {
+        "govNameInArabic": "القليوبية",
+        "govNameInEnglish": "Qaliubiya",
+        "nameInArabic": "طوخ",
+        "nameInEnglish": "Tukh"
+    },
+    {
+        "govNameInArabic": "القليوبية",
+        "govNameInEnglish": "Qaliubiya",
+        "nameInArabic": "قها",
+        "nameInEnglish": "Qaha"
+    },
+    {
+        "govNameInArabic": "القليوبية",
+        "govNameInEnglish": "Qaliubiya",
+        "nameInArabic": "العبور",
+        "nameInEnglish": "Obour"
+    },
+    {
+        "govNameInArabic": "القليوبية",
+        "govNameInEnglish": "Qaliubiya",
+        "nameInArabic": "الخصوص",
+        "nameInEnglish": "Khosous"
+    },
+    {
+        "govNameInArabic": "القليوبية",
+        "govNameInEnglish": "Qaliubiya",
+        "nameInArabic": "شبين القناطر",
+        "nameInEnglish": "Shibin Al Qanater"
+    },
+    {
+        "govNameInArabic": "البحيرة",
+        "govNameInEnglish": "Beheira",
+        "nameInArabic": "دمنهور",
+        "nameInEnglish": "Damanhour"
+    },
+    {
+        "govNameInArabic": "البحيرة",
+        "govNameInEnglish": "Beheira",
+        "nameInArabic": "كفر الدوار",
+        "nameInEnglish": "Kafr El Dawar"
+    },
+    {
+        "govNameInArabic": "البحيرة",
+        "govNameInEnglish": "Beheira",
+        "nameInArabic": "رشيد",
+        "nameInEnglish": "Rashid"
+    },
+    {
+        "govNameInArabic": "البحيرة",
+        "govNameInEnglish": "Beheira",
+        "nameInArabic": "إدكو",
+        "nameInEnglish": "Edco"
+    },
+    {
+        "govNameInArabic": "البحيرة",
+        "govNameInEnglish": "Beheira",
+        "nameInArabic": "أبو المطامير",
+        "nameInEnglish": "Abu al-Matamir"
+    },
+    {
+        "govNameInArabic": "البحيرة",
+        "govNameInEnglish": "Beheira",
+        "nameInArabic": "أبو حمص",
+        "nameInEnglish": "Abu Homs"
+    },
+    {
+        "govNameInArabic": "البحيرة",
+        "govNameInEnglish": "Beheira",
+        "nameInArabic": "الدلنجات",
+        "nameInEnglish": "Delengat"
+    },
+    {
+        "govNameInArabic": "البحيرة",
+        "govNameInEnglish": "Beheira",
+        "nameInArabic": "المحمودية",
+        "nameInEnglish": "Mahmoudiyah"
+    },
+    {
+        "govNameInArabic": "البحيرة",
+        "govNameInEnglish": "Beheira",
+        "nameInArabic": "الرحمانية",
+        "nameInEnglish": "Rahmaniyah"
+    },
+    {
+        "govNameInArabic": "البحيرة",
+        "govNameInEnglish": "Beheira",
+        "nameInArabic": "إيتاي البارود",
+        "nameInEnglish": "Itai Baroud"
+    },
+    {
+        "govNameInArabic": "البحيرة",
+        "govNameInEnglish": "Beheira",
+        "nameInArabic": "حوش عيسى",
+        "nameInEnglish": "Housh Eissa"
+    },
+    {
+        "govNameInArabic": "البحيرة",
+        "govNameInEnglish": "Beheira",
+        "nameInArabic": "شبراخيت",
+        "nameInEnglish": "Shubrakhit"
+    },
+    {
+        "govNameInArabic": "البحيرة",
+        "govNameInEnglish": "Beheira",
+        "nameInArabic": "كوم حمادة",
+        "nameInEnglish": "Kom Hamada"
+    },
+    {
+        "govNameInArabic": "البحيرة",
+        "govNameInEnglish": "Beheira",
+        "nameInArabic": "بدر",
+        "nameInEnglish": "Badr"
+    },
+    {
+        "govNameInArabic": "البحيرة",
+        "govNameInEnglish": "Beheira",
+        "nameInArabic": "وادي النطرون",
+        "nameInEnglish": "Wadi Natrun"
+    },
+    {
+        "govNameInArabic": "البحيرة",
+        "govNameInEnglish": "Beheira",
+        "nameInArabic": "النوبارية الجديدة",
+        "nameInEnglish": "New Nubaria"
+    },
+    {
+        "govNameInArabic": "مطروح",
+        "govNameInEnglish": "Matrouh",
+        "nameInArabic": "مرسى مطروح",
+        "nameInEnglish": "Marsa Matrouh"
+    },
+    {
+        "govNameInArabic": "مطروح",
+        "govNameInEnglish": "Matrouh",
+        "nameInArabic": "الحمام",
+        "nameInEnglish": "El Hamam"
+    },
+    {
+        "govNameInArabic": "مطروح",
+        "govNameInEnglish": "Matrouh",
+        "nameInArabic": "العلمين",
+        "nameInEnglish": "Alamein"
+    },
+    {
+        "govNameInArabic": "مطروح",
+        "govNameInEnglish": "Matrouh",
+        "nameInArabic": "الضبعة",
+        "nameInEnglish": "Dabaa"
+    },
+    {
+        "govNameInArabic": "مطروح",
+        "govNameInEnglish": "Matrouh",
+        "nameInArabic": "النجيلة",
+        "nameInEnglish": "Al-Nagila"
+    },
+    {
+        "govNameInArabic": "مطروح",
+        "govNameInEnglish": "Matrouh",
+        "nameInArabic": "سيدي براني",
+        "nameInEnglish": "Sidi Brani"
+    },
+    {
+        "govNameInArabic": "مطروح",
+        "govNameInEnglish": "Matrouh",
+        "nameInArabic": "السلوم",
+        "nameInEnglish": "Salloum"
+    },
+    {
+        "govNameInArabic": "مطروح",
+        "govNameInEnglish": "Matrouh",
+        "nameInArabic": "سيوة",
+        "nameInEnglish": "Siwa"
+    },
+    {
+        "govNameInArabic": "دمياط",
+        "govNameInEnglish": "Damietta",
+        "nameInArabic": "دمياط",
+        "nameInEnglish": "Damietta"
+    },
+    {
+        "govNameInArabic": "دمياط",
+        "govNameInEnglish": "Damietta",
+        "nameInArabic": "دمياط الجديدة",
+        "nameInEnglish": "New Damietta"
+    },
+    {
+        "govNameInArabic": "دمياط",
+        "govNameInEnglish": "Damietta",
+        "nameInArabic": "رأس البر",
+        "nameInEnglish": "Ras El Bar"
+    },
+    {
+        "govNameInArabic": "دمياط",
+        "govNameInEnglish": "Damietta",
+        "nameInArabic": "فارسكور",
+        "nameInEnglish": "Faraskour"
+    },
+    {
+        "govNameInArabic": "دمياط",
+        "govNameInEnglish": "Damietta",
+        "nameInArabic": "الزرقا",
+        "nameInEnglish": "Zarqa"
+    },
+    {
+        "govNameInArabic": "دمياط",
+        "govNameInEnglish": "Damietta",
+        "nameInArabic": "السرو",
+        "nameInEnglish": "alsaru"
+    },
+    {
+        "govNameInArabic": "دمياط",
+        "govNameInEnglish": "Damietta",
+        "nameInArabic": "الروضة",
+        "nameInEnglish": "alruwda"
+    },
+    {
+        "govNameInArabic": "دمياط",
+        "govNameInEnglish": "Damietta",
+        "nameInArabic": "كفر البطيخ",
+        "nameInEnglish": "Kafr El-Batikh"
+    },
+    {
+        "govNameInArabic": "دمياط",
+        "govNameInEnglish": "Damietta",
+        "nameInArabic": "عزبة البرج",
+        "nameInEnglish": "Azbet Al Burg"
+    },
+    {
+        "govNameInArabic": "دمياط",
+        "govNameInEnglish": "Damietta",
+        "nameInArabic": "ميت أبو غالب",
+        "nameInEnglish": "Meet Abou Ghalib"
+    },
+    {
+        "govNameInArabic": "دمياط",
+        "govNameInEnglish": "Damietta",
+        "nameInArabic": "كفر سعد",
+        "nameInEnglish": "Kafr Saad"
+    },
+    {
+        "govNameInArabic": "الدقهلية",
+        "govNameInEnglish": "Dakahlia",
+        "nameInArabic": "المنصورة",
+        "nameInEnglish": "Mansoura"
+    },
+    {
+        "govNameInArabic": "الدقهلية",
+        "govNameInEnglish": "Dakahlia",
+        "nameInArabic": "طلخا",
+        "nameInEnglish": "Talkha"
+    },
+    {
+        "govNameInArabic": "الدقهلية",
+        "govNameInEnglish": "Dakahlia",
+        "nameInArabic": "ميت غمر",
+        "nameInEnglish": "Mitt Ghamr"
+    },
+    {
+        "govNameInArabic": "الدقهلية",
+        "govNameInEnglish": "Dakahlia",
+        "nameInArabic": "دكرنس",
+        "nameInEnglish": "Dekernes"
+    },
+    {
+        "govNameInArabic": "الدقهلية",
+        "govNameInEnglish": "Dakahlia",
+        "nameInArabic": "أجا",
+        "nameInEnglish": "Aga"
+    },
+    {
+        "govNameInArabic": "الدقهلية",
+        "govNameInEnglish": "Dakahlia",
+        "nameInArabic": "منية النصر",
+        "nameInEnglish": "Menia El Nasr"
+    },
+    {
+        "govNameInArabic": "الدقهلية",
+        "govNameInEnglish": "Dakahlia",
+        "nameInArabic": "السنبلاوين",
+        "nameInEnglish": "Sinbillawin"
+    },
+    {
+        "govNameInArabic": "الدقهلية",
+        "govNameInEnglish": "Dakahlia",
+        "nameInArabic": "الكردي",
+        "nameInEnglish": "El Kurdi"
+    },
+    {
+        "govNameInArabic": "الدقهلية",
+        "govNameInEnglish": "Dakahlia",
+        "nameInArabic": "بني عبيد",
+        "nameInEnglish": "Bani Ubaid"
+    },
+    {
+        "govNameInArabic": "الدقهلية",
+        "govNameInEnglish": "Dakahlia",
+        "nameInArabic": "المنزلة",
+        "nameInEnglish": "Al Manzala"
+    },
+    {
+        "govNameInArabic": "الدقهلية",
+        "govNameInEnglish": "Dakahlia",
+        "nameInArabic": "تمي الأمديد",
+        "nameInEnglish": "  "
+    },
+    {
+        "govNameInArabic": "الدقهلية",
+        "govNameInEnglish": "Dakahlia",
+        "nameInArabic": "الجمالية",
+        "nameInEnglish": "aljamalia"
+    },
+    {
+        "govNameInArabic": "الدقهلية",
+        "govNameInEnglish": "Dakahlia",
+        "nameInArabic": "شربين",
+        "nameInEnglish": "Sherbin"
+    },
+    {
+        "govNameInArabic": "الدقهلية",
+        "govNameInEnglish": "Dakahlia",
+        "nameInArabic": "المطرية",
+        "nameInEnglish": "Mataria"
+    },
+    {
+        "govNameInArabic": "الدقهلية",
+        "govNameInEnglish": "Dakahlia",
+        "nameInArabic": "بلقاس",
+        "nameInEnglish": "Belqas"
+    },
+    {
+        "govNameInArabic": "الدقهلية",
+        "govNameInEnglish": "Dakahlia",
+        "nameInArabic": "ميت سلسيل",
+        "nameInEnglish": "Meet Salsil"
+    },
+    {
+        "govNameInArabic": "الدقهلية",
+        "govNameInEnglish": "Dakahlia",
+        "nameInArabic": "جمصة",
+        "nameInEnglish": "Gamasa"
+    },
+    {
+        "govNameInArabic": "الدقهلية",
+        "govNameInEnglish": "Dakahlia",
+        "nameInArabic": "محلة دمنة",
+        "nameInEnglish": "Mahalat Damana"
+    },
+    {
+        "govNameInArabic": "الدقهلية",
+        "govNameInEnglish": "Dakahlia",
+        "nameInArabic": "نبروه",
+        "nameInEnglish": "Nabroh"
+    },
+    {
+        "govNameInArabic": "كفر الشيخ",
+        "govNameInEnglish": "Kafr Al sheikh",
+        "nameInArabic": "كفر الشيخ",
+        "nameInEnglish": "Kafr El Sheikh"
+    },
+    {
+        "govNameInArabic": "كفر الشيخ",
+        "govNameInEnglish": "Kafr Al sheikh",
+        "nameInArabic": "دسوق",
+        "nameInEnglish": "Desouq"
+    },
+    {
+        "govNameInArabic": "كفر الشيخ",
+        "govNameInEnglish": "Kafr Al sheikh",
+        "nameInArabic": "فوه",
+        "nameInEnglish": "Fooh"
+    },
+    {
+        "govNameInArabic": "كفر الشيخ",
+        "govNameInEnglish": "Kafr Al sheikh",
+        "nameInArabic": "مطوبس",
+        "nameInEnglish": "Metobas"
+    },
+    {
+        "govNameInArabic": "كفر الشيخ",
+        "govNameInEnglish": "Kafr Al sheikh",
+        "nameInArabic": "برج البرلس",
+        "nameInEnglish": "Burg Al Burullus"
+    },
+    {
+        "govNameInArabic": "كفر الشيخ",
+        "govNameInEnglish": "Kafr Al sheikh",
+        "nameInArabic": "بلطيم",
+        "nameInEnglish": "Baltim"
+    },
+    {
+        "govNameInArabic": "كفر الشيخ",
+        "govNameInEnglish": "Kafr Al sheikh",
+        "nameInArabic": "مصيف بلطيم",
+        "nameInEnglish": "Masief Baltim"
+    },
+    {
+        "govNameInArabic": "كفر الشيخ",
+        "govNameInEnglish": "Kafr Al sheikh",
+        "nameInArabic": "الحامول",
+        "nameInEnglish": "Hamol"
+    },
+    {
+        "govNameInArabic": "كفر الشيخ",
+        "govNameInEnglish": "Kafr Al sheikh",
+        "nameInArabic": "بيلا",
+        "nameInEnglish": "Bella"
+    },
+    {
+        "govNameInArabic": "كفر الشيخ",
+        "govNameInEnglish": "Kafr Al sheikh",
+        "nameInArabic": "الرياض",
+        "nameInEnglish": "Riyadh"
+    },
+    {
+        "govNameInArabic": "كفر الشيخ",
+        "govNameInEnglish": "Kafr Al sheikh",
+        "nameInArabic": "سيدي سالم",
+        "nameInEnglish": "Sidi Salm"
+    },
+    {
+        "govNameInArabic": "كفر الشيخ",
+        "govNameInEnglish": "Kafr Al sheikh",
+        "nameInArabic": "قلين",
+        "nameInEnglish": "Qellen"
+    },
+    {
+        "govNameInArabic": "كفر الشيخ",
+        "govNameInEnglish": "Kafr Al sheikh",
+        "nameInArabic": "سيدي غازي",
+        "nameInEnglish": "Sidi Ghazi"
+    },
+    {
+        "govNameInArabic": "الغربية",
+        "govNameInEnglish": "Gharbiya",
+        "nameInArabic": "طنطا",
+        "nameInEnglish": "Tanta"
+    },
+    {
+        "govNameInArabic": "الغربية",
+        "govNameInEnglish": "Gharbiya",
+        "nameInArabic": "المحلة الكبرى",
+        "nameInEnglish": "Al Mahalla Al Kobra"
+    },
+    {
+        "govNameInArabic": "الغربية",
+        "govNameInEnglish": "Gharbiya",
+        "nameInArabic": "كفر الزيات",
+        "nameInEnglish": "Kafr El Zayat"
+    },
+    {
+        "govNameInArabic": "الغربية",
+        "govNameInEnglish": "Gharbiya",
+        "nameInArabic": "زفتى",
+        "nameInEnglish": "Zefta"
+    },
+    {
+        "govNameInArabic": "الغربية",
+        "govNameInEnglish": "Gharbiya",
+        "nameInArabic": "السنطة",
+        "nameInEnglish": "El Santa"
+    },
+    {
+        "govNameInArabic": "الغربية",
+        "govNameInEnglish": "Gharbiya",
+        "nameInArabic": "قطور",
+        "nameInEnglish": "Qutour"
+    },
+    {
+        "govNameInArabic": "الغربية",
+        "govNameInEnglish": "Gharbiya",
+        "nameInArabic": "بسيون",
+        "nameInEnglish": "Basion"
+    },
+    {
+        "govNameInArabic": "الغربية",
+        "govNameInEnglish": "Gharbiya",
+        "nameInArabic": "سمنود",
+        "nameInEnglish": "Samannoud"
+    },
+    {
+        "govNameInArabic": "المنوفية",
+        "govNameInEnglish": "Monofia",
+        "nameInArabic": "شبين الكوم",
+        "nameInEnglish": "Shbeen El Koom"
+    },
+    {
+        "govNameInArabic": "المنوفية",
+        "govNameInEnglish": "Monofia",
+        "nameInArabic": "مدينة السادات",
+        "nameInEnglish": "Sadat City"
+    },
+    {
+        "govNameInArabic": "المنوفية",
+        "govNameInEnglish": "Monofia",
+        "nameInArabic": "منوف",
+        "nameInEnglish": "Menouf"
+    },
+    {
+        "govNameInArabic": "المنوفية",
+        "govNameInEnglish": "Monofia",
+        "nameInArabic": "سرس الليان",
+        "nameInEnglish": "Sars El-Layan"
+    },
+    {
+        "govNameInArabic": "المنوفية",
+        "govNameInEnglish": "Monofia",
+        "nameInArabic": "أشمون",
+        "nameInEnglish": "Ashmon"
+    },
+    {
+        "govNameInArabic": "المنوفية",
+        "govNameInEnglish": "Monofia",
+        "nameInArabic": "الباجور",
+        "nameInEnglish": "Al Bagor"
+    },
+    {
+        "govNameInArabic": "المنوفية",
+        "govNameInEnglish": "Monofia",
+        "nameInArabic": "قويسنا",
+        "nameInEnglish": "Quesna"
+    },
+    {
+        "govNameInArabic": "المنوفية",
+        "govNameInEnglish": "Monofia",
+        "nameInArabic": "بركة السبع",
+        "nameInEnglish": "Berkat El Saba"
+    },
+    {
+        "govNameInArabic": "المنوفية",
+        "govNameInEnglish": "Monofia",
+        "nameInArabic": "تلا",
+        "nameInEnglish": "Tala"
+    },
+    {
+        "govNameInArabic": "المنوفية",
+        "govNameInEnglish": "Monofia",
+        "nameInArabic": "الشهداء",
+        "nameInEnglish": "Al Shohada"
+    },
+    {
+        "govNameInArabic": "الشرقية",
+        "govNameInEnglish": "Sharkia",
+        "nameInArabic": "الزقازيق",
+        "nameInEnglish": "Zagazig"
+    },
+    {
+        "govNameInArabic": "الشرقية",
+        "govNameInEnglish": "Sharkia",
+        "nameInArabic": "العاشر من رمضان",
+        "nameInEnglish": "Al Ashr Men Ramadan"
+    },
+    {
+        "govNameInArabic": "الشرقية",
+        "govNameInEnglish": "Sharkia",
+        "nameInArabic": "منيا القمح",
+        "nameInEnglish": "Minya Al Qamh"
+    },
+    {
+        "govNameInArabic": "الشرقية",
+        "govNameInEnglish": "Sharkia",
+        "nameInArabic": "بلبيس",
+        "nameInEnglish": "Belbeis"
+    },
+    {
+        "govNameInArabic": "الشرقية",
+        "govNameInEnglish": "Sharkia",
+        "nameInArabic": "مشتول السوق",
+        "nameInEnglish": "Mashtoul El Souq"
+    },
+    {
+        "govNameInArabic": "الشرقية",
+        "govNameInEnglish": "Sharkia",
+        "nameInArabic": "القنايات",
+        "nameInEnglish": "Qenaiat"
+    },
+    {
+        "govNameInArabic": "الشرقية",
+        "govNameInEnglish": "Sharkia",
+        "nameInArabic": "أبو حماد",
+        "nameInEnglish": "Abu Hammad"
+    },
+    {
+        "govNameInArabic": "الشرقية",
+        "govNameInEnglish": "Sharkia",
+        "nameInArabic": "القرين",
+        "nameInEnglish": "El Qurain"
+    },
+    {
+        "govNameInArabic": "الشرقية",
+        "govNameInEnglish": "Sharkia",
+        "nameInArabic": "ههيا",
+        "nameInEnglish": "Hehia"
+    },
+    {
+        "govNameInArabic": "الشرقية",
+        "govNameInEnglish": "Sharkia",
+        "nameInArabic": "أبو كبير",
+        "nameInEnglish": "Abu Kabir"
+    },
+    {
+        "govNameInArabic": "الشرقية",
+        "govNameInEnglish": "Sharkia",
+        "nameInArabic": "فاقوس",
+        "nameInEnglish": "Faccus"
+    },
+    {
+        "govNameInArabic": "الشرقية",
+        "govNameInEnglish": "Sharkia",
+        "nameInArabic": "الصالحية الجديدة",
+        "nameInEnglish": "El Salihia El Gedida"
+    },
+    {
+        "govNameInArabic": "الشرقية",
+        "govNameInEnglish": "Sharkia",
+        "nameInArabic": "الإبراهيمية",
+        "nameInEnglish": "Al Ibrahimiyah"
+    },
+    {
+        "govNameInArabic": "الشرقية",
+        "govNameInEnglish": "Sharkia",
+        "nameInArabic": "ديرب نجم",
+        "nameInEnglish": "Deirb Negm"
+    },
+    {
+        "govNameInArabic": "الشرقية",
+        "govNameInEnglish": "Sharkia",
+        "nameInArabic": "كفر صقر",
+        "nameInEnglish": "Kafr Saqr"
+    },
+    {
+        "govNameInArabic": "الشرقية",
+        "govNameInEnglish": "Sharkia",
+        "nameInArabic": "أولاد صقر",
+        "nameInEnglish": "Awlad Saqr"
+    },
+    {
+        "govNameInArabic": "الشرقية",
+        "govNameInEnglish": "Sharkia",
+        "nameInArabic": "الحسينية",
+        "nameInEnglish": "Husseiniya"
+    },
+    {
+        "govNameInArabic": "الشرقية",
+        "govNameInEnglish": "Sharkia",
+        "nameInArabic": "صان الحجر القبلية",
+        "nameInEnglish": "san alhajar alqablia"
+    },
+    {
+        "govNameInArabic": "الشرقية",
+        "govNameInEnglish": "Sharkia",
+        "nameInArabic": "منشأة أبو عمر",
+        "nameInEnglish": "Manshayat Abu Omar"
+    },
+    {
+        "govNameInArabic": "بورسعيد",
+        "govNameInEnglish": "Port Said",
+        "nameInArabic": "بورسعيد",
+        "nameInEnglish": "PorSaid"
+    },
+    {
+        "govNameInArabic": "بورسعيد",
+        "govNameInEnglish": "Port Said",
+        "nameInArabic": "بورفؤاد",
+        "nameInEnglish": "PorFouad"
+    },
+    {
+        "govNameInArabic": "الإسماعلية",
+        "govNameInEnglish": "Ismailia",
+        "nameInArabic": "الإسماعيلية",
+        "nameInEnglish": "Ismailia"
+    },
+    {
+        "govNameInArabic": "الإسماعلية",
+        "govNameInEnglish": "Ismailia",
+        "nameInArabic": "فايد",
+        "nameInEnglish": "Fayed"
+    },
+    {
+        "govNameInArabic": "الإسماعلية",
+        "govNameInEnglish": "Ismailia",
+        "nameInArabic": "القنطرة شرق",
+        "nameInEnglish": "Qantara Sharq"
+    },
+    {
+        "govNameInArabic": "الإسماعلية",
+        "govNameInEnglish": "Ismailia",
+        "nameInArabic": "القنطرة غرب",
+        "nameInEnglish": "Qantara Gharb"
+    },
+    {
+        "govNameInArabic": "الإسماعلية",
+        "govNameInEnglish": "Ismailia",
+        "nameInArabic": "التل الكبير",
+        "nameInEnglish": "El Tal El Kabier"
+    },
+    {
+        "govNameInArabic": "الإسماعلية",
+        "govNameInEnglish": "Ismailia",
+        "nameInArabic": "أبو صوير",
+        "nameInEnglish": "Abu Sawir"
+    },
+    {
+        "govNameInArabic": "الإسماعلية",
+        "govNameInEnglish": "Ismailia",
+        "nameInArabic": "القصاصين الجديدة",
+        "nameInEnglish": "Kasasien El Gedida"
+    },
+    {
+        "govNameInArabic": "السويس",
+        "govNameInEnglish": "Suez",
+        "nameInArabic": "السويس",
+        "nameInEnglish": "Suez"
+    },
+    {
+        "govNameInArabic": "شمال سيناء",
+        "govNameInEnglish": "North Sinai",
+        "nameInArabic": "العريش",
+        "nameInEnglish": "Arish"
+    },
+    {
+        "govNameInArabic": "شمال سيناء",
+        "govNameInEnglish": "North Sinai",
+        "nameInArabic": "الشيخ زويد",
+        "nameInEnglish": "Sheikh Zowaid"
+    },
+    {
+        "govNameInArabic": "شمال سيناء",
+        "govNameInEnglish": "North Sinai",
+        "nameInArabic": "نخل",
+        "nameInEnglish": "Nakhl"
+    },
+    {
+        "govNameInArabic": "شمال سيناء",
+        "govNameInEnglish": "North Sinai",
+        "nameInArabic": "رفح",
+        "nameInEnglish": "Rafah"
+    },
+    {
+        "govNameInArabic": "شمال سيناء",
+        "govNameInEnglish": "North Sinai",
+        "nameInArabic": "بئر العبد",
+        "nameInEnglish": "Bir al-Abed"
+    },
+    {
+        "govNameInArabic": "شمال سيناء",
+        "govNameInEnglish": "North Sinai",
+        "nameInArabic": "الحسنة",
+        "nameInEnglish": "Al Hasana"
+    },
+    {
+        "govNameInArabic": "جنوب سيناء",
+        "govNameInEnglish": "South Sinai",
+        "nameInArabic": "الطور",
+        "nameInEnglish": "Al Toor"
+    },
+    {
+        "govNameInArabic": "جنوب سيناء",
+        "govNameInEnglish": "South Sinai",
+        "nameInArabic": "شرم الشيخ",
+        "nameInEnglish": "Sharm El-Shaikh"
+    },
+    {
+        "govNameInArabic": "جنوب سيناء",
+        "govNameInEnglish": "South Sinai",
+        "nameInArabic": "دهب",
+        "nameInEnglish": "Dahab"
+    },
+    {
+        "govNameInArabic": "جنوب سيناء",
+        "govNameInEnglish": "South Sinai",
+        "nameInArabic": "نويبع",
+        "nameInEnglish": "Nuweiba"
+    },
+    {
+        "govNameInArabic": "جنوب سيناء",
+        "govNameInEnglish": "South Sinai",
+        "nameInArabic": "طابا",
+        "nameInEnglish": "Taba"
+    },
+    {
+        "govNameInArabic": "جنوب سيناء",
+        "govNameInEnglish": "South Sinai",
+        "nameInArabic": "سانت كاترين",
+        "nameInEnglish": "Saint Catherine"
+    },
+    {
+        "govNameInArabic": "جنوب سيناء",
+        "govNameInEnglish": "South Sinai",
+        "nameInArabic": "أبو رديس",
+        "nameInEnglish": "Abu Redis"
+    },
+    {
+        "govNameInArabic": "جنوب سيناء",
+        "govNameInEnglish": "South Sinai",
+        "nameInArabic": "أبو زنيمة",
+        "nameInEnglish": "Abu Zenaima"
+    },
+    {
+        "govNameInArabic": "جنوب سيناء",
+        "govNameInEnglish": "South Sinai",
+        "nameInArabic": "رأس سدر",
+        "nameInEnglish": "Ras Sidr"
+    },
+    {
+        "govNameInArabic": "بني سويف",
+        "govNameInEnglish": "Beni Suef",
+        "nameInArabic": "بني سويف",
+        "nameInEnglish": "Bani Sweif"
+    },
+    {
+        "govNameInArabic": "بني سويف",
+        "govNameInEnglish": "Beni Suef",
+        "nameInArabic": "بني سويف الجديدة",
+        "nameInEnglish": "Beni Suef El Gedida"
+    },
+    {
+        "govNameInArabic": "بني سويف",
+        "govNameInEnglish": "Beni Suef",
+        "nameInArabic": "الواسطى",
+        "nameInEnglish": "Al Wasta"
+    },
+    {
+        "govNameInArabic": "بني سويف",
+        "govNameInEnglish": "Beni Suef",
+        "nameInArabic": "ناصر",
+        "nameInEnglish": "Naser"
+    },
+    {
+        "govNameInArabic": "بني سويف",
+        "govNameInEnglish": "Beni Suef",
+        "nameInArabic": "إهناسيا",
+        "nameInEnglish": "Ehnasia"
+    },
+    {
+        "govNameInArabic": "بني سويف",
+        "govNameInEnglish": "Beni Suef",
+        "nameInArabic": "ببا",
+        "nameInEnglish": "beba"
+    },
+    {
+        "govNameInArabic": "بني سويف",
+        "govNameInEnglish": "Beni Suef",
+        "nameInArabic": "الفشن",
+        "nameInEnglish": "Fashn"
+    },
+    {
+        "govNameInArabic": "بني سويف",
+        "govNameInEnglish": "Beni Suef",
+        "nameInArabic": "سمسطا",
+        "nameInEnglish": "Somasta"
+    },
+    {
+        "govNameInArabic": "الفيوم",
+        "govNameInEnglish": "Fayoum",
+        "nameInArabic": "الفيوم",
+        "nameInEnglish": "Fayoum"
+    },
+    {
+        "govNameInArabic": "الفيوم",
+        "govNameInEnglish": "Fayoum",
+        "nameInArabic": "الفيوم الجديدة",
+        "nameInEnglish": "Fayoum El Gedida"
+    },
+    {
+        "govNameInArabic": "الفيوم",
+        "govNameInEnglish": "Fayoum",
+        "nameInArabic": "طامية",
+        "nameInEnglish": "Tamiya"
+    },
+    {
+        "govNameInArabic": "الفيوم",
+        "govNameInEnglish": "Fayoum",
+        "nameInArabic": "سنورس",
+        "nameInEnglish": "Snores"
+    },
+    {
+        "govNameInArabic": "الفيوم",
+        "govNameInEnglish": "Fayoum",
+        "nameInArabic": "إطسا",
+        "nameInEnglish": "Etsa"
+    },
+    {
+        "govNameInArabic": "الفيوم",
+        "govNameInEnglish": "Fayoum",
+        "nameInArabic": "إبشواي",
+        "nameInEnglish": "Epschway"
+    },
+    {
+        "govNameInArabic": "الفيوم",
+        "govNameInEnglish": "Fayoum",
+        "nameInArabic": "يوسف الصديق",
+        "nameInEnglish": "Yusuf El Sediaq"
+    },
+    {
+        "govNameInArabic": "المنيا",
+        "govNameInEnglish": "Minya",
+        "nameInArabic": "المنيا",
+        "nameInEnglish": "Minya"
+    },
+    {
+        "govNameInArabic": "المنيا",
+        "govNameInEnglish": "Minya",
+        "nameInArabic": "المنيا الجديدة",
+        "nameInEnglish": "Minya El Gedida"
+    },
+    {
+        "govNameInArabic": "المنيا",
+        "govNameInEnglish": "Minya",
+        "nameInArabic": "العدوة",
+        "nameInEnglish": "El Adwa"
+    },
+    {
+        "govNameInArabic": "المنيا",
+        "govNameInEnglish": "Minya",
+        "nameInArabic": "مغاغة",
+        "nameInEnglish": "Magagha"
+    },
+    {
+        "govNameInArabic": "المنيا",
+        "govNameInEnglish": "Minya",
+        "nameInArabic": "بني مزار",
+        "nameInEnglish": "Bani Mazar"
+    },
+    {
+        "govNameInArabic": "المنيا",
+        "govNameInEnglish": "Minya",
+        "nameInArabic": "مطاي",
+        "nameInEnglish": "Mattay"
+    },
+    {
+        "govNameInArabic": "المنيا",
+        "govNameInEnglish": "Minya",
+        "nameInArabic": "سمالوط",
+        "nameInEnglish": "Samalut"
+    },
+    {
+        "govNameInArabic": "المنيا",
+        "govNameInEnglish": "Minya",
+        "nameInArabic": "المدينة الفكرية",
+        "nameInEnglish": "Madinat El Fekria"
+    },
+    {
+        "govNameInArabic": "المنيا",
+        "govNameInEnglish": "Minya",
+        "nameInArabic": "ملوي",
+        "nameInEnglish": "Meloy"
+    },
+    {
+        "govNameInArabic": "المنيا",
+        "govNameInEnglish": "Minya",
+        "nameInArabic": "دير مواس",
+        "nameInEnglish": "Deir Mawas"
+    },
+    {
+        "govNameInArabic": "اسيوط",
+        "govNameInEnglish": "Assiut",
+        "nameInArabic": "أسيوط",
+        "nameInEnglish": "Assiut"
+    },
+    {
+        "govNameInArabic": "اسيوط",
+        "govNameInEnglish": "Assiut",
+        "nameInArabic": "أسيوط الجديدة",
+        "nameInEnglish": "Assiut El Gedida"
+    },
+    {
+        "govNameInArabic": "اسيوط",
+        "govNameInEnglish": "Assiut",
+        "nameInArabic": "ديروط",
+        "nameInEnglish": "Dayrout"
+    },
+    {
+        "govNameInArabic": "اسيوط",
+        "govNameInEnglish": "Assiut",
+        "nameInArabic": "منفلوط",
+        "nameInEnglish": "Manfalut"
+    },
+    {
+        "govNameInArabic": "اسيوط",
+        "govNameInEnglish": "Assiut",
+        "nameInArabic": "القوصية",
+        "nameInEnglish": "Qusiya"
+    },
+    {
+        "govNameInArabic": "اسيوط",
+        "govNameInEnglish": "Assiut",
+        "nameInArabic": "أبنوب",
+        "nameInEnglish": "Abnoub"
+    },
+    {
+        "govNameInArabic": "اسيوط",
+        "govNameInEnglish": "Assiut",
+        "nameInArabic": "أبو تيج",
+        "nameInEnglish": "Abu Tig"
+    },
+    {
+        "govNameInArabic": "اسيوط",
+        "govNameInEnglish": "Assiut",
+        "nameInArabic": "الغنايم",
+        "nameInEnglish": "El Ghanaim"
+    },
+    {
+        "govNameInArabic": "اسيوط",
+        "govNameInEnglish": "Assiut",
+        "nameInArabic": "ساحل سليم",
+        "nameInEnglish": "Sahel Selim"
+    },
+    {
+        "govNameInArabic": "اسيوط",
+        "govNameInEnglish": "Assiut",
+        "nameInArabic": "البداري",
+        "nameInEnglish": "El Badari"
+    },
+    {
+        "govNameInArabic": "اسيوط",
+        "govNameInEnglish": "Assiut",
+        "nameInArabic": "صدفا",
+        "nameInEnglish": "Sidfa"
+    },
+    {
+        "govNameInArabic": "الوادي الجديد",
+        "govNameInEnglish": "New Valley",
+        "nameInArabic": "الخارجة",
+        "nameInEnglish": "El Kharga"
+    },
+    {
+        "govNameInArabic": "الوادي الجديد",
+        "govNameInEnglish": "New Valley",
+        "nameInArabic": "باريس",
+        "nameInEnglish": "Paris"
+    },
+    {
+        "govNameInArabic": "الوادي الجديد",
+        "govNameInEnglish": "New Valley",
+        "nameInArabic": "موط",
+        "nameInEnglish": "Mout"
+    },
+    {
+        "govNameInArabic": "الوادي الجديد",
+        "govNameInEnglish": "New Valley",
+        "nameInArabic": "الفرافرة",
+        "nameInEnglish": "Farafra"
+    },
+    {
+        "govNameInArabic": "الوادي الجديد",
+        "govNameInEnglish": "New Valley",
+        "nameInArabic": "بلاط",
+        "nameInEnglish": "Balat"
+    },
+    {
+        "govNameInArabic": "البحر الأحمر",
+        "govNameInEnglish": "Red Sea",
+        "nameInArabic": "الغردقة",
+        "nameInEnglish": "Hurghada"
+    },
+    {
+        "govNameInArabic": "البحر الأحمر",
+        "govNameInEnglish": "Red Sea",
+        "nameInArabic": "رأس غارب",
+        "nameInEnglish": "Ras Ghareb"
+    },
+    {
+        "govNameInArabic": "البحر الأحمر",
+        "govNameInEnglish": "Red Sea",
+        "nameInArabic": "سفاجا",
+        "nameInEnglish": "Safaga"
+    },
+    {
+        "govNameInArabic": "البحر الأحمر",
+        "govNameInEnglish": "Red Sea",
+        "nameInArabic": "القصير",
+        "nameInEnglish": "El Qusiar"
+    },
+    {
+        "govNameInArabic": "البحر الأحمر",
+        "govNameInEnglish": "Red Sea",
+        "nameInArabic": "مرسى علم",
+        "nameInEnglish": "Marsa Alam"
+    },
+    {
+        "govNameInArabic": "البحر الأحمر",
+        "govNameInEnglish": "Red Sea",
+        "nameInArabic": "الشلاتين",
+        "nameInEnglish": "Shalatin"
+    },
+    {
+        "govNameInArabic": "البحر الأحمر",
+        "govNameInEnglish": "Red Sea",
+        "nameInArabic": "حلايب",
+        "nameInEnglish": "Halaib"
+    },
+    {
+        "govNameInArabic": "سوهاج",
+        "govNameInEnglish": "Sohag",
+        "nameInArabic": "سوهاج",
+        "nameInEnglish": "Sohag"
+    },
+    {
+        "govNameInArabic": "سوهاج",
+        "govNameInEnglish": "Sohag",
+        "nameInArabic": "سوهاج الجديدة",
+        "nameInEnglish": "Sohag El Gedida"
+    },
+    {
+        "govNameInArabic": "سوهاج",
+        "govNameInEnglish": "Sohag",
+        "nameInArabic": "أخميم",
+        "nameInEnglish": "Akhmeem"
+    },
+    {
+        "govNameInArabic": "سوهاج",
+        "govNameInEnglish": "Sohag",
+        "nameInArabic": "أخميم الجديدة",
+        "nameInEnglish": "Akhmim El Gedida"
+    },
+    {
+        "govNameInArabic": "سوهاج",
+        "govNameInEnglish": "Sohag",
+        "nameInArabic": "البلينا",
+        "nameInEnglish": "Albalina"
+    },
+    {
+        "govNameInArabic": "سوهاج",
+        "govNameInEnglish": "Sohag",
+        "nameInArabic": "المراغة",
+        "nameInEnglish": "El Maragha"
+    },
+    {
+        "govNameInArabic": "سوهاج",
+        "govNameInEnglish": "Sohag",
+        "nameInArabic": "المنشأة",
+        "nameInEnglish": "  "
+    },
+    {
+        "govNameInArabic": "سوهاج",
+        "govNameInEnglish": "Sohag",
+        "nameInArabic": "دار السلام",
+        "nameInEnglish": "Dar AISalaam"
+    },
+    {
+        "govNameInArabic": "سوهاج",
+        "govNameInEnglish": "Sohag",
+        "nameInArabic": "جرجا",
+        "nameInEnglish": "Gerga"
+    },
+    {
+        "govNameInArabic": "سوهاج",
+        "govNameInEnglish": "Sohag",
+        "nameInArabic": "جهينة الغربية",
+        "nameInEnglish": "Jahina Al Gharbia"
+    },
+    {
+        "govNameInArabic": "سوهاج",
+        "govNameInEnglish": "Sohag",
+        "nameInArabic": "ساقلته",
+        "nameInEnglish": "Saqilatuh"
+    },
+    {
+        "govNameInArabic": "سوهاج",
+        "govNameInEnglish": "Sohag",
+        "nameInArabic": "طما",
+        "nameInEnglish": "Tama"
+    },
+    {
+        "govNameInArabic": "سوهاج",
+        "govNameInEnglish": "Sohag",
+        "nameInArabic": "طهطا",
+        "nameInEnglish": "Tahta"
+    },
+    {
+        "govNameInArabic": "قنا",
+        "govNameInEnglish": "Qena",
+        "nameInArabic": "قنا",
+        "nameInEnglish": "Qena"
+    },
+    {
+        "govNameInArabic": "قنا",
+        "govNameInEnglish": "Qena",
+        "nameInArabic": "قنا الجديدة",
+        "nameInEnglish": "New Qena"
+    },
+    {
+        "govNameInArabic": "قنا",
+        "govNameInEnglish": "Qena",
+        "nameInArabic": "أبو تشت",
+        "nameInEnglish": "Abu Tesht"
+    },
+    {
+        "govNameInArabic": "قنا",
+        "govNameInEnglish": "Qena",
+        "nameInArabic": "نجع حمادي",
+        "nameInEnglish": "Nag Hammadi"
+    },
+    {
+        "govNameInArabic": "قنا",
+        "govNameInEnglish": "Qena",
+        "nameInArabic": "دشنا",
+        "nameInEnglish": "Deshna"
+    },
+    {
+        "govNameInArabic": "قنا",
+        "govNameInEnglish": "Qena",
+        "nameInArabic": "الوقف",
+        "nameInEnglish": "Alwaqf"
+    },
+    {
+        "govNameInArabic": "قنا",
+        "govNameInEnglish": "Qena",
+        "nameInArabic": "قفط",
+        "nameInEnglish": "Qaft"
+    },
+    {
+        "govNameInArabic": "قنا",
+        "govNameInEnglish": "Qena",
+        "nameInArabic": "نقادة",
+        "nameInEnglish": "Naqada"
+    },
+    {
+        "govNameInArabic": "قنا",
+        "govNameInEnglish": "Qena",
+        "nameInArabic": "فرشوط",
+        "nameInEnglish": "Farshout"
+    },
+    {
+        "govNameInArabic": "قنا",
+        "govNameInEnglish": "Qena",
+        "nameInArabic": "قوص",
+        "nameInEnglish": "Quos"
+    },
+    {
+        "govNameInArabic": "الأقصر",
+        "govNameInEnglish": "Luxor",
+        "nameInArabic": "الأقصر",
+        "nameInEnglish": "Luxor"
+    },
+    {
+        "govNameInArabic": "الأقصر",
+        "govNameInEnglish": "Luxor",
+        "nameInArabic": "الأقصر الجديدة",
+        "nameInEnglish": "New Luxor"
+    },
+    {
+        "govNameInArabic": "الأقصر",
+        "govNameInEnglish": "Luxor",
+        "nameInArabic": "إسنا",
+        "nameInEnglish": "Esna"
+    },
+    {
+        "govNameInArabic": "الأقصر",
+        "govNameInEnglish": "Luxor",
+        "nameInArabic": "طيبة الجديدة",
+        "nameInEnglish": "New Tiba"
+    },
+    {
+        "govNameInArabic": "الأقصر",
+        "govNameInEnglish": "Luxor",
+        "nameInArabic": "الزينية",
+        "nameInEnglish": "Al ziynia"
+    },
+    {
+        "govNameInArabic": "الأقصر",
+        "govNameInEnglish": "Luxor",
+        "nameInArabic": "البياضية",
+        "nameInEnglish": "Al Bayadieh"
+    },
+    {
+        "govNameInArabic": "الأقصر",
+        "govNameInEnglish": "Luxor",
+        "nameInArabic": "القرنة",
+        "nameInEnglish": "Al Qarna"
+    },
+    {
+        "govNameInArabic": "الأقصر",
+        "govNameInEnglish": "Luxor",
+        "nameInArabic": "أرمنت",
+        "nameInEnglish": "Armant"
+    },
+    {
+        "govNameInArabic": "الأقصر",
+        "govNameInEnglish": "Luxor",
+        "nameInArabic": "الطود",
+        "nameInEnglish": "Al Tud"
+    },
+    {
+        "govNameInArabic": "اسوان",
+        "govNameInEnglish": "Aswan",
+        "nameInArabic": "أسوان",
+        "nameInEnglish": "Aswan"
+    },
+    {
+        "govNameInArabic": "اسوان",
+        "govNameInEnglish": "Aswan",
+        "nameInArabic": "أسوان الجديدة",
+        "nameInEnglish": "Aswan El Gedida"
+    },
+    {
+        "govNameInArabic": "اسوان",
+        "govNameInEnglish": "Aswan",
+        "nameInArabic": "دراو",
+        "nameInEnglish": "Drau"
+    },
+    {
+        "govNameInArabic": "اسوان",
+        "govNameInEnglish": "Aswan",
+        "nameInArabic": "كوم أمبو",
+        "nameInEnglish": "Kom Ombo"
+    },
+    {
+        "govNameInArabic": "اسوان",
+        "govNameInEnglish": "Aswan",
+        "nameInArabic": "نصر النوبة",
+        "nameInEnglish": "Nasr Al Nuba"
+    },
+    {
+        "govNameInArabic": "اسوان",
+        "govNameInEnglish": "Aswan",
+        "nameInArabic": "كلابشة",
+        "nameInEnglish": "Kalabsha"
+    },
+    {
+        "govNameInArabic": "اسوان",
+        "govNameInEnglish": "Aswan",
+        "nameInArabic": "إدفو",
+        "nameInEnglish": "Edfu"
+    },
+    {
+        "govNameInArabic": "اسوان",
+        "govNameInEnglish": "Aswan",
+        "nameInArabic": "الرديسية",
+        "nameInEnglish": "Al-Radisiyah"
+    },
+    {
+        "govNameInArabic": "اسوان",
+        "govNameInEnglish": "Aswan",
+        "nameInArabic": "البصيلية",
+        "nameInEnglish": "Al Basilia"
+    },
+    {
+        "govNameInArabic": "اسوان",
+        "govNameInEnglish": "Aswan",
+        "nameInArabic": "السباعية",
+        "nameInEnglish": "Al Sibaeia"
+    },
+    {
+        "govNameInArabic": "اسوان",
+        "govNameInEnglish": "Aswan",
+        "nameInArabic": "ابوسمبل السياحية",
+        "nameInEnglish": "Abo Simbl Al Siyahia"
+    },
+    {
+        "govNameInArabic": "اسوان",
+        "govNameInEnglish": "Aswan",
+        "nameInArabic": "ابوسمبل السياحية",
+        "nameInEnglish": "Abo Simbl Al Siyahia"
+    }
+]
