@@ -1,14 +1,13 @@
 import React from 'react'
 import axios from 'axios';
 import Button from '@material-ui/core/Button'
-import Visibility from '@material-ui/icons/Visibility'
-import VisibilityOff from '@material-ui/icons/VisibilityOff'
 import Input from '@material-ui/core/Input'
 import InputLabel from '@material-ui/core/InputLabel'
+import FormControl from '@material-ui/core/FormControl'
+import Visibility from '@material-ui/icons/Visibility'
+import VisibilityOff from '@material-ui/icons/VisibilityOff'
 import IconButton from '@material-ui/core/IconButton'
 import InputAdornment from '@material-ui/core/InputAdornment'
-import FormControl from '@material-ui/core/FormControl'
-
 const Joi = require("joi");
 
 export default class InvestorRegister extends React.Component {
@@ -197,6 +196,16 @@ export default class InvestorRegister extends React.Component {
                             <Input
                                 id="password"
                                 type={this.state.showPassword ? 'text' : 'password'}
+                                endAdornment={
+                                    <InputAdornment position="end">
+                                      <IconButton
+                                        aria-label="Toggle password visibility"
+                                        onClick={this.handleClickShowPassword}
+                                      >
+                                        {this.state.showPassword ? <Visibility /> : <VisibilityOff />}
+                                      </IconButton>
+                                    </InputAdornment>
+                                }
                             />
                     </FormControl>
                     <br />
