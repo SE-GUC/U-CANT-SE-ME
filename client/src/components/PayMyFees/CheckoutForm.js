@@ -2,6 +2,8 @@ import React, { Component } from "react";
 import { CardElement, injectStripe } from "react-stripe-elements";
 import axios from "axios";
 
+const { serverURI } = require("../../config/keys");
+
 class CheckoutForm extends Component {
   constructor(props) {
     super(props);
@@ -13,7 +15,7 @@ class CheckoutForm extends Component {
     let verdict = {};
     try {
       await axios.post(
-        `http://localhost:5000/api/investors/payFees/${this.props.investorId}/${this.props.caseId}`,
+        serverURI + `/investors/payFees/${this.props.investorId}/${this.props.caseId}`,
         { tokenId: token.id }
       );
       verdict = { completed: true, failed: false };

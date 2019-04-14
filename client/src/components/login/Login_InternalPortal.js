@@ -10,6 +10,8 @@ import IconButton from '@material-ui/core/IconButton'
 import InputAdornment from '@material-ui/core/InputAdornment'
 import FormControl from '@material-ui/core/FormControl'
 
+const { serverURI } = require("../../config/keys");
+
 export default class Login extends Component {
   constructor(props) {
     super(props);
@@ -37,11 +39,11 @@ export default class Login extends Component {
       if(this.state.type.toString()==="")
         throw new Error('You Have To Select an Account Type')
       if (type === "Admin")
-        res = await axios.post("http://localhost:5000/api/admins/login",bodyAdmin);
+        res = await axios.post(serverURI + "/admins/login",bodyAdmin);
       else if (type === "Reviewer")
-        res = await axios.post("http://localhost:5000/api/reviewers/login",body);
+        res = await axios.post(serverURI + "/reviewers/login",body);
       else if (type === "Lawyer")
-        res = await axios.post("http://localhost:5000/api/lawyers/login", body);
+        res = await axios.post(serverURI + "/lawyers/login", body);
       else{
         document.getElementById("Error_Type").style.display = "inline";
       }
