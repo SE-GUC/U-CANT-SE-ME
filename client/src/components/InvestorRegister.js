@@ -1,6 +1,16 @@
 import React from 'react'
 import axios from 'axios';
+import Button from '@material-ui/core/Button'
+import Visibility from '@material-ui/icons/Visibility'
+import VisibilityOff from '@material-ui/icons/VisibilityOff'
+import Input from '@material-ui/core/Input'
+import InputLabel from '@material-ui/core/InputLabel'
+import IconButton from '@material-ui/core/IconButton'
+import InputAdornment from '@material-ui/core/InputAdornment'
+import FormControl from '@material-ui/core/FormControl'
+
 const Joi = require("joi");
+
 export default class InvestorRegister extends React.Component {
     constructor(props) {
         super(props)
@@ -15,6 +25,7 @@ export default class InvestorRegister extends React.Component {
             telephoneNumberError:'',
             faxError:'',
             valid:'',
+            showPassword: false
         }
     }
     submit= async()=> {
@@ -38,6 +49,7 @@ export default class InvestorRegister extends React.Component {
             telephoneNumber: form.telephoneNumber.value,
             fax: form.fax.value
         }
+        console.log('body', body)
         Joi.validate({fullName:body.fullName}, {fullName: Joi.string().min(3)}, function (error, value) {
             if(error)
             {
@@ -150,45 +162,117 @@ export default class InvestorRegister extends React.Component {
             }
         }
     };
+
+    handleClickShowPassword = () => {
+        this.setState(state => ({ showPassword: !state.showPassword }));
+    }
+
     render() {
         return (
           <div>
-            <form id="InvestorRegister">
-            Full Name: <input type="text" name="fullName"/><br/>
-            {this.state.fullNameError}<br/>
-            Email: <input type="text" name="email"/><br/>
-            {this.state.emailError}<br/>
-            Password: <input type="text" name="password"/><br/>
-            {this.state.passwordError}<br/>
-            Type:   <select id="type">
-                        <option value="fullTimeInvestor">Full Time Investor</option>
-                    </select><br/>
+                <br />
+                <form id="InvestorRegister">
+                    <FormControl>    
+                        <InputLabel>Full Name</InputLabel>
+                        <Input
+                            id="fullName"
+                            type='text'
+                        />
+                    </FormControl>
+                    <br />
+                    {this.state.fullNameError}<br/>
+                    <br />
+                    <FormControl>    
+                        <InputLabel>Email</InputLabel>
+                        <Input
+                            id="email"
+                            type='text'
+                        />
+                    </FormControl>
+                    <br />
+                    {this.state.emailError}<br/>
+                    <br />
+                    <FormControl>    
+                        <InputLabel htmlFor="adornment-password">Password</InputLabel>
+                            <Input
+                                id="password"
+                                type={this.state.showPassword ? 'text' : 'password'}
+                            />
+                    </FormControl>
+                    <br />
+                    {this.state.passwordError}<br/>
+                    <br />
+                    Type:   <select id="type">
+                                <option value="fullTimeInvestor">Full Time Investor</option>
+                            </select><br/>
+                    Gender: <select id="gender">
+                                <option value="Male">Male</option>
+                                <option value="Female">Female</option>
+                            </select><br/>
+                    <FormControl>    
+                        <InputLabel>Nationality</InputLabel>
+                            <Input
+                                id="nationality"
+                                type='text'
+                            />
+                    </FormControl>
+                    <br />
+                    {this.state.nationalityError}<br/>
+                    Method Of Identification:   <select id="methodOfIdentification">
+                                                    <option value="Passport">Passport</option>
+                                                    <option value="National ID">National ID</option>
+                                                </select><br/>
 
-            Gender: <select id="gender">
-                        <option value="Male">Male</option>
-                        <option value="Female">Female</option>
-                    </select><br/>
-
-            Nationality: <input type="text" name="nationality"/><br/>
-            {this.state.nationalityError}<br/>
-            Method Of Identification:   <select id="methodOfIdentification">
-                                            <option value="Passport">Passport</option>
-                                            <option value="National ID">National ID</option>
-                                        </select><br/>
-
-            Identification Number: <input type="text" name="identificationNumber"/><br/>
-            {this.state.identificationNumberError}<br/>
-            Date Of Birth: <input type="date" name="dateOfBirth"/><br/>
-            {this.state.dateOfBirthError}<br/>
-            Ressidence Address: <input type="text" name="residenceAddress"/><br/>
-            {this.state.residenceAddressError}<br/>
-            Telephone Number: <input type="text" name="telephoneNumber"/><br/>
-            {this.state.telephoneNumberError}<br/>
-            Fax: <input type="text" name="fax"/><br/>
-            {this.state.faxError}<br/>
-            </form>
-            <button onClick={this.submit}>Regsiter</button><br/>
-            {this.state.valid}
+                    <FormControl>    
+                        <InputLabel>Identification Number</InputLabel>
+                            <Input
+                                id="identificationNumber"
+                                type='text'
+                            />
+                    </FormControl>
+                    <br />
+                    {this.state.identificationNumberError}<br/>
+                    <br />
+                    Date Of Birth: <input type="date" name="dateOfBirth"/><br/>
+                    {this.state.dateOfBirthError}<br/>
+            
+                    <FormControl>    
+                        <InputLabel>Residence Address</InputLabel>
+                            <Input
+                                id="residenceAddress"
+                                type='text'
+                            />
+                    </FormControl>
+                    <br />
+                    {this.state.residenceAddressError}<br/>
+                    <FormControl>    
+                        <InputLabel>Telephone Number</InputLabel>
+                            <Input
+                                id="telephoneNumber"
+                                type='text'
+                            />
+                    </FormControl>
+                    <br />
+                    {this.state.telephoneNumberError}<br/> 
+                    <FormControl>    
+                        <InputLabel>Fax</InputLabel>
+                            <Input
+                                id="fax"
+                                type='text'
+                            />
+                    </FormControl>
+                    <br />
+                    {this.state.faxError}<br/> 
+                </form>
+                <br />
+                <Button variant="outlined" color="primary" onClick={this.submit}>
+                    Register
+                </Button>
+                <br />
+                <label id="Success" class="text-success">
+                    {this.state.valid}
+                </label>
+                <br />
           </div>
         );
       }
