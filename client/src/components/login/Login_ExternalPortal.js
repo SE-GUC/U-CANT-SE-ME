@@ -1,11 +1,20 @@
 import React, { Component } from 'react'
 import axios from 'axios'
+import Button from '@material-ui/core/Button'
+import Visibility from '@material-ui/icons/Visibility'
+import VisibilityOff from '@material-ui/icons/VisibilityOff'
+import Input from '@material-ui/core/Input'
+import InputLabel from '@material-ui/core/InputLabel'
+import IconButton from '@material-ui/core/IconButton'
+import InputAdornment from '@material-ui/core/InputAdornment'
+import FormControl from '@material-ui/core/FormControl'
 
 class ExternalLogin extends Component {
     state = {
-        email: "",
-        password: "",
-        id: ""
+        email: '',
+        password: '',
+        id: '',
+        showPassword: false
     }
     handleSubmit = async () => {
         const req = {
@@ -21,13 +30,16 @@ class ExternalLogin extends Component {
         }
         catch(error){
             document.getElementById('Error').style.display = 'inline'
-            // alert('Wrong Email or Password')
         }
     }
     handleChange = event => {
         this.setState({
             [event.target.id]: event.target.value
         })
+    }
+
+    handleClickShowPassword = () => {
+        this.setState(state => ({ showPassword: !state.showPassword }));
     }
 
 render(){
@@ -46,20 +58,51 @@ render(){
         <br />
         <h3 class="text-center text-info">Login</h3>
         <br />
-        <div className = "form">
-            <label class="text-info">Email</label>
-            <input class="form-control" onChange={this.handleChange} type="text" id="email" style={styles.label}/>
-        </div>
-        <div className = "form">
-            <label class="text-info">Password</label>
-            <input class="form-control" onChange={this.handleChange} type="password" id="password" style={styles.label}/>
-        </div>
+
+        <FormControl>    
+            <InputLabel>Email</InputLabel>
+            <Input
+                id="email"
+                type='text'
+                value={this.state.email}
+                onChange={this.handleChange}
+                
+            />
+        </FormControl>
+        <br />
+        <br />
+        <FormControl>    
+            <InputLabel htmlFor="adornment-password">Password</InputLabel>
+            <Input
+                id="password"
+                type={this.state.showPassword ? 'text' : 'password'}
+                value={this.state.password}
+                onChange={this.handleChange}
+                endAdornment={
+                  <InputAdornment position="end">
+                    <IconButton
+                      aria-label="Toggle password visibility"
+                      onClick={this.handleClickShowPassword}
+                    >
+                      {this.state.showPassword ? <Visibility /> : <VisibilityOff />}
+                    </IconButton>
+                  </InputAdornment>
+                }
+            />
+        </FormControl>
+        <br />
         <label id="Error" style={styles.error} class="text-danger"> Wrong Email or Password</label>
         <br />
-        <button type="button" class="btn btn-outline-primary" onClick={this.handleSubmit}>Login</button>
+        <Button variant="outlined" color="primary" onClick={this.handleSubmit}>
+            Login
+        </Button>
         <div className="dropdown-divider"></div>
-            <a className="dropdown-item" href="#">New around here? Sign up</a>
-            <a className="dropdown-item" href="#">Forgot password?</a>
+            <Button variant="primary" size="large">
+                New around here? Sign up.
+            </Button>
+            <Button variant="primary" size="large">
+                Forgot password?
+            </Button>
     </div>
     )}
 }

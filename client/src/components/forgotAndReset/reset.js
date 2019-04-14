@@ -1,10 +1,18 @@
 import React, { Component } from 'react'
 import axios from 'axios'
 import Button from '@material-ui/core/Button'
+import Visibility from '@material-ui/icons/Visibility'
+import VisibilityOff from '@material-ui/icons/VisibilityOff'
+import Input from '@material-ui/core/Input'
+import InputLabel from '@material-ui/core/InputLabel'
+import IconButton from '@material-ui/core/IconButton'
+import InputAdornment from '@material-ui/core/InputAdornment'
+import FormControl from '@material-ui/core/FormControl'
 
 class ExternalLogin extends Component {
     state = {
-        password: ""
+        password: '',
+        showPassword: false
     }
     handleSubmit = async () => {
         const req = {
@@ -31,6 +39,10 @@ class ExternalLogin extends Component {
         })
     }
 
+    handleClickShowPassword = () => {
+        this.setState(state => ({ showPassword: !state.showPassword }));
+    }
+
 render(){
     const styles = {
         error: {
@@ -45,10 +57,26 @@ render(){
     <div>
         <br />
         <br />
-        <div className = "form">
-            <label class="text-info">New Password</label>
-            <input class="form-control" onChange={this.handleChange} type="password" id="password" style={styles.label}/>
-        </div>
+        <FormControl>    
+            <InputLabel htmlFor="adornment-password">New Password</InputLabel>
+            <Input
+                id="password"
+                type={this.state.showPassword ? 'text' : 'password'}
+                value={this.state.password}
+                onChange={this.handleChange}
+                endAdornment={
+                  <InputAdornment position="end">
+                    <IconButton
+                      aria-label="Toggle password visibility"
+                      onClick={this.handleClickShowPassword}
+                    >
+                      {this.state.showPassword ? <Visibility /> : <VisibilityOff />}
+                    </IconButton>
+                  </InputAdornment>
+                }
+            />
+        </FormControl>
+        <br />
         <label id="Success" style={styles.error} class="text-success">
             Password successfully reset.
         </label>

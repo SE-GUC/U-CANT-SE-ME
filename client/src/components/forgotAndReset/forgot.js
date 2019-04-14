@@ -1,11 +1,14 @@
 import React, { Component } from 'react'
 import axios from 'axios'
 import Button from '@material-ui/core/Button'
+import Input from '@material-ui/core/Input'
+import InputLabel from '@material-ui/core/InputLabel'
+import FormControl from '@material-ui/core/FormControl'
 
 class ExternalLogin extends Component {
     state = {
-        email: "",
-        type: ""
+        email: '',
+        type: ''
     }
     handleSubmit = async () => {
         const req = {
@@ -38,6 +41,7 @@ class ExternalLogin extends Component {
             [event.target.id]: event.target.value
         })
     }
+    
 
 render(){
     const styles = {
@@ -64,10 +68,18 @@ render(){
         <label id="Error_Type" style={styles.error} class="text-danger">
           You Have to Select an Account Type
         </label>
-        <div className = "form">
-            <label class="text-info">Email</label>
-            <input class="form-control" onChange={this.handleChange} type="text" id="email" style={styles.label}/>
-        </div>
+        <br />
+        <FormControl>    
+            <InputLabel>Email</InputLabel>
+            <Input
+                id="email"
+                type='text'
+                value={this.state.email}
+                onChange={this.handleChange}
+                
+            />
+        </FormControl>
+        <br />
         <label id="Success" style={styles.error} class="text-success">
             Email has been successfully sent.
         </label>
@@ -77,7 +89,7 @@ render(){
             Submit
         </Button>
         <div className="dropdown-divider"></div>
-            <Button variant="primary" size="large">
+            <Button variant="primary">
                 New around here? Sign up.
             </Button>
     </div>
