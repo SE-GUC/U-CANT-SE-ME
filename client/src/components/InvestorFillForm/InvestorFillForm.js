@@ -86,7 +86,7 @@ class InvestorFillForm extends Component {
         this.props.onChange(this.props.id)
     }
     changeType = e => {
-        this.setState({companyType: e})
+        this.setState({companyType: e.target.value})
         let me =this
         Joi.validate({x:e.target.value}, {x: Joi.string().min(3)}, function (error, value) {
             if(error)

@@ -14,6 +14,8 @@ function Header() {
     | <Link style={linkStyle} to="/login">Login</Link>
     | <Link style={linkStyle} to="/InvestorRegister">Register Investor</Link>
     | <Link style={linkStyle} to="/ElectronicJournals">Electronic Journals</Link>
+    |  <Link style={linkStyle} to="/updateInvestorProfile">updateInvestorProfile</Link>
+
     </header>
   )
 }

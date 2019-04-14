@@ -6,7 +6,7 @@ const router = express.Router();
 // module Lawyer Controller
 const adminController = require("../../controllers/adminController");
 const caseController = require("../../controllers/caseController")
-
+const formTemplateController = require("../../controllers/formTemplateController");
 
 //Read
 router.get('/',adminController.getAllAdmins);
@@ -35,5 +35,8 @@ router.post('/registerReviewer', adminController.registerReviewer);
 
 //Login
 router.post('/login', adminController.loginAdmin)
+
+//Create FormTemplate
+router.post('/createFormTemplate', formTemplateController.createFormTemplate)
 
 module.exports = router;
