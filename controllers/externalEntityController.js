@@ -116,6 +116,10 @@ exports.postSSCPDF=async function (req,res){
 const oneCase = await Case.findById(caseID);
 if (!oneCase)
   return res.status(400).send({ err: "Case entered not found" });
+  var companyType =oneCase.companyType;
+  if(companyType!=="SSC"){
+    return res.status(404).send({err:"Wrong CompanyType"});
+  }
 
 var html=await makingHtmlForSSC(caseID);
 var allHtml =`<!doctype html><html><div>`+html+` </div></html>`;
@@ -138,6 +142,10 @@ exports.getSSCPDF=async function (req,res){
 const oneCase = await Case.findById(caseID);
 if (!oneCase)
   return res.status(400).send({ err: "Case entered not found" });
+  var companyType =oneCase.companyType;
+  if(companyType!=="SSC"){
+    return res.status(404).send({err:"Wrong CompanyType"});
+  }
 
   var html=await makingHtmlForSSC(caseID);
   var allHtml =`<!doctype html><html><div>`+html+` </div></html>`;
@@ -157,6 +165,10 @@ exports.viewSSCPDF=async function (req,res){
 const oneCase = await Case.findById(caseID);
 if (!oneCase)
   return res.status(400).send({ err: "Case entered not found" });
+  var companyType =oneCase.companyType;
+  if(companyType!=="SSC"){
+    return res.status(404).send({err:"Wrong CompanyType"});
+  }
   var html=await makingHtmlForSSC(caseID);
   var allHtml =`<!doctype html><html><div>`+html+` </div></html>`;
 res.send(allHtml);
