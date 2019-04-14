@@ -1,5 +1,14 @@
 import React from 'react'
 import axios from 'axios';
+import Button from '@material-ui/core/Button'
+import Input from '@material-ui/core/Input'
+import InputLabel from '@material-ui/core/InputLabel'
+import FormControl from '@material-ui/core/FormControl'
+import Visibility from '@material-ui/icons/Visibility'
+import VisibilityOff from '@material-ui/icons/VisibilityOff'
+import IconButton from '@material-ui/core/IconButton'
+import InputAdornment from '@material-ui/core/InputAdornment'
+import { Redirect } from 'react-router-dom';
 const Joi = require("joi");
 export default class RegisterLawyer extends React.Component {
     
@@ -10,7 +19,8 @@ export default class RegisterLawyer extends React.Component {
             emailError:'',
             passwordError:'',
             usernameError:'',
-            val:''
+            val:'',
+            showPassword: false
         }
     }
 
@@ -51,7 +61,7 @@ export default class RegisterLawyer extends React.Component {
                 me.setState({fullNameError:''});
         });
 
-        Joi.validate({email:body.email}, {email: Joi.string().required(),}, function (error, value) {
+        Joi.validate({email:body.email}, {email: Joi.string().required()}, function (error, value) {
             if(error)
             {
                 valid=false;
@@ -95,23 +105,77 @@ export default class RegisterLawyer extends React.Component {
             this.setState({val:''})
         }
     }
+
+    handleClickShowPassword = () => {
+        this.setState(state => ({ showPassword: !state.showPassword }));
+    }
+
     render() {
         return (
           <div>
+              <Redirect to={{pathname: "/RegisterReviewer"}}/>
               <br/>
-              <h2>Register Lawyer</h2>
+              <h3 class="text-center text-info">Register</h3>
             <form id="RegisterLawyer">
-                username: <input type="text" name="username"/><br/>
-                {this.state.usernameError}<br/>
-                Full Name: <input type="text" name="fullName"/><br/>
-                {this.state.fullNameError}<br/>
-                Email: <input type="text" name="email"/><br/>
-                {this.state.emailError}<br/>
-                Password: <input type="text" name="password"/><br/>
-                {this.state.passwordError}<br/>
+                    <FormControl>    
+                        <InputLabel>Username</InputLabel>
+                        <Input
+                            id="username"
+                            type='text'
+                        />
+                    </FormControl>
+                    <br />
+                    <label id="Error" class="text-danger"> {this.state.usernameError}</label>
+                    <br/> 
+                    <FormControl>    
+                        <InputLabel>Email</InputLabel>
+                        <Input
+                            id="email"
+                            type='text'
+                        />
+                    </FormControl>
+                    <br/> 
+                    <label id="Error" class="text-danger"> {this.state.emailError}</label>
+                    <br />
+                    <FormControl>    
+                        <InputLabel>Full Name</InputLabel>
+                        <Input
+                            id="fullName"
+                            type='text'
+                        />
+                    </FormControl>
+                    <br />
+                    <label id="Error" class="text-danger"> {this.state.fullNameError}</label>
+                    <br/> 
+                    <FormControl>    
+                        <InputLabel htmlFor="adornment-password">Password</InputLabel>
+                            <Input
+                                id="password"
+                                type={this.state.showPassword ? 'text' : 'password'}
+                                endAdornment={
+                                    <InputAdornment position="end">
+                                      <IconButton
+                                        aria-label="Toggle password visibility"
+                                        onClick={this.handleClickShowPassword}
+                                      >
+                                        {this.state.showPassword ? <Visibility /> : <VisibilityOff />}
+                                      </IconButton>
+                                    </InputAdornment>
+                                }
+                            />
+                    </FormControl>
+                    <br />
+                    <label id="Error" class="text-danger"> {this.state.passwordError}</label>
                 </form>
-                <button onClick={this.submit}>Regsiter</button><br/>
-                {this.state.val}
+                <Button variant="outlined" color="primary" onClick={this.submit}>
+                    Register
+                </Button>
+                <br />
+                <br />
+                <label id="Success" class="text-success">
+                    {this.state.val}
+                </label>
+                <br />
           </div>
         );
       }
