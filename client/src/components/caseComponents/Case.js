@@ -2,15 +2,11 @@ import React, { Component } from 'react'
 import axios from 'axios';
 import Managers from './Managers';
 import { Link } from 'react-router-dom';
+import moment from 'moment'
+import TextField from "@material-ui/core/TextField"
 
 export default class Case extends Component {
-  getStyle = () => {
-    return{
-        background: '#f4f4f4',
-        padding: '10px',
-        borderBottom: '1px #ccc dotted'
-    } 
-}
+  
   state={
     assignedLawyerEmail:'not assigned yet',
     assignedReviewerEmail:'not assigned yet',
@@ -54,33 +50,275 @@ export default class Case extends Component {
       this.setState({previouslyAssignedLawyers:previouslyAssignedLawyers});
       this.setState({previouslyAssignedReviewers:previouslyAssignedReviewers});     
 };
+
+  formatTime(t) {
+    return moment.utc(t.substring(0, 23)).format('DD, MMM, HH:mm').toUpperCase();
+  }
+  
   render() {
     
     return (
-      <div style={this.getStyle()}>
-        <h1>Case</h1>
+      <div>
+        <h2 class="text-center text-info">Case</h2>
         <Link to={{pathname: "/addComment",state:{caseID: this.props.case._id}}}>Add Comment</Link>
-        <h2>companyNameArabic:{this.state.form.companyNameArabic}</h2>
-        <h2>companyNameEnglish:{this.state.form.companyNameEnglish}</h2>
-        <h3>caseCreationDate:{this.state.caseCreationDate}</h3>
-        <h3>assignedLawyerEmail:{this.state.assignedLawyerEmail}</h3>
-        <h3>assignedReviewerEmail:{this.state.assignedReviewerEmail}</h3>
-        <h3>CreatorInvestorEmail:{this.state.creatorInvestorEmail}</h3>
-        <h3>creatorLawyerEmail:{this.state.creatorLawyerEmail}</h3>
-        <h3>caseStatus:{this.state.caseStatus}</h3>
-        <h1>Form</h1>
-        <h3>companyType:{this.state.form.companyType}</h3>
-        <h3>capital:{this.state.form.capital}</h3>
-        <h3>currencyUsedForCapital:{this.state.form.currencyUsedForCapital}</h3>
-        <h3>fax:{this.state.form.fax}</h3>
-        <h3>headOfficeAddress:{this.state.form.headOfficeAddress}</h3>
-        <h3>headOfficeCity:{this.state.form.headOfficeCity}</h3>
-        <h3>headOfficeGovernorate:{this.state.form.headOfficeGovernorate}</h3>
-        <h3>legalFormOfCompany:{this.state.form.legalFormOfCompany}</h3>
-        <h3>phoneNumber:{this.state.form.phoneNumber}</h3>
-        <h3>regulatedLaw:{this.state.form.regulatedLaw}</h3>
+        <br />
+        <TextField disabled
+          id="standard-full-width"
+          label="Arabic Company Name"
+          style={{ margin: 15 }}
+          value={this.state.form.companyNameArabic}
+          // helperText="Full width!"
+          fullWidth
+          multiline
+          margin="normal"
+          InputLabelProps={{
+            shrink: true
+          }}
+        />
+        <br />
+        <TextField disabled
+          id="standard-full-width"
+          label="English Company Name"
+          style={{ margin: 15 }}
+          value={this.state.form.companyNameEnglish}
+          // helperText="Full width!"
+          fullWidth
+          multiline
+          margin="normal"
+          InputLabelProps={{
+            shrink: true
+          }}
+        />
+        <TextField disabled
+          id="standard-full-width"
+          label="Case's DOC"
+          style={{ margin: 15 }}
+          value={this.formatTime(this.state.caseCreationDate)}
+          // helperText="Full width!"
+          fullWidth
+          multiline
+          margin="normal"
+          InputLabelProps={{
+            shrink: true
+          }}
+        />
+        <br />
+        <TextField disabled
+          id="standard-full-width"
+          label="Assigned Lawyer's Email"
+          style={{ margin: 15 }}
+          value={this.state.assignedLawyerEmail}
+          // helperText="Full width!"
+          fullWidth
+          multiline
+          margin="normal"
+          InputLabelProps={{
+            shrink: true
+          }}
+        />
+        <br />
+        <TextField disabled
+          id="standard-full-width"
+          label="Assigned Reviewer's Email"
+          style={{ margin: 15 }}
+          value={this.state.assignedReviewerEmail}
+          // helperText="Full width!"
+          fullWidth
+          multiline
+          margin="normal"
+          InputLabelProps={{
+            shrink: true
+          }}
+        />
+        <br />
+        <TextField disabled
+          id="standard-full-width"
+          label="Investor's Email"
+          style={{ margin: 15 }}
+          value={this.state.creatorInvestorEmail}
+          // helperText="Full width!"
+          fullWidth
+          multiline
+          margin="normal"
+          InputLabelProps={{
+            shrink: true
+          }}
+        />
+        <br />
+        <TextField disabled
+          id="standard-full-width"
+          label="Initiating Lawyer's Email"
+          style={{ margin: 15 }}
+          value={this.state.creatorLawyerEmail}
+          // helperText="Full width!"
+          fullWidth
+          multiline
+          margin="normal"
+          InputLabelProps={{
+            shrink: true
+          }}
+        />
+        <br />
+        <TextField disabled
+          id="standard-full-width"
+          label="Case Status"
+          style={{ margin: 15 }}
+          value={this.state.caseStatus}
+          // helperText="Full width!"
+          fullWidth
+          multiline
+          margin="normal"
+          InputLabelProps={{
+            shrink: true
+          }}
+        />
+        <br />
+        <h2 class="text-center text-info">Form</h2>
+        <TextField disabled
+          id="standard-full-width"
+          label="Company Type"
+          style={{ margin: 15 }}
+          value={this.state.form.companyType}
+          // helperText="Full width!"
+          fullWidth
+          multiline
+          margin="normal"
+          InputLabelProps={{
+            shrink: true
+          }}
+        />
+        <br />
+        <TextField disabled
+          id="standard-full-width"
+          label="Company's Capital"
+          style={{ margin: 15 }}
+          value={this.state.form.capital}
+          // helperText="Full width!"
+          fullWidth
+          multiline
+          margin="normal"
+          InputLabelProps={{
+            shrink: true
+          }}
+        />
+        <br />
+        <TextField disabled
+          id="standard-full-width"
+          label="Currency"
+          style={{ margin: 15 }}
+          value={this.state.form.currencyUsedForCapital}
+          // helperText="Full width!"
+          fullWidth
+          multiline
+          margin="normal"
+          InputLabelProps={{
+            shrink: true
+          }}
+        />
+        <br />
+        <TextField disabled
+          id="standard-full-width"
+          label="Head Office Address"
+          style={{ margin: 15 }}
+          value={this.state.form.headOfficeAddress}
+          // helperText="Full width!"
+          fullWidth
+          multiline
+          margin="normal"
+          InputLabelProps={{
+            shrink: true
+          }}
+        />
+        <br />
+        <TextField disabled
+          id="standard-full-width"
+          label="Head Office City"
+          style={{ margin: 15 }}
+          value={this.state.form.headOfficeCity}
+          // helperText="Full width!"
+          fullWidth
+          multiline
+          margin="normal"
+          InputLabelProps={{
+            shrink: true
+          }}
+        />
+        <br />
+        <TextField disabled
+          id="standard-full-width"
+          label="Head Office Governorate"
+          style={{ margin: 15 }}
+          value={this.state.form.headOfficeGovernorate}
+          // helperText="Full width!"
+          fullWidth
+          multiline
+          margin="normal"
+          InputLabelProps={{
+            shrink: true
+          }}
+        />
+        <br />
+        <TextField disabled
+          id="standard-full-width"
+          label="Legal Form Of Company"
+          style={{ margin: 15 }}
+          value={this.state.form.legalFormOfCompany}
+          // helperText="Full width!"
+          fullWidth
+          multiline
+          margin="normal"
+          InputLabelProps={{
+            shrink: true
+          }}
+        />
+        <br />
+        <TextField disabled
+          id="standard-full-width"
+          label="Regulated Law"
+          style={{ margin: 15 }}
+          value={this.state.form.regulatedLaw}
+          // helperText="Full width!"
+          fullWidth
+          multiline
+          margin="normal"
+          InputLabelProps={{
+            shrink: true
+          }}
+        />
+        <br />
+        <TextField disabled
+          id="standard-full-width"
+          label="Phone Number"
+          style={{ margin: 15 }}
+          value={this.state.form.phoneNumber}
+          // helperText="Full width!"
+          fullWidth
+          multiline
+          margin="normal"
+          InputLabelProps={{
+            shrink: true
+          }}
+        />
+        <br />
+        <TextField disabled
+          id="standard-full-width"
+          label="Fax Number"
+          style={{ margin: 15 }}
+          value={this.state.form.fax}
+          // helperText="Full width!"
+          fullWidth
+          multiline
+          margin="normal"
+          InputLabelProps={{
+            shrink: true
+          }}
+        />
+        <br />
+        <h2 class="text-center text-info">Managers</h2>
         <Managers managersArray={this.state.managers} />
-      
+        <br />
+        <div className="dropdown-divider"></div>
+        <br />
        </div>
      
     )

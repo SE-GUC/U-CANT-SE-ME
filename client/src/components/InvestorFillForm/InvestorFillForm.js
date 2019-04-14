@@ -1,7 +1,4 @@
 import React, { Component } from 'react';
-import ReactDOM from "react-dom";
-import Combobox from 'react-widgets/lib/Combobox'
-import { types } from 'util';
 import Managers from '../Managers';
 import axios from 'axios';
 const Joi = require("joi");
@@ -51,7 +48,7 @@ class InvestorFillForm extends Component {
     this.updateManagerPosition = this.updateManagerPosition.bind(this);
 }
     addManager(){
-        let managersCopy = this.state.managers.slice();
+        this.state.managers.slice();
         this.state.managers.push({ managerName: "" ,managerType: "", managerGender: "" , managerNationality: "" , 
         managerIdType: "" , managerIdNumber: "" , managerDateOfBirth: "" , managerResidenceAddress: "" , managerPositionInBoardOfDirectors: ""})
     }
@@ -302,7 +299,7 @@ class InvestorFillForm extends Component {
             }
         }
         try{
-        const cas = await axios.post('http://localhost:5000/api/investors/fillForm/5ca7a93fbac716049d1e3af8', mycase)
+        await axios.post('http://localhost:5000/api/investors/fillForm/5ca7a93fbac716049d1e3af8', mycase)
         this.setState({message: 'Successfully added'})
     }catch{
         this.setState({message: 'wrong input'})
