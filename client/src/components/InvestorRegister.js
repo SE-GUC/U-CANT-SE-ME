@@ -10,6 +10,8 @@ import IconButton from '@material-ui/core/IconButton'
 import InputAdornment from '@material-ui/core/InputAdornment'
 import { Redirect } from 'react-router-dom'
 const Joi = require("joi");
+const { serverURI } = require("../config/keys");
+
 
 export default class InvestorRegister extends React.Component {
     constructor(props) {
@@ -152,7 +154,7 @@ export default class InvestorRegister extends React.Component {
         {
             try
             {
-                await axios.post("http://localhost:5000/api/investors/register",body);
+                await axios.post(serverURI + "/investors/register",body);
                 this.setState({valid:'Successfully Created!'})                
             }
             catch

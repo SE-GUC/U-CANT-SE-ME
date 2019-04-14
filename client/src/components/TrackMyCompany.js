@@ -1,6 +1,8 @@
 import React from 'react'
 import axios from 'axios';
 import Stepper from 'react-stepper-horizontal'
+const { serverURI } = require("../config/keys");
+
 export default class TrackMyCompany extends React.Component {
 
     constructor(props) {
@@ -12,7 +14,7 @@ export default class TrackMyCompany extends React.Component {
 
     async componentDidMount() {
         try{
-            const res = await axios.get(`http://localhost:5000/api/investors/trackMyCompany/${this.props.location.state.id}`);
+            const res = await axios.get(serverURI + `/investors/trackMyCompany/${this.props.location.state.id}`);
             const { data: posts } = res
             this.setState({ posts: posts.tracking });
         }

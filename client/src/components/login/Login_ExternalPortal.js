@@ -10,6 +10,8 @@ import InputAdornment from '@material-ui/core/InputAdornment'
 import FormControl from '@material-ui/core/FormControl'
 import { Redirect } from 'react-router-dom'
 
+const { serverURI } = require("../../config/keys");
+
 class ExternalLogin extends Component {
     state = {
         email: '',
@@ -25,7 +27,7 @@ class ExternalLogin extends Component {
             password: this.state.password
         }
         try{
-            let res = await axios.post('http://localhost:5000/api/investors/login', req)
+            let res = await axios.post(serverURI + '/investors/login', req)
             document.getElementById('Error').style.display = 'none'
             this.setState({
                 id: res.data._id
