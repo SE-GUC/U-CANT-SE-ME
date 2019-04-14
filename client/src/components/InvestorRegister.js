@@ -282,7 +282,7 @@ export default class InvestorRegister extends React.Component {
                     Register
                 </Button>
                 <br />
-                <label id="Success" class="text-success">
+                <label id="Success" class="text-danger">
                     {this.state.valid}
                 </label>
                 <br />
