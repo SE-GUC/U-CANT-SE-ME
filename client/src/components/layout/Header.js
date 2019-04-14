@@ -42,6 +42,8 @@ function Header() {
     | <Link style={linkStyle} to="/ReviewerGetCasesSorted">Reviewer Get Cases Sorted</Link>
     |  <Link style={linkStyle} to="/ReviewerViewTasks">ReviewerViewTasks</Link>
     |  <Link style={linkStyle} to="/LawyerViewTasks">LawyerViewTasks</Link>
+    |  <Link style={linkStyle} to="/forgot">Forgot your password?</Link>
+
     </header>
   )
 }

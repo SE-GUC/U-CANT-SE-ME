@@ -36,6 +36,8 @@ import ReviewerGetCasesSorted from './components/ReviewerGetCasesSorted/Reviewer
 import InvestorUpdateCase from './components/InvestorUpdateCase';
 import ReviewerViewTasks from './components/caseComponents/ReviewerViewTasks';
 import LawyerViewTasks from './components/caseComponents/LawyerViewTasks';
+import Forgot from './components/forgotAndReset/forgot'
+import Reset from './components/forgotAndReset/reset'
 
 class App extends Component {
   render() {
@@ -98,6 +100,8 @@ class App extends Component {
         <Route path="/ReviewerGetCasesSorted" component={ReviewerGetCasesSorted}/>
         <Route path="/ReviewerViewTasks" component={ReviewerViewTasks}/>
         <Route path="/LawyerViewTasks" component={LawyerViewTasks}/>
+        <Route path="/forgot" component={Forgot}/>
+        <Route path="/:type/reset/:token" component={Reset}/>
         </div>
       </Router>
     );
