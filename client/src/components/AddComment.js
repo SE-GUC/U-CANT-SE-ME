@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import '../App.css';
 import Comment from './ViewComments/Comment';
+import Button from '@material-ui/core/Button'
+import SendIcon from '@material-ui/icons/Send'
 
 class AddComment extends Component {
   state = {
@@ -42,7 +44,7 @@ class AddComment extends Component {
         <div>
           <textarea class="form-control md-textarea" type="text" placeholder="Add comment here" onChange={this.handleTextBox}/>
           {this.state.actionMsg===''?null:<div class={this.state.actionMsg==="Comment added successfully!"?"alert alert-success":"alert alert-danger"} role="alert">{this.state.actionMsg}</div>}
-          <button class="btn btn-primary btn-rounded" onClick={async()=> {
+          <Button variant="outlined" color="primary" onClick={async()=> {
             try{
               const body = {
                 body: this.state.text
@@ -60,7 +62,9 @@ class AddComment extends Component {
             catch(err){
               this.setState({actionMsg:err.response.data.error})
             }
-          }}>Submit</button>
+          }}>Add Comment
+            <SendIcon />
+          </Button>
         </div>
       </header>
     );
