@@ -113,7 +113,6 @@ export default class RegisterLawyer extends React.Component {
     render() {
         return (
           <div>
-              {/* <Redirect to={{pathname: "/RegisterReviewer"}}/> */}
               <br/>
               <h3 class="text-center text-info">Register</h3>
             <form id="RegisterLawyer">
@@ -173,7 +172,7 @@ export default class RegisterLawyer extends React.Component {
                 <br />
                 <br />
                 <label id="Success" class="text-danger">
-                    {this.state.val}
+                    {this.state.val==="Successfully Created!"? <Redirect to={{pathname: "/LawyerViewTasks"}}/>:this.state.val}
                 </label>
                 <br />
           </div>
