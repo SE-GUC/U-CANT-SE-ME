@@ -15,7 +15,7 @@ router.get("/:id", caseController.getCase);
 router.post("/", caseController.createCase);
 
 //update
-router.put("/update/:id", caseController.updateCase);
+router.put("/:id", caseController.updateCase);
 
 //delete case
 router.delete("/:id", caseController.deleteCase);

@@ -17,15 +17,17 @@ function errorMessage(msg) {
 
 module.exports = {
   formValidation: async (newCase, formTemplate, update = false) => {
-    try {
-      let validation = await formTemplateController.validateForm(
-        newCase.form,
-        formTemplate,
-        update
-      );
-      if (validation.error) return validation;
-    } catch (error) {
-      return { error: error };
+    if(newCase.form || !update) {
+      try {
+        let validation = await formTemplateController.validateForm(
+          newCase.form,
+          formTemplate,
+          update
+        );
+        if (validation.error) return validation;
+      } catch (error) {
+        return { error: error };
+      }
     }
 
     if (formTemplate.hasManagers && (newCase.managers || !update)) {
@@ -49,29 +51,11 @@ module.exports = {
     }
 
     if (formTemplate.rulesFunction && !update) {
-      let valid = false;
-      try {
-        const rulesFunction = formTemplateController.makeRuleFunction(
-          formTemplate.rulesFunction
-        )();
-        valid = rulesFunction(
-          await Investor.findById(newCase.creatorInvestorId),
-          newCase.form,
-          newCase.managers
-        );
-      } catch (error) {
-        return errorMessage("Error Parsing the rule function!");
-      }
-      if (typeof valid !== "boolean")
-        try {
-          valid = Boolean(valid);
-        } catch (error) {
-          return errorMessage(
-            "The Rules Function doesn't return a boolean. Cannot validate!"
-          );
-        }
-      if (!valid)
-        return errorMessage("The Case doesn't staisfy the company type rules!");
+      let validation = await formTemplateController.validateRules(
+        formTemplate,
+        newCase
+      );
+      if (validation.error) return validation;
     }
     return { success: "The form is valid!" };
   },
@@ -162,6 +146,22 @@ module.exports = {
       if (validation.error) return validation;
     }
     return validation;
+  },
+
+  rulesValidation: async (request, companyType) => {
+    const formTemplate = await FormTemplate.findOne({
+      formName: companyType
+    });
+    if (!formTemplate) return errorMessage("No such Company type exist!");
+
+    if (formTemplate.rulesFunction) {
+      let validation = await formTemplateController.validateRules(
+        formTemplate,
+        request
+      );
+      if (validation.error) return validation;
+    }
+    return { success: "The form is valid!" };
   },
 
   updateValidation: async (request, companyType) => {

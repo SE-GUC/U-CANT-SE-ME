@@ -84,11 +84,11 @@ exports.deleteFormTemplate = async function(req, res) {
 };
 
 //make an an instance of the ruleFunction
-exports.makeRuleFunction = function(rulesFunction) {
+function makeRuleFunction(rulesFunction) {
   let wrapper =
     "function (investor, form, managers = []) { " + rulesFunction + " } ";
   return new Function("return " + wrapper);
-};
+}
 
 function errorMessage(msg) {
   return {
@@ -219,5 +219,30 @@ exports.validateForm = async (form, formTemplate, update) => {
     if (!found)
       return errorMessage(`${atr} isn't allowed in the form template`);
   }
+  return { success: "Form is valid!" };
+};
+
+exports.validateRules = async (formTemplate, newCase) => {
+  let valid = false;
+  try {
+    const rulesFunction = makeRuleFunction(formTemplate.rulesFunction)();
+    valid = rulesFunction(
+      await Investor.findById(newCase.creatorInvestorId),
+      newCase.form,
+      newCase.managers
+    );
+  } catch (error) {
+    return errorMessage("Error Parsing the rule function!");
+  }
+  if (typeof valid !== "boolean")
+    try {
+      valid = Boolean(valid);
+    } catch (error) {
+      return errorMessage(
+        "The Rules Function doesn't return a boolean. Cannot validate!"
+      );
+    }
+  if (!valid)
+    return errorMessage("The Case doesn't staisfy the company type rules!");
   return { success: "Form is valid!" };
 };

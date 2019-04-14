@@ -92,21 +92,6 @@ exports.deleteCase = async function(req, res) {
   res.send({ msg: "Case was deleted successfully", data: neededCase });
 };
 
-//update
-async function addMissingAttributes(newCase, oldCase) {
-  if (!newCase.caseStatus) newCase.caseStatus = oldCase.caseStatus;
-  if (!newCase.caseCreationDate)
-    newCase.caseCreationDate = oldCase.caseCreationDate;
-  if (!newCase.casecreatorInvestorIdStatus)
-    newCase.creatorInvestorId = oldCase.creatorInvestorId;
-  if (!newCase.caseStatus) newCase.caseStatus = oldCase.caseStatus;
-  if (!newCase.caseStatus) newCase.caseStatus = oldCase.caseStatus;
-  if (!newCase.caseStatus) newCase.caseStatus = oldCase.caseStatus;
-  for (let atr in oldCase.form)
-    if (!newCase.form.hasOwnProperty(atr) && atr !== "_id" && atr !== "__v")
-      newCase.form[atr] = oldCase.form[atr];
-}
-
 //Update a case
 exports.updateCase = async function(req, res) {
   try {
@@ -121,18 +106,28 @@ exports.updateCase = async function(req, res) {
       req.body,
       exist.companyType
     );
-
     if (error) return res.status(400).send({ error: error.details[0].message });
 
     var check = await verfiyReferentialIntegrity(req.body);
     if (!check.success) return res.status(400).send({ error: check.error });
 
-    if(req.body.form) {
+    if (req.body.form) {
       const oldForm = exist.form;
-      for(let atr in oldForm)
-        if(!req.body.form.hasOwnProperty(atr))
+      for (let atr in oldForm)
+        if (!req.body.form.hasOwnProperty(atr))
           req.body.form[atr] = oldForm[atr];
     }
+
+    for (let atr in req.body) exist[atr] = req.body[atr];
+
+    const rulesValidation = await validator.rulesValidation(
+      exist,
+      exist.companyType
+    );
+
+    if (rulesValidation.error)
+      return res.status(400).send({ error: rulesValidation.error.details[0].message });
+
     await Case.updateOne({ _id: req.params.id }, { $set: { ...req.body } });
 
     const newCase = await Case.findById(req.params.id);
