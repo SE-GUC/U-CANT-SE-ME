@@ -11,10 +11,14 @@ export default class TrackMyCompany extends React.Component {
     }
 
     async componentDidMount() {
-        const res = await axios.get('http://localhost:5000/api/investors/trackMyCompany/5ca6229afd83c24bf091758e');
-        const { data: posts } = res
-
-        this.setState({ posts: posts.tracking });
+        try{
+            const res = await axios.get(`http://localhost:5000/api/investors/trackMyCompany/${this.props.location.state.id}`);
+            const { data: posts } = res
+            this.setState({ posts: posts.tracking });
+        }
+        catch(error){
+            this.setState({posts: []})
+        }
     };
 
 

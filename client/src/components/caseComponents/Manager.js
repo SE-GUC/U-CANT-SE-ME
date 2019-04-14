@@ -1,19 +1,143 @@
 import React, { Component } from 'react'
+import moment from 'moment'
+import TextField from "@material-ui/core/TextField"
+
 
 export default class Manager extends Component {
+  formatTime(t) {
+    return moment.utc(t.substring(0, 23)).format('DD, MMM, YYYY').toUpperCase();
+  }
   render() {
     return (
       <div>
-        <h1>Manager</h1>
-        <h3>managerName:{this.props.manager.managerName}</h3>
-        <h3>managerType:{this.props.manager.managerType}</h3>
-        <h3>managerGender:{this.props.manager.managerGender}</h3>
-        <h3>managerNationality:{this.props.manager.managerNationality}</h3>
-        <h3>managerIdType:{this.props.manager.managerIdType}</h3>
-        <h3>managerIdNumber:{this.props.manager.managerIdNumber}</h3>
-        <h3>managerDateOfBirth:{this.props.manager.managerDateOfBirth}</h3>
-        <h3>managerResidenceAddress:{this.props.manager.managerResidenceAddress}</h3>
-        <h3>managerPositionInBoardOfDirectors:{this.props.manager.managerPositionInBoardOfDirectors}</h3>
+        <TextField disabled
+          id="standard-full-width"
+          label="Manager's Name"
+          style={{ margin: 15 }}
+          value={this.props.manager.managerName}
+          // helperText="Full width!"
+          fullWidth
+          multiline
+          margin="normal"
+          InputLabelProps={{
+            shrink: true
+          }}
+        />
+        <br />
+        <TextField disabled
+          id="standard-full-width"
+          label="Manager's Type"
+          style={{ margin: 15 }}
+          value={this.props.manager.managerType}
+          // helperText="Full width!"
+          fullWidth
+          multiline
+          margin="normal"
+          InputLabelProps={{
+            shrink: true
+          }}
+        />
+        <br />
+        <TextField disabled
+          id="standard-full-width"
+          label="Manager's Gender"
+          style={{ margin: 15 }}
+          value={this.props.manager.managerGender}
+          // helperText="Full width!"
+          fullWidth
+          multiline
+          margin="normal"
+          InputLabelProps={{
+            shrink: true
+          }}
+        />
+        <br />
+        <TextField disabled
+          id="standard-full-width"
+          label="Manager's Nationality"
+          style={{ margin: 15 }}
+          value={this.props.manager.managerNationality}
+          // helperText="Full width!"
+          fullWidth
+          multiline
+          margin="normal"
+          InputLabelProps={{
+            shrink: true
+          }}
+        />
+        <br />
+        <TextField disabled
+          id="standard-full-width"
+          label="Manager's Identification Type"
+          style={{ margin: 15 }}
+          value={this.props.manager.managerIdType}
+          // helperText="Full width!"
+          fullWidth
+          multiline
+          margin="normal"
+          InputLabelProps={{
+            shrink: true
+          }}
+        />
+        <br />
+        <TextField disabled
+          id="standard-full-width"
+          label="Manager's Identification Number"
+          style={{ margin: 15 }}
+          value={this.props.manager.managerIdNumber}
+          // helperText="Full width!"
+          fullWidth
+          multiline
+          margin="normal"
+          InputLabelProps={{
+            shrink: true
+          }}
+        />
+        <br />
+        <TextField disabled
+          id="standard-full-width"
+          label="Manager's DOB"
+          style={{ margin: 15 }}
+          value={this.formatTime(this.props.manager.managerDateOfBirth)}
+          // helperText="Full width!"
+          fullWidth
+          multiline
+          margin="normal"
+          InputLabelProps={{
+            shrink: true
+          }}
+        />
+        <br />
+        <TextField disabled
+          id="standard-full-width"
+          label="Manager's Residence Address"
+          style={{ margin: 15 }}
+          value={this.props.manager.managerResidenceAddress}
+          // helperText="Full width!"
+          fullWidth
+          multiline
+          margin="normal"
+          InputLabelProps={{
+            shrink: true
+          }}
+        />
+        <br />
+        <TextField disabled
+          id="standard-full-width"
+          label="Manager's Position in Board of Directors"
+          style={{ margin: 15 }}
+          value={this.props.manager.managerPositionInBoardOfDirectors}
+          // helperText="Full width!"
+          fullWidth
+          multiline
+          margin="normal"
+          InputLabelProps={{
+            shrink: true
+          }}
+        />
+        <br />
+        <div className="dropdown-divider"></div>
+        <br />
       </div>
     )
   }

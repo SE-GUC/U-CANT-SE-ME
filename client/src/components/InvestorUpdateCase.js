@@ -1,5 +1,6 @@
 import React from 'react'
 import axios from 'axios';
+import { Redirect } from 'react-router-dom'
 const Joi = require("joi");
 const mongoValidator = require("validator");
 export default class InvestorUpdateCase extends React.Component {
@@ -172,8 +173,6 @@ export default class InvestorUpdateCase extends React.Component {
             {
               this.setState({companyNameArabicR: 'make sure arabic company name is unique'})
               this.setState({companyNameEnglishR: 'make sure english company name is unique'})
-              this.setState({val:'make sure that you are the creator of this case,the case is in update status and these IDs exsist'})
-
             }
         }
         else{
@@ -230,6 +229,7 @@ export default class InvestorUpdateCase extends React.Component {
           <br/>
                 </form>
                 <button onClick={this.submit}>submit</button><br/>
+                {this.state.val==='Successfully updated'? <Redirect to={{pathname: "/MyCompanies"}}/>:<div/>}
                 {this.state.val}
                 
           </div>

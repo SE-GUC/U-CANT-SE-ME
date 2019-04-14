@@ -61,6 +61,26 @@ router.post('/forgot', lawyerController.forgot)
 router.post('/reset/:token', lawyerController.reset)
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+router.get('/downloadContract/:id',externalEntityController.getSSCPDF);
+router.get('/viewContract/:id',externalEntityController.viewSSCPDF);
+
+
 //As a lawyer i should be able to request change from the investor on his case
 router.put('/requestUpdate/:caseId/:assignedLawyerId', lawyerController.requestUpdate);
 

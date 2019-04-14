@@ -12,7 +12,7 @@ class CheckoutForm extends Component {
     let { token } = await this.props.stripe.createToken({ name: "Payment" });
     let verdict = {};
     try {
-      let res = await axios.post(
+      await axios.post(
         `http://localhost:5000/api/investors/payFees/${this.props.investorId}/${this.props.caseId}`,
         { tokenId: token.id }
       );

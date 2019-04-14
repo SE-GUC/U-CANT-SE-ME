@@ -8,32 +8,30 @@ import InputLabel from '@material-ui/core/InputLabel'
 import IconButton from '@material-ui/core/IconButton'
 import InputAdornment from '@material-ui/core/InputAdornment'
 import FormControl from '@material-ui/core/FormControl'
-import { Redirect } from 'react-router-dom'
 
 class ExternalLogin extends Component {
     state = {
-        email: '',
         password: '',
-        id: '',
-        showPassword: false,
-        forgot: false,
-        signUp: false
+        showPassword: false
     }
     handleSubmit = async () => {
         const req = {
-            email: this.state.email,
             password: this.state.password
         }
+        document.getElementById('Token').style.display = 'none'
         try{
-            let res = await axios.post('http://localhost:5000/api/investors/login', req)
-            document.getElementById('Error').style.display = 'none'
-            this.setState({
-                id: res.data._id
-            })
+            let res = await axios.post(`http://localhost:5000/api/${this.props.match.params.type}/reset/${this.props.match.params.token}`, req)
+            document.getElementById('Success').style.display = 'inline'
+            console.log('res', res)
         }
         catch(error){
-            document.getElementById('Error').style.display = 'inline'
+            console.log('in catch', error)
+            if(error.message === 'Network Error')
+                document.getElementById('Token').style.display = 'inline'
+            document.getElementById('Success').style.display = 'none'
         }
+        if(document.getElementById('Token').style.display === 'none')
+            document.getElementById('Success').style.display = 'inline'
     }
     handleChange = event => {
         this.setState({
@@ -59,23 +57,8 @@ render(){
     <div>
         <br />
         <br />
-        <h3 class="text-center text-info">Login</h3>
-        <br />
-
         <FormControl>    
-            <InputLabel>Email</InputLabel>
-            <Input
-                id="email"
-                type='text'
-                value={this.state.email}
-                onChange={this.handleChange}
-                
-            />
-        </FormControl>
-        <br />
-        <br />
-        <FormControl>    
-            <InputLabel htmlFor="adornment-password">Password</InputLabel>
+            <InputLabel htmlFor="adornment-password">New Password</InputLabel>
             <Input
                 id="password"
                 type={this.state.showPassword ? 'text' : 'password'}
@@ -94,24 +77,16 @@ render(){
             />
         </FormControl>
         <br />
-        <label id="Error" style={styles.error} class="text-danger"> Wrong Email or Password</label>
+        <label id="Success" style={styles.error} class="text-success">
+            Password successfully reset.
+        </label>
+        <label id="Token" style={styles.error} class="text-danger">
+            Link has expired.
+        </label>
         <br />
         <Button variant="outlined" color="primary" onClick={this.handleSubmit}>
-            Login
+            Submit
         </Button>
-        {
-            this.state.id? 
-                <Redirect to={{pathname: "/Home"}}/>:
-                (this.state.forgot? <Redirect to={{pathname: "/forgot"}}/>:
-                (this.state.signUp? <Redirect to={{pathname: "/InvestorRegister"}}/>:<div/>))
-        }
-        <div className="dropdown-divider"></div>
-            <Button variant="primary" size="large" onClick={() => {this.setState({signUp: true})}}>
-                New around here? Sign up.
-            </Button>
-            <Button variant="primary" size="large" onClick={() => {this.setState({forgot: true})}}>
-                Forgot password?
-            </Button>
     </div>
     )}
 }

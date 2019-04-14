@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import PayMyFees from "./PayMyFees";
-import axios from "axios";
 
 class PayMyFeesItem extends Component {
   state = { clicked: false, completed: false, failed: false };

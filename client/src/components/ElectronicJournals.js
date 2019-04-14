@@ -55,7 +55,7 @@ class ElectronicJournals extends Component {
 
           {s.map(z => {
 
-            return <div style={this.getStyle()}>
+            return <div>
               <ul style={this.lineStyle()}
                 key={z}>{z}
               </ul>
@@ -72,14 +72,6 @@ class ElectronicJournals extends Component {
 
   }
 
-  getStyle = () => {
-    return {
-      background: '#f4f4f4',
-      padding: '10px',
-      borderBottom: '1px #ccc dotted',
-
-    }
-  }
   lineStyle = () => {
     return {
       background: '#f4f4f4',
