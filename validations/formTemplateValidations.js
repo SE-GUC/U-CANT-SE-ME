@@ -12,13 +12,14 @@ module.exports = {
       rulesFunction: Joi.string()
     };
 
-    try {
-      formTemplateController.makeRuleFunction(formTemplate.rulesFunction);
-    } catch (error) {
-      return {
-        error: { details: [{ message: "Error Parsing the Rules Function" }] }
-      };
-    }
+    if (formTemplate.rulesFunction)
+      try {
+        formTemplateController.makeRuleFunction(formTemplate.rulesFunction);
+      } catch (error) {
+        return {
+          error: { details: [{ message: "Error Parsing the Rules Function" }] }
+        };
+      }
 
     const fieldCreateSchema = {
       fieldName: Joi.string().required(),
