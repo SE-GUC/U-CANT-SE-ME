@@ -523,11 +523,10 @@ export default class lawyerUpdateCase extends React.Component {
           <br/>
           <br/>
                 </form>
-                <Button variant="outlined" color="primary" onClick={this.submit}>
+                <Button variant="primary" size="large" onClick={this.submit}>
                   Submit
                 </Button>
-                <br />
-                <Button variant="outlined" color="primary" onClick={this.submitAndPDF}>Submit & download PDF</Button>
+                <Button variant="primary" size="large" onClick={this.submitAndPDF}>Submit & download PDF</Button>
                 {/* <button onClick={this.submit}>submit</button><br/> */}
                 <br />
                 <br />

@@ -14,6 +14,7 @@ export default class InvestorProfile extends Component {
             fillForm: false,
             updateCase: false,
             lastLawyer: false,
+            updateProfile: false
         }
       }
   render() {
@@ -26,7 +27,8 @@ export default class InvestorProfile extends Component {
             this.state.viewMyFees? <Redirect to={{pathname: "/ViewMyFees"}}/>:
             this.state.fillForm? <Redirect to={{pathname: "/InvestorFillForm"}}/>:
             this.state.updateCase? <Redirect to={{pathname: "/InvestorUpdateCase"}}/>:
-            this.state.lastLawyer? <Redirect to={{pathname: "/LastLawyer"}}/>:<div/>
+            this.state.lastLawyer? <Redirect to={{pathname: "/LastLawyer"}}/>:
+            this.state.updateProfile? <Redirect to={{pathname: "/updateInvestorProfile"}}/>:<div/>
         }
         <Button variant="primary" size="large" onClick={() => {
         this.setState({trackMyCompanies: true})
@@ -62,6 +64,11 @@ export default class InvestorProfile extends Component {
         this.setState({lastLawyer: true})
       }}>
               View Last Lawyer
+        </Button>
+        <Button variant="primary" size="large" onClick={() => {
+        this.setState({updateProfile: true})
+      }}>
+              Update Profile
         </Button>
       </div>
     )

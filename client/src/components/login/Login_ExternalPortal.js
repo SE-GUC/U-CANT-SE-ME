@@ -44,12 +44,6 @@ class ExternalLogin extends Component {
     handleClickShowPassword = () => {
         this.setState(state => ({ showPassword: !state.showPassword }));
     }
-    forgotClicked = () => {
-        this.setState({forgot: true})
-    }
-    signUpClicked = () => {
-        this.setState({signUp: true})
-    }
 
 render(){
     const styles = {
@@ -112,10 +106,10 @@ render(){
                 (this.state.signUp? <Redirect to={{pathname: "/InvestorRegister"}}/>:<div/>))
         }
         <div className="dropdown-divider"></div>
-            <Button variant="primary" size="large" onClick={this.signUpClicked}>
+            <Button variant="primary" size="large" onClick={() => {this.setState({signUp: true})}}>
                 New around here? Sign up.
             </Button>
-            <Button variant="primary" size="large" onClick={this.forgotClicked}>
+            <Button variant="primary" size="large" onClick={() => {this.setState({forgot: true})}}>
                 Forgot password?
             </Button>
     </div>
