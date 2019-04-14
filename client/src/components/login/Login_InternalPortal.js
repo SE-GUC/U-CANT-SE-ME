@@ -33,6 +33,8 @@ export default class Login extends Component {
     const type = this.state.type;
     var res = {};
     try {
+      if(this.state.type.toString()==="")
+        throw new Error('You Have To Select an Account Type')
       if (type === "Admin")
         res = await axios.post("http://localhost:5000/api/admins/login",bodyAdmin);
       else if (type === "Reviewer")
@@ -55,9 +57,17 @@ export default class Login extends Component {
         });
       console.log(this.state);
       // alert("Welcome! You have logged in!");
-    } catch (err) {
-      document.getElementById("Error").style.display = "inline";
-      document.getElementById("Error_Type").style.display = "none";
+    } catch (error) {
+      if(error.message === 'You Have To Select an Account Type'){
+        document.getElementById('Error_Type').style.display = 'inline'
+        document.getElementById('Error').style.display = 'none'
+      }
+      else{
+        document.getElementById('Error_Type').style.display = 'none'
+        document.getElementById('Error').style.display = 'inline'
+      }
+      // document.getElementById("Error").style.display = "inline";
+      // document.getElementById("Error_Type").style.display = "none";
       // alert("Worng Email or Password");
     }
   };
