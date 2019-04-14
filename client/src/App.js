@@ -36,7 +36,7 @@ import ReviewerGetCasesSorted from './components/ReviewerGetCasesSorted/Reviewer
 import InvestorUpdateCase from './components/InvestorUpdateCase';
 import ReviewerViewTasks from './components/caseComponents/ReviewerViewTasks';
 import LawyerViewTasks from './components/caseComponents/LawyerViewTasks';
-
+import updateInvestorProfile from './components/updateInvestorProfile';
 class App extends Component {
   render() {
     return (
@@ -98,6 +98,8 @@ class App extends Component {
         <Route path="/ReviewerGetCasesSorted" component={ReviewerGetCasesSorted}/>
         <Route path="/ReviewerViewTasks" component={ReviewerViewTasks}/>
         <Route path="/LawyerViewTasks" component={LawyerViewTasks}/>
+
+        <Route path="/updateInvestorProfile" component={updateInvestorProfile}/>
         </div>
       </Router>
     );
