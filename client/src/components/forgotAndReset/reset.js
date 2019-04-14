@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import axios from 'axios'
+import Button from '@material-ui/core/Button'
 
 class ExternalLogin extends Component {
     state = {
@@ -55,7 +56,9 @@ render(){
             Link has expired.
         </label>
         <br />
-        <button type="button" class="btn btn-outline-primary" onClick={this.handleSubmit}>Submit</button>
+        <Button variant="outlined" color="primary" onClick={this.handleSubmit}>
+            Submit
+        </Button>
     </div>
     )}
 }

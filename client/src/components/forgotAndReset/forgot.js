@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import axios from 'axios'
+import Button from '@material-ui/core/Button'
 
 class ExternalLogin extends Component {
     state = {
@@ -70,12 +71,15 @@ render(){
         <label id="Success" style={styles.error} class="text-success">
             Email has been successfully sent.
         </label>
-        <br />
         <label id="Error" style={styles.error} class="text-danger"> Email does not exist </label>
         <br />
-        <button type="button" class="btn btn-outline-primary" onClick={this.handleSubmit}>Submit</button>
+        <Button variant="outlined" color="primary" onClick={this.handleSubmit}>
+            Submit
+        </Button>
         <div className="dropdown-divider"></div>
-            <a className="dropdown-item" href="#">New around here? Sign up</a>
+            <Button variant="primary" size="large">
+                New around here? Sign up.
+            </Button>
     </div>
     )}
 }
