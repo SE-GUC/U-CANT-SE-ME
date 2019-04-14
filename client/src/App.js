@@ -43,6 +43,7 @@ import LawyerProfile from './components/LawyerProfile'
 import ReviewerProfile from './components/ReviewerProfile'
 import AdminProfile from './components/AdminProfile'
 import updateInvestorProfile from './components/updateInvestorProfile';
+import CreateFormTemplate from './CreateFormTemplate/CreateFormTemplate';
 class App extends Component {
   render() {
     return (
@@ -111,6 +112,7 @@ class App extends Component {
         <Route path="/internalPortal/reviewer/profile/:id" component={ReviewerProfile}/>
         <Route path="/internalPortal/admin/profile/:id" component={AdminProfile}/>
         <Route path="/updateInvestorProfile" component={updateInvestorProfile}/>
+        <Route path="/createFormTemplate" component={CreateFormTemplate}/>
         </div>
       </Router>
     );
