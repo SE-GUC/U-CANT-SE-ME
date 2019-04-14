@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import Managers from '../Managers';
 import axios from 'axios';
+import { Redirect } from 'react-router-dom'
 const Joi = require("joi");
-//const mongoose = require("mongoose");
-// const Investor = require("../../../../models/Investor");
+
 
 class LawyerFillForm extends Component {
   constructor() {
@@ -464,7 +464,7 @@ class LawyerFillForm extends Component {
             <br/>
             <button onClick={this.handleSubmit}>Submit</button>
             <br/>
-            <label>{this.state.message}</label>
+            <label>{this.state.message==="Successfully added" ? <Redirect to={{pathname: "/LawyerViewCase"}}/>:<div/>}</label>
       </div>
     );
   }

@@ -66,7 +66,7 @@ export default class Case extends Component {
           id="standard-full-width"
           label="Arabic Company Name"
           style={{ margin: 15 }}
-          value={this.state.companyNameArabic}
+          value={this.state.form.companyNameArabic}
           // helperText="Full width!"
           fullWidth
           multiline
@@ -80,7 +80,7 @@ export default class Case extends Component {
           id="standard-full-width"
           label="English Company Name"
           style={{ margin: 15 }}
-          value={this.state.companyNameEnglish}
+          value={this.state.form.companyNameEnglish}
           // helperText="Full width!"
           fullWidth
           multiline

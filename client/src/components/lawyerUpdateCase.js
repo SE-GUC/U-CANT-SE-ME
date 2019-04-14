@@ -4,6 +4,7 @@ import Button from '@material-ui/core/Button'
 import Input from '@material-ui/core/Input'
 import InputLabel from '@material-ui/core/InputLabel'
 import FormControl from '@material-ui/core/FormControl'
+import { Redirect } from 'react-router-dom'
 
 const Joi = require("joi");
 const mongoValidator = require("validator");
@@ -23,8 +24,7 @@ export default class lawyerUpdateCase extends React.Component {
               phoneNumber: '',
               fax: '',
               currencyUsedForCapital: '',
-              capital: ''
-              
+              capital: ''     
         }
     }
 
@@ -182,17 +182,13 @@ export default class lawyerUpdateCase extends React.Component {
         {
             try
             {
-              console.log('body', body)
               await axios.put(`http://localhost:5000/api/lawyers/update/${lawyerID}/${caseID}`,body)
               this.setState({val:'Successfully updated'})
             }
             catch (error)
             {
-              console.log('error', error)
               this.setState({companyNameArabicR: 'make sure arabic company name is unique'})
               this.setState({companyNameEnglishR: 'make sure english company name is unique'})
-              this.setState({val:'make sure that you are the creator of this case,the case is in update status and these IDs exsist'})
-
             }
         }
         else{
@@ -352,7 +348,7 @@ export default class lawyerUpdateCase extends React.Component {
                 {/* <button onClick={this.submit}>submit</button><br/> */}
                 <br />
                 <br />
-                
+                  {this.state.val==='Successfully updated' ?  <Redirect to={{pathname: "/LawyerViewCase"}}/>:<div/>}
           </div>
         );
       }

@@ -8,6 +8,7 @@ import Visibility from '@material-ui/icons/Visibility'
 import VisibilityOff from '@material-ui/icons/VisibilityOff'
 import IconButton from '@material-ui/core/IconButton'
 import InputAdornment from '@material-ui/core/InputAdornment'
+import { Redirect } from 'react-router-dom'
 const Joi = require("joi");
 
 export default class InvestorRegister extends React.Component {
@@ -152,7 +153,7 @@ export default class InvestorRegister extends React.Component {
             try
             {
                 await axios.post("http://localhost:5000/api/investors/register",body);
-                this.setState({valid:'Successfully Created!'})
+                this.setState({valid:'Successfully Created!'})                
             }
             catch
             {
@@ -283,7 +284,7 @@ export default class InvestorRegister extends React.Component {
                 </Button>
                 <br />
                 <label id="Success" class="text-danger">
-                    {this.state.valid}
+                    {this.state.valid==="Successfully Created!" ?  <Redirect to={{pathname: "/MyCompanies"}}/>:<div/>}
                 </label>
                 <br />
           </div>

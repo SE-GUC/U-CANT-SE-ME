@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Link } from 'react-router-dom';
+import { Redirect } from 'react-router-dom'
 import axios from "axios";
 import Button from '@material-ui/core/Button'
 import Visibility from '@material-ui/icons/Visibility'
@@ -15,10 +15,11 @@ export default class Login extends Component {
     super(props);
 
     this.state = {
-      email: "",
-      password: "",
-      type: "",
-      id: ""
+      email: '',
+      password: '',
+      type: '',
+      id: '',
+      forgot: false
     };
   }
   handleSubmit = async () => {
@@ -70,7 +71,9 @@ export default class Login extends Component {
       [event.target.id]: event.target.value
     });
   };
-
+  forgotClicked = () => {
+    this.setState({forgot: true})
+  }
   render() {
     const styles = {
       content: {
@@ -136,14 +139,11 @@ export default class Login extends Component {
       </Button>
       <br/>
       <div className="dropdown-divider"></div>
-          <Button variant="primary" size="large">
-              New around here? Sign up.
-          </Button>
-          <Button variant="primary" size="large">
+      {this.state.forgot? <Redirect to={{pathname: "/forgot"}}/>:<div/>}
+      
+          <Button variant="primary" size="large" onClick={this.forgotClicked}>
               Forgot password?
           </Button>
-     {/* <Link to={{pathname: "/Home"}} className="dropdown-item">New around here? Sign up</Link> */}
-     {/* <Link to={{pathname: "/Home"}} className="dropdown-item">Forgot password?</Link> */}
      </div>
     );
   }

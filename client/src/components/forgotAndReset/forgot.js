@@ -89,9 +89,6 @@ render(){
             Submit
         </Button>
         <div className="dropdown-divider"></div>
-            <Button variant="primary">
-                New around here? Sign up.
-            </Button>
     </div>
     )}
 }

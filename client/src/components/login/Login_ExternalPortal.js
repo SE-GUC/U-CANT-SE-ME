@@ -8,13 +8,16 @@ import InputLabel from '@material-ui/core/InputLabel'
 import IconButton from '@material-ui/core/IconButton'
 import InputAdornment from '@material-ui/core/InputAdornment'
 import FormControl from '@material-ui/core/FormControl'
+import { Redirect } from 'react-router-dom'
 
 class ExternalLogin extends Component {
     state = {
         email: '',
         password: '',
         id: '',
-        showPassword: false
+        showPassword: false,
+        forgot: false,
+        signUp: false
     }
     handleSubmit = async () => {
         const req = {
@@ -40,6 +43,12 @@ class ExternalLogin extends Component {
 
     handleClickShowPassword = () => {
         this.setState(state => ({ showPassword: !state.showPassword }));
+    }
+    forgotClicked = () => {
+        this.setState({forgot: true})
+    }
+    signUpClicked = () => {
+        this.setState({signUp: true})
     }
 
 render(){
@@ -96,11 +105,17 @@ render(){
         <Button variant="outlined" color="primary" onClick={this.handleSubmit}>
             Login
         </Button>
+        {
+            this.state.id? 
+                <Redirect to={{pathname: "/Home"}}/>:
+                (this.state.forgot? <Redirect to={{pathname: "/forgot"}}/>:
+                (this.state.signUp? <Redirect to={{pathname: "/InvestorRegister"}}/>:<div/>))
+        }
         <div className="dropdown-divider"></div>
-            <Button variant="primary" size="large">
+            <Button variant="primary" size="large" onClick={this.signUpClicked}>
                 New around here? Sign up.
             </Button>
-            <Button variant="primary" size="large">
+            <Button variant="primary" size="large" onClick={this.forgotClicked}>
                 Forgot password?
             </Button>
     </div>
