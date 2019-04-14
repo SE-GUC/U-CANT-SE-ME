@@ -6,6 +6,12 @@ const Reviewer = require("../models/Reviewer");
 const reviewerGettingAllCasesAuthenticated=true;
 const caseController = require("./caseController")
 const passport = require('passport')
+const jwt = require('jsonwebtoken')
+const tokenKey = require('../config/keys_dev').secretOrKey
+const encryption = require('../routes/api/utils/encryption')
+const crypto = require('crypto')
+const nodemailer = require('nodemailer')
+const async = require('async')
 // module Case
 const Case = require("../models/Case.js")
 
@@ -149,7 +155,7 @@ exports.AcceptRejectForm = async function(req, res)
     {
        if(!mongoValidator.isMongoId(req.params.caseId) || await Case.findById(req.params.caseId)===null)
             return res.status(400).send({ err : "Invalid case id" })
-        if(req.params.caseStatus!=="OnUpdate" && req.params.caseStatus!=="WaitingForLawyer" && req.params.caseStatus!=="AssginedToLawyer" && req.params.caseStatus!=="WaitingForReviewer" && req.params.caseStatus!=="AssginedToReviewer" && req.params.caseStatus!=="Accepted" && req.params.caseStatus!="Rejected")
+        if(req.params.caseStatus!=="OnUpdate" && req.params.caseStatus!=="WaitingForLawyer" && req.params.caseStatus!=="AssignedToLawyer" && req.params.caseStatus!=="WaitingForReviewer" && req.params.caseStatus!=="AssignedToReviewer" && req.params.caseStatus!=="Accepted" && req.params.caseStatus!="Rejected")
             return res.status(400).send({err: "Invalid new status"})
         try
         {
@@ -200,12 +206,24 @@ exports.getSpecificWaitingForReviewerCase = async function(req, res) {
 }
 
 exports.loginReviewer = function(req, res, next){
-  passport.authenticate('reviewers', {
-    successRedirect: '/api/reviewers',
-    failureRedirect: '/api/reviewers/login',
-    failureFlash: true
+  passport.authenticate('reviewers',
+  async function(err,user){
+    if (err) { return next(err); }
+    if (!user) { return res.redirect('/login'); }
+    req.logIn(user,  async function(err) {
+      if (err) { return next(err); }
+      var reviewer = await Reviewer.where("email" , req.body.email);
+      // const payload = {
+      //   id : reviewer[0]._id,
+      //   email : reviewer[0].email
+      // }
+      // const token = jwt.sign(payload, tokenKey,{expiresIn:'1h'})
+      // res.json({data : `${token}`})
+      // return res
+      return res.redirect('/api/reviewers/' + reviewer[0]._id);
+    });
   })(req, res, next)
-};
+  };
 
 //As a Reviewer i should be able to add a comment on a rejected company establishment-
 //form, so that the lawyer is aware of the required changes in the form.
@@ -216,9 +234,9 @@ exports.addCommentAsReviewer = async function(req,res){
     const checkReviewer = await Reviewer.find({ _id: req.params.reviewerID });
     const checkCase = await Case.find({ _id: req.params.caseID });
     if (checkReviewer.length === 0)
-      return res.status(404).send("Reviewer not Found");
+      return res.status(404).send({error:"Reviewer not Found"});
     if (checkCase.length === 0)
-      return res.status(404).send("Case not Found");
+      return res.status(404).send({error:"Case not Found"});
     if(reviewerAuthenticated){
       if(checkCase[0].assignedReviewerId+""!==req.params.reviewerID+"")
         return res.status(403).send({error: "Only assigned Reviewers to this Case can comment on it" });
@@ -236,4 +254,167 @@ exports.addCommentAsReviewer = async function(req,res){
   catch{
     res.json({msg: "An error has occured."})
   }
+}
+
+exports.getMyCasesByid = async function(req,res) {
+  if(!mongoValidator.isMongoId(req.params.id))return res.status(400).send({ err : "Invalid reviewer id" });
+  const reviewer = await Reviewer.findById(req.params.id);
+  if(!reviewer) return res.status(400).send({ err : "Reviewer not found" });
+  res.json(await Case.find({"assignedReviewerId": req.params.id}).sort({_id: 1}));
+}
+
+exports.getMyCasesByDate = async function(req,res) {
+  if(!mongoValidator.isMongoId(req.params.id))return res.status(400).send({ err : "Invalid reviewer id" });
+  const reviewer = await Reviewer.findById(req.params.id);
+  if(!reviewer) return res.status(400).send({ err : "Reviewer not found" });
+  res.json(await Case.find({"assignedReviewerId": req.params.id}).sort({caseCreationDate: -1}));
+}
+
+exports.forgot = function(req, res, next) {
+  async.waterfall([
+    function(done) {
+      crypto.randomBytes(20, function(err, buf) {
+        let token = buf.toString('hex')
+        done(err, token)
+      })
+    },
+    function(token, done) {
+      Reviewer.findOne({ email: req.body.email }, function(err, reviewer) {
+        if (!reviewer) {
+          req.flash('error', 'No account with that email address exists.')
+          return res.redirect('/forgot')
+        }
+
+        reviewer.resetPasswordToken = token
+        reviewer.resetPasswordExpires = Date.now() + 3600000 // 1 hour
+
+        reviewer.save(function(err) {
+          done(err, token, reviewer)
+        })
+      })
+    },
+    function(token, user, done) {
+      let transporter = nodemailer.createTransport({
+        service: 'gmail',
+        auth: {
+          user: 'sumergiteme@gmail.com',
+          pass: 'U-CANT-SE-ME'
+        },
+        tls:{
+          rejectUnauthorized: false
+        }
+      })
+
+      let mailOptions = {
+        to: user.email,
+        from: 'sumergiteme@gmail.com',
+        subject: 'Password Reset Request',
+        text: 'Hello '+ user.fullName+ ',\n\n' +
+          'You are receiving this because you (or someone else) have requested the reset of the password for your account.\n\n' +
+          'Please click on the following link, or paste this into your browser to complete the process:\n\n' +
+          'http://localhost:3000/reviewers/reset/' + token + '\n\n' +
+          'If you did not request this, please ignore this email and your password will remain unchanged.\n\n' +
+          'Do not share this link with anyone.\n'
+      }
+      transporter.sendMail(mailOptions, function(error, info){
+        if (error) {
+          console.log(error);
+        } else {
+          console.log('Email sent: ' + info.response);
+        }
+        res.json({ msg: 'success' })
+     })
+    }
+  ], function(err) {
+    if (err) return next(err)
+    res.redirect('/forgot')
+  })
+}
+
+exports.reset = function(req, res){
+  async.waterfall([
+    function(done) {
+      Reviewer.findOne({ resetPasswordToken: req.params.token, resetPasswordExpires: { $gt: Date.now() } }, function(err, user) {
+        if (!user) {
+          req.flash('error', 'Password reset token is invalid or has expired.')
+          return res.redirect('back')
+        }
+
+        user.password = encryption.hashPassword(req.body.password)
+        user.resetPasswordToken = undefined
+        user.resetPasswordExpires = undefined
+
+        user.save(function(err) {
+          req.logIn(user, function(err) {
+            done(err, user)
+          })
+        })
+      })
+    },
+    function(user, done) {
+      let transporter = nodemailer.createTransport({
+          service: 'gmail',
+          auth: {
+            user: 'sumergiteme@gmail.com',
+            pass: 'U-CANT-SE-ME'
+          },tls:{
+            rejectUnauthorized: false
+          }
+        })
+      let mailOptions = {
+        to: user.email,
+        from: 'sumergiteme@gmail.com',
+        subject: 'Your password has been changed',
+        text: 'Hello '+ user.fullName+ ',\n\n' +
+          'This is a confirmation that the password for your account ' + user.email + ' has just been changed.\n'
+      }
+      transporter.sendMail(mailOptions, function(err, info) {
+          if (error) {
+              console.log(error)
+          } else {
+              console.log('Email sent: ' + info.response)
+          }
+          req.flash('success', 'Success! Your password has been changed.')
+          done(err)
+        })
+      res.json({ msg: 'success' })
+    }
+  ], function(err) {
+    res.redirect('/')
+  })
+}
+
+exports.requestUpdate = async function(req, res)
+{ 
+  if(reviewerAuthenticated)
+  {
+    if(!mongoValidator.isMongoId(req.params.caseId) )
+    return res.status(400).send({ err : "Invalid case id" });
+    
+    let myCase = await Case.findById(req.params.caseId)
+    
+    if(myCase === null)
+    return res.status(400).send({ err : "Invalid case id" });
+    
+    if(myCase.assignedLawyerId === null)
+    return res.status(400).send({ err : "You are not the one required to update" });
+
+    if(toString(myCase.assignedReviewerId) !== toString(req.params.assignedReviewerId))
+    return res.status(400).send({ err : "This is not your case" });
+    
+    if(myCase.caseStatus==="OnUpdate")
+    return res.status(400).send({err: "This case is not updated yet"})
+    
+    try
+    {
+      await Case.findByIdAndUpdate(req.params.caseId,{"caseStatus":"OnUpdate"})
+      res.json(await Case.findById(req.params.caseId))
+    }
+    catch(error)
+    {
+      res.json({msg:"A fatal error has occured, could not update the case status."})
+    }
+  }
+  else
+  return res.status(403).send({error: "Forbidden." })
 }

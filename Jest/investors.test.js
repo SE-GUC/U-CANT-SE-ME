@@ -9,16 +9,16 @@ const Company = require("../models/Company");
 const db = require("../config/keys").mongoURI;
 const mongoose = require("mongoose");
 
-const axios = require('axios')
-const httpAdapter = require('axios/lib/adapters/http')
-const host = 'http://localhost';
+const axios = require("axios");
+const httpAdapter = require("axios/lib/adapters/http");
+const host = "http://localhost";
 
 axios.defaults.host = host;
 axios.defaults.adapter = httpAdapter;
 
 const investors = require("./investors");
 const encryption = require("../routes/api/utils/encryption");
-const reviewers = require('./reviewers')
+const reviewers = require("./reviewers");
 //READ
 test("Get all investors test", async () => {
   expect.assertions(1);
@@ -282,73 +282,72 @@ let createdPassword = "";
 let investorId = "";
 let caseId = "";
 
-test('Create All Dependencies', async() => {
-    const investor = {
-        email:"moemoe@moe.moe.com",
-        password:"dontusethispassword",
-        fullName:"MoeMoeMoeMoe",
-        type:"CEO",
-        gender:"Male",
-        nationality:"Egyptian",
-        methodOfIdentification:"National Card",
-        identificationNumber:"12233344445555",
-        dateOfBirth:"1997-12-15T22:00:00.000Z",
-        residenceAddress:"Rehab City",
-        telephoneNumber:"01007063067",
-        fax:"123456789"
-    }
-    createdInvestor  = await investors.registerInvestor(investor)
-    createdEmail = createdInvestor.data.data.email
-    createdPassword = investor.password
-    investorId = createdInvestor.data.data._id
-    const mycase =  {
-        form: {
-            companyType: 'SPC',
-            regulatedLaw: 'lll',
-            legalFormOfCompany: 'NonProfit',
-            companyNameArabic: 'moeMan',
-            companyNameEnglish: 'Moe moooEEECompany Man',
-            headOfficeGovernorate: 'California',
-            headOfficeCity: 'San Francisco',
-            headOfficeAddress: '123st.',
-            phoneNumber: '01007063067',
-            fax: '987654321',
-            currencyUsedForCapital: 'EGP',
-            capital: 100
-        },
-        caseStatus: 'WaitingForLawyer',
-        creatorInvestorId: createdInvestor.data.data._id
-    }
-    const createdCase = await investors.createCase(mycase)
-    caseId = createdCase.data.data._id 
-    const updatedCase = {
-        form: {
-            companyType: 'SPC',
-            regulatedLaw: 'lll',
-            legalFormOfCompany: 'ManManNonProfitManTheManManMannnnnnnnnn',
-            headOfficeGovernorate: 'California',
-            headOfficeCity: 'San Francisco',
-            headOfficeAddress: '123st.',
-            phoneNumber: '01007063067',
-            fax: '987654321',
-            currencyUsedForCapital: 'EGP',
-            capital: 100
-        },
-        caseStatus: 'WaitingForLawyer',
-        comments:[
-            {
-                author:"Moe",
-                body:"Good Company!"
-                
-            },
-            {
-                author:"MoeMan",
-                body:"I second Moe"	
-            }
-        ]
-    }
-    await investors.updateCase(caseId, updatedCase)    
-})
+test("Create All Dependencies", async () => {
+  const investor = {
+    email: "moemoe@moe.moe.com",
+    password: "dontusethispassword",
+    fullName: "MoeMoeMoeMoe",
+    type: "CEO",
+    gender: "Male",
+    nationality: "Egyptian",
+    methodOfIdentification: "National Card",
+    identificationNumber: "12233344445555",
+    dateOfBirth: "1997-12-15T22:00:00.000Z",
+    residenceAddress: "Rehab City",
+    telephoneNumber: "01007063067",
+    fax: "123456789"
+  };
+  createdInvestor = await investors.registerInvestor(investor);
+  createdEmail = createdInvestor.data.data.email;
+  createdPassword = investor.password;
+  investorId = createdInvestor.data.data._id;
+  const mycase = {
+    form: {
+      companyType: "SPC",
+      regulatedLaw: "lll",
+      legalFormOfCompany: "NonProfit",
+      companyNameArabic: "moeMan",
+      companyNameEnglish: "Moe moooEEECompany Man",
+      headOfficeGovernorate: "California",
+      headOfficeCity: "San Francisco",
+      headOfficeAddress: "123st.",
+      phoneNumber: "01007063067",
+      fax: "987654321",
+      currencyUsedForCapital: "EGP",
+      capital: 100
+    },
+    caseStatus: "WaitingForLawyer",
+    creatorInvestorId: createdInvestor.data.data._id
+  };
+  const createdCase = await investors.createCase(mycase);
+  caseId = createdCase.data.data._id;
+  const updatedCase = {
+    form: {
+      companyType: "SPC",
+      regulatedLaw: "lll",
+      legalFormOfCompany: "ManManNonProfitManTheManManMannnnnnnnnn",
+      headOfficeGovernorate: "California",
+      headOfficeCity: "San Francisco",
+      headOfficeAddress: "123st.",
+      phoneNumber: "01007063067",
+      fax: "987654321",
+      currencyUsedForCapital: "EGP",
+      capital: 100
+    },
+    caseStatus: "WaitingForLawyer",
+    comments: [
+      {
+        author: "Moe",
+        body: "Good Company!"
+      },
+      {
+        author: "MoeMan",
+        body: "I second Moe"
+      }
+    ]
+  };
+  await investors.updateCase(caseId, updatedCase);
+});
 
 test("Registering an investor", async () => {
   const investor = {
@@ -387,16 +386,15 @@ test("As an investor I should be able to login", async () => {
   return expect(loginResult.data.length).toBeGreaterThan(0);
 });
 
-test('Viewing Lawyers Comments On My Case', async() => {
-    let comments = await investors.viewComments(investorId, caseId)
-    return expect(comments.data.comments.length).toBeGreaterThan(0)
-})
+test("Viewing Lawyers Comments On My Case", async () => {
+  let comments = await investors.viewComments(investorId, caseId);
+  return expect(comments.data.comments.length).toBeGreaterThan(0);
+});
 
-test('Delete All Dependencies', async () => {
-    await investors.deleteInvestor(investorId)
-    await investors.deleteCase(caseId)
-})
-
+test("Delete All Dependencies", async () => {
+  await investors.deleteInvestor(investorId);
+  await investors.deleteCase(caseId);
+});
 test("As an investor I should be view my fees", async () => {
   expect.assertions(3);
   let req = {
@@ -463,85 +461,79 @@ test("As an investor I should be view my fees", async () => {
   expect(name).toEqual("DONTD4536ELETE");
 });
 
-test('As an investor I should be be notified by the fees', async() => {
-    let req=
-    {
+test("As an investor I should be be notified by the fees", async () => {
+  let req = {
+    email: "zeyad.khattab97@gmail.com",
+    password: "aaabaaaaaaaaac",
+    fullName: "kakashi",
+    type: "a",
+    gender: "Male",
+    nationality: "Egyptian",
+    methodOfIdentification: "National Card",
+    identificationNumber: "36283143572311",
+    dateOfBirth: "1990-12-14T13:13:13.000Z",
+    residenceAddress: "8165th 3emarat el Shamoosa",
+    telephoneNumber: "01091867182317",
+    fax: "1224567"
+  };
+  let res = await investors.createInvestor(req);
+  const investor = res.data;
 
-        "email": "zeyad.khattab97@gmail.com",
-        "password": "aaabaaaaaaaaac",
-        "fullName": "kakashi",
-        "type": "a",
-        "gender": "Male",
-        "nationality": "Egyptian",
-        "methodOfIdentification": "National Card",
-        "identificationNumber": "36283143572311",
-        "dateOfBirth": "1990-12-14T13:13:13.000Z",
-        "residenceAddress": "8165th 3emarat el Shamoosa",
-        "telephoneNumber": "01091867182317",
-        "fax": "1224567"
-    }
-    let res=await investors.createInvestor(req);
-    const investor = res.data;
-    
-    req=
-        {
-            "form": {
-                "companyType": "SPC",
-                "regulatedLaw": "72",
-                "legalFormOfCompany": "loasdas",
-                "companyNameArabic": "aguero",
-                "companyNameEnglish": "kun",
-                "headOfficeGovernorate": "DONTDELETE",
-                "headOfficeCity": "DONTDELETE",
-                "headOfficeAddress": "DONTDELETE",
-                "phoneNumber": "121212122121",
-                "fax": "1234567",
-                "currencyUsedForCapital": "DONTDELETE",
-                "capital": 100
-            },
-            "caseStatus": "WaitingForLawyer",
+  req = {
+    form: {
+      companyType: "SPC",
+      regulatedLaw: "72",
+      legalFormOfCompany: "loasdas",
+      companyNameArabic: "aguero",
+      companyNameEnglish: "kun",
+      headOfficeGovernorate: "DONTDELETE",
+      headOfficeCity: "DONTDELETE",
+      headOfficeAddress: "DONTDELETE",
+      phoneNumber: "121212122121",
+      fax: "1234567",
+      currencyUsedForCapital: "DONTDELETE",
+      capital: 100
+    },
+    caseStatus: "WaitingForLawyer",
 
-            "creatorInvestorId": investor._id
+    creatorInvestorId: investor._id
+  };
 
-        }
-       
-        const cas= await investors.createCase(req)
-        
-        const revBody= {
-            email: "sumergiteme@gmail.com",
-            password: "U-CANT-SE-ME",
-            fullName: "goeorgeharrison",
-            username: "littlehelpwithmyfriends"
-          };
-        res=await reviewers.createReviewer(revBody);
-        const reviewer = res.data.data;
-        req=
-        {
-            "form": {
-                "companyType": "SPC",
-                "regulatedLaw": "72",
-                "legalFormOfCompany": "DONTDELETE",
-                "headOfficeGovernorate": "DONTDELETE",
-                "headOfficeCity": "DONTDELETE",
-                "headOfficeAddress": "DONTDELETE",
-                "phoneNumber": "121212122121",
-                "fax": "1234567",
-                "currencyUsedForCapital": "DONTDELETE",
-                "capital": 100
-            },
+  const cas = await investors.createCase(req);
 
-            "caseStatus": "Accepted",
-            "assignedReviewerId":reviewer._id
-        }
-       
-        await investors.changeStatus(cas._id,req);
-        
-         await investors.deleteCase(cas._id);
-         await investors.deleteInvestor(investor._id);
-        
-         await reviewers.deleteReviewer(reviewer._id);
-}) 
+  const revBody = {
+    email: "sumergiteme@gmail.com",
+    password: "U-CANT-SE-ME",
+    fullName: "goeorgeharrison",
+    username: "littlehelpwithmyfriends"
+  };
+  res = await reviewers.createReviewer(revBody);
+  const reviewer = res.data.data;
+  req = {
+    form: {
+      companyType: "SPC",
+      regulatedLaw: "72",
+      legalFormOfCompany: "DONTDELETE",
+      headOfficeGovernorate: "DONTDELETE",
+      headOfficeCity: "DONTDELETE",
+      headOfficeAddress: "DONTDELETE",
+      phoneNumber: "121212122121",
+      fax: "1234567",
+      currencyUsedForCapital: "DONTDELETE",
+      capital: 100
+    },
 
+    caseStatus: "Accepted",
+    assignedReviewerId: reviewer._id
+  };
+
+  await investors.changeStatus(cas._id, req);
+
+  await investors.deleteCase(cas._id);
+  await investors.deleteInvestor(investor._id);
+
+  await reviewers.deleteReviewer(reviewer._id);
+});
 
 //Pay Fees
 test("Investor Paying Fees success test", async () => {
@@ -821,89 +813,89 @@ test("Investor Paying Fees invalid investor ID", async () => {
   }
 });
 
-test('As an Investor viewing all my companies with 1 accepted & 1 pending should return 2 companies', async() => {
+test("As an Investor viewing all my companies with 1 accepted & 1 pending should return 2 companies", async () => {
   mongoose
-  .connect(db)
-  .then(() => console.log("Connected to MongoDB"))
-  .catch(err => console.log(err));
-expect.assertions(1);
+    .connect(db)
+    .then(() => console.log("Connected to MongoDB"))
+    .catch(err => console.log(err));
+  expect.assertions(1);
 
-//** CREATE INVESTOR **//
-const testInvestor = {
-  email:"investoremailj2est1111111@gmail.com",
-  password:"verystrongpassword",
-  fullName:"yolo",
-  type:"f",
-  gender:"Male",
-  nationality:"Egyptian",
-  methodOfIdentification:"National Card",
-  identificationNumber:"55533355555555",
-  dateOfBirth:"1990-12-17T22:00:00.000Z",
-  residenceAddress:"13th Mogama3 el Tahrir",
-  telephoneNumber:"00201009913457",
-  fax:"1234567"
-}
-const createdInvestor  = await Investor.create(testInvestor);
+  //** CREATE INVESTOR **//
+  const testInvestor = {
+    email: "investoremailj2est1111111@gmail.com",
+    password: "verystrongpassword",
+    fullName: "yolo",
+    type: "f",
+    gender: "Male",
+    nationality: "Egyptian",
+    methodOfIdentification: "National Card",
+    identificationNumber: "55533355555555",
+    dateOfBirth: "1990-12-17T22:00:00.000Z",
+    residenceAddress: "13th Mogama3 el Tahrir",
+    telephoneNumber: "00201009913457",
+    fax: "1234567"
+  };
+  const createdInvestor = await Investor.create(testInvestor);
 
-//** CREATE CASE **//
-const testCase = {
-  form: {
-      companyType: 'SPC',
-      regulatedLaw: 'lll',
-      legalFormOfCompany: 'Mojes3',
-      companyNameArabic: 'companyjest11111111',
-      companyNameEnglish: 'engname11111',
-      headOfficeGovernorate: 'Joes3',
-      headOfficeCity: 'Mantas3',
-      headOfficeAddress: 'Shamss3',
-      phoneNumber: '123456789',
-      fax: '987654321',
-      currencyUsedForCapital: 'EGP',
-      capital: 1000000
-  },
-  caseStatus: 'Accepted',
-  creatorInvestorId: createdInvestor._id
-}
-const createdCase = await Case.create(testCase);
-
-const testCase1 = {
-  form: {
-      companyType: 'SPC',
-      regulatedLaw: 'lll',
-      legalFormOfCompany: 'Mojes3',
-      companyNameArabic: 'companyjest22222222',
-      companyNameEnglish: 'engname22222',
-      headOfficeGovernorate: 'Joes3',
-      headOfficeCity: 'Mantas3',
-      headOfficeAddress: 'Shamss3',
-      phoneNumber: '123456789',
-      fax: '987654321',
-      currencyUsedForCapital: 'EGP',
-      capital: 1000000
-  },
-  caseStatus: 'WaitingForReviewer',
-  creatorInvestorId: createdInvestor._id
-}
-const createdCase1 = await Case.create(testCase1);
-
-//** CREATE TEST COMPANY **//
-  const testCompany = {
-      socialInsuranceNumber: "88888888888888",
-      investorID: createdInvestor._id,
-      companyName: "companyjest11111111",
+  //** CREATE CASE **//
+  const testCase = {
+    form: {
       companyType: "SPC",
-      caseID: createdCase._id,
-      dateOfCreation: '1/1/2018'
-  }
+      regulatedLaw: "lll",
+      legalFormOfCompany: "Mojes3",
+      companyNameArabic: "companyjest11111111",
+      companyNameEnglish: "engname11111",
+      headOfficeGovernorate: "Joes3",
+      headOfficeCity: "Mantas3",
+      headOfficeAddress: "Shamss3",
+      phoneNumber: "123456789",
+      fax: "987654321",
+      currencyUsedForCapital: "EGP",
+      capital: 1000000
+    },
+    caseStatus: "Accepted",
+    creatorInvestorId: createdInvestor._id
+  };
+  const createdCase = await Case.create(testCase);
+
+  const testCase1 = {
+    form: {
+      companyType: "SPC",
+      regulatedLaw: "lll",
+      legalFormOfCompany: "Mojes3",
+      companyNameArabic: "companyjest22222222",
+      companyNameEnglish: "engname22222",
+      headOfficeGovernorate: "Joes3",
+      headOfficeCity: "Mantas3",
+      headOfficeAddress: "Shamss3",
+      phoneNumber: "123456789",
+      fax: "987654321",
+      currencyUsedForCapital: "EGP",
+      capital: 1000000
+    },
+    caseStatus: "WaitingForReviewer",
+    creatorInvestorId: createdInvestor._id
+  };
+  const createdCase1 = await Case.create(testCase1);
+
+  //** CREATE TEST COMPANY **//
+  const testCompany = {
+    socialInsuranceNumber: "88888888888888",
+    investorID: createdInvestor._id,
+    companyName: "companyjest11111111",
+    companyType: "SPC",
+    caseID: createdCase._id,
+    dateOfCreation: "1/1/2018"
+  };
   await Company.create(testCompany);
   const testCompany1 = {
-      socialInsuranceNumber: "88888888888888",
-      investorID: createdInvestor._id,
-      companyName: "companyjest22222222",
-      companyType: "SPC",
-      caseID: createdCase1._id,
-      dateOfCreation: '1/1/2018'
-  }
+    socialInsuranceNumber: "88888888888888",
+    investorID: createdInvestor._id,
+    companyName: "companyjest22222222",
+    companyType: "SPC",
+    caseID: createdCase1._id,
+    dateOfCreation: "1/1/2018"
+  };
   await Company.create(testCompany1);
   const result = await investors.getMyCompanies(createdInvestor._id);
   expect(result.data.data.length).toEqual(2);
@@ -913,7 +905,63 @@ const createdCase1 = await Case.create(testCase1);
   await Case.deleteOne(testCase);
   await Case.deleteOne(testCase1);
 });
-
+test("As an investor I should create cases", async () => {
+  expect.assertions(2);
+  console.log("her1");
+  const investorInfo = {
+    email: "ddddddddddddd@gmail.com",
+    password: "12345678",
+    fullName: "Abc Ibn Xyz",
+    type: "a",
+    gender: "Female",
+    nationality: "Egyptian",
+    methodOfIdentification: "National Card",
+    identificationNumber: "12233344445555",
+    dateOfBirth: "1990-12-17T22:00:00.000Z",
+    residenceAddress: "13th Mogama3 el Tahrir",
+    telephoneNumber: "00201009913457",
+    fax: "1234567"
+  };
+  console.log("her2");
+  const createdInvestor = await investors.createInvestor(investorInfo);
+  console.log("her3");
+  const caseInfo = {
+    form: {
+      companyType: "SPC",
+      regulatedLaw: "72",
+      legalFormOfCompany: "DONTDELETE",
+      companyNameArabic: "dsdsadaddsddddxc,xzmcxz",
+      companyNameEnglish: "ddddddddddddddddddddddd",
+      headOfficeGovernorate: "DONTDELETE",
+      headOfficeCity: "DONTDELETE",
+      headOfficeAddress: "DONTDELETE",
+      phoneNumber: "121212122121",
+      fax: "1234567",
+      currencyUsedForCapital: "DONTDELETE",
+      capital: 100
+    },
+    caseStatus: "WaitingForLawyer",
+    creatorInvestorId: createdInvestor.data._id
+  };
+  console.log(createdInvestor.data._id);
+  console.log("-----------------");
+  console.log(createdInvestor._id);
+  const invCreateCase = await investors.invCreateCase(
+    createdInvestor.data._id,
+    caseInfo
+  );
+  console.log("her5");
+  expect(invCreateCase.data.data.form.companyNameEnglish).toBe(
+    caseInfo.form.companyNameEnglish
+  );
+  console.log("her6");
+  expect(invCreateCase.data.data.form.companyNameArabic).toBe(
+    caseInfo.form.companyNameArabic
+  );
+  console.log("her7");
+  await investors.deleteCase(invCreateCase.data.data._id);
+  await investors.deleteInvestor(createdInvestor.data._id);
+});
 
 /**
  * @param method The HTTP method used
@@ -933,62 +981,64 @@ async function httpRequest(method, urlSuffix, params = [], body = {}) {
   return {};
 }
 
-test('trackMyCompany', async () => {
-  expect.assertions(1)
+test("trackMyCompany", async () => {
+  expect.assertions(1);
 
-  const bodyInvestor= {
-    "email": "16ddasdsfbsddfecwaseed@gmail.com",
-    "password" : "161ssddas2de3ffedssd4f5678",
-    "fullName" : "16Abcsdasdsedf essIcsdfbn Xyz",
-    "type" : "a",
-    "gender" : "Male",
-    "nationality" : "Egyptian",
-    "methodOfIdentification" : "National Card",
-    "identificationNumber" : "12233344445555",
-    "dateOfBirth" : "1990-12-17T22:00:00.000Z",
-    "residenceAddress" : "13th Mogama3 el Tahrir",
-    "telephoneNumber" : "00201009913457",
-    "fax" : "1234567" 
-    }
-  
-  const createdInvesotr = await investors.createInvestor2(bodyInvestor);   
+  const bodyInvestor = {
+    email: "16ddasdsfbsddfecwaseed@gmail.com",
+    password: "161ssddas2de3ffedssd4f5678",
+    fullName: "16Abcsdasdsedf essIcsdfbn Xyz",
+    type: "a",
+    gender: "Male",
+    nationality: "Egyptian",
+    methodOfIdentification: "National Card",
+    identificationNumber: "12233344445555",
+    dateOfBirth: "1990-12-17T22:00:00.000Z",
+    residenceAddress: "13th Mogama3 el Tahrir",
+    telephoneNumber: "00201009913457",
+    fax: "1234567"
+  };
 
- const body= {
-      "form": {
-          "companyType": "SPC",
-          "regulatedLaw": "lll",
-          "legalFormOfCompany": "vqdasegesdsdvfqdssmcesdsdv",
-          "companyNameArabic": "1qevqeashegfssddedsfsddfdedkddscsdtsgdsdvqdvq",
-          "companyNameEnglish": "1qdveehasfgdqssdddddddssdekcfdddsstgddddvsssqdvqdv",
-          "headOfficeGovernorate": "qdvsfqdmvqsdvtgqdv",
-          "headOfficeCity": "asasdastgsdsdsdsdd",
-          "headOfficeAddress": "qwdvqdvqwdvqwdv",
-          "phoneNumber": "121212122121",
-          "fax": "1234567",
-          "currencyUsedForCapital": "qdvqedvqdvqdv",
-          "capital": 100
-      },
-      "caseStatus": "WaitingForLawyer",
-      
-      "creatorInvestorId": createdInvesotr.data['_id']
-      
-  }
-  
-  const createdCase = await investors.createCase2(body);    
-  
-  const createdCaseId = createdCase.data.data['_id']
-  const createdCaseStatus = createdCase.data.data['caseStatus']
-  const trackMyCompanyResult = await investors.trackMyCompany(createdInvesotr.data['_id']);  
+  const createdInvesotr = await investors.createInvestor2(bodyInvestor);
 
+  const body = {
+    form: {
+      companyType: "SPC",
+      regulatedLaw: "lll",
+      legalFormOfCompany: "vqdasegesdsdvfqdssmcesdsdv",
+      companyNameArabic: "1qevqeashegfssddedsfsddfdedkddscsdtsgdsdvqdvq",
+      companyNameEnglish: "1qdveehasfgdqssdddddddssdekcfdddsstgddddvsssqdvqdv",
+      headOfficeGovernorate: "qdvsfqdmvqsdvtgqdv",
+      headOfficeCity: "asasdastgsdsdsdsdd",
+      headOfficeAddress: "qwdvqdvqwdvqwdv",
+      phoneNumber: "121212122121",
+      fax: "1234567",
+      currencyUsedForCapital: "qdvqedvqdvqdv",
+      capital: 100
+    },
+    caseStatus: "WaitingForLawyer",
 
-  await investors.deleteInvestor2(createdInvesotr.data['_id']);    
- 
-  await investors.deleteCase2(createdCase.data.data._id);  
- 
-  return expect(trackMyCompanyResult.data).toEqual({ tracking: [ { company: ' Your company undefined is currently in phase WaitingForLawyer ' } ] });
-  
+    creatorInvestorId: createdInvesotr.data["_id"]
+  };
 
+  const createdCase = await investors.createCase2(body);
 
-})
+  const createdCaseId = createdCase.data.data["_id"];
+  const createdCaseStatus = createdCase.data.data["caseStatus"];
+  const trackMyCompanyResult = await investors.trackMyCompany(
+    createdInvesotr.data["_id"]
+  );
 
+  await investors.deleteInvestor2(createdInvesotr.data["_id"]);
 
+  await investors.deleteCase2(createdCase.data.data._id);
+
+  return expect(trackMyCompanyResult.data).toEqual({
+    tracking: [
+      {
+        company:
+          " Your company undefined is currently in phase WaitingForLawyer "
+      }
+    ]
+  });
+});

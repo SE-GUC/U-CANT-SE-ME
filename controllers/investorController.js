@@ -1,16 +1,16 @@
-const mongoose = require("mongoose");
-const ObjectId = require("mongodb").ObjectID;
-const mongoValidator = require("validator");
-const passport = require("passport");
-
-const stripeSecretKey = require("../config/keys").stripeSecretKey;
-const stripe = require("stripe")(stripeSecretKey);
-
-const Investor = require("../models/Investor");
-const validator = require("../validations/investorValidations");
-const Case = require("../models/Case");
-const encryption = require("../routes/api/utils/encryption")
-const caseController = require("./caseController");
+const mongoose = require("mongoose")
+const mongoValidator = require("validator")
+const passport = require("passport")
+const nodemailer = require('nodemailer')
+const async = require('async')
+const stripeSecretKey = require("../config/keys").stripeSecretKey
+const stripe = require("stripe")(stripeSecretKey)
+const crypto = require('crypto')
+const Investor = require('../models/Investor')
+const validator = require('../validations/investorValidations')
+const Case = require('../models/Case')
+const encryption = require('../routes/api/utils/encryption')
+const caseController = require('./caseController')
 
 const investorAuthenticated = true;
 //READ
@@ -43,62 +43,74 @@ exports.createInvestor = async function(req, res) {
     res.status(400).send({ msg: "Oops something went wrong" });
   }
 };
-exports.register = async function(req,res){
-  req.body.password=encryption.hashPassword(req.body.password)
-  return res.send({data: await Investor.create(req.body)})
-}
-//UPDATE
-exports.updateInvestor = async function(req, res) {
-  if (!mongoValidator.isMongoId(req.params.id))
-    return res.status(400).send({ err: "Invalid Investor Id" });
-  const investor = await Investor.findById(req.params.id);
-  if (!investor) return res.status(404).send("Investor not Found");
-
-  if (!req.body.email) req.body.email = investor.email;
-
-  if (!req.body.password) req.body.password = investor.password;
-
-  if (!req.body.fullName) req.body.fullName = investor.fullName;
-
-  if (!req.body.type) req.body.type = investor.type;
-
-  if (!req.body.gender) req.body.gender = investor.gender;
-
-  if (!req.body.nationality) req.body.nationality = investor.nationality;
-
-  if (!req.body.methodOfIdentification)
-    req.body.methodOfIdentification = investor.methodOfIdentification;
-
-  if (!req.body.identificationNumber)
-    req.body.identificationNumber = investor.identificationNumber;
-
-  if (!req.body.dateOfBirth) req.body.dateOfBirth = investor.dateOfBirth;
-
-  if (!req.body.residenceAddress)
-    req.body.residenceAddress = investor.residenceAddress;
-
-  if (!req.body.telephoneNumber)
-    req.body.telephoneNumber = investor.telephoneNumber;
-
-  if (!req.body.residenceAddress) req.body.fax = investor.fax;
-
+exports.register = async function(req, res) {
+  req.body.password = encryption.hashPassword(req.body.password);
+  const { error } = validator.createValidation(req.body);
+  if (error) return res.status(400).send(error.details[0].message);
   if (
     req.body.nationality === "Egyptian" &&
     req.body.identificationNumber.length != 14
   )
     return res.status(400).send("Incorrect National ID number");
-
-  const { error } = validator.updateValidation(req.body);
-  if (error) return res.status(400).send(error.details[0].message);
-
   try {
-    await Investor.findByIdAndUpdate(req.params.id, req.body);
-    res.send({ msg: "Investor updated successfully" });
+    const investor = await Investor.create(req.body);
+    res.send(investor);
   } catch (err) {
-    res.send({ msg: "Oops something went wrong" });
+    res.status(400).send({ msg: "Oops something went wrong" });
   }
 };
+//UPDATE
+exports.updateInvestor = async function(req, res) {
+  if (!mongoValidator.isMongoId(req.params.id))
+  return res.status(400).send({ err: "Invalid Investor Id" });
+  const investor = await Investor.findById(req.params.id);
+  if (!investor) return res.status(404).send("Investor not Found");
+  
+  if (!req.body.email) req.body.email = investor.email;
+  
+  if (!req.body.password) req.body.password = investor.password;
+  
+  if (!req.body.fullName) req.body.fullName = investor.fullName;
+  
+  if (!req.body.type) req.body.type = investor.type;
 
+  if (!req.body.gender) req.body.gender = investor.gender;
+  
+  if (!req.body.nationality) req.body.nationality = investor.nationality;
+  
+  if (!req.body.methodOfIdentification)
+  req.body.methodOfIdentification = investor.methodOfIdentification;
+  
+  if (!req.body.identificationNumber)
+  req.body.identificationNumber = investor.identificationNumber;
+  
+  if (!req.body.dateOfBirth) req.body.dateOfBirth = investor.dateOfBirth;
+  
+  if (!req.body.residenceAddress)
+    req.body.residenceAddress = investor.residenceAddress;
+
+    if (!req.body.telephoneNumber)
+    req.body.telephoneNumber = investor.telephoneNumber;
+    
+    if (!req.body.residenceAddress) req.body.fax = investor.fax;
+    
+    // if (
+    //   req.body.nationality === "Egyptian" &&
+    //   req.body.identificationNumber.length != 14
+    //   )
+    //   return res.status(400).send("Incorrect National ID number");
+      
+      const { error } = validator.updateValidation(req.body);
+      if (error) return res.status(400).send(error.details[0].message);
+    try {
+      
+      await Investor.findByIdAndUpdate(req.params.id, req.body);
+      res.send({ msg: "Investor updated successfully" });
+    } catch (error) {
+      return res.status(400).send({ error: "Oops something went wrong" });
+    }
+  };
+  
 exports.deleteInvestor = async function(req, res) {
   try {
     if (!mongoValidator.isMongoId(req.params.id))
@@ -135,26 +147,29 @@ exports.updateForm = async function(req, res) {
     if (!investorAuthenticated)
       return res.status(403).send({ error: "Investor has no Access" });
     if (!mongoValidator.isMongoId(req.params.investorId))
-      return res.status(400).send({ error: "Invalid Investor ID" });
+      return res.status(403).send({ error: "Invalid Investor ID" });
     if (!mongoValidator.isMongoId(req.params.caseId))
-      return res.status(400).send({ error: "Invalid Case ID" });
+      return res.status(403).send({ error: "Invalid Case ID" });
     const oldCase = await Case.findById(req.params.caseId);
-    if (!oldCase) return res.status(404).send({ error: "Case doesn't Exist" });
+    if (!oldCase) return res.status(403).send({ error: "Case doesn't Exist" });
+    const neededInvestor = await Investor.findById(req.params.investorId);
+    if (!neededInvestor) return res.status(403).send({ error: "investor doesn't Exist" });
     if (oldCase.creatorInvestorId.toString() !== req.params.investorId)
-      return res
-        .status(403)
-        .send({ error: "Investor can only update his/her Forms" });
-    req.body.caseStatus = oldCase.caseStatus;
-    req.body.assignedLawyerId = oldCase.assignedLawyerId
-      ? oldCase.assignedLawyerId.toString()
-      : null;
-    req.body.assignedReviewerId = oldCase.assignedReviewerId
-      ? oldCase.assignedReviewerId.toString()
-      : null;
+      return res.status(403).send({ error: "Not the case Creator" });
+    // req.body.caseStatus = oldCase.caseStatus;
+    // req.body.assignedLawyerId = oldCase.assignedLawyerId
+    //   ? oldCase.assignedLawyerId.toString()
+    //   : null;
+    // req.body.assignedReviewerId = oldCase.assignedReviewerId
+    //   ? oldCase.assignedReviewerId.toString()
+    //   : null;
     req.params.id = req.params.caseId;
-    await caseController.updateCase(req, res);
+    if(oldCase.caseStatus==="OnUpdate" && oldCase.creatorLawyerId===null)
+      await caseController.updateCase(req, res);
+    else
+    return res.status(403).send({ error: "Case is not in update status" });
   } catch (err) {
-    res.send({ msg: "Oops something went wrong" });
+    res.send({ msg: "something went wrong" });
   }
 };
 
@@ -203,7 +218,7 @@ exports.trackMyCompany = async function(req, res) {
         result.push({
           company:
             " Your company " +
-            cases[i].companyNameEnglish +
+            cases[i].form.companyNameEnglish +
             " is currently in phase " +
             cases[i].caseStatus +
             " "
@@ -244,7 +259,11 @@ exports.viewMyFees = async function(req, res) {
   let result = [];
   for (let i = 0; i < cases.length; i++) {
     const fees = calcFees(cases[i]);
-    result.push({ companyName: cases[i].form.companyNameEnglish, fees: fees });
+    result.push({
+      _id: cases[i]._id,
+      companyName: cases[i].form.companyNameEnglish,
+      fees: fees
+    });
   }
   if (result.length == 0)
     res.json({ response: "you do not have any accepted company requests" });
@@ -293,22 +312,12 @@ exports.payFees = async function(req, res) {
   const fees = calcFees(selectedCase);
 
   //Pay the fees
-  stripe.customers
+  stripe.charges
     .create({
-      email: investor.email
-    })
-    .then(customer => {
-      return stripe.customers.createSource(customer.id, {
-        source: "tok_visa"
-      });
-    })
-    .then(source => {
-      return stripe.charges.create({
-        amount: fees * 100,
-        description: "Company Esatblishment Fees",
-        currency: "EGP",
-        customer: source.customer
-      });
+      amount: fees * 100,
+      currency: "EGP",
+      description: "Company Esatblishment Fees",
+      source: req.body.tokenId
     })
     .then(charge => {
       return res.send({ msg: "The Fees are payed successfully" });
@@ -335,18 +344,165 @@ exports.fillForm = async function(req, res) {
   }
 };
 
+exports.login = async function(req, res, next){
+  passport.authenticate('investors',
+  async function(err,investor){
+    if (err) { return next(err) }
+    if (!investor) { return res.redirect('/login') }
+    req.login(investor,  async function(err) {
+      if (err) { return next(err) }
+      let investor = await Investor.where("email" , req.body.email)
+      return res.redirect('/api/investors/' + investor[0]._id)
+    })
+  })(req, res, next)
+}
 
-exports.login = function(req, res, next){
-  passport.authenticate('investors', {
-    // successRedirect: should go to homepage of investor
-    successRedirect: "/api/investors",
-    // successMessage: "Congrats Logged In",
-    // successMessage: res.json({ msg: "CONGRATS"}),
-    // failureMessage: res.json({ msg: "BOOO"}),
-    failureRedirect: "/api/investors/login",
-    // failureMessage: "BOOOO",
-    failureFlash: true
-  })(req, res, next);
-  // req.session.user=req.body.email
-  // console.log(req.session)
-};
+exports.forgot = function(req, res, next) {
+  async.waterfall([
+    function(done) {
+      crypto.randomBytes(20, function(err, buf) {
+        let token = buf.toString('hex')
+        done(err, token)
+      })
+    },
+    function(token, done) {
+      Investor.findOne({ email: req.body.email }, function(err, investor) {
+        if (!investor) {
+          req.flash('error', 'No account with that email address exists.')
+          return res.redirect('/forgot')
+        }
+
+        investor.resetPasswordToken = token
+        investor.resetPasswordExpires = Date.now() + 3600000 // 1 hour
+
+        investor.save(function(err) {
+          done(err, token, investor)
+        })
+      })
+    },
+    function(token, user, done) {
+      let transporter = nodemailer.createTransport({
+        service: 'gmail',
+        auth: {
+          user: 'sumergiteme@gmail.com',
+          pass: 'U-CANT-SE-ME'
+        },
+        tls:{
+          rejectUnauthorized: false
+        }
+      })
+
+      let mailOptions = {
+        to: user.email,
+        from: 'sumergiteme@gmail.com',
+        subject: 'Password Reset Request',
+        text: 'Hello '+ user.fullName+ ',\n\n' +
+          'You are receiving this because you (or someone else) have requested the reset of the password for your account.\n\n' +
+          'Please click on the following link, or paste this into your browser to complete the process:\n\n' +
+          'http://localhost:3000/investors/reset/' + token + '\n\n' +
+          'If you did not request this, please ignore this email and your password will remain unchanged.\n\n' +
+          'Do not share this link with anyone.\n'
+      }
+      transporter.sendMail(mailOptions, function(error, info){
+        if (error) {
+          console.log(error);
+        } else {
+          console.log('Email sent: ' + info.response);
+        }
+        res.json({ msg: 'success' })
+     })
+    }
+  ], function(err) {
+    if (err) return next(err)
+    res.redirect('/forgot')
+  })
+}
+
+exports.reset = function(req, res){
+  async.waterfall([
+    function(done) {
+      Investor.findOne({ resetPasswordToken: req.params.token, resetPasswordExpires: { $gt: Date.now() } }, function(err, user) {
+        if (!user) {
+          req.flash('error', 'Password reset token is invalid or has expired.')
+          return res.redirect('back')
+        }
+
+        user.password = encryption.hashPassword(req.body.password)
+        user.resetPasswordToken = undefined
+        user.resetPasswordExpires = undefined
+
+        user.save(function(err) {
+          req.logIn(user, function(err) {
+            done(err, user)
+          })
+        })
+      })
+    },
+    function(user, done) {
+      let transporter = nodemailer.createTransport({
+          service: 'gmail',
+          auth: {
+            user: 'sumergiteme@gmail.com',
+            pass: 'U-CANT-SE-ME'
+          },
+          tls:{
+            rejectUnauthorized: false
+          }
+        })
+      let mailOptions = {
+        to: user.email,
+        from: 'sumergiteme@gmail.com',
+        subject: 'Your password has been changed',
+        text: 'Hello '+ user.fullName+ ',\n\n' +
+          'This is a confirmation that the password for your account ' + user.email + ' has just been changed.\n'
+      }
+      transporter.sendMail(mailOptions, function(err, info) {
+          if (error) {
+              console.log(error)
+          } else {
+              console.log('Email sent: ' + info.response)
+          }
+          req.flash('success', 'Success! Your password has been changed.')
+          done(err)
+        })
+      res.json({ msg: 'success' })
+    }
+  ], function(err) {
+    res.redirect('/')
+  })
+}
+
+exports.resumeWorkOnCase = async function(req, res)
+{ 
+  if(investorAuthenticated)
+  {
+    if(!mongoValidator.isMongoId(req.params.caseId) )
+    return res.status(400).send({ err : "Invalid case id" });
+    
+    let myCase = await Case.findById(req.params.caseId)
+    
+    if(myCase === null)
+    return res.status(400).send({ err : "Invalid case id" });
+    
+    if(myCase.assignedReviewerId !== null)
+    return res.status(400).send({ err : "You are not the one required to update" });
+
+    if(toString(myCase.creatorInvestorId) !== toString(req.params.creatorInvestorId))
+    return res.status(400).send({ err : "This is not your case" });
+    
+    if(myCase.caseStatus!=="OnUpdate")
+    return res.status(400).send({err: "This case is not in the update state"})
+    
+    try
+    {
+      await Case.findByIdAndUpdate(req.params.caseId,{"caseStatus":"AssignedToLawyer"})
+      res.json(await Case.findById(req.params.caseId))
+    }
+    catch(error)
+    {
+      res.json({msg:"A fatal error has occured, could not update the case status."})
+    }
+  }
+  else
+  return res.status(403).send({error: "Forbidden." })
+}

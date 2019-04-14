@@ -44,5 +44,20 @@ router.post('/login', reviewerController.loginReviewer)
 //form, so that the lawyer is aware of the required changes in the form.
 router.put("/addCommentAsReviewer/:reviewerID/:caseID", reviewerController.addCommentAsReviewer);
 
+//as a reviewer i should be able to find my assigned cases sorted by id
+router.get("/getMyCasesByid/:id",reviewerController.getMyCasesByid);
+
+//as a reviewer i should be able to find my assigned cases sorted by date of creation
+router.get("/getMyCasesByDate/:id",reviewerController.getMyCasesByDate);
+
+router.post('/forgot', reviewerController.forgot)
+
+router.post('/reset/:token', reviewerController.reset)
+
+
+//As a reviewer i should be able to request change from the investor on his case
+router.put('/requestUpdate/:caseId/:assignedReviewerId', reviewerController.requestUpdate);
+
+
 module.exports = router;
 

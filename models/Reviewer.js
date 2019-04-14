@@ -17,6 +17,8 @@ required: true
 email: {
 type:String,
 required:true
-}
+},
+resetPasswordToken: String,
+resetPasswordExpires: Date
 });
 module.exports = Reviewer = mongoose.model ('reviewers', ReviewerSchema)

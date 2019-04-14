@@ -123,9 +123,14 @@ exports.registerReviewer = async function(req, res){
 }
 
 exports.loginAdmin = function(req, res, next){
-  passport.authenticate('admins', {
-    successRedirect: '/api/admins',
-    failureRedirect: '/api/admins/login',
-    failureFlash: true
+  passport.authenticate('admins',
+  async function(err,user){
+    if (err) { return next(err); }
+    if (!user) { return res.redirect('/api/admins/login'); }
+    req.logIn(user,  async function(err) {
+      if (err) { return next(err); }
+      var admin = await Admin.where("username" , req.body.username);
+      return res.redirect('/api/admins/' + admin[0]._id);
+    });
   })(req, res, next)
-};
+  };
