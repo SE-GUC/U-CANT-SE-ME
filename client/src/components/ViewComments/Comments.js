@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import Comment from './Comment';
 import axios from 'axios';
 
+const { serverURI } = require("../../config/keys");
+
 class Comments extends Component {
     state = {
         comments: []
@@ -9,7 +11,7 @@ class Comments extends Component {
     async componentDidMount() {
         const investorID="5ca6229afd83c24bf091758e"
         const caseID="5ca62338fd83c24bf091758f"
-        const {data: comments} = await axios.get(`http://localhost:5000/api/investors/lawyerComments/${investorID}/${caseID}`)
+        const {data: comments} = await axios.get(serverURI + `/investors/lawyerComments/${investorID}/${caseID}`)
         this.setState({comments: comments.comments})
     }
 
