@@ -113,7 +113,7 @@ export default class RegisterReviewer extends React.Component {
         return (
           <div>
               <br/>
-              <h2>Register Reviewer</h2>
+              <h3 class="text-center text-info">Register Reviewer</h3>
             <form id="RegisterReviewer">
             <FormControl>    
                         <InputLabel>Username</InputLabel>
