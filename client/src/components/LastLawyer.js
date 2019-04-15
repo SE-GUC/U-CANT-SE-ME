@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import axios from 'axios';
-const serverURI = require("../config/keys").serverURI;
 
 class LastLawyer extends Component {
     state = {
@@ -13,7 +12,7 @@ class LastLawyer extends Component {
         //the next line to try case which has not been assigned to lawyer , comment the above line if you want to try.
         //const caseID = "5ca62338fd83c24bf091758f"
          
-        axios.get(serverURI + `/admins/getCaseLastLawyer/${caseID}`)
+        axios.get(`api/admins/getCaseLastLawyer/${caseID}`)
             .then(res => {
                 if (res.data.lawyerName)
                     this.setState({ lawyer: "Last lawyer who worked on the case is " + res.data.lawyerName + "." })

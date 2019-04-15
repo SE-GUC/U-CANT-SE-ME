@@ -2,8 +2,6 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import Case from './Case';
 
-const serverURI = require("../../config/keys").serverURI;
-
 class ReviewerGetCasesSorted extends Component {
     constructor(){
         super();
@@ -15,11 +13,11 @@ class ReviewerGetCasesSorted extends Component {
     
     async componentDidMount(criteria){
         if(criteria === 'ID'){
-            const getCases = await axios.get(serverURI + '/reviewers/getMyCasesByid/5ca612f6dc10782330077c4e');
+            const getCases = await axios.get('api/reviewers/getMyCasesByid/5ca612f6dc10782330077c4e');
             this.setState({cases: getCases.data});
         }else{
             if(criteria === 'Date'){
-                const getCases = await axios.get(serverURI + '/reviewers/getMyCasesByDate/5ca612f6dc10782330077c4e');
+                const getCases = await axios.get('api/reviewers/getMyCasesByDate/5ca612f6dc10782330077c4e');
                 this.setState({cases: getCases.data});
             }
         }

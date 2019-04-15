@@ -9,8 +9,6 @@ import IconButton from '@material-ui/core/IconButton'
 import InputAdornment from '@material-ui/core/InputAdornment'
 import FormControl from '@material-ui/core/FormControl'
 
-const serverURI = require("../../config/keys").serverURI;
-
 class ExternalLogin extends Component {
     state = {
         password: '',
@@ -22,7 +20,7 @@ class ExternalLogin extends Component {
         }
         document.getElementById('Token').style.display = 'none'
         try{
-            let res = await axios.post(serverURI + `/${this.props.match.params.type}/reset/${this.props.match.params.token}`, req)
+            let res = await axios.post(`api/${this.props.match.params.type}/reset/${this.props.match.params.token}`, req)
             document.getElementById('Success').style.display = 'inline'
             console.log('res', res)
         }

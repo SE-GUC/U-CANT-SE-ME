@@ -5,8 +5,6 @@ import Comment from './ViewComments/Comment';
 import Button from '@material-ui/core/Button'
 import SendIcon from '@material-ui/icons/Send'
 import TextField from "@material-ui/core/TextField"
-const serverURI = require("../config/keys").serverURI;
-
 
 class AddComment extends Component {
   state = {
@@ -23,7 +21,7 @@ class AddComment extends Component {
 
   componentDidMount() {
     if(this.props.location.state){
-      axios.get(serverURI + `/cases/${this.props.location.state.caseID}`)
+      axios.get(`api/cases/${this.props.location.state.caseID}`)
       .then(res => {
         if(res.data.data){
           this.setState({case:res.data.data})
@@ -67,11 +65,11 @@ class AddComment extends Component {
                 body: this.state.text
               }
               if(this.state.type==='reviewer'){
-                await axios.put(serverURI + `/reviewers/addCommentAsReviewer/${this.state.authorID}/${this.state.case._id}`,body);
+                await axios.put(`api/reviewers/addCommentAsReviewer/${this.state.authorID}/${this.state.case._id}`,body);
                 this.setState({actionMsg:'Comment added successfully!'})
               }
               else if(this.state.type==='lawyer'){
-                await axios.put(serverURI + `/lawyers/addCommentAsLawyer/${this.state.authorID}/${this.state.case._id}`,body);
+                await axios.put(`api/lawyers/addCommentAsLawyer/${this.state.authorID}/${this.state.case._id}`,body);
                 this.setState({actionMsg:'Comment added successfully!'})
               }
               this.componentDidMount();

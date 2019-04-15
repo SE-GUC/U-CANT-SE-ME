@@ -2,8 +2,6 @@ import React, { Component } from 'react'
 import moment from 'moment'
 import TextField from "@material-ui/core/TextField"
 
-const serverURI = require("../../config/keys").serverURI;
-
 export class GetMyCompaniesItem extends Component {
   formatTime(t) {
     return moment.utc(t.substring(0, 23)).format('DD, MMM, YYYY').toUpperCase();

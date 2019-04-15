@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import Case from './Case';
 import axios from 'axios';
-const serverURI = require("../../config/keys").serverURI;
 
 export default class LawyerViewTasks extends Component {
     state ={
@@ -13,14 +12,14 @@ export default class LawyerViewTasks extends Component {
     async componentDidMount(){
 
         const id =this.state.LawyerID;
-        const getCases = await axios.get(serverURI + `/lawyers/lawyerTasks/${id}`);
+        const getCases = await axios.get(`api/lawyers/lawyerTasks/${id}`);
         this.setState({cases: getCases.data.Tasks});
     };
     accept=async (caseId)=>
     {
         try
         {
-            await axios.put(serverURI + `/lawyers/updateCaseStatus/${caseId}/WaitingForReviewer`);
+            await axios.put(`api/lawyers/updateCaseStatus/${caseId}/WaitingForReviewer`);
             const newArr=this.state.cases.filter(function(value, index, arr){
                 return caseId === value._id;
             });
@@ -37,19 +36,19 @@ export default class LawyerViewTasks extends Component {
 
     viewDecision=async (id) =>
     {
-        window.open(serverURI + `/lawyers/viewDecision/${id}`,'_blank');
+        window.open(`api/lawyers/viewDecision/${id}`,'_blank');
     }
     downloadDecision=async (id) =>
     {
-        window.open(serverURI + `/lawyers/downloadDecision/${id}`,'_blank');
+        window.open(`api/lawyers/downloadDecision/${id}`,'_blank');
     }
     viewContract=async (id) =>
     {
-        window.open(serverURI + `/lawyers/viewContract/${id}`,'_blank');
+        window.open(`api/lawyers/viewContract/${id}`,'_blank');
     }
     downloadContract=async (id) =>
     {
-        window.open(serverURI + `/lawyers/downloadContract/${id}`,'_blank');
+        window.open(`api/lawyers/downloadContract/${id}`,'_blank');
     }
 
     render() {

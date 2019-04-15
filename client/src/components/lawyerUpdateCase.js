@@ -5,8 +5,6 @@ import Input from '@material-ui/core/Input'
 import InputLabel from '@material-ui/core/InputLabel'
 import FormControl from '@material-ui/core/FormControl'
 import { Redirect } from 'react-router-dom'
-const serverURI = require("../config/keys").serverURI;
-
 
 const Joi = require("joi");
 const mongoValidator = require("validator");
@@ -184,7 +182,7 @@ export default class lawyerUpdateCase extends React.Component {
         {
             try
             {
-              await axios.put(serverURI + `/lawyers/update/${lawyerID}/${caseID}`,body)
+              await axios.put(`api/lawyers/update/${lawyerID}/${caseID}`,body)
               this.setState({val:'Successfully updated'})
             }
             catch (error)
@@ -353,7 +351,7 @@ export default class lawyerUpdateCase extends React.Component {
         {
             try
             {
-              await axios.put(serverURI + `/lawyers/update/${lawyerID}/${caseID}`,body)
+              await axios.put(`api/lawyers/update/${lawyerID}/${caseID}`,body)
               this.setState({val:'Successfully updated'})
             }
             catch
@@ -368,13 +366,13 @@ export default class lawyerUpdateCase extends React.Component {
             this.setState({val:'something went wrong'})
         }
         if(this.state.val==='Successfully updated'){
-          const mycase = await axios.get(serverURI + `/cases/${caseID}`);
+          const mycase = await axios.get(`api/cases/${caseID}`);
           console.log(mycase)
           if(mycase.data.data.form.companyType ==='SPC'){
-            window.open(serverURI + `/lawyers/downloadDecision/${caseID}`,'_blank');
+            window.open(`api/lawyers/downloadDecision/${caseID}`,'_blank');
           }
           else{
-            window.open(serverURI + `/lawyers/downloadContract/${caseID}`,'_blank');
+            window.open(`api/lawyers/downloadContract/${caseID}`,'_blank');
           }
         }
       }

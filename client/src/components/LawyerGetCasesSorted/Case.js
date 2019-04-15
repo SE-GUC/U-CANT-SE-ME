@@ -2,8 +2,6 @@ import React, { Component } from 'react'
 import axios from 'axios';
 import Managers from './Managers';
 
-const serverURI = require("../../config/keys").serverURI;
-
 export default class Case extends Component {
   getStyle = () => {
     return{
@@ -33,19 +31,19 @@ export default class Case extends Component {
       let getCreatorInvestor='';
       let  getCreatorLawyer ='';
       if(assignedLawyerId!==null){
-        getAssignedLawyer =await axios.get(serverURI + `/lawyers/${assignedLawyerId}`);
+        getAssignedLawyer =await axios.get(`api/lawyers/${assignedLawyerId}`);
         this.setState({assignedLawyerEmail: getAssignedLawyer.data.email}); 
       }
       if(assignedReviewerId!==null){
-        getAssignedReviewer =await axios.get(serverURI + `/reviewers/${assignedReviewerId}`);
+        getAssignedReviewer =await axios.get(`api/reviewers/${assignedReviewerId}`);
         this.setState({assignedReviewerEmail: getAssignedReviewer.data.data.email}); 
       }
       if(creatorLawyerId!==null){
-        getCreatorLawyer =await axios.get(serverURI + `/lawyers/${creatorLawyerId}`);
+        getCreatorLawyer =await axios.get(`api/lawyers/${creatorLawyerId}`);
         this.setState({creatorLawyerEmail: getCreatorLawyer.data.email}); 
       }
       if(creatorInvestorId!==null){
-        getCreatorInvestor =await axios.get(serverURI + `/investors/${creatorInvestorId}`);
+        getCreatorInvestor =await axios.get(`api/investors/${creatorInvestorId}`);
         this.setState({creatorInvestorEmail: getCreatorInvestor.data.email}); 
       }
       this.setState({caseStatus:caseStatus});

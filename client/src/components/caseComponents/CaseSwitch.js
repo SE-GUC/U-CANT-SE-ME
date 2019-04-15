@@ -2,14 +2,13 @@ import React, { Component } from "react";
 import Case from "./Case";
 import CaseSummary from "./CaseSummary";
 import axios from 'axios'
-const serverURI = require("../../config/keys").serverURI;
 
 class CaseSwitch extends Component {
   state = {
     cases: []
   };
   async componentDidMount() {
-    const getCases = await axios.get(serverURI + "/cases");
+    const getCases = await axios.get("api/cases");
     for(let i=0;i<getCases.data.data.length;i++)
     {
         getCases.data.data[i].sid=`s${i}`
