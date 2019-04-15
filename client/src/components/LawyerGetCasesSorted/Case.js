@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import axios from 'axios';
 import Managers from './Managers';
 
-const { serverURI } = require("../../config/keys");
+const serverURI = require("../../config/keys").serverURI;
 
 export default class Case extends Component {
   getStyle = () => {

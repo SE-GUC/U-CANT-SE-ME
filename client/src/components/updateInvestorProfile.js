@@ -1,7 +1,9 @@
 import React from 'react'
 import axios from 'axios';
 const Joi = require("joi");
-const { serverURI } = require("../config/keys");
+
+const serverURI = require("../config/keys").serverURI;
+
 export default class updateInvestorProfile extends React.Component {
     constructor(props) {
         super(props)

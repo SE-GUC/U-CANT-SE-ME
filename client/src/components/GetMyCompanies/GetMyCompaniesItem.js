@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import moment from 'moment'
 import TextField from "@material-ui/core/TextField"
 
-const { serverURI } = require("../../config/keys");
+const serverURI = require("../../config/keys").serverURI;
 
 export class GetMyCompaniesItem extends Component {
   formatTime(t) {

@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import Case from './Case';
 
-const { serverURI } = require("../../config/keys");
+const serverURI = require("../../config/keys").serverURI;
 
 class ReviewerGetCasesSorted extends Component {
     constructor(){
