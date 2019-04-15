@@ -4,7 +4,7 @@ import axios from 'axios';
 import { Redirect } from 'react-router-dom'
 const Joi = require("joi");
 
-const { serverURI } = require("../../config/keys");
+const serverURI = require("../../config/keys").serverURI;
 
 class LawyerFillForm extends Component {
   constructor() {

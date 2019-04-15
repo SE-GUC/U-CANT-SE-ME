@@ -3,7 +3,7 @@ import axios from 'axios';
 import { Redirect } from 'react-router-dom'
 const Joi = require("joi");
 const mongoValidator = require("validator");
-const { serverURI } = require("../config/keys");
+const serverURI = require("../config/keys").serverURI;
 
 export default class InvestorUpdateCase extends React.Component {
     

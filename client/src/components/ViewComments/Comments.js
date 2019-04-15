@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import Comment from './Comment';
 import axios from 'axios';
 
-const { serverURI } = require("../../config/keys");
+const serverURI = require("../../config/keys").serverURI;
 
 class Comments extends Component {
     state = {

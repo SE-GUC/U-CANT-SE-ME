@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import Case from './Case';
 import axios from 'axios';
-const { serverURI } = require("../../config/keys");
+const serverURI = require("../../config/keys").serverURI;
  
 export default class LawyerViewCase extends Component {
     state ={

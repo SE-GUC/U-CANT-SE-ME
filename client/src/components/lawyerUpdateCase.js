@@ -5,7 +5,7 @@ import Input from '@material-ui/core/Input'
 import InputLabel from '@material-ui/core/InputLabel'
 import FormControl from '@material-ui/core/FormControl'
 import { Redirect } from 'react-router-dom'
-const { serverURI } = require("../config/keys");
+const serverURI = require("../config/keys").serverURI;
 
 
 const Joi = require("joi");

@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import axios from 'axios';
-const { serverURI } = require("../../config/keys");
+const serverURI = require("../../config/keys").serverURI;
 
 export default class CaseSummary extends Component {
   getStyle = () => {

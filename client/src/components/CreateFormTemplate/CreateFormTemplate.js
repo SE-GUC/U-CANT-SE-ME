@@ -6,7 +6,7 @@ import "prismjs/components/prism-javascript";
 import "prismjs/components/prism-markup";
 import axios from "axios";
 
-const { serverURI } = require("../../config/keys");
+const serverURI = require("../../config/keys").serverURI;
 
 class CreateFormTemplate extends Component {
   state = { code: `` };

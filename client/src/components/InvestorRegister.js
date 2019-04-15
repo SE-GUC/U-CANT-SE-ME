@@ -10,7 +10,7 @@ import IconButton from '@material-ui/core/IconButton'
 import InputAdornment from '@material-ui/core/InputAdornment'
 import { Redirect } from 'react-router-dom'
 const Joi = require("joi");
-const { serverURI } = require("../config/keys");
+const serverURI = require("../config/keys").serverURI;
 
 
 export default class InvestorRegister extends React.Component {

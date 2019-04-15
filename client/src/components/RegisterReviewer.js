@@ -9,7 +9,7 @@ import VisibilityOff from '@material-ui/icons/VisibilityOff'
 import IconButton from '@material-ui/core/IconButton'
 import InputAdornment from '@material-ui/core/InputAdornment'
 import { Redirect } from 'react-router-dom'
-const { serverURI } = require("../config/keys");
+const serverURI = require("../config/keys").serverURI;
 
 
 const Joi = require("joi");
