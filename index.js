@@ -64,8 +64,8 @@ app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname+'/client/public/index.html'));
 })
 
-//Homepage
-// app.get("/", (req, res) => res.send("HomePage"));
+Homepage
+app.get("/", (req, res) => res.send("HomePage"));
 
 //Connect flash
 app.use(flash());
