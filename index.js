@@ -4,6 +4,7 @@ const passport = require("passport");
 const flash = require("connect-flash");
 const session = require("express-session");
 const cors = require("cors");
+const path = require("path");
 //Require Route Handlers
 const investors = require("./routes/api/investors");
 const lawyers = require("./routes/api/lawyers");
@@ -51,18 +52,11 @@ app.use(passport.session());
 //production mode
 if (process.env.NODE_ENV === "production") {
   app.use(express.static("client/build"));
-  app.get("*", (req, res) => {
-    res.sendFile(
-      path.resolve(__dirname, "client", "build", "index.html"),
-      err => {
-        res.send(err);
-      }
-    );
-  });
+  //Homepage
+  app.get("/", (req, res) => res.sendFile(path.resolve(__dirname, "client", "build", "index.html")));
+} else {
+  app.get("/", (req, res) => res.send("Homepage"));
 }
-
-//Homepage
-app.get("/", (req, res) => res.send("HomePage"));
 
 //Connect flash
 app.use(flash());
