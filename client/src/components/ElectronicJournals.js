@@ -1,7 +1,5 @@
 import React, { Component } from 'react';
 import axios from 'axios';
-const serverURI = require("../config/keys").serverURI;
-
 
 class ElectronicJournals extends Component {
   constructor(props) {
@@ -14,7 +12,7 @@ class ElectronicJournals extends Component {
 
   async componentDidMount() {
 
-    const res = await axios.get(serverURI + `/companies`);
+    const res = await axios.get(`api/companies`);
 
     const { data: companies } = res
 
@@ -25,7 +23,7 @@ class ElectronicJournals extends Component {
 
       const investorID = this.state.companies[i].investorID
 
-      const res = await axios.get(serverURI + `/investors/${investorID}`)
+      const res = await axios.get(`api/investors/${investorID}`)
 
       investorsArray.push(res.data)
     }

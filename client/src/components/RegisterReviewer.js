@@ -9,8 +9,6 @@ import VisibilityOff from '@material-ui/icons/VisibilityOff'
 import IconButton from '@material-ui/core/IconButton'
 import InputAdornment from '@material-ui/core/InputAdornment'
 import { Redirect } from 'react-router-dom'
-const serverURI = require("../config/keys").serverURI;
-
 
 const Joi = require("joi");
 export default class RegisterReviewer extends React.Component {
@@ -93,7 +91,7 @@ export default class RegisterReviewer extends React.Component {
         {
             try
             {
-                await axios.post(serverURI + "/admins/registerReviewer",body);
+                await axios.post("api/admins/registerReviewer",body);
                 this.setState({val:'Successfully Created!'})
             }
             catch(error)

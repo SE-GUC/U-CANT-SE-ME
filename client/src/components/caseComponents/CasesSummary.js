@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import axios from 'axios';
 import CaseSummary from './CaseSummary';
-const { serverURI } = require("../../config/keys");
 
  class CasesSummary extends Component {
     state ={
@@ -9,7 +8,7 @@ const { serverURI } = require("../../config/keys");
     };
     async componentDidMount(){
 
-        const getCases = await axios.get(serverURI + "/cases");
+        const getCases = await axios.get("api/cases");
         this.setState({cases: getCases.data.data});
     };
     render() {
