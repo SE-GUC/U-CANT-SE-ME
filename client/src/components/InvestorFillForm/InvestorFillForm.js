@@ -3,7 +3,7 @@ import Managers from '../Managers';
 import axios from 'axios';
 const Joi = require("joi");
 
-const { serverURI } = require("../../config/keys");
+const serverURI = require("../../config/keys").serverURI;
 
 class InvestorFillForm extends Component {
   constructor() {

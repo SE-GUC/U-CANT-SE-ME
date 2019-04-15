@@ -10,7 +10,7 @@ import IconButton from '@material-ui/core/IconButton'
 import InputAdornment from '@material-ui/core/InputAdornment'
 import FormControl from '@material-ui/core/FormControl'
 
-const { serverURI } = require("../../config/keys");
+const serverURI = require("../../config/keys").serverURI;
 
 export default class Login extends Component {
   constructor(props) {

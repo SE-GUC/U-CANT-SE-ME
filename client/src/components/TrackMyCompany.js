@@ -1,7 +1,8 @@
 import React from 'react'
 import axios from 'axios';
 import Stepper from 'react-stepper-horizontal'
-const { serverURI } = require("../config/keys");
+
+const serverURI = require("../config/keys").serverURI;
 
 export default class TrackMyCompany extends React.Component {
 

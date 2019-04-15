@@ -5,7 +5,7 @@ import Comment from './ViewComments/Comment';
 import Button from '@material-ui/core/Button'
 import SendIcon from '@material-ui/icons/Send'
 import TextField from "@material-ui/core/TextField"
-const { serverURI } = require("../config/keys");
+const serverURI = require("../config/keys").serverURI;
 
 
 class AddComment extends Component {

@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import Case from './Case';
 import axios from 'axios';
 
-const { serverURI } = require("../../config/keys");
+const serverURI = require("../../config/keys").serverURI;
 
  class Cases extends Component {
     state ={

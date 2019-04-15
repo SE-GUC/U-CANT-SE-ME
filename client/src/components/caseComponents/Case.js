@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 import moment from 'moment'
 import TextField from "@material-ui/core/TextField"
 
-const { serverURI } = require("../../config/keys");
+const serverURI = require("../../config/keys").serverURI;
 
 export default class Case extends Component {
   

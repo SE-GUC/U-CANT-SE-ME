@@ -10,7 +10,7 @@ import InputAdornment from '@material-ui/core/InputAdornment'
 import FormControl from '@material-ui/core/FormControl'
 import { Redirect } from 'react-router-dom'
 
-const { serverURI } = require("../../config/keys");
+const serverURI = require("../../config/keys").serverURI;
 
 class ExternalLogin extends Component {
     state = {

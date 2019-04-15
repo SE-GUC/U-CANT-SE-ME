@@ -3,7 +3,7 @@ import axios from 'axios';
 import '../../App.css';
 import GetMyCompaniesItem from './GetMyCompaniesItem';
 
-const { serverURI } = require("../../config/keys");
+const serverURI = require("../../config/keys").serverURI;
 
 class MyCompanies extends Component {
   state = {
