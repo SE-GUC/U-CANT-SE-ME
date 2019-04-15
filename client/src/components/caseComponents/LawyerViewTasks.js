@@ -12,14 +12,14 @@ export default class LawyerViewTasks extends Component {
     async componentDidMount(){
 
         const id =this.state.LawyerID;
-        const getCases = await axios.get(`http://localhost:5000/api/lawyers/lawyerTasks/${id}`);
+        const getCases = await axios.get(`api/lawyers/lawyerTasks/${id}`);
         this.setState({cases: getCases.data.Tasks});
     };
     accept=async (caseId)=>
     {
         try
         {
-            await axios.put(`http://localhost:5000/api/lawyers/updateCaseStatus/${caseId}/WaitingForReviewer`);
+            await axios.put(`api/lawyers/updateCaseStatus/${caseId}/WaitingForReviewer`);
             const newArr=this.state.cases.filter(function(value, index, arr){
                 return caseId === value._id;
             });
@@ -36,19 +36,19 @@ export default class LawyerViewTasks extends Component {
 
     viewDecision=async (id) =>
     {
-        window.open(`http://localhost:5000/api/lawyers/viewDecision/${id}`,'_blank');
+        window.open(`api/lawyers/viewDecision/${id}`,'_blank');
     }
     downloadDecision=async (id) =>
     {
-        window.open(`http://localhost:5000/api/lawyers/downloadDecision/${id}`,'_blank');
+        window.open(`api/lawyers/downloadDecision/${id}`,'_blank');
     }
     viewContract=async (id) =>
     {
-        window.open(`http://localhost:5000/api/lawyers/viewContract/${id}`,'_blank');
+        window.open(`api/lawyers/viewContract/${id}`,'_blank');
     }
     downloadContract=async (id) =>
     {
-        window.open(`http://localhost:5000/api/lawyers/downloadContract/${id}`,'_blank');
+        window.open(`api/lawyers/downloadContract/${id}`,'_blank');
     }
 
     render() {

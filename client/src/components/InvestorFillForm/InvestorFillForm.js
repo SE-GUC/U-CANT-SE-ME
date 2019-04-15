@@ -299,7 +299,7 @@ class InvestorFillForm extends Component {
             }
         }
         try{
-        await axios.post('http://localhost:5000/api/investors/fillForm/5ca7a93fbac716049d1e3af8', mycase)
+        await axios.post('api/investors/fillForm/5ca7a93fbac716049d1e3af8', mycase)
         this.setState({message: 'Successfully added'})
     }catch{
         this.setState({message: 'wrong input'})

@@ -12,7 +12,7 @@ export default class ReviewerViewTasks extends Component {
     async componentDidMount(){
 
         const id =this.state.reviwerID;
-        const getCases = await axios.get(`http://localhost:5000/api/reviewers/reviewerTasks/${id}`);
+        const getCases = await axios.get(`api/reviewers/reviewerTasks/${id}`);
         this.setState({cases: getCases.data.Tasks});
 
     };
@@ -20,7 +20,7 @@ export default class ReviewerViewTasks extends Component {
     {
         try
         {
-            await axios.put(`http://localhost:5000/api/reviewers/updateCaseStatus/${caseId}/Accepted`);
+            await axios.put(`api/reviewers/updateCaseStatus/${caseId}/Accepted`);
             const newArr=this.state.cases.filter(function(value, index, arr){
                 return caseId === value._id;
             });

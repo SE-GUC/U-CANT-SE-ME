@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import Case from './Case';
 import axios from 'axios';
-
  
 export default class LawyerViewCase extends Component {
     state ={
@@ -11,13 +10,13 @@ export default class LawyerViewCase extends Component {
     };
     async componentDidMount(){
         const id =this.state.lawyerID;
-        const getCases = await axios.get(`http://localhost:5000/api/lawyers/getAllUnsignedCases/${id}`);
+        const getCases = await axios.get(`api/lawyers/getAllUnsignedCases/${id}`);
         this.setState({cases: getCases.data});
     };
     
     async handelClick (index) {
         const id =this.state.lawyerID;
-        await axios.get(`http://localhost:5000/api/lawyers/assigncase/${id}/${index}`);
+        await axios.get(`api/lawyers/assigncase/${id}/${index}`);
         alert("You Have Taken This Case")
         this.componentDidMount()
     }

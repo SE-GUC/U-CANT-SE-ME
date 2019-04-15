@@ -25,7 +25,7 @@ class ExternalLogin extends Component {
             password: this.state.password
         }
         try{
-            let res = await axios.post('http://localhost:5000/api/investors/login', req)
+            let res = await axios.post('api/investors/login', req)
             document.getElementById('Error').style.display = 'none'
             this.setState({
                 id: res.data._id

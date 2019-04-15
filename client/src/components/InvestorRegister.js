@@ -152,7 +152,7 @@ export default class InvestorRegister extends React.Component {
         {
             try
             {
-                await axios.post("http://localhost:5000/api/investors/register",body);
+                await axios.post("api/investors/register",body);
                 this.setState({valid:'Successfully Created!'})                
             }
             catch

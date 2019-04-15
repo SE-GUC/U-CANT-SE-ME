@@ -8,7 +8,7 @@ import axios from 'axios';
     };
     async componentDidMount(){
 
-        const getCases = await axios.get("http://localhost:5000/api/cases");
+        const getCases = await axios.get("api/cases");
         this.setState({cases: getCases.data.data});
     
         // my comments to understand arrayOfCases 

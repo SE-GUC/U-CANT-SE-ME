@@ -2,7 +2,6 @@ import React, { Component } from 'react'
 import Case from './Case';
 import axios from 'axios';
 
- 
 export default class ReviewerViewCase extends Component {
     state ={
         cases :[],
@@ -12,13 +11,13 @@ export default class ReviewerViewCase extends Component {
     async componentDidMount(){
 
         const id =this.state.reviwerID;
-        const getCases = await axios.get(`http://localhost:5000/api/reviewers/getAllUnsignedCases/${id}`);
+        const getCases = await axios.get(`api/reviewers/getAllUnsignedCases/${id}`);
         this.setState({cases: getCases.data});
     };
     
     async handelClick (index) {
         const id =this.state.reviwerID;
-        await axios.get(`http://localhost:5000/api/reviewers/assigncase/${id}/${index}`);
+        await axios.get(`api/reviewers/assigncase/${id}/${index}`);
         alert("You Have Taken This Case")
         this.componentDidMount()
     }

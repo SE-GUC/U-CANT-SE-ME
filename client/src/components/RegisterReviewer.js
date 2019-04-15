@@ -91,7 +91,7 @@ export default class RegisterReviewer extends React.Component {
         {
             try
             {
-                await axios.post("http://localhost:5000/api/admins/registerReviewer",body);
+                await axios.post("api/admins/registerReviewer",body);
                 this.setState({val:'Successfully Created!'})
             }
             catch(error)

@@ -8,7 +8,7 @@ import CaseSummary from './CaseSummary';
     };
     async componentDidMount(){
 
-        const getCases = await axios.get("http://localhost:5000/api/cases");
+        const getCases = await axios.get("api/cases");
         this.setState({cases: getCases.data.data});
     };
     render() {

@@ -182,7 +182,7 @@ export default class lawyerUpdateCase extends React.Component {
         {
             try
             {
-              await axios.put(`http://localhost:5000/api/lawyers/update/${lawyerID}/${caseID}`,body)
+              await axios.put(`api/lawyers/update/${lawyerID}/${caseID}`,body)
               this.setState({val:'Successfully updated'})
             }
             catch (error)
@@ -351,7 +351,7 @@ export default class lawyerUpdateCase extends React.Component {
         {
             try
             {
-              await axios.put(`http://localhost:5000/api/lawyers/update/${lawyerID}/${caseID}`,body)
+              await axios.put(`api/lawyers/update/${lawyerID}/${caseID}`,body)
               this.setState({val:'Successfully updated'})
             }
             catch
@@ -366,13 +366,13 @@ export default class lawyerUpdateCase extends React.Component {
             this.setState({val:'something went wrong'})
         }
         if(this.state.val==='Successfully updated'){
-          const mycase = await axios.get(`http://localhost:5000/api/cases/${caseID}`);
+          const mycase = await axios.get(`api/cases/${caseID}`);
           console.log(mycase)
           if(mycase.data.data.form.companyType ==='SPC'){
-            window.open(`http://localhost:5000/api/lawyers/downloadDecision/${caseID}`,'_blank');
+            window.open(`api/lawyers/downloadDecision/${caseID}`,'_blank');
           }
           else{
-            window.open(`http://localhost:5000/api/lawyers/downloadContract/${caseID}`,'_blank');
+            window.open(`api/lawyers/downloadContract/${caseID}`,'_blank');
           }
         }
       }

@@ -43,7 +43,7 @@ import LawyerProfile from './components/LawyerProfile'
 import ReviewerProfile from './components/ReviewerProfile'
 import AdminProfile from './components/AdminProfile'
 import updateInvestorProfile from './components/updateInvestorProfile';
-import CreateFormTemplate from './CreateFormTemplate/CreateFormTemplate';
+import CreateFormTemplate from './components/CreateFormTemplate/CreateFormTemplate';
 class App extends Component {
   render() {
     return (

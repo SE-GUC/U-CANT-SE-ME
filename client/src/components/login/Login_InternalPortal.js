@@ -37,11 +37,11 @@ export default class Login extends Component {
       if(this.state.type.toString()==="")
         throw new Error('You Have To Select an Account Type')
       if (type === "Admin")
-        res = await axios.post("http://localhost:5000/api/admins/login",bodyAdmin);
+        res = await axios.post("api/admins/login",bodyAdmin);
       else if (type === "Reviewer")
-        res = await axios.post("http://localhost:5000/api/reviewers/login",body);
+        res = await axios.post("api/reviewers/login",body);
       else if (type === "Lawyer")
-        res = await axios.post("http://localhost:5000/api/lawyers/login", body);
+        res = await axios.post("api/lawyers/login", body);
       else{
         document.getElementById("Error_Type").style.display = "inline";
       }

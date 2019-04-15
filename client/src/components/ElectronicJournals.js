@@ -12,7 +12,7 @@ class ElectronicJournals extends Component {
 
   async componentDidMount() {
 
-    const res = await axios.get(`http://localhost:5000/api/companies`);
+    const res = await axios.get(`api/companies`);
 
     const { data: companies } = res
 
@@ -23,7 +23,7 @@ class ElectronicJournals extends Component {
 
       const investorID = this.state.companies[i].investorID
 
-      const res = await axios.get(`http://localhost:5000/api/investors/${investorID}`)
+      const res = await axios.get(`api/investors/${investorID}`)
 
       investorsArray.push(res.data)
     }

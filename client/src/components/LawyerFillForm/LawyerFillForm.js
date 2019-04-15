@@ -4,7 +4,6 @@ import axios from 'axios';
 import { Redirect } from 'react-router-dom'
 const Joi = require("joi");
 
-
 class LawyerFillForm extends Component {
   constructor() {
     super();
@@ -317,7 +316,7 @@ class LawyerFillForm extends Component {
                 creatorInvestorId: this.state.creatorInvestorId.toString()
             }
             try{
-                await axios.post('http://localhost:5000/api/lawyers/fillForm/5ca777485c74d20e80486f9c', mycase)
+                await axios.post('api/lawyers/fillForm/5ca777485c74d20e80486f9c', mycase)
                 this.setState({message: 'Successfully added'})
             }catch (e){
                 this.setState({message: 'wrong input'})

@@ -17,7 +17,7 @@ class ViewMyFees extends Component {
     // );
     // this.setState({ fees: fees.response });
     axios
-      .get(`http://localhost:5000/api/investors/viewMyFees/${investorId}/`)
+      .get(`api/investors/viewMyFees/${investorId}/`)
       .then(res => this.setState({ fees: res.data.response }));
   }
 

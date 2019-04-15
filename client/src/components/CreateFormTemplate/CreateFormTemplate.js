@@ -19,7 +19,7 @@ class CreateFormTemplate extends Component {
     }
     axios
       .post(
-        `http://localhost:5000/api/admins/createFormTemplate/`,
+        `api/admins/createFormTemplate/`,
         formTemplate
       )
       .then(res => {

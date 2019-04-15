@@ -5,6 +5,7 @@ import Input from '@material-ui/core/Input'
 import InputLabel from '@material-ui/core/InputLabel'
 import FormControl from '@material-ui/core/FormControl'
 
+
 class ExternalLogin extends Component {
     state = {
         email: '',
@@ -19,7 +20,7 @@ class ExternalLogin extends Component {
                 throw new Error('You Have To Select an Account Type')
             let type = this.state.type.toString().toLowerCase()+'s'
             console.log('type', type)
-            let res = await axios.post(`http://localhost:5000/api/${type}/forgot`, req)
+            let res = await axios.post(`api/${type}/forgot`, req)
             document.getElementById('Error').style.display = 'none'
             document.getElementById('Error_Type').style.display = 'none'
             document.getElementById('Success').style.display = 'inline'

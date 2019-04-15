@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import Case from './Case';
+
 class LawyerGetCasesSorted extends Component {
     constructor(){
         super();
@@ -12,11 +13,11 @@ class LawyerGetCasesSorted extends Component {
     
     async componentDidMount(criteria){
         if(criteria === 'ID'){
-            const getCases = await axios.get('http://localhost:5000/api/lawyers/getMyCasesByid/5ca76f5f00b48e09001936e7');
+            const getCases = await axios.get('api/lawyers/getMyCasesByid/5ca76f5f00b48e09001936e7');
             this.setState({cases: getCases.data});
         }else{
             if(criteria === 'Date'){
-                const getCases = await axios.get('http://localhost:5000/api/lawyers/getMyCasesByDate/5ca76f5f00b48e09001936e7');
+                const getCases = await axios.get('api/lawyers/getMyCasesByDate/5ca76f5f00b48e09001936e7');
                 this.setState({cases: getCases.data});
             }
         }

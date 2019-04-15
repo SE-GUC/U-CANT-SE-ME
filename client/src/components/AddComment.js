@@ -21,7 +21,7 @@ class AddComment extends Component {
 
   componentDidMount() {
     if(this.props.location.state){
-      axios.get(`http://localhost:5000/api/cases/${this.props.location.state.caseID}`)
+      axios.get(`api/cases/${this.props.location.state.caseID}`)
       .then(res => {
         if(res.data.data){
           this.setState({case:res.data.data})
@@ -65,11 +65,11 @@ class AddComment extends Component {
                 body: this.state.text
               }
               if(this.state.type==='reviewer'){
-                await axios.put(`http://localhost:5000/api/reviewers/addCommentAsReviewer/${this.state.authorID}/${this.state.case._id}`,body);
+                await axios.put(`api/reviewers/addCommentAsReviewer/${this.state.authorID}/${this.state.case._id}`,body);
                 this.setState({actionMsg:'Comment added successfully!'})
               }
               else if(this.state.type==='lawyer'){
-                await axios.put(`http://localhost:5000/api/lawyers/addCommentAsLawyer/${this.state.authorID}/${this.state.case._id}`,body);
+                await axios.put(`api/lawyers/addCommentAsLawyer/${this.state.authorID}/${this.state.case._id}`,body);
                 this.setState({actionMsg:'Comment added successfully!'})
               }
               this.componentDidMount();
