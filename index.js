@@ -4,6 +4,7 @@ const passport = require("passport");
 const flash = require("connect-flash");
 const session = require("express-session");
 const cors = require("cors");
+const path = require("path");
 //Require Route Handlers
 const investors = require("./routes/api/investors");
 const lawyers = require("./routes/api/lawyers");
