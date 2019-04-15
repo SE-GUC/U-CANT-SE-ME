@@ -3,7 +3,6 @@ import axios from 'axios';
 import { Redirect } from 'react-router-dom'
 const Joi = require("joi");
 const mongoValidator = require("validator");
-const serverURI = require("../config/keys").serverURI;
 
 export default class InvestorUpdateCase extends React.Component {
     
@@ -168,7 +167,7 @@ export default class InvestorUpdateCase extends React.Component {
         {
             try
             {
-              await axios.put(serverURI + `/investors/updateForm/${InvestorID}/${caseID}`,body)
+              await axios.put(`api/investors/updateForm/${InvestorID}/${caseID}`,body)
               this.setState({val:'Successfully updated'})
             }
             catch

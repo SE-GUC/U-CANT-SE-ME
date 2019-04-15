@@ -2,8 +2,6 @@ import React from 'react'
 import axios from 'axios';
 const Joi = require("joi");
 
-const serverURI = require("../config/keys").serverURI;
-
 export default class updateInvestorProfile extends React.Component {
     constructor(props) {
         super(props)
@@ -156,7 +154,7 @@ export default class updateInvestorProfile extends React.Component {
             const investorID='5ca7594f3f074a35383a61a3';
             try
             {
-                await axios.put(serverURI + `/investors/${investorID}`,body);
+                await axios.put(`api/investors/${investorID}`,body);
                 this.setState({valid:'Successfully Updated!'})
             }
             catch

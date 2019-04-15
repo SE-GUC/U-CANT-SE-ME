@@ -2,15 +2,13 @@ import React, { Component } from 'react'
 import Case from './Case';
 import axios from 'axios';
 
-const serverURI = require("../../config/keys").serverURI;
-
  class Cases extends Component {
     state ={
         cases :[]
     };
     async componentDidMount(){
 
-        const getCases = await axios.get(serverURI + "/cases");
+        const getCases = await axios.get("api/cases");
         this.setState({cases: getCases.data.data});
     
         // my comments to understand arrayOfCases 
