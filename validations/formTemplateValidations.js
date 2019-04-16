@@ -11,9 +11,8 @@ module.exports = {
       hasManagers: Joi.boolean().required(),
       rulesFunction: Joi.string()
     };
-
     if (formTemplate.rulesFunction)
-      try {
+    try {
         formTemplateController.makeRuleFunction(formTemplate.rulesFunction);
       } catch (error) {
         return {
