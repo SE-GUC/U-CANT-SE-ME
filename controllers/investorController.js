@@ -10,6 +10,8 @@ const Investor = require('../models/Investor')
 const validator = require('../validations/investorValidations')
 const Case = require('../models/Case')
 const encryption = require('../routes/api/utils/encryption')
+const jwt = require('jsonwebtoken')
+const tokenKey = require('../config/keys_dev').secretOrKey
 const caseController = require('./caseController')
 
 const investorAuthenticated = true;
@@ -350,9 +352,23 @@ exports.login = async function(req, res, next){
     if (err) { return next(err) }
     if (!investor) { return res.redirect('/login') }
     req.login(investor,  async function(err) {
+      try{
       if (err) { return next(err) }
       let investor = await Investor.where("email" , req.body.email)
-      return res.redirect('/api/investors/' + investor[0]._id)
+      const payload = {
+        id : investor[0]._id,
+        email : investor[0].email,
+        type: 'investor'
+      }
+      
+      const token = jwt.sign(payload, tokenKey,{expiresIn:'1h'})
+      res.json({data : `${token}`})
+      return res.json({data:'Token'})
+
+      }
+      catch(err){
+        return err;
+      }
     })
   })(req, res, next)
 }

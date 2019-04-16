@@ -7,6 +7,8 @@ const encryption = require('../routes/api/utils/encryption')
 const crypto = require('crypto')
 const nodemailer = require('nodemailer')
 const async = require('async')
+const jwt= require('jsonwebtoken')
+const tokenKey= require('../config/keys_dev').secretOrKey;
 // module Lawyer
 const Lawyer = require("../models/Lawyer");
 const caseController = require("./caseController")
@@ -216,9 +218,23 @@ exports.loginLawyer = function(req, res, next){
     if (err) { return next(err); }
     if (!user) { return res.redirect('/api/lawyers/login'); }
     req.logIn(user,  async function(err) {
+      try{
       if (err) { return next(err); }
       var lawyer = await Lawyer.where("email" , req.body.email);
-      return res.redirect('/api/lawyers/' + lawyer[0]._id);
+      
+      const payload={
+        id : lawyer[0]._id,
+        email:lawyer[0].email,
+        type:'lawyer'
+      }
+     
+      const token= jwt.sign(payload,tokenKey,{expiresIn:'1h'})
+      res.json({data:`Bearer ${token}`});
+      return res.json({data:'Token'});
+    }
+    catch(err){
+      return err;
+    }
     });
   })(req, res, next)
   };

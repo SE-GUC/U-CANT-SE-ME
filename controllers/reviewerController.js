@@ -211,16 +211,22 @@ exports.loginReviewer = function(req, res, next){
     if (err) { return next(err); }
     if (!user) { return res.redirect('/login'); }
     req.logIn(user,  async function(err) {
+      try{
+
       if (err) { return next(err); }
       var reviewer = await Reviewer.where("email" , req.body.email);
-      // const payload = {
-      //   id : reviewer[0]._id,
-      //   email : reviewer[0].email
-      // }
-      // const token = jwt.sign(payload, tokenKey,{expiresIn:'1h'})
-      // res.json({data : `${token}`})
-      // return res
-      return res.redirect('/api/reviewers/' + reviewer[0]._id);
+      const payload = {
+        id : reviewer[0]._id,
+        email : reviewer[0].email,
+        type: 'reviewer'
+      }
+      const token = jwt.sign(payload, tokenKey,{expiresIn:'1h'})
+      res.json({data : `${token}`})
+      return res.json({data:'Token'})
+    }
+     catch(err){
+       return err;
+     }
     });
   })(req, res, next)
   };

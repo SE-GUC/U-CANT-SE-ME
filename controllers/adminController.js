@@ -3,6 +3,8 @@ const validator = require("../validations/adminValidations");
 const mongoValidator = require("validator");
 const bcrypt = require('../routes/api/utils/encryption.js')
 const passport = require('passport')
+const jwt = require('jsonwebtoken')
+const tokenKey = require('../config/keys_dev').secretOrKey
 // Models
 const Admin = require("../models/Admin");
 const adminGettingAllCasesAuthenticated = true;
@@ -128,9 +130,24 @@ exports.loginAdmin = function(req, res, next){
     if (err) { return next(err); }
     if (!user) { return res.redirect('/api/admins/login'); }
     req.logIn(user,  async function(err) {
+      try{
+
+      
       if (err) { return next(err); }
       var admin = await Admin.where("username" , req.body.username);
-      return res.redirect('/api/admins/' + admin[0]._id);
+      const payload = {
+        id : admin[0]._id,
+        username : admin[0].username,
+        type: 'admin'
+      }
+      
+      const token = jwt.sign(payload, tokenKey,{expiresIn:'1h'})
+      res.json({data : `${token}`})
+      return res.json({data:'Token'})
+    }
+    catch(err){
+      return err;
+    }
     });
   })(req, res, next)
   };
