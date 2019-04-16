@@ -49,7 +49,7 @@ function doIt(command, collection_name) {
 // doIt(true, "admins");
 // doIt(true, "companies");
 
-doIt(false, "companies");
+doIt(false, "externalentity");
 
 //Connecting to MongoDB
 mongoose
