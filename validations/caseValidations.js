@@ -17,7 +17,7 @@ function errorMessage(msg) {
 
 module.exports = {
   formValidation: async (newCase, formTemplate, update = false) => {
-    if(newCase.form || !update) {
+    if (newCase.form || !update) {
       try {
         let validation = await formTemplateController.validateForm(
           newCase.form,

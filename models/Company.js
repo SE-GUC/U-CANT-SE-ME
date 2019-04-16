@@ -1,35 +1,42 @@
-const mongoose = require('mongoose')
-const Schema = mongoose.Schema
+const mongoose = require("mongoose");
+const Schema = mongoose.Schema;
 
 const CompanySchema = new Schema({
   socialInsuranceNumber: {
-      type: Number,
-      required: true
+    type: String,
+    required: true
   },
-  investorID: {
-    //  type : String, 
-     type: Schema.Types.ObjectId, 
-     ref: 'investors',
-     required: true
+  investorId: {
+    type: Schema.Types.ObjectId,
+    ref: "investors",
+    required: true
   },
-  companyName: {
-      type: String,
-      required: true
+  companyNameArabic: {
+    type: String,
+    required: true
+  },
+  companyNameEnglish: {
+    type: String,
+    required: false
   },
   companyType: {
-      type: String,
-      required: true
+    type: String,
+    required: true
   },
   dateOfCreation: {
-      type: Date,
-      required: true
+    type: Date,
+    default: Date.now,
+    required: true
   },
-  caseID: {
-    //   type: String,
-      type: Schema.Types.ObjectId, 
-      ref: 'cases',
-      required: true
+  caseId: {
+    type: Schema.Types.ObjectId,
+    ref: "cases",
+    required: true
+  },
+  description: {
+    type: String,
+    required: false
   }
-})
+});
 
-module.exports = Company = mongoose.model('companies', CompanySchema)
+module.exports = Company = mongoose.model("Company", CompanySchema);
