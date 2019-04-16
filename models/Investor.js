@@ -30,6 +30,7 @@ const InvestorSchema = new Schema({
   },
   methodOfIdentification: { //Passport or National id
     type: String,
+    enum: ["NID", "passport"],
     required: true
   },
   identificationNumber: {
@@ -56,4 +57,4 @@ const InvestorSchema = new Schema({
   resetPasswordExpires: Date
 });
 
-module.exports = Investor = mongoose.model("investors", InvestorSchema);
+module.exports = Investor = mongoose.model("Investor", InvestorSchema);

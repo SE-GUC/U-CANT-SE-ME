@@ -11,7 +11,9 @@ router.get('/:id', investorController.getInvestor)
 
 //CREATE
 router.post('/', investorController.createInvestor)
+
 router.post('/register', investorController.register)
+
 //UPDATE
 router.put('/:id', investorController.updateInvestor)
 
@@ -20,13 +22,13 @@ router.delete('/:id', investorController.deleteInvestor)
 
 //As an investor I should be able to view the lawyer’s comments on my company establishment form,
 //so that I know what should be changed or updated in my form.
-router.get('/lawyerComments/:investorID/:caseID', investorController.viewLawyerComments)
+router.get('/lawyerComments/:investorId/:caseId', investorController.viewLawyerComments)
 
 //As an investor I should be able to update my company establishment form,
 //so that I can change or correct its content.
 router.put('/updateForm/:investorId/:caseId', investorController.updateForm)
 
-router.get('/myCompanies/:investorID',investorController.getMyCompanies)
+router.get('/myCompanies/:investorId',investorController.getMyCompanies)
 
 router.get('/trackMyCompany/:id', investorController.trackMyCompany)
 
@@ -48,9 +50,7 @@ router.post('/forgot', investorController.forgot)
 
 router.post('/reset/:token', investorController.reset)
 
-
 //As an investor i should update my case status after a lawyer requested a change
 router.put('/resumeWorkOnCase/:caseId/:creatorInvestorId', investorController.resumeWorkOnCase);
-
 
 module.exports = router;
