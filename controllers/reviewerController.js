@@ -221,7 +221,7 @@ exports.loginReviewer = function(req, res, next){
         type: 'reviewer'
       }
       const token = jwt.sign(payload, tokenKey,{expiresIn:'1h'})
-      res.json({data : `${token}`})
+      res.json({data : `Bearer ${token}`})
       return res.json({data:'Token'})
     }
      catch(err){

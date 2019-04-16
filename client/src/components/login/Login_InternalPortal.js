@@ -9,7 +9,7 @@ import InputLabel from '@material-ui/core/InputLabel'
 import IconButton from '@material-ui/core/IconButton'
 import InputAdornment from '@material-ui/core/InputAdornment'
 import FormControl from '@material-ui/core/FormControl'
-
+import {login} from '../../globalState/actions/authActions'
 export default class Login extends Component {
   constructor(props) {
     super(props);
@@ -23,38 +23,27 @@ export default class Login extends Component {
     };
   }
   handleSubmit = async () => {
+    const type = this.state.type.toLowerCase()+"s";
     const body = {
       email: this.state.email,
-      password: this.state.password
-    };
-    const bodyAdmin = {
       username: this.state.email,
-      password: this.state.password
+      password: this.state.password,
+      type:type
     };
-    const type = this.state.type;
+    console.log(body);
     var res = {};
     try {
-      if(this.state.type.toString()==="")
-        throw new Error('You Have To Select an Account Type')
-      if (type === "Admin")
-        res = await axios.post("api/admins/login",bodyAdmin);
-      else if (type === "Reviewer")
-        res = await axios.post("api/reviewers/login",body);
-      else if (type === "Lawyer")
-        res = await axios.post("api/lawyers/login", body);
+      if(this.state.type.toString()!==""){
+        
+        await login(body)
+      }
       else{
         document.getElementById("Error_Type").style.display = "inline";
       }
+      
       document.getElementById("Error").style.display = "none";
       document.getElementById("Error_Type").style.display = "none";
-      if (type === "Lawyer")
-        this.setState({
-          id: res.data._id
-        });
-      else
-        this.setState({
-          id: res.data.data._id
-        });
+      
     } catch (error) {
       if(error.message === 'You Have To Select an Account Type'){
         document.getElementById('Error_Type').style.display = 'inline'
