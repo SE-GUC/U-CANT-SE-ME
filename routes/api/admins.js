@@ -2,14 +2,14 @@
 // Dependencies
 const express = require("express");
 const router = express.Router();
-
+const passport = require('passport')
 // module Lawyer Controller
 const adminController = require("../../controllers/adminController");
 const caseController = require("../../controllers/caseController")
 const formTemplateController = require("../../controllers/formTemplateController");
 
 //Read
-router.get('/',adminController.getAllAdmins);
+router.get('/',passport.authenticate('jwt',{session: false}),adminController.getAllAdmins);
 
 router.get("/:id", adminController.getAdmin);
 
