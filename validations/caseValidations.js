@@ -1,36 +1,70 @@
 const Joi = require("joi");
+const Investor = require("../models/Investor");
+const FormTemplate = require("../models/FormTemplate");
+const formTemplateController = require("../controllers/formTemplateController");
+
+function errorMessage(msg) {
+  return {
+    error: {
+      details: [
+        {
+          message: msg
+        }
+      ]
+    }
+  };
+}
 
 module.exports = {
+  formValidation: async (newCase, formTemplate, update = false) => {
+    if(newCase.form || !update) {
+      try {
+        let validation = await formTemplateController.validateForm(
+          newCase.form,
+          formTemplate,
+          update
+        );
+        if (validation.error) return validation;
+      } catch (error) {
+        return { error: error };
+      }
+    }
 
-  formCreateValidation: form => {
-    const formCreateSchema = {
-      companyType: Joi.string()
-        .valid(["SPC", "SSC"])
-        .required(),
-      regulatedLaw: Joi.string().required(),
-      legalFormOfCompany: Joi.string().required(),
-      companyNameArabic: Joi.string().required(),
-      companyNameEnglish: Joi.string(),
-      headOfficeGovernorate: Joi.string().required(),
-      headOfficeCity: Joi.string().required(),
-      headOfficeAddress: Joi.string().required(),
-      phoneNumber: Joi.string()
-        .trim()
-        .regex(/^[0-9]{7,14}$/),
-      fax: Joi.string()
-        .trim()
-        .regex(/^[0-9]{7,10}$/),
-      currencyUsedForCapital: Joi.string().required(),
-      capital: Joi.number().required()
-    };
-    return Joi.validate(form, formCreateSchema);
+    if (formTemplate.hasManagers && (newCase.managers || !update)) {
+      let minVal = formTemplate.managersMinNumber
+        ? formTemplate.managersMinNumber
+        : 0;
+      let maxVal = formTemplate.managersMaxNumber
+        ? formTemplate.managersMaxNumber
+        : 1000;
+      if (newCase.managers.length < minVal || newCase.managers.length > maxVal)
+        return errorMessage(
+          `The ${
+            newCase.companyType
+          } Form can only have from ${minVal} to ${maxVal} managers!`
+        );
+    } else {
+      if (newCase.managers && newCase.managers.length > 0)
+        return errorMessage(
+          `The ${newCase.companyType} Form cannot have managers!`
+        );
+    }
+
+    if (formTemplate.rulesFunction && !update) {
+      let validation = await formTemplateController.validateRules(
+        formTemplate,
+        newCase
+      );
+      if (validation.error) return validation;
+    }
+    return { success: "The form is valid!" };
   },
 
-  managersCreateValidation: managers => {
+  managersValidation: managers => {
     const now = Date.now();
     const earliestBirthDate = new Date(now - 21 * 365 * 24 * 60 * 60 * 1000);
     const latestBirthDate = new Date(now - 120 * 365 * 24 * 60 * 60 * 1000);
-    const managerCreateSchema = {
+    const managerSchema = {
       managerName: Joi.string().required(),
       managerType: Joi.string().required(),
       managerGender: Joi.string()
@@ -50,108 +84,57 @@ module.exports = {
     };
     var validation;
     for (let i = 0; managers && i < managers.length; i++) {
-      validation = Joi.validate(managers[i], managerCreateSchema);
+      validation = Joi.validate(managers[i], managerSchema);
+      if (validation.error) return validation;
+      if (
+        managers[i].managerNationality === "Egyptian" &&
+        managers[i].managerIdType === "NID"
+      )
+        validation = Joi.validate(
+          { field: managers[i].managerIdNumber },
+          {
+            field: Joi.string()
+              .trim()
+              .regex(/^[0-9]{14}$/)
+          }
+        );
       if (validation.error) return validation;
     }
     return validation;
   },
 
-  createValidation: request => {
+  createValidation: async request => {
     const caseCreateSchema = {
       caseStatus: Joi.string()
-        .valid([
-          "OnUpdate",
-          "WaitingForLawyer",
-          "AssignedToLawyer",
-          "WaitingForReviewer",
-          "AssignedToReviewer",
-          "Rejected",
-          "Accepted"
-        ])
+        .valid(["WaitingForLawyer", "WaitingForReviewer"])
         .required(),
       creatorInvestorId: Joi.required(),
       creatorLawyerId: Joi,
-      assignedLawyerId: Joi,
-      assignedReviewerId: Joi,
-      form: Joi,
+      companyType: Joi.required(),
+      form: Joi.required(),
       managers: Joi
     };
-
-    // const caseProprities = (({
-    //   caseStatus,
-    //   creatorInvestorId,
-    //   creatorLawyerId,
-    //   assignedLawyerId,
-    //   assignedReviewerId
-    // }) => ({
-    //   caseStatus,
-    //   creatorInvestorId,
-    //   creatorLawyerId,
-    //   assignedLawyerId,
-    //   assignedReviewerId
-    // }))(request);
 
     //Validate Case data related to the System
     var validation = Joi.validate(request, caseCreateSchema);
     if (validation.error) return validation;
 
     //Validate Case data related to the Managers
-    validation = module.exports.managersCreateValidation(request.managers);
+    validation = module.exports.managersValidation(request.managers);
     if (validation && validation.error) return validation;
 
+    const formTemplate = await FormTemplate.findOne({
+      formName: request.companyType
+    });
+
+    if (!formTemplate) return errorMessage("No such Company type exist!");
+
     //Validate Case data related to the Form
-    validation = module.exports.formCreateValidation(request.form);
+    validation = await module.exports.formValidation(request, formTemplate);
     return validation;
   },
 
-  formUpdateValidation: form => {
-    const formUpdateSchema = {
-      companyType: Joi.string().valid(["SPC", "SSC"]),
-      regulatedLaw: Joi.string(),
-      legalFormOfCompany: Joi.string(),
-      companyNameArabic: Joi.string(),
-      companyNameEnglish: Joi.string(),
-      headOfficeGovernorate: Joi.string(),
-      headOfficeCity: Joi.string(),
-      headOfficeAddress: Joi.string(),
-      phoneNumber: Joi.string()
-        .trim()
-        .regex(/^[0-9]{7,14}$/),
-      fax: Joi.string()
-        .trim()
-        .regex(/^[0-9]{7,10}$/),
-      currencyUsedForCapital: Joi.string(),
-      capital: Joi.number()
-    };
-    return Joi.validate(form, formUpdateSchema);
-  },
-
-  managersUpdateValidation: managers => {
-    const now = Date.now();
-    const earliestBirthDate = new Date(now - 21 * 365 * 24 * 60 * 60 * 1000);
-    const latestBirthDate = new Date(now - 120 * 365 * 24 * 60 * 60 * 1000);
-    const managerUpdateSchema = {
-      managerName: Joi.string(),
-      managerType: Joi.string(),
-      managerGender: Joi.string().valid(["Male", "Female"]),
-      managerNationality: Joi.string(),
-      managerIdType: Joi.string().valid(["NID", "passport"]),
-      managerIdNumber: Joi.string(),
-      managerDateOfBirth: Joi.date()
-        .max(earliestBirthDate)
-        .min(latestBirthDate),
-      managerResidenceAddress: Joi.string(),
-      managerPositionInBoardOfDirectors: Joi.string()
-    };
-    var validation;
-    for (let i = 0; managers && i < managers.length; i++) {
-      validation = Joi.validate(managers[i], managerUpdateSchema);
-      if (validation.error) return validation;
-    }
-    return validation;
-  },
-
-  commentsUpdateValidation: comments => {
+  commentsValidation: comments => {
     const commentUpdateSchema = {
       author: Joi.string().required(),
       body: Joi.string().required(),
@@ -165,7 +148,23 @@ module.exports = {
     return validation;
   },
 
-  updateValidation: request => {
+  rulesValidation: async (request, companyType) => {
+    const formTemplate = await FormTemplate.findOne({
+      formName: companyType
+    });
+    if (!formTemplate) return errorMessage("No such Company type exist!");
+
+    if (formTemplate.rulesFunction) {
+      let validation = await formTemplateController.validateRules(
+        formTemplate,
+        request
+      );
+      if (validation.error) return validation;
+    }
+    return { success: "The form is valid!" };
+  },
+
+  updateValidation: async (request, companyType) => {
     const updateSchema = {
       caseStatus: Joi.string().valid([
         "OnUpdate",
@@ -174,28 +173,36 @@ module.exports = {
         "WaitingForReviewer",
         "AssignedToReviewer",
         "Rejected",
-        "Accepted"
+        "Accepted",
+        "Established"
       ]),
-      
       assignedLawyerId: Joi,
       assignedReviewerId: Joi,
-      previouslyAssignedLawyers: Joi,
-      previouslyAssignedReviewers: Joi,
       form: Joi,
       managers: Joi,
       comments: Joi
     };
     var validation = Joi.validate(request, updateSchema);
     if (validation.error) return validation;
-  
-    validation = module.exports.managersUpdateValidation(request.managers);
+
+    validation = module.exports.managersValidation(request.managers);
     if (validation && validation.error) return validation;
 
-    validation = module.exports.commentsUpdateValidation(request.comments);
+    validation = module.exports.commentsValidation(request.comments);
     if (validation && validation.error) return validation;
 
-    validation = module.exports.formUpdateValidation(request.form);
+    const formTemplate = await FormTemplate.findOne({
+      formName: companyType
+    });
 
+    if (!formTemplate) return errorMessage("No such Company type exist!");
+
+    //Validate Case data related to the Form
+    validation = await module.exports.formValidation(
+      request,
+      formTemplate,
+      true
+    );
     return validation;
   }
 };
