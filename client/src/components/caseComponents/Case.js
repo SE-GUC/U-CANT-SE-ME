@@ -27,14 +27,14 @@ export default class Case extends Component {
       let getAssignedReviewer = '';
       let getCreatorInvestor='';
       let  getCreatorLawyer ='';
-      if(assignedLawyerId!==null){
-        getAssignedLawyer =await axios.get(`api/lawyers/${assignedLawyerId}`);
-        this.setState({assignedLawyerEmail: getAssignedLawyer.data.email}); 
-      }
-      if(assignedReviewerId!==null){
-        getAssignedReviewer =await axios.get(`api/reviewers/${assignedReviewerId}`);
-        this.setState({assignedReviewerEmail: getAssignedReviewer.data.data.email}); 
-      }
+      // if(assignedLawyerId!==null){
+      //   getAssignedLawyer =await axios.get(`api/lawyers/${assignedLawyerId}`);
+      //   this.setState({assignedLawyerEmail: getAssignedLawyer.data.email}); 
+      // }
+      // if(assignedReviewerId!==null){
+      //   getAssignedReviewer =await axios.get(`api/reviewers/${assignedReviewerId}`);
+      //   this.setState({assignedReviewerEmail: getAssignedReviewer.data.data.email}); 
+      // }
       if(creatorLawyerId!==null){
         getCreatorLawyer =await axios.get(`api/lawyers/${creatorLawyerId}`);
         this.setState({creatorLawyerEmail: getCreatorLawyer.data.email}); 

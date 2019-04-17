@@ -25,32 +25,9 @@ export default class CaseSummary extends Component {
     const{assignedLawyerId,assignedReviewerId,caseCreationDate,caseStatus,creatorInvestorId,
       creatorLawyerId,form,managers,previouslyAssignedLawyers,previouslyAssignedReviewers}=this.props.case;
       
-      let getAssignedLawyer = '';
-      let getAssignedReviewer = '';
-      let getCreatorInvestor='';
-      let  getCreatorLawyer ='';
-      if(assignedLawyerId!==null){
-        getAssignedLawyer =await axios.get(`api/lawyers/${assignedLawyerId}`);
-        this.setState({assignedLawyerEmail: getAssignedLawyer.data.email}); 
-      }
-      if(assignedReviewerId!==null){
-        getAssignedReviewer =await axios.get(`api/reviewers/${assignedReviewerId}`);
-        this.setState({assignedReviewerEmail: getAssignedReviewer.data.data.email}); 
-      }
-      if(creatorLawyerId!==null){
-        getCreatorLawyer =await axios.get(`api/lawyers/${creatorLawyerId}`);
-        this.setState({creatorLawyerEmail: getCreatorLawyer.data.email}); 
-      }
-      if(creatorInvestorId!==null){
-        getCreatorInvestor =await axios.get(`api/investors/${creatorInvestorId}`);
-        this.setState({creatorInvestorEmail: getCreatorInvestor.data.email}); 
-      }
       this.setState({caseStatus:caseStatus});
       this.setState({caseCreationDate:caseCreationDate});
       this.setState({form:form});
-      this.setState({managers:managers});
-      this.setState({previouslyAssignedLawyers:previouslyAssignedLawyers});
-      this.setState({previouslyAssignedReviewers:previouslyAssignedReviewers});     
 };
   render() {
     

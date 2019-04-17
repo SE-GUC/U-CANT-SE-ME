@@ -120,7 +120,6 @@ exports.registerLawyer = async function(req,res){
 //as admin i should be able to register reviwer
 exports.registerReviewer = async function(req, res){
   req.body.password = bcrypt.hashPassword(req.body.password)
-  console.log("hena")
   return res.send({data: await reviewerController.createReviewer(req, res)})
 }
 

@@ -30,7 +30,6 @@ export default class Login extends Component {
       password: this.state.password,
       type:type
     };
-    console.log(body);
     var res = {};
     try {
       if(this.state.type.toString()!==""){

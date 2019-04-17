@@ -7,36 +7,37 @@ const passport = require('passport')
 const adminController = require("../../controllers/adminController");
 const caseController = require("../../controllers/caseController")
 const formTemplateController = require("../../controllers/formTemplateController");
+const adminAuth = passport.authenticate('adminAuth',{session: false});
 
 //Read
-router.get('/',passport.authenticate('jwt',{session: false}),adminController.getAllAdmins);
+router.get('/',adminAuth,adminController.getAllAdmins);
 
-router.get("/:id", adminController.getAdmin);
+router.get("/:id",adminAuth, adminController.getAdmin);
 
 //Create
-router.post('/joi', adminController.createAdmin);
+router.post('/joi',adminAuth, adminController.createAdmin);
 
 //Update
-router.put("/update/:id", adminController.updateAdmin);
+router.put("/update/:id", adminAuth, adminController.updateAdmin);
 
 //Delete
-router.delete("/joi/:id", adminController.deleteAdmin);
+router.delete("/joi/:id", adminAuth, adminController.deleteAdmin);
 
-router.get('/admin/getAllCases',adminController.GetAllCases);
+router.get('/admin/getAllCases', adminAuth, adminController.GetAllCases);
 
 //get last lawyer worked on case
-router.get("/getCaseLastLawyer/:id", caseController.getCaseLastLawyer);
+router.get("/getCaseLastLawyer/:id", adminAuth, caseController.getCaseLastLawyer);
 
 //Register Lawyer
-router.post('/registerLawyer', adminController.registerLawyer)
+router.post('/registerLawyer', adminAuth, adminController.registerLawyer)
 
 //Register Reviewer
-router.post('/registerReviewer', adminController.registerReviewer);
+router.post('/registerReviewer', adminAuth, adminController.registerReviewer);
 
 //Login
 router.post('/login', adminController.loginAdmin)
 
 //Create FormTemplate
-router.post('/createFormTemplate', formTemplateController.createFormTemplate)
+router.post('/createFormTemplate', adminAuth, formTemplateController.createFormTemplate)
 
 module.exports = router;

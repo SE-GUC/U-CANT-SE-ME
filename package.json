@@ -60,6 +60,6 @@
   "devDependencies": {
     "axios": "^0.18.0",
     "jest": "^23.6.0",
-    "nodemon": "^1.18.10"
+    "nodemon": "^1.18.11"
   }
 }
