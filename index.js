@@ -26,6 +26,10 @@ app.use(cors());
 //Getting Mongo's connection URI
 const db = require("./config/keys").mongoURI;
 
+mongoose.set('useNewUrlParser', true);
+mongoose.set('useFindAndModify', false);
+mongoose.set('useCreateIndex', true);
+
 //Connecting to MongoDB
 mongoose
   .connect(db)

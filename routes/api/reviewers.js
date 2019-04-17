@@ -22,10 +22,10 @@ router.put("/:id", reviewerController.updateReviewer);
 router.delete("/:id", reviewerController.deleteReviewer);
 
 //View due tasks
-router.get('/reviewerTasks/:reviewerID', reviewerController.viewTasks);
+router.get('/reviewerTasks/:reviewerId', reviewerController.viewTasks);
 
 //Accept or Reject Form
-router.put('/updateCaseStatus/:caseId/:caseStatus', reviewerController.AcceptRejectForm);
+router.put('/updateCaseStatus/:caseId/:caseStatus', reviewerController.acceptRejectForm);
 
 router.get('/reviewer/getAllCases',reviewerController.GetAllCases);
 
@@ -42,7 +42,7 @@ router.post('/login', reviewerController.loginReviewer)
 
 //As a Reviewer i should be able to add a comment on a rejected company establishment-
 //form, so that the lawyer is aware of the required changes in the form.
-router.put("/addCommentAsReviewer/:reviewerID/:caseID", reviewerController.addCommentAsReviewer);
+router.put("/addCommentAsReviewer/:reviewerId/:caseId", reviewerController.addCommentAsReviewer);
 
 //as a reviewer i should be able to find my assigned cases sorted by id
 router.get("/getMyCasesByid/:id",reviewerController.getMyCasesByid);
