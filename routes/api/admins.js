@@ -9,6 +9,9 @@ const caseController = require("../../controllers/caseController")
 const formTemplateController = require("../../controllers/formTemplateController");
 const adminAuth = passport.authenticate('adminAuth',{session: false});
 
+//authorization
+router.get('/auth',adminAuth,(req,res)=>{res.json({msg:"Hello Admin!"})});
+
 //Read
 router.get('/',adminAuth,adminController.getAllAdmins);
 

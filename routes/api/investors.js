@@ -1,12 +1,15 @@
 const express = require('express')
 const mongoose = require('mongoose')
 const router = express.Router()
-
+const passport = require('passport')
 
 const investorController = require('../../controllers/investorController')
 const adminAuth = passport.authenticate('adminAuth',{session: false});
 const investorAuth = passport.authenticate('investorAuth',{session: false});
 const allAuth = passport.authenticate(['adminAuth','lawyerAuth','reviewerAuth'],{session: false});
+
+//authorization
+router.get('/auth',investorAuth, (req,res)=>{res.json({msg:"Hello Investor!"})});
 
 //READ
 router.get('/', adminAuth, investorController.getAllInvestors)

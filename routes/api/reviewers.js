@@ -10,6 +10,9 @@ const adminAuth = passport.authenticate('adminAuth',{session: false});
 const admin_reviewerAuth = passport.authenticate(['adminAuth','reviewerAuth'],{session: false});
 const allAuth = passport.authenticate(['adminAuth','lawyerAuth','reviewerAuth'],{session: false});
 
+//authorization
+router.get('/auth',reviewerAuth,(req,res)=>{res.json({msg:"Hello Reviewer!"})});
+
 //Read
 router.get("/", adminAuth, reviewerController.getAllReviewers);
 
