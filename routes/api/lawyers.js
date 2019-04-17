@@ -21,13 +21,13 @@ router.put('/:id', lawyerController.updateLawyer);
 //Delete
 router.delete('/:id', lawyerController.deleteLawyer);
 
-router.get('/lawyer/getAllCases',lawyerController.GetAllCases);
+router.get('/lawyer/getAllCases',lawyerController.getAllCases);
 
 //View due tasks
-router.get('/lawyerTasks/:lawyerID', lawyerController.viewTasks);
+router.get('/lawyerTasks/:lawyerId', lawyerController.viewTasks);
 
 //Accept or Reject Form
-router.put('/updateCaseStatus/:caseId/:caseStatus', lawyerController.AcceptRejectForm);
+router.put('/updateCaseStatus/:caseId/:caseStatus', lawyerController.acceptRejectForm);
 
 // As a lawyer i should be able to see all unsigned cases
 router.get("/getAllUnsignedCases/:id", lawyerController.getWaitingForLawyerCase);
@@ -45,7 +45,7 @@ router.put("/update/:id/:caseId",lawyerController.updateCompanyForm);
 
 // As a Lawyer i should be able to add a comment on a rejected company establishment form
 // made by an investor, so that the investor is aware of the required changes in the form.
-router.put("/addCommentAsLawyer/:lawyerID/:caseID", lawyerController.addCommentAsLawyer);
+router.put("/addCommentAsLawyer/:lawyerId/:caseId", lawyerController.addCommentAsLawyer);
 
 // as a lawyer i should be able to fill a company creation form
 router.post("/fillForm/:id",lawyerController.fillForm);
