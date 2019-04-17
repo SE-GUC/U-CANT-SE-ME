@@ -13,8 +13,7 @@ const encryption = require('../routes/api/utils/encryption')
 const jwt = require('jsonwebtoken')
 const tokenKey = require('../config/keys_dev').secretOrKey
 const caseController = require('./caseController')
-
-const investorAuthenticated = true;
+const bcrypt = require('../routes/api/utils/encryption.js')
 //READ
 exports.getAllInvestors = async function(req, res) {
   const investors = await Investor.find();
@@ -71,7 +70,8 @@ exports.updateInvestor = async function(req, res) {
   if (!req.body.email) req.body.email = investor.email;
   
   if (!req.body.password) req.body.password = investor.password;
-  
+  else req.body.password = bcrypt.hashPassword(req.body.password);
+
   if (!req.body.fullName) req.body.fullName = investor.fullName;
   
   if (!req.body.type) req.body.type = investor.type;
@@ -128,7 +128,6 @@ exports.deleteInvestor = async function(req, res) {
 exports.viewLawyerComments = async function(req, res) {
   try {
     //if the user is authenticated give them access to the function otherwise return a Forbidden error
-    if (investorAuthenticated) {
       //querying to find a Case where _id=caseID && creatorInvestorId=investorID
       let caseForForm = await Case.find({
         _id: req.params.caseID,
@@ -138,7 +137,6 @@ exports.viewLawyerComments = async function(req, res) {
       if (caseForForm !== undefined && caseForForm.length > 0)
         res.json({ comments: caseForForm[0].comments });
       else res.status(404).send({ error: "Data Not Found" });
-    } else return res.status(403).send({ error: "Forbidden." });
   } catch (error) {
     res.json({ msg: "An error has occured." });
   }
@@ -146,8 +144,6 @@ exports.viewLawyerComments = async function(req, res) {
 
 exports.updateForm = async function(req, res) {
   try {
-    if (!investorAuthenticated)
-      return res.status(403).send({ error: "Investor has no Access" });
     if (!mongoValidator.isMongoId(req.params.investorId))
       return res.status(403).send({ error: "Invalid Investor ID" });
     if (!mongoValidator.isMongoId(req.params.caseId))
@@ -182,16 +178,12 @@ exports.getMyCompanies = async function(req, res) {
     const checkInvestor = await Investor.find({ _id: req.params.investorID });
     if (checkInvestor.length === 0)
       return res.status(404).send("Investor not Found");
-    if (investorAuthenticated) {
       const companies = await Company.find({
         investorID: req.params.investorID
       });
       if (companies.length === 0)
         res.json({ msg: "You don't have any Companies yet." });
       else res.json({ data: companies });
-    } else {
-      return res.status(403).send({ error: "Forbidden." });
-    }
   } catch {
     res.json({ msg: "An error has occured." });
   }
@@ -334,13 +326,9 @@ exports.payFees = async function(req, res) {
 
 exports.fillForm = async function(req, res) {
   try {
-    if (investorAuthenticated) {
       req.body.creatorInvestorId = req.params.investorId;
       caseController.createCase(req, res); //Fadi's create-case
       // res.send({msg : "Form Submitted Successfully"});
-    } else {
-      return res.status(403).send({ error: "Forbidden." });
-    }
   } catch (error) {
     res.json({ msg: "An error has occured." });
   }
@@ -490,8 +478,6 @@ exports.reset = function(req, res){
 
 exports.resumeWorkOnCase = async function(req, res)
 { 
-  if(investorAuthenticated)
-  {
     if(!mongoValidator.isMongoId(req.params.caseId) )
     return res.status(400).send({ err : "Invalid case id" });
     
@@ -518,7 +504,4 @@ exports.resumeWorkOnCase = async function(req, res)
     {
       res.json({msg:"A fatal error has occured, could not update the case status."})
     }
-  }
-  else
-  return res.status(403).send({error: "Forbidden." })
 }

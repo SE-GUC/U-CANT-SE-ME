@@ -63,14 +63,14 @@ exports.updateLawyer = async function(req, res) {
       res.status(404).send({ error: "lawyer does not exist" });
       return;
     }
-    if (!req.body.email) req.body.email = lawyer.email;
+    // if (!req.body.email) req.body.email = lawyer.email;
     if (!req.body.password){ req.body.password = lawyer.password;}
      else{
        req.body.password=bcrypt.hashPassword(req.body.password);
      }
     if (!req.body.fullName) req.body.fullName = lawyer.fullName;
     if (!req.body.username) req.body.username = lawyer.username;
-    const email = req.body.email;
+    const email = lawyer.email;
     const password = req.body.password;
     const fullName = req.body.fullName;
     const username = req.body.username;
@@ -86,7 +86,7 @@ exports.updateLawyer = async function(req, res) {
       fullName,
       username
     });
-    res.json({ msg: "lawyer updated successfully" });
+    res.json({ msg: "lawyer updated successfully", data:lawyerss });
   } catch (error) {
     res.status(404).send({ error: "lawyer does not exist" });
     console.log(error);

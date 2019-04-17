@@ -172,4 +172,10 @@ module.exports = function(passport){
         if(currentUser) return done(null,currentUser)
         return done(null,false)
      }))
+    passport.use('investorAuth',new JwtStrategy(opts, async (jwtPayload, done) => {
+        console.log("investorAuth")
+        const currentUser = await Investor.findById(jwtPayload.id)
+        if(currentUser) return done(null,currentUser)
+        return done(null,false)
+     }))
 }

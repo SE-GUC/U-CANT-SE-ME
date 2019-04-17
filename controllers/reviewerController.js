@@ -12,6 +12,7 @@ const encryption = require('../routes/api/utils/encryption')
 const crypto = require('crypto')
 const nodemailer = require('nodemailer')
 const async = require('async')
+const bcrypt = require('../routes/api/utils/encryption.js')
 // module Case
 const Case = require("../models/Case.js")
 
@@ -67,26 +68,22 @@ exports.updateReviewer = async function(req, res) {
         .status(400)
         .send({ error: isValidated.error.details[0].message });
 
-    // if (!oldPassword)
-    //   return res.status(404).send({ error: "There is no verificaiton" });
-    // if (!(reviewer.password == oldPassword)) {
-    //   return res.status(404).send({ error: "password doesnot match" });
-    // } else {
       if (req.body.username) var username = req.body.username;
       else username = reviewer.username;
       if (req.body.fullName) var fullName = req.body.fullName;
       else fullName = reviewer.fullName;
-      if (req.body.password) var password = req.body.password;
+      if (req.body.password) var password = bcrypt.hashPassword(req.body.password);
       else password = reviewer.password;
-      if (req.body.email) var email = req.body.email;
-      else email = reviewer.email;
+      // if (req.body.email) var email = req.body.email;
+      // else 
+      email = reviewer.email;
       reviewer = await Reviewer.findByIdAndUpdate(reviewerID, {
         username,
         fullName,
         password,
         email
       });
-      res.json({ msg: "Reviewer updated successfully" });
+      res.json({ msg: "Reviewer updated successfully", data: reviewer });
     // }
   } catch (error) {
     // We will be handling the error later

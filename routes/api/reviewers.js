@@ -7,6 +7,7 @@ const reviewerController = require("../../controllers/reviewerController")
 const caseController = require("../../controllers/caseController")
 const reviewerAuth = passport.authenticate('reviewerAuth',{session: false});
 const adminAuth = passport.authenticate('adminAuth',{session: false});
+const admin_reviewerAuth = passport.authenticate(['adminAuth','reviewerAuth'],{session: false});
 const allAuth = passport.authenticate(['adminAuth','lawyerAuth','reviewerAuth'],{session: false});
 
 //Read
@@ -18,7 +19,7 @@ router.get("/:id", allAuth,reviewerController.getReviewer);
 // router.post('/', adminAuth,reviewerController.createReviewer);
 
 //Update
-router.put("/:id", adminAuth, reviewerController.updateReviewer);
+router.put("/:id", admin_reviewerAuth, reviewerController.updateReviewer);
 
 //Delete
 router.delete("/:id", adminAuth, reviewerController.deleteReviewer);
@@ -54,7 +55,7 @@ router.get("/getMyCasesByDate/:id", reviewerAuth, reviewerController.getMyCasesB
 
 router.post('/forgot', reviewerController.forgot)
 
-router.post('/reset/:token', reviewerAuth, reviewerController.reset)
+router.post('/reset/:token', reviewerController.reset)
 
 
 //As a reviewer i should be able to request change from the investor on his case

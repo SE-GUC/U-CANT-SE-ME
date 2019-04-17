@@ -10,7 +10,7 @@ const externalEntityController = require("../../controllers/externalEntityContro
 const adminAuth = passport.authenticate('adminAuth',{session: false});
 const lawyerAuth = passport.authenticate('lawyerAuth',{session: false});
 const allAuth = passport.authenticate(['adminAuth','lawyerAuth','reviewerAuth'],{session: false});
-
+const admin_lawyerAuth = passport.authenticate(['adminAuth','lawyerAuth'],{session: false});
 //Read
 router.get('/', adminAuth, lawyerController.getAllLawyers);
 
@@ -20,7 +20,7 @@ router.get('/:id', allAuth, lawyerController.getLawyer);
 // router.post('/', lawyerController.createLawyer);
 
 //Update
-router.put('/:id', adminAuth, lawyerController.updateLawyer);
+router.put('/:id', admin_lawyerAuth, lawyerController.updateLawyer);
 
 //Delete
 router.delete('/:id', adminAuth, lawyerController.deleteLawyer);
@@ -62,7 +62,7 @@ router.get("/getMyCasesByDate/:id", lawyerAuth, lawyerController.getMyCasesByDat
 
 router.post('/forgot', lawyerController.forgot)
 
-router.post('/reset/:token', lawyerAuth, lawyerController.reset)
+router.post('/reset/:token', lawyerController.reset)
 
 router.get('/downloadContract/:id', lawyerAuth, externalEntityController.getSSCPDF);
 router.get('/viewContract/:id', lawyerAuth, externalEntityController.viewSSCPDF);

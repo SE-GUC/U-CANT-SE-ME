@@ -27,14 +27,14 @@ export default class Case extends Component {
       let getAssignedReviewer = '';
       let getCreatorInvestor='';
       let  getCreatorLawyer ='';
-      // if(assignedLawyerId!==null){
-      //   getAssignedLawyer =await axios.get(`api/lawyers/${assignedLawyerId}`);
-      //   this.setState({assignedLawyerEmail: getAssignedLawyer.data.email}); 
-      // }
-      // if(assignedReviewerId!==null){
-      //   getAssignedReviewer =await axios.get(`api/reviewers/${assignedReviewerId}`);
-      //   this.setState({assignedReviewerEmail: getAssignedReviewer.data.data.email}); 
-      // }
+      if(assignedLawyerId!==null){
+        getAssignedLawyer =await axios.get(`api/lawyers/${assignedLawyerId}`);
+        this.setState({assignedLawyerEmail: getAssignedLawyer.data.email}); 
+      }
+      if(assignedReviewerId!==null){
+        getAssignedReviewer =await axios.get(`api/reviewers/${assignedReviewerId}`);
+        this.setState({assignedReviewerEmail: getAssignedReviewer.data.data.email}); 
+      }
       if(creatorLawyerId!==null){
         getCreatorLawyer =await axios.get(`api/lawyers/${creatorLawyerId}`);
         this.setState({creatorLawyerEmail: getCreatorLawyer.data.email}); 
@@ -59,7 +59,7 @@ export default class Case extends Component {
     
     return (
       <div>
-        <h2 class="text-center text-info">Case</h2>
+        <h2 className="text-center text-info">Case</h2>
         <Link to={{pathname: "/addComment",state:{caseID: this.props.case._id}}}>Add Comment</Link>
         <br />
         <TextField disabled
@@ -173,7 +173,7 @@ export default class Case extends Component {
           }}
         />
         <br />
-        <h2 class="text-center text-info">Form</h2>
+        <h2 className="text-center text-info">Form</h2>
         <TextField disabled
           id="standard-full-width"
           label="Company Type"
@@ -314,7 +314,7 @@ export default class Case extends Component {
           }}
         />
         <br />
-        <h2 class="text-center text-info">Managers</h2>
+        <h2 className="text-center text-info">Managers</h2>
         <Managers managersArray={this.state.managers} />
         <br />
         <div className="dropdown-divider"></div>
