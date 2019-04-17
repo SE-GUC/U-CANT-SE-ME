@@ -8,7 +8,9 @@ const crypto = require("crypto");
 const nodemailer = require("nodemailer");
 const async = require("async");
 // module Lawyer
+const Investor = require("../models/Investor");
 const Lawyer = require("../models/Lawyer");
+const Reviewer = require("../models/Reviewer");
 const caseController = require("./caseController");
 const LawyerGettingAllCasesAuthenticated = true;
 const bcrypt = require("../routes/api/utils/encryption");
@@ -35,6 +37,19 @@ exports.getLawyer = async function(req, res) {
   }
 };
 
+async function checkUniqueEmail(email) {
+  const existingInvestor = await Investor.findOne({ email: email });
+  if (existingInvestor) return false;
+
+  const existingLawyer = await Lawyer.findOne({ email: email });
+  if (existingLawyer) return false;
+
+  const existingReviewer = await Reviewer.findOne({ email: email });
+  if (existingReviewer) return false;
+
+  return true;
+}
+
 //Create
 exports.createLawyer = async function(req, res) {
   try {
@@ -43,10 +58,18 @@ exports.createLawyer = async function(req, res) {
       res.status(400).send({ error: isValidated.error.details[0].message });
       return;
     }
+
+    const isUniqueEmail = await checkUniqueEmail(req.body.email);
+    if (!isUniqueEmail)
+      return res
+        .status(400)
+        .send({ error: `email ${req.body.email} is already taken!` });
+
     const newLawyer = await Lawyer.create(req.body);
     res.send({ msg: "Lawyer was created successfully", data: newLawyer });
   } catch (error) {
-    res.status(400).send({ error: "Oops something went wrong" });
+    console.log(error);
+    res.status(400).send({ error: "Something went wrong" });
   }
 };
 

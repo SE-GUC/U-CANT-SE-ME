@@ -2,6 +2,8 @@ const mongoose = require("mongoose");
 const validator = require("../validations/reviewerValidations");
 
 const mongoValidator = require("validator");
+const Investor = require("../models/Investor");
+const Lawyer = require("../models/Lawyer");
 const Reviewer = require("../models/Reviewer");
 const reviewerGettingAllCasesAuthenticated = true;
 const caseController = require("./caseController");
@@ -33,6 +35,19 @@ exports.getReviewer = async function(req, res) {
   res.send({ data: neededReviewer });
 };
 
+async function checkUniqueEmail(email) {
+  const existingInvestor = await Investor.findOne({ email: email });
+  if (existingInvestor) return false;
+
+  const existingLawyer = await Lawyer.findOne({ email: email });
+  if (existingLawyer) return false;
+
+  const existingReviewer = await Reviewer.findOne({ email: email });
+  if (existingReviewer) return false;
+
+  return true;
+}
+
 //Create
 exports.createReviewer = async function(req, res) {
   try {
@@ -41,6 +56,12 @@ exports.createReviewer = async function(req, res) {
       return res
         .status(400)
         .send({ error: isValidated.error.details[0].message });
+
+    const isUniqueEmail = await checkUniqueEmail(req.body.email);
+    if (!isUniqueEmail)
+      return res
+        .status(400)
+        .send({ error: `email ${req.body.email} is already taken!` });
 
     const newReviewer = await Reviewer.create(req.body);
     res.send({ msg: "Reviewer was created successfully", data: newReviewer });

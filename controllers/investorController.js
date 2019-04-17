@@ -7,6 +7,8 @@ const stripeSecretKey = require("../config/keys").stripeSecretKey;
 const stripe = require("stripe")(stripeSecretKey);
 const crypto = require("crypto");
 const Investor = require("../models/Investor");
+const Lawyer = require("../models/Lawyer");
+const Reviewer = require("../models/Reviewer");
 const validator = require("../validations/investorValidations");
 const Case = require("../models/Case");
 const encryption = require("../routes/api/utils/encryption");
@@ -27,11 +29,29 @@ exports.getInvestor = async function(req, res) {
   res.send({ data: investor });
 };
 
+async function checkUniqueEmail(email) {
+  const existingInvestor = await Investor.findOne({ email: email });
+  if (existingInvestor) return false;
+
+  const existingLawyer = await Lawyer.findOne({ email: email });
+  if (existingLawyer) return false;
+
+  const existingReviewer = await Reviewer.findOne({ email: email });
+  if (existingReviewer) return false;
+
+  return true;
+}
+
 //CREATE
 exports.createInvestor = async function(req, res) {
   const { error } = validator.createValidation(req.body);
   if (error) return res.status(400).send({ error: error.details[0].message });
   try {
+    const isUniqueEmail = await checkUniqueEmail(req.body.email);
+    if (!isUniqueEmail)
+      return res
+        .status(400)
+        .send({ error: `email ${req.body.email} is already taken!` });
     const investor = await Investor.create(req.body);
     res.send({ data: investor });
   } catch (err) {
