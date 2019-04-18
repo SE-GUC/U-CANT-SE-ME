@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import Case from './Case';
+import parseJwt from '../../helpers/decryptAuthToken';
 
 class ReviewerGetCasesSorted extends Component {
     constructor(){

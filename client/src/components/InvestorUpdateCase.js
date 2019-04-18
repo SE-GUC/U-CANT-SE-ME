@@ -1,6 +1,7 @@
 import React from 'react'
 import axios from 'axios';
 import { Redirect } from 'react-router-dom'
+import parseJwt from '../helpers/decryptAuthToken';
 const Joi = require("joi");
 const mongoValidator = require("validator");
 

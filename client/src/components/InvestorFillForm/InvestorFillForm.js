@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import Managers from '../Managers';
 import axios from 'axios';
+import parseJwt from '../../helpers/decryptAuthToken';
 const Joi = require("joi");
 
 class InvestorFillForm extends Component {

@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import '../../App.css';
 import GetMyCompaniesItem from './GetMyCompaniesItem';
+import parseJwt from '../../helpers/decryptAuthToken';
 
 class MyCompanies extends Component {
   state = {

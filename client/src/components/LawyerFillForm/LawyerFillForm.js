@@ -2,6 +2,7 @@ import React, { Component, useImperativeHandle } from 'react';
 import Managers from '../Managers';
 import axios from 'axios';
 import { Redirect } from 'react-router-dom'
+import parseJwt from '../../helpers/decryptAuthToken';
 const Joi = require("joi");
 
 class LawyerFillForm extends Component {

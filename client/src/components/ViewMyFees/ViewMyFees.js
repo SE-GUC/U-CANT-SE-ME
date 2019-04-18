@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import axios from "axios";
 import ViewMyFeesItem from "./ViewMyFeesItem";
 import PayMyFees from "../PayMyFees/PayMyFeesItem";
+import parseJwt from "../../helpers/decryptAuthToken";
 
 
 class ViewMyFees extends Component {
@@ -32,7 +33,7 @@ class ViewMyFees extends Component {
       this.state.fees.map(fees => (
         <div key={fees.companyName} style = {this.getStyle()}>
           <ViewMyFeesItem fees={fees} valid={true} />
-          <PayMyFees investorId = {investorId} caseId = {fees._id}/>
+          <PayMyFees investorId = {this.state.investorId} caseId = {fees._id}/>
         </div>
       ))
     ) : (

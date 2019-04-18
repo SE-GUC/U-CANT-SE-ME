@@ -8,7 +8,7 @@ import IconButton from '@material-ui/core/IconButton'
 import InputAdornment from '@material-ui/core/InputAdornment'
 import FormControl from '@material-ui/core/FormControl'
 import { Redirect } from 'react-router-dom'
-import login from '../../globalState/actions/authActions'
+import {login} from '../../globalState/actions/authActions'
 class ExternalLogin extends Component {
     state = {
         email: '',
