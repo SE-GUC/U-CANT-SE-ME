@@ -1,5 +1,6 @@
 import React from 'react'
 import axios from 'axios';
+import parseJwt from '../helpers/decryptAuthToken';
 const Joi = require("joi");
 
 export default class updateInvestorProfile extends React.Component {
@@ -16,8 +17,15 @@ export default class updateInvestorProfile extends React.Component {
             telephoneNumberError:'',
             faxError:'',
             valid:'',
+            investorId:""
         }
     }
+
+    async componentDidMount(){
+      const data = parseJwt(localStorage.jwtToken)
+      await this.setState({investorId:data.id})
+    };
+
     submit= async()=> {
         var valid=true;
         const me =this
@@ -151,10 +159,10 @@ export default class updateInvestorProfile extends React.Component {
           }
         if(valid)
         {
-            const investorID='5ca7594f3f074a35383a61a3';
+            const investorId=this.state.investorId;
             try
             {
-                await axios.put(`api/investors/${investorID}`,body);
+                await axios.put(`api/investors/${investorId}`,body);
                 this.setState({valid:'Successfully Updated!'})
             }
             catch

@@ -9,6 +9,7 @@ export default class InvestorUpdateCase extends React.Component {
     constructor(props) {
             super(props)
             this.state = {
+              InvestorId:'',
               companyType: '',
               regulatedLaw: '',
               legalFormOfCompany: '',
@@ -24,7 +25,10 @@ export default class InvestorUpdateCase extends React.Component {
               
         }
     }
-
+    async componentDidMount(){
+      const data = parseJwt(localStorage.jwtToken)
+      await this.setState({InvestorId:data.id})
+    }
     submit= async()=> {
         var valid=true;
         const me =this
@@ -158,7 +162,7 @@ export default class InvestorUpdateCase extends React.Component {
           });
           }
           const caseID='5ca62338fd83c24bf091758f'
-          const InvestorID='5ca6229afd83c24bf091758e'
+          const InvestorID=this.state.InvestorId
           if(!mongoValidator.isMongoId(InvestorID) || !mongoValidator.isMongoId(caseID)){
             valid=false;
             this.setState({err:'Invalid either InvestorID or CaseID'})

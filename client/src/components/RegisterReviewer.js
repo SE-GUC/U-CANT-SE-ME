@@ -24,6 +24,15 @@ export default class RegisterReviewer extends React.Component {
         }
     }
 
+    componentDidMount =async()=> {
+        //Rount for authorization
+        try {
+            await axios.get('api/admins/auth')
+          this.setState({ passed: true });
+        } catch (err) {
+          this.setState({ passed: false });
+        }
+      }
     submit= async()=> {
         var valid=true;
         const me =this
@@ -110,6 +119,8 @@ export default class RegisterReviewer extends React.Component {
     }
 
     render() {
+        if (!this.state.passed) return <h1>Unauthorized</h1>;
+        else
         return (
           <div>
               <br/>

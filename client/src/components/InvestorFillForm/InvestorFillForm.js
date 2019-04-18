@@ -7,6 +7,7 @@ class InvestorFillForm extends Component {
   constructor() {
     super();
     this.state = {
+        investorid:'',
         message : '',
         messageType:'',
         messageLaw: '',
@@ -47,6 +48,11 @@ class InvestorFillForm extends Component {
     this.updateManagerAdrress = this.updateManagerAdrress.bind(this);
     this.updateManagerPosition = this.updateManagerPosition.bind(this);
 }
+    async componentDidMount()
+    {
+        const data = parseJwt(localStorage.jwtToken)
+        await this.setState({investorid:data.id})
+    }
     addManager(){
         this.state.managers.slice();
         this.state.managers.push({ managerName: "" ,managerType: "", managerGender: "" , managerNationality: "" , 
@@ -299,7 +305,8 @@ class InvestorFillForm extends Component {
             }
         }
         try{
-        await axios.post('api/investors/fillForm/5ca7a93fbac716049d1e3af8', mycase)
+            const id = this.state.investorid;
+        await axios.post(`api/investors/fillForm/${id}`, mycase)
         this.setState({message: 'Successfully added'})
     }catch{
         this.setState({message: 'wrong input'})

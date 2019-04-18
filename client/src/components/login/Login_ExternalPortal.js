@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-import axios from 'axios'
 import Button from '@material-ui/core/Button'
 import Visibility from '@material-ui/icons/Visibility'
 import VisibilityOff from '@material-ui/icons/VisibilityOff'
@@ -9,7 +8,7 @@ import IconButton from '@material-ui/core/IconButton'
 import InputAdornment from '@material-ui/core/InputAdornment'
 import FormControl from '@material-ui/core/FormControl'
 import { Redirect } from 'react-router-dom'
-
+import login from '../../globalState/actions/authActions'
 class ExternalLogin extends Component {
     state = {
         email: '',
@@ -22,14 +21,12 @@ class ExternalLogin extends Component {
     handleSubmit = async () => {
         const req = {
             email: this.state.email,
-            password: this.state.password
+            password: this.state.password,
+            type:"investors"
         }
         try{
-            let res = await axios.post('api/investors/login', req)
+            login(req)
             document.getElementById('Error').style.display = 'none'
-            this.setState({
-                id: res.data._id
-            })
         }
         catch(error){
             document.getElementById('Error').style.display = 'inline'

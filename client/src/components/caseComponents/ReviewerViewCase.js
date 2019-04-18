@@ -1,15 +1,18 @@
 import React, { Component } from 'react'
 import Case from './Case';
 import axios from 'axios';
+import parseJwt from '../../helpers/decryptAuthToken';
 
 export default class ReviewerViewCase extends Component {
     state ={
         cases :[],
         caseid:"",
-        reviwerID:"5ca9eeca72c0c6231cc3c7cf"
+        reviwerID:""
     };
     async componentDidMount(){
 
+        const data = parseJwt(localStorage.jwtToken)
+        await this.setState({reviwerID:data.id})
         const id =this.state.reviwerID;
         const getCases = await axios.get(`api/reviewers/getAllUnsignedCases/${id}`);
         this.setState({cases: getCases.data});

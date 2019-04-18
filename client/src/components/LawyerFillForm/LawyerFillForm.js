@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, useImperativeHandle } from 'react';
 import Managers from '../Managers';
 import axios from 'axios';
 import { Redirect } from 'react-router-dom'
@@ -8,6 +8,7 @@ class LawyerFillForm extends Component {
   constructor() {
     super();
     this.state = {
+        lawyerId:'',
         message : '',
         messageType:'',
         messageLaw: '',
@@ -49,6 +50,10 @@ class LawyerFillForm extends Component {
     this.updateManagerDateBirth = this.updateManagerDateBirth.bind(this);
     this.updateManagerAdrress = this.updateManagerAdrress.bind(this);
     this.updateManagerPosition = this.updateManagerPosition.bind(this);
+}
+async componentDidMount(){
+    const data = parseJwt(localStorage.jwtToken)
+        await this.setState({lawyerId:data.id})
 }
     addManager(){
         this.state.managers.slice();
@@ -316,7 +321,8 @@ class LawyerFillForm extends Component {
                 creatorInvestorId: this.state.creatorInvestorId.toString()
             }
             try{
-                await axios.post('api/lawyers/fillForm/5ca777485c74d20e80486f9c', mycase)
+                const id = this.state.lawyerId
+                await axios.post(`api/lawyers/fillForm/${id}`, mycase)
                 this.setState({message: 'Successfully added'})
             }catch (e){
                 this.setState({message: 'wrong input'})
