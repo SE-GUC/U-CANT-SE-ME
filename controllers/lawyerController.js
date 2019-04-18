@@ -14,12 +14,10 @@ const Investor = require("../models/Investor");
 const Lawyer = require("../models/Lawyer");
 const Reviewer = require("../models/Reviewer");
 const caseController = require("./caseController");
-const LawyerGettingAllCasesAuthenticated = true;
 const bcrypt = require("../routes/api/utils/encryption");
 // module Case
 const Case = require("../models/Case.js");
 
-const lawyerAuthenticated = true;
 
 //Read
 exports.getAllLawyers = async function(req, res) {
@@ -139,18 +137,11 @@ exports.fillForm = async function(req, res) {
 };
 
 exports.getAllCases = async function(req, res) {
-  if (LawyerGettingAllCasesAuthenticated) {
     await caseController.getAllCases(req, res);
-  } else {
-    res
-      .status(404)
-      .send({ error: "something wrong happened check your identity" });
-  }
 };
 //as a lawyer i should be able to view all my due tasks
 exports.viewTasks = async function(req, res) {
   try {
-    if (lawyerAuthenticated) {
       let lawyerCases = await Case.where({
         assignedLawyerId: req.params.lawyerId,
         caseStatus: "AssignedToLawyer"
@@ -159,14 +150,12 @@ exports.viewTasks = async function(req, res) {
       if (lawyerCases !== undefined && lawyerCases.length > 0)
         res.send({ Tasks: lawyerCases });
       else res.status(404).send({ error: "Data Not Found" });
-    } else return res.status(403).send({ error: "Forbidden." });
   } catch (error) {
     res.status(400).send({ error: "An error has occured." });
   }
 };
 //As a lawyer I should be able to accept or reject a company establishment form made by an investor
 exports.acceptRejectForm = async function(req, res) {
-  if (lawyerAuthenticated) {
     if (
       !mongoValidator.isMongoId(req.params.caseId) ||
       (await Case.findById(req.params.caseId)) === null
@@ -187,18 +176,15 @@ exports.acceptRejectForm = async function(req, res) {
         error: "A fatal error has occured, could not update the case status."
       });
     }
-  } else return res.status(403).send({ error: "Forbidden." });
 };
 
 // As a lawyer i should be able to see all unsigned cases
 exports.getWaitingForLawyerCase = async function(req, res) {
   try {
-    if (lawyerAuthenticated) {
       let lawyer = await Lawyer.findById(req.params.id);
       if (lawyer === null) return res.send({ msg: "Lawyer Does Not Exist" });
       let allcases = await Case.where("caseStatus", "WaitingForLawyer");
       res.send({ data: allcases });
-    } else res.status(403).send({ error: "Forbidden." });
   } catch (error) {
     res.status(400).send({ error: "An error has occured." });
   }
@@ -206,7 +192,6 @@ exports.getWaitingForLawyerCase = async function(req, res) {
 
 exports.getSpecificWaitingForLawyerCase = async function(req, res) {
   try {
-    if (lawyerAuthenticated) {
       let lawyer = await Lawyer.findById(req.params.id);
       if (lawyer === null) return res.send({ error: "Lawyer Does Not Exist" });
       let selectedCase = await Case.where("_id", req.params.caseId);
@@ -216,7 +201,6 @@ exports.getSpecificWaitingForLawyerCase = async function(req, res) {
         await Case.findByIdAndUpdate(req.params.caseId, selectedCase[0]);
         res.send({ data: await Case.findById(req.params.caseId) });
       } else res.status(403).send({ error: "Case is not supported." });
-    } else res.status(403).send({ error: "Forbidden." });
   } catch (error) {
     res.status(400).send({ error: "An error has occured." });
   }
@@ -256,7 +240,6 @@ exports.updateCompanyForm = async function(req, res) {
   )
     res.status(403).send({ error: "Invalid IDs" });
   try {
-    if (lawyerAuthenticated) {
       let lawyer = await Lawyer.findById(req.params.id);
       if (lawyer === null)
         res.status(403).send({ error: "lawyer Does Not Exist" });
@@ -276,7 +259,6 @@ exports.updateCompanyForm = async function(req, res) {
         res
           .status(403)
           .send({ error: "Not the lawyer that created this case" });
-    } else res.status(403).send({ error: "Forbidden." });
   } catch (error) {
     res.status(400).send({ error: "An error has occured." });
   }
@@ -296,7 +278,6 @@ exports.addCommentAsLawyer = async function(req, res) {
       return res.status(404).send({ error: "Lawyer not Found" });
     if (checkCase.length === 0)
       return res.status(404).send({ error: "Case not Found" });
-    if (lawyerAuthenticated) {
       if (checkCase[0].assignedLawyerId + "" !== req.params.lawyerId + "")
         return res.status(403).send({
           error: "Only assigned Lawyers to this Case can comment on it"
@@ -315,7 +296,6 @@ exports.addCommentAsLawyer = async function(req, res) {
         comments: checkCase[0].comments
       });
       return res.send({ data: checkCase });
-    } else return res.status(403).send({ error: "Forbidden." });
   } catch {
     res.status(400).send({ error: "An error has occured." });
   }
@@ -484,7 +464,6 @@ exports.reset = function(req, res) {
 };
 
 exports.requestUpdate = async function(req, res) {
-  if (lawyerAuthenticated) {
     if (!mongoValidator.isMongoId(req.params.caseId))
       return res.status(400).send({ error: "Invalid case id" });
 
@@ -517,11 +496,9 @@ exports.requestUpdate = async function(req, res) {
         error: "A fatal error has occured, could not update the case status."
       });
     }
-  } else return res.status(403).send({ error: "Forbidden." });
 };
 
 exports.resumeWorkOnCase = async function(req, res) {
-  if (lawyerAuthenticated) {
     if (!mongoValidator.isMongoId(req.params.caseId))
       return res.status(400).send({ error: "Invalid case id" });
 
@@ -556,5 +533,4 @@ exports.resumeWorkOnCase = async function(req, res) {
         error: "A fatal error has occured, could not update the case status."
       });
     }
-  } else return res.status(403).send({ error: "Forbidden." });
 };

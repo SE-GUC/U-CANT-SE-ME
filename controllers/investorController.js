@@ -328,8 +328,8 @@ exports.fillForm = async function(req, res) {
       // res.send({msg : "Form Submitted Successfully"});
       req.body.caseStatus = "WaitingForLawyer";
       await caseController.createCase(req, res);
-    } 
-  } catch (error) {
+     
+  }catch (error) {
     res.send({ error: "An error has occured." });
   }
 };
