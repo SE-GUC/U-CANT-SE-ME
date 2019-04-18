@@ -1,5 +1,5 @@
-const express = require("express")
-const router = express.Router()
+const express = require("express");
+const router = express.Router();
 
 const companyController = require("../../controllers/companyController");
 
@@ -18,4 +18,4 @@ router.put("/:id", companyController.updateCompany);
 //Delete a Company
 router.delete("/:id", companyController.deleteCompany);
 
-module.exports = router
+module.exports = router;

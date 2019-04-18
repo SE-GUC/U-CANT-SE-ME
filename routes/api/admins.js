@@ -5,7 +5,7 @@ const router = express.Router();
 const passport = require('passport')
 // module Lawyer Controller
 const adminController = require("../../controllers/adminController");
-const caseController = require("../../controllers/caseController")
+const caseController = require("../../controllers/caseController");
 const formTemplateController = require("../../controllers/formTemplateController");
 const adminAuth = passport.authenticate('adminAuth',{session: false});
 
@@ -18,13 +18,13 @@ router.get('/',adminAuth,adminController.getAllAdmins);
 router.get("/:id",adminAuth, adminController.getAdmin);
 
 //Create
-router.post('/joi',adminAuth, adminController.createAdmin);
+router.post('/',adminAuth, adminController.createAdmin);
 
 //Update
-router.put("/update/:id", adminAuth, adminController.updateAdmin);
+router.put("/:id", adminAuth, adminController.updateAdmin);
 
 //Delete
-router.delete("/joi/:id", adminAuth, adminController.deleteAdmin);
+router.delete("/:id", adminAuth, adminController.deleteAdmin);
 
 router.get('/admin/getAllCases', adminAuth, adminController.GetAllCases);
 
@@ -38,7 +38,7 @@ router.post('/registerLawyer', adminAuth, adminController.registerLawyer)
 router.post('/registerReviewer', adminAuth, adminController.registerReviewer);
 
 //Login
-router.post('/login', adminController.loginAdmin)
+router.post("/login", adminController.loginAdmin);
 
 //Create FormTemplate
 router.post('/createFormTemplate', adminAuth, formTemplateController.createFormTemplate)

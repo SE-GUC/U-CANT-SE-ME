@@ -32,7 +32,7 @@ router.delete('/:id', adminAuth, lawyerController.deleteLawyer);
 router.get('/lawyer/getAllCases', lawyerAuth, lawyerController.GetAllCases);
 
 //View due tasks
-router.get('/lawyerTasks/:lawyerID', lawyerAuth, lawyerController.viewTasks);
+router.get('/lawyerTasks/:lawyerId', lawyerAuth, lawyerController.viewTasks);
 
 //Accept or Reject Form
 router.put('/updateCaseStatus/:caseId/:caseStatus', lawyerAuth, lawyerController.AcceptRejectForm);
@@ -53,7 +53,7 @@ router.put("/update/:id/:caseId", lawyerAuth, lawyerController.updateCompanyForm
 
 // As a Lawyer i should be able to add a comment on a rejected company establishment form
 // made by an investor, so that the investor is aware of the required changes in the form.
-router.put("/addCommentAsLawyer/:lawyerID/:caseID", lawyerAuth, lawyerController.addCommentAsLawyer);
+router.put("/addCommentAsLawyer/:lawyerId/:caseId", lawyerAuth, lawyerController.addCommentAsLawyer);
 
 // as a lawyer i should be able to fill a company creation form
 router.post("/fillForm/:id", lawyerAuth, lawyerController.fillForm);

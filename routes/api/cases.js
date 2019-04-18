@@ -14,12 +14,10 @@ router.get("/:id", caseController.getCase);
 //create case
 router.post("/", caseController.createCase);
 
+//update
+router.put("/:id", caseController.updateCase);
+
 //delete case
 router.delete("/:id", caseController.deleteCase);
-
-//update
-router.put("/update/:id", caseController.updateCase);
-
-
 
 module.exports = router;
