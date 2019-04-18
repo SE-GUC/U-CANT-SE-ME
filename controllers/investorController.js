@@ -16,7 +16,6 @@ const caseController = require('./caseController')
 const bcrypt = require('../routes/api/utils/encryption.js')
 const Lawyer = require("../models/Lawyer");
 const Reviewer = require("../models/Reviewer");
-// const investorAuthenticated = true;
 //READ
 exports.getAllInvestors = async function(req, res) {
   const investors = await Investor.find();
@@ -501,7 +500,6 @@ exports.reset = function(req, res) {
 };
 
 exports.resumeWorkOnCase = async function(req, res) {
-  if (investorAuthenticated) {
     if (!mongoValidator.isMongoId(req.params.caseId))
       return res.status(400).send({ error: "Invalid case id" });
 
@@ -536,5 +534,4 @@ exports.resumeWorkOnCase = async function(req, res) {
         error: "A fatal error has occured, could not update the case status."
       });
     }
-  } else return res.status(403).send({ error: "Forbidden." });
 };

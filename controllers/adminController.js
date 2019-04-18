@@ -7,7 +7,6 @@ const jwt = require('jsonwebtoken')
 const tokenKey = require('../config/keys_dev').secretOrKey
 // Models
 const Admin = require("../models/Admin");
-const adminGettingAllCasesAuthenticated = true;
 const caseController = require("./caseController");
 const reviewerController = require("./reviewerController");
 const lawyerController = require("./lawyerController");
@@ -99,13 +98,7 @@ exports.deleteAdmin = async function(req, res) {
 };
 
 exports.getAllCases = async function(req, res) {
-  if (adminGettingAllCasesAuthenticated) {
     await caseController.getAllCases(req, res);
-  } else {
-    res
-      .status(404)
-      .send({ error: "something wrong happened check your identity" });
-  }
 };
 
 //as admin i should be able to register lawyer
