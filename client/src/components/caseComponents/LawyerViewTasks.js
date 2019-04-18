@@ -7,14 +7,14 @@ export default class LawyerViewTasks extends Component {
     state ={
         cases :[],
         caseid:"",
-        LawyerID:""
+        lawyerId:""
     };
 
     async componentDidMount(){
 
         const data = parseJwt(localStorage.jwtToken)
-        await this.setState({lawyerID:data.id})
-        const id =this.state.LawyerID;
+        await this.setState({lawyerId:data.id})
+        const id =this.state.lawyerId;
         const getCases = await axios.get(`api/lawyers/lawyerTasks/${id}`);
         this.setState({cases: getCases.data.Tasks});
     };
