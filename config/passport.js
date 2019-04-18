@@ -90,7 +90,6 @@ module.exports = function(passport){
             Lawyer.findOne({ email: email })
             .then(lawyer => {
                 if(!lawyer){
-                    console.log(lawyer)
                     return done(null, false, {message: 'That email is not registered' })
                 }
 
@@ -155,25 +154,21 @@ module.exports = function(passport){
         })
     })
     passport.use('adminAuth',new JwtStrategy(opts, async (jwtPayload, done) => {
-        console.log("adminAuth")
         const currentUser = await Admin.findById(jwtPayload.id)
         if(currentUser) return done(null,currentUser)
         return done(null,false)
      }))
     passport.use('reviewerAuth',new JwtStrategy(opts, async (jwtPayload, done) => {
-        console.log("reviewerAuth")
         const currentUser = await Reviewer.findById(jwtPayload.id)
         if(currentUser) return done(null,currentUser)
         return done(null,false)
      }))
     passport.use('lawyerAuth',new JwtStrategy(opts, async (jwtPayload, done) => {
-        console.log("lawyerAuth")
         const currentUser = await Lawyer.findById(jwtPayload.id)
         if(currentUser) return done(null,currentUser)
         return done(null,false)
      }))
     passport.use('investorAuth',new JwtStrategy(opts, async (jwtPayload, done) => {
-        console.log("investorAuth")
         const currentUser = await Investor.findById(jwtPayload.id)
         if(currentUser) return done(null,currentUser)
         return done(null,false)
