@@ -5,15 +5,16 @@ const mongoValidator = require("validator");
 const Investor = require("../models/Investor");
 const Lawyer = require("../models/Lawyer");
 const Reviewer = require("../models/Reviewer");
-const reviewerGettingAllCasesAuthenticated = true;
-const caseController = require("./caseController");
-const passport = require("passport");
-const jwt = require("jsonwebtoken");
-const tokenKey = require("../config/keys_dev").secretOrKey;
-const encryption = require("../routes/api/utils/encryption");
-const crypto = require("crypto");
-const nodemailer = require("nodemailer");
-const async = require("async");
+const reviewerGettingAllCasesAuthenticated=true;
+const caseController = require("./caseController")
+const passport = require('passport')
+const jwt = require('jsonwebtoken')
+const tokenKey = require('../config/keys_dev').secretOrKey
+const encryption = require('../routes/api/utils/encryption')
+const crypto = require('crypto')
+const nodemailer = require('nodemailer')
+const async = require('async')
+const bcrypt = require('../routes/api/utils/encryption.js')
 // module Case
 const Case = require("../models/Case.js");
 
@@ -88,27 +89,22 @@ exports.updateReviewer = async function(req, res) {
         .status(400)
         .send({ error: isValidated.error.details[0].message });
 
-    // if (!oldPassword)
-    //   return res.status(404).send({ error: "There is no verificaiton" });
-    // if (!(reviewer.password == oldPassword)) {
-    //   return res.status(404).send({ error: "password doesnot match" });
-    // } else {
-    if (req.body.username) var username = req.body.username;
-    else username = reviewer.username;
-    if (req.body.fullName) var fullName = req.body.fullName;
-    else fullName = reviewer.fullName;
-    if (req.body.password) var password = req.body.password;
-    else password = reviewer.password;
-    if (req.body.email) var email = req.body.email;
-    else email = reviewer.email;
-    reviewer = await Reviewer.findByIdAndUpdate(reviewerId, {
-      username,
-      fullName,
-      password,
-      email
-    });
-    res.send({ msg: "Reviewer updated successfully" });
-    // }
+      if (req.body.username) var username = req.body.username;
+      else username = reviewer.username;
+      if (req.body.fullName) var fullName = req.body.fullName;
+      else fullName = reviewer.fullName;
+      if (req.body.password) var password = bcrypt.hashPassword(req.body.password);
+      else password = reviewer.password;
+      // if (req.body.email) var email = req.body.email;
+      // else 
+      email = reviewer.email;
+      reviewer = await Reviewer.findByIdAndUpdate(reviewerID, {
+        username,
+        fullName,
+        password,
+        email
+      });
+      res.send({ msg: "Reviewer updated successfully" });
   } catch (error) {
     return res.status(404).send({ error: "Reviewer does not exist" });
   }
@@ -132,7 +128,7 @@ exports.deleteReviewer = async function(req, res) {
   }
 };
 
-exports.GetAllCases = async function(req, res) {
+exports.getAllCases = async function(req, res) {
   try {
     if (reviewerGettingAllCasesAuthenticated) {
       await caseController.getAllCases(req, res);
@@ -228,27 +224,28 @@ exports.getSpecificWaitingForReviewerCase = async function(req, res) {
   }
 };
 
-exports.loginReviewer = function(req, res, next) {
-  passport.authenticate("reviewers", async function(err, user) {
-    if (err) {
-      return next(err);
-    }
-    if (!user) {
-      return res.redirect("/login");
-    }
-    req.logIn(user, async function(err) {
-      if (err) {
-        return next(err);
+exports.loginReviewer = function(req, res, next){
+  passport.authenticate('reviewers',
+  async function(err,user){
+    if (err) { return next(err); }
+    if (!user) { return res.redirect('/login'); }
+    req.logIn(user,  async function(err) {
+      try{
+
+      if (err) { return next(err); }
+      var reviewer = await Reviewer.where("email" , req.body.email);
+      const payload = {
+        id : reviewer[0]._id,
+        email : reviewer[0].email,
+        type: 'reviewer'
       }
-      var reviewer = await Reviewer.where("email", req.body.email);
-      // const payload = {
-      //   id : reviewer[0]._id,
-      //   email : reviewer[0].email
-      // }
-      // const token = jwt.sign(payload, tokenKey,{expiresIn:'1h'})
-      // res.json({data : `${token}`})
-      // return res
-      return res.redirect("/api/reviewers/" + reviewer[0]._id);
+      const token = jwt.sign(payload, tokenKey,{expiresIn:'1h'})
+      res.json({data : `Bearer ${token}`})
+      return res.json({data:'Token'})
+    }
+     catch(err){
+       return err;
+     }
     });
   })(req, res, next);
 };

@@ -1,20 +1,21 @@
-const mongoose = require("mongoose");
-const mongoValidator = require("validator");
-const passport = require("passport");
-const nodemailer = require("nodemailer");
-const async = require("async");
-const stripeSecretKey = require("../config/keys").stripeSecretKey;
-const stripe = require("stripe")(stripeSecretKey);
-const crypto = require("crypto");
-const Investor = require("../models/Investor");
+const mongoose = require("mongoose")
+const mongoValidator = require("validator")
+const passport = require("passport")
+const nodemailer = require('nodemailer')
+const async = require('async')
+const stripeSecretKey = require("../config/keys").stripeSecretKey
+const stripe = require("stripe")(stripeSecretKey)
+const crypto = require('crypto')
+const Investor = require('../models/Investor')
+const validator = require('../validations/investorValidations')
+const Case = require('../models/Case')
+const encryption = require('../routes/api/utils/encryption')
+const jwt = require('jsonwebtoken')
+const tokenKey = require('../config/keys_dev').secretOrKey
+const caseController = require('./caseController')
+const bcrypt = require('../routes/api/utils/encryption.js')
 const Lawyer = require("../models/Lawyer");
 const Reviewer = require("../models/Reviewer");
-const validator = require("../validations/investorValidations");
-const Case = require("../models/Case");
-const encryption = require("../routes/api/utils/encryption");
-const caseController = require("./caseController");
-
-const investorAuthenticated = true;
 //READ
 exports.getAllInvestors = async function(req, res) {
   const investors = await Investor.find();
@@ -80,6 +81,7 @@ exports.updateInvestor = async function(req, res) {
   if (!req.body.email) req.body.email = investor.email;
 
   if (!req.body.password) req.body.password = investor.password;
+  else req.body.password = bcrypt.hashPassword(req.body.password);
 
   if (!req.body.fullName) req.body.fullName = investor.fullName;
 
@@ -131,7 +133,6 @@ exports.deleteInvestor = async function(req, res) {
 exports.viewLawyerComments = async function(req, res) {
   try {
     //if the user is authenticated give them access to the function otherwise return a Forbidden error
-    if (investorAuthenticated) {
       //querying to find a Case where _id=caseID && creatorInvestorId=investorID
       let caseForForm = await Case.find({
         _id: req.params.caseId,
@@ -141,7 +142,6 @@ exports.viewLawyerComments = async function(req, res) {
       if (caseForForm !== undefined && caseForForm.length > 0)
         res.send({ comments: caseForForm[0].comments });
       else res.status(404).send({ error: "Data Not Found" });
-    } else return res.status(403).send({ error: "Forbidden." });
   } catch (error) {
     res.send({ error: "An error has occured." });
   }
@@ -149,8 +149,6 @@ exports.viewLawyerComments = async function(req, res) {
 
 exports.updateForm = async function(req, res) {
   try {
-    if (!investorAuthenticated)
-      return res.status(403).send({ error: "Investor has no Access" });
     if (!mongoValidator.isMongoId(req.params.investorId))
       return res.status(403).send({ error: "Invalid Investor ID" });
     if (!mongoValidator.isMongoId(req.params.caseId))
@@ -185,16 +183,12 @@ exports.getMyCompanies = async function(req, res) {
     const checkInvestor = await Investor.find({ _id: req.params.investorId });
     if (checkInvestor.length === 0)
       return res.status(404).send({ error: "Investor not Found" });
-    if (investorAuthenticated) {
       const companies = await Company.find({
         investorId: req.params.investorId
       });
       if (companies.length === 0)
         res.send({ msg: "You don't have any Companies yet." });
       else res.send({ data: companies });
-    } else {
-      return res.status(403).send({ error: "Forbidden." });
-    }
   } catch {
     res.status(400).send({ error: "An error has occured." });
   }
@@ -328,35 +322,43 @@ exports.payFees = async function(req, res) {
 
 exports.fillForm = async function(req, res) {
   try {
-    if (investorAuthenticated) {
       req.body.creatorInvestorId = req.params.investorId;
+      caseController.createCase(req, res); //Fadi's create-case
+      // res.send({msg : "Form Submitted Successfully"});
       req.body.caseStatus = "WaitingForLawyer";
       await caseController.createCase(req, res);
-    } else {
-      return res.status(403).send({ error: "Forbidden." });
-    }
-  } catch (error) {
+     
+  }catch (error) {
     res.send({ error: "An error has occured." });
   }
 };
 
-exports.login = async function(req, res, next) {
-  passport.authenticate("investors", async function(err, investor) {
-    if (err) {
-      return next(err);
-    }
-    if (!investor) {
-      return res.redirect("/login");
-    }
-    req.login(investor, async function(err) {
-      if (err) {
-        return next(err);
+exports.login = async function(req, res, next){
+  passport.authenticate('investors',
+  async function(err,investor){
+    if (err) { return next(err) }
+    if (!investor) { return res.redirect('/login') }
+    req.login(investor,  async function(err) {
+      try{
+      if (err) { return next(err) }
+      let investor = await Investor.where("email" , req.body.email)
+      const payload = {
+        id : investor[0]._id,
+        email : investor[0].email,
+        type: 'investor'
       }
-      let investor = await Investor.where("email", req.body.email);
-      return res.redirect("/api/investors/" + investor[0]._id);
-    });
-  })(req, res, next);
-};
+      
+      const token = jwt.sign(payload, tokenKey,{expiresIn:'1h'})
+      res.json({data : `Bearer ${token}`})
+      return res.json({data:'Token'})
+
+      }
+      catch(err){
+        return err;
+      }
+    })
+  })(req, res, next)
+}
 
 exports.forgot = function(req, res, next) {
   async.waterfall(
@@ -498,7 +500,6 @@ exports.reset = function(req, res) {
 };
 
 exports.resumeWorkOnCase = async function(req, res) {
-  if (investorAuthenticated) {
     if (!mongoValidator.isMongoId(req.params.caseId))
       return res.status(400).send({ error: "Invalid case id" });
 
@@ -533,5 +534,4 @@ exports.resumeWorkOnCase = async function(req, res) {
         error: "A fatal error has occured, could not update the case status."
       });
     }
-  } else return res.status(403).send({ error: "Forbidden." });
 };

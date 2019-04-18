@@ -41,7 +41,7 @@ handelClick (index) {
     return (
       <div>
         {this.state.cases.map((x) => (
-        <div>
+        <div key={`${x.sid}`}>
             <button id={`${x.sid}`}  onClick={() => this.handelClick(x.sid)} > 
                 <CaseSummary key={x._id} case={x}  />
             </button>

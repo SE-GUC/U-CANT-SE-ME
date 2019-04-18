@@ -47,6 +47,7 @@
     "node-fetch": "^2.3.0",
     "nodemailer": "^6.0.0",
     "passport": "^0.4.0",
+    "passport-jwt": "^4.0.0",
     "passport-local": "^1.0.0",
     "prop-types-extra": "^1.1.0",
     "react-router-dom": "^5.0.0",
@@ -59,6 +60,6 @@
   "devDependencies": {
     "axios": "^0.18.0",
     "jest": "^23.6.0",
-    "nodemon": "^1.18.10"
+    "nodemon": "^1.18.11"
   }
 }

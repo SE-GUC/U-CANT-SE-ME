@@ -44,6 +44,10 @@ import ReviewerProfile from './components/ReviewerProfile'
 import AdminProfile from './components/AdminProfile'
 import updateInvestorProfile from './components/updateInvestorProfile';
 import CreateFormTemplate from './components/CreateFormTemplate/CreateFormTemplate';
+import setAuthToken from './helpers/setAuthToken';
+if(localStorage.jwtToken){
+  setAuthToken(localStorage.jwtToken)
+}
 class App extends Component {
   render() {
     return (

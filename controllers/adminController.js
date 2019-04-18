@@ -1,11 +1,12 @@
 // Dependencies
 const validator = require("../validations/adminValidations");
 const mongoValidator = require("validator");
-const bcrypt = require("../routes/api/utils/encryption.js");
-const passport = require("passport");
+const bcrypt = require('../routes/api/utils/encryption.js')
+const passport = require('passport')
+const jwt = require('jsonwebtoken')
+const tokenKey = require('../config/keys_dev').secretOrKey
 // Models
 const Admin = require("../models/Admin");
-const adminGettingAllCasesAuthenticated = true;
 const caseController = require("./caseController");
 const reviewerController = require("./reviewerController");
 const lawyerController = require("./lawyerController");
@@ -97,13 +98,7 @@ exports.deleteAdmin = async function(req, res) {
 };
 
 exports.getAllCases = async function(req, res) {
-  if (adminGettingAllCasesAuthenticated) {
     await caseController.getAllCases(req, res);
-  } else {
-    res
-      .status(404)
-      .send({ error: "something wrong happened check your identity" });
-  }
 };
 
 //as admin i should be able to register lawyer
@@ -112,25 +107,35 @@ exports.registerLawyer = async function(req, res) {
   return res.send({ data: await lawyerController.createLawyer(req, res) });
 };
 //as admin i should be able to register reviwer
-exports.registerReviewer = async function(req, res) {
-  req.body.password = bcrypt.hashPassword(req.body.password);
-  return res.send({ data: await reviewerController.createReviewer(req, res) });
-};
+exports.registerReviewer = async function(req, res){
+  req.body.password = bcrypt.hashPassword(req.body.password)
+  return res.send({data: await reviewerController.createReviewer(req, res)})
+}
 
-exports.loginAdmin = function(req, res, next) {
-  passport.authenticate("admins", async function(err, user) {
-    if (err) {
-      return next(err);
-    }
-    if (!user) {
-      return res.redirect("/api/admins/login");
-    }
-    req.logIn(user, async function(err) {
-      if (err) {
-        return next(err);
+exports.loginAdmin = function(req, res, next){
+  passport.authenticate('admins',
+  async function(err,user){
+    if (err) { return next(err); }
+    if (!user) { return res.redirect('/api/admins/login'); }
+    req.logIn(user,  async function(err) {
+      try{
+
+      
+      if (err) { return next(err); }
+      var admin = await Admin.where("username" , req.body.username);
+      const payload = {
+        id : admin[0]._id,
+        username : admin[0].username,
+        type: 'admin'
       }
-      var admin = await Admin.where("username", req.body.username);
-      return res.redirect("/api/admins/" + admin[0]._id);
+      
+      const token = jwt.sign(payload, tokenKey,{expiresIn:'1h'})
+      res.json({data : `Bearer ${token}`})
+      return res.json({data:'Token'})
+    }
+    catch(err){
+      return err;
+    }
     });
   })(req, res, next);
 };
