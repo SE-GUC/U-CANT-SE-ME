@@ -5,6 +5,7 @@ import Input from '@material-ui/core/Input'
 import InputLabel from '@material-ui/core/InputLabel'
 import FormControl from '@material-ui/core/FormControl'
 import { Redirect } from 'react-router-dom'
+import parseJwt from '../helpers/decryptAuthToken';
 
 const Joi = require("joi");
 const mongoValidator = require("validator");
@@ -13,6 +14,7 @@ export default class lawyerUpdateCase extends React.Component {
     constructor(props) {
             super(props)
             this.state = {
+              lawyerId:"",
               companyType: '',
               regulatedLaw: '',
               legalFormOfCompany: '',
@@ -27,7 +29,10 @@ export default class lawyerUpdateCase extends React.Component {
               capital: ''     
         }
     }
-
+    async componentDidMount(){
+      const data = parseJwt(localStorage.jwtToken)
+        await this.setState({lawyerId:data.id})
+    }
     submit= async()=> {
         var valid=true;
         const me =this
@@ -173,7 +178,7 @@ export default class lawyerUpdateCase extends React.Component {
           }
           const caseID='5ca8a6c06f7661e423afc714'
 
-          const lawyerID='5ca76f5f00b48e09001936e7'
+          const lawyerID=this.state.lawyerId
           if(!mongoValidator.isMongoId(lawyerID) || !mongoValidator.isMongoId(caseID)){
             valid=false;
             this.setState({err:'Invalid either lawyerID or CaseID'})

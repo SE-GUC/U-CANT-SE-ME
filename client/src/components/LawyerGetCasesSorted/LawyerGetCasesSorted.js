@@ -1,23 +1,28 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import Case from './Case';
+import parseJwt from '../../helpers/decryptAuthToken';
 
 class LawyerGetCasesSorted extends Component {
     constructor(){
         super();
         this.state ={
             criterion :'',
-            cases :[]
+            cases :[],
+            lawyerId:''
         };
     }
     
     async componentDidMount(criteria){
+        const data = parseJwt(localStorage.jwtToken)
+        await this.setState({lawyerId:data.id})
+        const id = this.state.lawyerId;
         if(criteria === 'ID'){
-            const getCases = await axios.get('api/lawyers/getMyCasesByid/5ca76f5f00b48e09001936e7');
+            const getCases = await axios.get(`api/lawyers/getMyCasesByid/${id}`);
             this.setState({cases: getCases.data});
         }else{
             if(criteria === 'Date'){
-                const getCases = await axios.get('api/lawyers/getMyCasesByDate/5ca76f5f00b48e09001936e7');
+                const getCases = await axios.get(`api/lawyers/getMyCasesByDate/${id}`);
                 this.setState({cases: getCases.data});
             }
         }

@@ -2,15 +2,20 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import '../../App.css';
 import GetMyCompaniesItem from './GetMyCompaniesItem';
+import parseJwt from '../../helpers/decryptAuthToken';
 
 class MyCompanies extends Component {
   state = {
     MyCompanies: [],
-    msg:''
+    msg:'',
+    investorid:''
   }
 
-  componentDidMount() {
-    axios.get(`api/investors/myCompanies/5cadd0c55ec2231fbc0ba94a`)
+  async componentDidMount() {
+    const data = parseJwt(localStorage.jwtToken)
+    await this.setState({investorid:data.id})
+    const id =this.state.investorid;
+    axios.get(`api/investors/myCompanies/${id}`)
     .then(res => {
       if(Array.isArray(res.data.data))
         this.setState({MyCompanies: res.data.data})

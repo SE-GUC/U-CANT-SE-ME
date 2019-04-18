@@ -1,17 +1,20 @@
 import React, { Component } from 'react'
 import Case from './Case';
 import axios from 'axios';
+import parseJwt from '../../helpers/decryptAuthToken';
 
 export default class LawyerViewTasks extends Component {
     state ={
         cases :[],
         caseid:"",
-        LawyerID:"5ca777485c74d20e80486f9c"
+        lawyerId:""
     };
 
     async componentDidMount(){
 
-        const id =this.state.LawyerID;
+        const data = parseJwt(localStorage.jwtToken)
+        await this.setState({lawyerId:data.id})
+        const id =this.state.lawyerId;
         const getCases = await axios.get(`api/lawyers/lawyerTasks/${id}`);
         this.setState({cases: getCases.data.Tasks});
     };

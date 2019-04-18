@@ -2,22 +2,21 @@ import React, { Component } from "react";
 import axios from "axios";
 import ViewMyFeesItem from "./ViewMyFeesItem";
 import PayMyFees from "../PayMyFees/PayMyFeesItem";
+import parseJwt from "../../helpers/decryptAuthToken";
 
-const investorId = "5ca7594f3f074a35383a61a3";
-// const investorId="5ca6229afd83c24bf091758e"
 
 class ViewMyFees extends Component {
   state = {
-    fees: []
+    fees: [],
+    investorId:""
   };
   
-  componentDidMount() {
-    // const { data: fees } = await axios.get(
-    //   `http://localhost:5000/api/investors/viewMyFees/${investorId}/`
-    // );
-    // this.setState({ fees: fees.response });
+  async componentDidMount() {
+    const data = parseJwt(localStorage.jwtToken)
+    await this.setState({investorId:data.id})
+    const id = this.state.investorId
     axios
-      .get(`api/investors/viewMyFees/${investorId}/`)
+      .get(`api/investors/viewMyFees/${id}/`)
       .then(res => this.setState({ fees: res.data.response }));
   }
 
@@ -34,7 +33,7 @@ class ViewMyFees extends Component {
       this.state.fees.map(fees => (
         <div key={fees.companyName} style = {this.getStyle()}>
           <ViewMyFeesItem fees={fees} valid={true} />
-          <PayMyFees investorId = {investorId} caseId = {fees._id}/>
+          <PayMyFees investorId = {this.state.investorId} caseId = {fees._id}/>
         </div>
       ))
     ) : (
