@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import { Redirect } from 'react-router-dom'
-import axios from "axios";
 import Button from '@material-ui/core/Button'
 import Visibility from '@material-ui/icons/Visibility'
 import VisibilityOff from '@material-ui/icons/VisibilityOff'
@@ -30,7 +29,6 @@ export default class Login extends Component {
       password: this.state.password,
       type:type
     };
-    var res = {};
     try {
       if(this.state.type.toString()!==""){
         

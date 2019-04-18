@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-import axios from 'axios';
 
 export default class CaseSummary extends Component {
   getStyle = () => {
@@ -22,8 +21,7 @@ export default class CaseSummary extends Component {
     previouslyAssignedReviewers:[]
   }
   async componentDidMount(){
-    const{assignedLawyerId,assignedReviewerId,caseCreationDate,caseStatus,creatorInvestorId,
-      creatorLawyerId,form,managers,previouslyAssignedLawyers,previouslyAssignedReviewers}=this.props.case;
+    const{caseCreationDate,caseStatus,form}=this.props.case;
       
       this.setState({caseStatus:caseStatus});
       this.setState({caseCreationDate:caseCreationDate});

@@ -1,4 +1,4 @@
-import { setLawyer, LOGIN, LOGOUT } from "./actionTypes";
+import { LOGOUT } from "./actionTypes";
 import axios from "axios";
 
 import setAuthToken from "../../helpers/setAuthToken";
