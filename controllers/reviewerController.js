@@ -128,7 +128,7 @@ exports.deleteReviewer = async function(req, res) {
   }
 };
 
-exports.GetAllCases = async function(req, res) {
+exports.getAllCases = async function(req, res) {
   try {
     if (reviewerGettingAllCasesAuthenticated) {
       await caseController.getAllCases(req, res);

@@ -26,7 +26,7 @@ router.put("/:id", adminAuth, adminController.updateAdmin);
 //Delete
 router.delete("/:id", adminAuth, adminController.deleteAdmin);
 
-router.get('/admin/getAllCases', adminAuth, adminController.GetAllCases);
+router.get('/admin/getAllCases', adminAuth, adminController.getAllCases);
 
 //get last lawyer worked on case
 router.get("/getCaseLastLawyer/:id", adminAuth, caseController.getCaseLastLawyer);

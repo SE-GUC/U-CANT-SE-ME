@@ -31,10 +31,10 @@ router.delete("/:id", adminAuth, reviewerController.deleteReviewer);
 router.get('/reviewerTasks/:reviewerId', reviewerAuth, reviewerController.viewTasks);
 
 //Accept or Reject Form
-router.put('/updateCaseStatus/:caseId/:caseStatus', reviewerAuth, reviewerController.AcceptRejectForm);
+router.put('/updateCaseStatus/:caseId/:caseStatus', reviewerAuth, reviewerController.acceptRejectForm);
 
 
-router.get('/reviewer/getAllCases',reviewerAuth, reviewerController.GetAllCases);
+router.get('/reviewer/getAllCases',reviewerAuth, reviewerController.getAllCases);
 
 // As a reviewer i should be able to see all unsigned cases
 router.get("/getAllUnsignedCases/:id", reviewerAuth, reviewerController.getWaitingForReviewerCase);

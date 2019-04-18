@@ -29,13 +29,13 @@ router.put('/:id', admin_lawyerAuth, lawyerController.updateLawyer);
 //Delete
 router.delete('/:id', adminAuth, lawyerController.deleteLawyer);
 
-router.get('/lawyer/getAllCases', lawyerAuth, lawyerController.GetAllCases);
+router.get('/lawyer/getAllCases', lawyerAuth, lawyerController.getAllCases);
 
 //View due tasks
 router.get('/lawyerTasks/:lawyerId', lawyerAuth, lawyerController.viewTasks);
 
 //Accept or Reject Form
-router.put('/updateCaseStatus/:caseId/:caseStatus', lawyerAuth, lawyerController.AcceptRejectForm);
+router.put('/updateCaseStatus/:caseId/:caseStatus', lawyerAuth, lawyerController.acceptRejectForm);
 
 // As a lawyer i should be able to see all unsigned cases
 router.get("/getAllUnsignedCases/:id", lawyerAuth, lawyerController.getWaitingForLawyerCase);
