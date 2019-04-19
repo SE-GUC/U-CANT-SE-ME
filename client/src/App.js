@@ -20,6 +20,7 @@ import LastLawyer from './components/LastLawyer'
 import LawyerViewCase from './components/caseComponents/LawyerViewCase';
 import ReviewerViewCase from './components/caseComponents/ReviewerViewCase';
 import InvestorUpdateCase from './components/InvestorUpdateCase'
+import ElectronicJournals from './components/ElectronicJournals'
 
 class App extends Component {
   render() {
@@ -62,6 +63,7 @@ class App extends Component {
         <Route path="/LawyerViewCase" component={LawyerViewCase}/>
         <Route path="/ReviewerViewCase" component={ReviewerViewCase}/>
         <Route path="/InvestorUpdateCase" component={InvestorUpdateCase}/>
+        <Route path="/ElectronicJournals" component={ElectronicJournals}/>
 
         </div>
       </Router>
