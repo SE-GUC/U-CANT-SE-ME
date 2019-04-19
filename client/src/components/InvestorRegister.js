@@ -183,9 +183,9 @@ export default class InvestorRegister extends React.Component {
             formControl: {
                 margin: 0,
                 width: 200
-            },
+            }
         }
-    return (
+        return (
           <div>
                 <br />
                 <form id="InvestorRegister">
