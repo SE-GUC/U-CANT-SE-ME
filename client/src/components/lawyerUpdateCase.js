@@ -6,7 +6,8 @@ import InputLabel from '@material-ui/core/InputLabel'
 import FormControl from '@material-ui/core/FormControl'
 import { Redirect } from 'react-router-dom'
 import parseJwt from '../helpers/decryptAuthToken';
-
+import Select from '@material-ui/core/Select'
+import MenuItem from '@material-ui/core/MenuItem'
 const Joi = require("joi");
 const mongoValidator = require("validator");
 export default class lawyerUpdateCase extends React.Component {
@@ -14,7 +15,7 @@ export default class lawyerUpdateCase extends React.Component {
     constructor(props) {
             super(props)
             this.state = {
-              lawyerId:"",
+              lawyerId: '',
               companyType: '',
               regulatedLaw: '',
               legalFormOfCompany: '',
@@ -382,6 +383,9 @@ export default class lawyerUpdateCase extends React.Component {
         }
       }
       
+      handleChange = event => {
+        this.setState({ [event.target.name]: event.target.value });
+      }
 
     render() {
       const styles = {
@@ -389,6 +393,10 @@ export default class lawyerUpdateCase extends React.Component {
           width: "30%",
           minWidth:"200px",
           margin:"auto"
+        },
+        formControl: {
+            margin: 0,
+            width: 270
         }
       }
         return (
@@ -397,13 +405,21 @@ export default class lawyerUpdateCase extends React.Component {
               <h2 class="text-center text-info">Update Case</h2>
             <form id="lawyerUpdate">
             {this.state.err}
-            Company type 
-            <br />
-            <select className="form-control" name="companyType" style={styles.label} >
-              <option value="">Choose type</option>
-              <option value="SPC">SPC</option>
-              <option value="SSC">SSC</option>
-            </select>
+            <FormControl style={styles.formControl}>
+              <InputLabel>Choose Type</InputLabel>
+                <Select
+                  value={this.state.companyType}
+                  onChange={this.handleChange}
+                  name="companyType"
+                  id="companyType"
+                >
+                <MenuItem value="">
+                  <em>None</em>
+                </MenuItem>
+                <MenuItem value={"SPC"}>SPC</MenuItem>
+                <MenuItem value={"SSC"}>SSC</MenuItem>
+                </Select>
+            </FormControl>
           <br/>
           <FormControl>    
             <InputLabel>Regulated Law</InputLabel>
