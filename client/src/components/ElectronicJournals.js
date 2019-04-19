@@ -69,7 +69,7 @@ class ElectronicJournals extends Component {
           })}
 
 
-          {this.state.companies._id}
+        
         </p>
       </ul>
     )
