@@ -126,7 +126,7 @@ export default class RegisterReviewer extends React.Component {
               <br/>
               <h3 class="text-center text-info">Register</h3>
             <form id="RegisterReviewer">
-            <FormControl>    
+                <FormControl required>    
                         <InputLabel>Username</InputLabel>
                         <Input
                             id="username"
@@ -137,7 +137,7 @@ export default class RegisterReviewer extends React.Component {
                     <br />
                     <label id="Error" class="text-danger"> {this.state.usernameError}</label>
                     <br/> 
-                    <FormControl>    
+                    <FormControl required>    
                         <InputLabel>Email</InputLabel>
                         <Input
                             id="email"
@@ -148,7 +148,7 @@ export default class RegisterReviewer extends React.Component {
                     <br/> 
                     <label id="Error" class="text-danger"> {this.state.emailError}</label>
                     <br />
-                    <FormControl>    
+                    <FormControl required>    
                         <InputLabel>Full Name</InputLabel>
                         <Input
                             id="fullName"
@@ -159,7 +159,7 @@ export default class RegisterReviewer extends React.Component {
                     <br />
                     <label id="Error" class="text-danger"> {this.state.fullNameError}</label>
                     <br/> 
-                    <FormControl>    
+                    <FormControl required>    
                         <InputLabel htmlFor="adornment-password">Password</InputLabel>
                             <Input
                                 id="password"
