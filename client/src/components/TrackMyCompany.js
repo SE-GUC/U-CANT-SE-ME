@@ -1,6 +1,7 @@
 import React from 'react'
 import axios from 'axios';
 import Stepper from 'react-stepper-horizontal'
+import parseJwt from '../helpers/decryptAuthToken'
 
 export default class TrackMyCompany extends React.Component {
 
@@ -13,7 +14,9 @@ export default class TrackMyCompany extends React.Component {
 
     async componentDidMount() {
         try{
-            const res = await axios.get(`api/investors/trackMyCompany/${this.props.location.state.id}`);
+            const data = parseJwt(localStorage.jwtToken)
+            const id = data.id
+            const res = await axios.get(`api/investors/trackMyCompany/${id}`);
             const { data: posts } = res
             this.setState({ posts: posts.tracking });
         }
