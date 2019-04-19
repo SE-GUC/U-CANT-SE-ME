@@ -177,6 +177,7 @@ export default class InvestorRegister extends React.Component {
                         <Input
                             id="fullName"
                             type='text'
+                            style={{ width: 200 }}
                         />
                     </FormControl>
                     <br />
@@ -187,6 +188,7 @@ export default class InvestorRegister extends React.Component {
                         <Input
                             id="email"
                             type='text'
+                            style={{ width: 200 }}
                         />
                     </FormControl>
                     <br />
@@ -197,6 +199,7 @@ export default class InvestorRegister extends React.Component {
                             <Input
                                 id="password"
                                 type={this.state.showPassword ? 'text' : 'password'}
+                                style={{ width: 200 }}
                                 endAdornment={
                                     <InputAdornment position="end">
                                       <IconButton
@@ -224,6 +227,7 @@ export default class InvestorRegister extends React.Component {
                             <Input
                                 id="nationality"
                                 type='text'
+                                style={{ width: 200 }}
                             />
                     </FormControl>
                     <br />
@@ -239,6 +243,7 @@ export default class InvestorRegister extends React.Component {
                             <Input
                                 id="identificationNumber"
                                 type='text'
+                                style={{ width: 200 }}
                             />
                     </FormControl>
                     <br />
@@ -252,6 +257,7 @@ export default class InvestorRegister extends React.Component {
                             <Input
                                 id="residenceAddress"
                                 type='text'
+                                style={{ width: 200 }}
                             />
                     </FormControl>
                     <br />
@@ -262,6 +268,7 @@ export default class InvestorRegister extends React.Component {
                             <Input
                                 id="telephoneNumber"
                                 type='text'
+                                style={{ width: 200 }}
                             />
                     </FormControl>
                     <br />
@@ -272,6 +279,7 @@ export default class InvestorRegister extends React.Component {
                             <Input
                                 id="fax"
                                 type='text'
+                                style={{ width: 200 }}
                             />
                     </FormControl>
                     <br />

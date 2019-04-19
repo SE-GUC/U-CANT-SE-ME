@@ -65,6 +65,7 @@ render(){
                 id="email"
                 type='text'
                 value={this.state.email}
+                style={{ width: 200 }}
                 onChange={this.handleChange}
                 
             />
@@ -78,6 +79,7 @@ render(){
                 type={this.state.showPassword ? 'text' : 'password'}
                 value={this.state.password}
                 onChange={this.handleChange}
+                style={{ width: 200 }}
                 endAdornment={
                   <InputAdornment position="end">
                     <IconButton

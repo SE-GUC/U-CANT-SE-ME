@@ -131,6 +131,7 @@ export default class RegisterReviewer extends React.Component {
                         <Input
                             id="username"
                             type='text'
+                            style={{ width: 200 }}
                         />
                     </FormControl>
                     <br />
@@ -141,6 +142,7 @@ export default class RegisterReviewer extends React.Component {
                         <Input
                             id="email"
                             type='text'
+                            style={{ width: 200 }}
                         />
                     </FormControl>
                     <br/> 
@@ -151,6 +153,7 @@ export default class RegisterReviewer extends React.Component {
                         <Input
                             id="fullName"
                             type='text'
+                            style={{ width: 200 }}
                         />
                     </FormControl>
                     <br />
@@ -161,6 +164,7 @@ export default class RegisterReviewer extends React.Component {
                             <Input
                                 id="password"
                                 type={this.state.showPassword ? 'text' : 'password'}
+                                style={{ width: 200 }}
                                 endAdornment={
                                     <InputAdornment position="end">
                                       <IconButton

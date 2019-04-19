@@ -60,6 +60,9 @@ export default class Login extends Component {
   forgotClicked = () => {
     this.setState({forgot: true})
   }
+  handleClickShowPassword = () => {
+    this.setState(state => ({ showPassword: !state.showPassword }));
+  }
   render() {
     const styles = {
       content: {
@@ -93,7 +96,7 @@ export default class Login extends Component {
                 type='text'
                 value={this.state.email}
                 onChange={this.handleChange}
-                
+                style={{ width: 200 }}
             />
         </FormControl>
         <br />
@@ -105,6 +108,7 @@ export default class Login extends Component {
                 type={this.state.showPassword ? 'text' : 'password'}
                 value={this.state.password}
                 onChange={this.handleChange}
+                style={{ width: 200 }}
                 endAdornment={
                   <InputAdornment position="end">
                     <IconButton

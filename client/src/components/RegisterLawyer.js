@@ -136,7 +136,7 @@ export default class RegisterLawyer extends React.Component {
           <form id="RegisterLawyer">
             <FormControl>
               <InputLabel>Username</InputLabel>
-              <Input id="username" type="text" />
+              <Input id="username" type="text" style={{ width: 200 }}/>
             </FormControl>
             <br />
             <label id="Error" class="text-danger">
@@ -146,7 +146,7 @@ export default class RegisterLawyer extends React.Component {
             <br />
             <FormControl>
               <InputLabel>Email</InputLabel>
-              <Input id="email" type="text" />
+              <Input id="email" type="text" style={{ width: 200 }}/>
             </FormControl>
             <br />
             <label id="Error" class="text-danger">
@@ -156,7 +156,7 @@ export default class RegisterLawyer extends React.Component {
             <br />
             <FormControl>
               <InputLabel>Full Name</InputLabel>
-              <Input id="fullName" type="text" />
+              <Input id="fullName" type="text" style={{ width: 200 }}/>
             </FormControl>
             <br />
             <label id="Error" class="text-danger">
@@ -169,6 +169,7 @@ export default class RegisterLawyer extends React.Component {
               <Input
                 id="password"
                 type={this.state.showPassword ? "text" : "password"}
+                style={{ width: 200 }}
                 endAdornment={
                   <InputAdornment position="end">
                     <IconButton
