@@ -12,6 +12,7 @@ import ListItemText from "@material-ui/core/ListItemText";
 import Avatar from "@material-ui/core/Avatar";
 import ImageIcon from "@material-ui/icons/Image";
 import WorkIcon from "@material-ui/icons/Work";
+import commentIcon from "@material-ui/icons/CommentOutlined";
 import BeachAccessIcon from "@material-ui/icons/BeachAccess";
 import axios from "axios";
 
@@ -28,6 +29,14 @@ const styles= {
   },
   root: {
     width: 345
+  },
+  avatar: {
+    margin: -10,
+    width: 35,
+    height: 35,
+  },
+  cardActions:{
+    height: 50
   }
 }
 
@@ -84,11 +93,26 @@ class CasePreview extends Component {
             </Typography>
           </CardContent>
         </CardActionArea>
-        <CardActions>
+        <CardActions style={classes.cardActions}>
+          <ListItem>
+              <Avatar style={classes.avatar}>
+                <WorkIcon />
+              </Avatar>
+              <ListItemText primary="Status" secondary={this.props.case.caseStatus} />
+          </ListItem>
+          <ListItem>
+              <Avatar style={classes.avatar}>
+                <commentIcon />
+              </Avatar>
+              <ListItemText primary="Comments" secondary={this.props.case.comments.length} />
+          </ListItem>
           <Button size="small" color="primary">
             View Details
           </Button>
         </CardActions>
+        <Button size="small" color="primary">
+            View Details
+          </Button>
       </Card>
     );
   }
