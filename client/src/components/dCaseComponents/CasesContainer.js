@@ -41,7 +41,7 @@ class CasesContainer extends Component {
   render() {
     if (this.state.isCaseExpaned) {
       return (
-         <CaseContainer/>
+        <CaseContainer expandedCase={this.state.expandedCase} />
       );
     } else {
       var counter = 0;
