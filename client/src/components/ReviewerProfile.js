@@ -79,7 +79,7 @@ export default class ReviewerProfile extends Component {
       return;
     }
     try{
-        await axios.get('../api/reviewers/auth')
+        await axios.get('../../../api/reviewers/auth')
     }catch(err){
       alert("You are not allowed");
       this.setState({ home: 1 });

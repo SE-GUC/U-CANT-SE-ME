@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import Button from '@material-ui/core/Button'
 import { Redirect } from 'react-router-dom'
+import axios from 'axios';
 
 export default class LawyerProfile extends Component {
     constructor(props) {
@@ -15,10 +16,13 @@ export default class LawyerProfile extends Component {
             caseSwitch: false,
             viewAllCases: false,
             getCasesSorted: false,
-            viewTasks: false
+            viewTasks: false,
+            home:0
         }
       }
   render() {
+    if (this.state.home===0) return <div> </div>;
+      if (this.state.home===1) return <Redirect to={{ pathname: "/" }} />;
     return (
       <div>
         {
@@ -79,5 +83,22 @@ export default class LawyerProfile extends Component {
         </Button>
       </div>
     )
+  }
+
+
+  async componentDidMount() {
+    if (!localStorage.jwtToken) {
+      alert("You must login!");
+      this.setState({ home: 1 });
+      return;
+    }
+    try{
+        await axios.get('../../../api/lawyers/auth')
+    }catch(err){
+      alert("You are not allowed");
+      this.setState({ home: 1 });
+      return;
+    }
+    this.setState({ home: 2 });
   }
 }

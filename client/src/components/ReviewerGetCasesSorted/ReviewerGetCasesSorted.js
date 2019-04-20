@@ -15,7 +15,8 @@ class ReviewerGetCasesSorted extends Component {
     
     async componentDidMount(criteria){
         const data = parseJwt(localStorage.jwtToken)
-        await this.setState({reviwerId:data.id})
+        console.log(data);
+        await this.setState({reviewerId:data.id})
         const id = this.state.reviewerId;
         if(criteria === 'ID'){
             const getCases = await axios.get(`api/reviewers/getMyCasesByid/${id}`);
