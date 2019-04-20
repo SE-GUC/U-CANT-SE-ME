@@ -18,7 +18,7 @@ router.get('/auth',lawyerAuth, (req,res)=>{res.json({msg:"Hello Lawyer!"})});
 //Read
 router.get('/', adminAuth, lawyerController.getAllLawyers);
 
-router.get('/:id', allAuth, lawyerController.getLawyer);
+router.get('/:id', lawyerController.getLawyer);
 
 //Create
 // router.post('/', lawyerController.createLawyer);

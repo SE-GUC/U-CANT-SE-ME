@@ -16,7 +16,7 @@ router.get('/auth',reviewerAuth,(req,res)=>{res.json({msg:"Hello Reviewer!"})});
 //Read
 router.get("/", adminAuth, reviewerController.getAllReviewers);
 
-router.get("/:id", allAuth,reviewerController.getReviewer);
+router.get("/:id",reviewerController.getReviewer);
 
 //Create
 // router.post('/', adminAuth,reviewerController.createReviewer);

@@ -11,9 +11,11 @@ export default class ReviewerViewCase extends Component {
     };
     async componentDidMount(){
 
+        // check if localStorage.jwtTokenis not null else he must login
         const data = parseJwt(localStorage.jwtToken)
         await this.setState({reviwerID:data.id})
         const id =this.state.reviwerID;
+        // check that it is a reviewer if not redirect to somewhere else
         const getCases = await axios.get(`api/reviewers/getAllUnsignedCases/${id}`);
         this.setState({cases: getCases.data});
     };
