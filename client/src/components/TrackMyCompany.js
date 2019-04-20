@@ -72,6 +72,10 @@ export default class TrackMyCompany extends React.Component {
                                 key={str}>{str}
                                 <Stepper activeColor='#f44141' steps={[{ title: 'On Update' }, { title: 'Waiting For Lawyer' }, { title: 'Assigned To Lawyer' }, { title: 'Waiting For Reviewer' }, { title: 'Assigned To Reviewer' }, { title: 'Rejected' }]} activeStep={5} />
                             </li>
+                        if(k.endsWith('Established'))
+                            return <li
+                            key={str}>{str}
+                        </li>
 
 
                     })}
