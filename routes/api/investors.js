@@ -14,7 +14,7 @@ router.get('/auth',investorAuth, (req,res)=>{res.json({msg:"Hello Investor!"})})
 //READ
 router.get('/', adminAuth, investorController.getAllInvestors)
 
-router.get('/:id', allAuth, investorController.getInvestor)
+router.get('/:id', investorController.getInvestor)
 
 //CREATE
 // router.post('/', investorController.createInvestor)
