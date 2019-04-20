@@ -30,7 +30,7 @@ export default class updateInvestorProfile extends React.Component {
         return;
       }
       try{
-          await axios.get('api/investors/auth')
+          await axios.get('../api/investors/auth')
       }catch(err){
         alert("You are not allowed");
         this.setState({ home: 1 });
