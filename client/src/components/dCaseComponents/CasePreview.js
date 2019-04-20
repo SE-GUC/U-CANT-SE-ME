@@ -85,7 +85,7 @@ class CasePreview extends Component {
           </CardContent>
         </CardActionArea>
         <CardActions>
-          <Button size="small" color="primary">
+          <Button size="small" color="primary" onClick = { this.props.handleCaseFullDetails.bind(this, this.props.case) } >
             View Details
           </Button>
         </CardActions>
