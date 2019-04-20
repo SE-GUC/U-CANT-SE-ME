@@ -47,7 +47,7 @@ const styles= {
     margin: -5,
     width: 25,
     height: 25,
-    backgroundColor : "#3480E3"
+    //backgroundColor : "#3480E3"
   },
   iconCardAction: {
     width: 15,
