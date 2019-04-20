@@ -10,10 +10,12 @@ import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemText from "@material-ui/core/ListItemText";
 import Avatar from "@material-ui/core/Avatar";
-import ImageIcon from "@material-ui/icons/Image";
 import WorkIcon from "@material-ui/icons/Work";
 import CommentIcon from "@material-ui/icons/CommentOutlined";
-import StatusIcon from "@material-ui/icons/StarHalf";
+import AcceptedIcon from "@material-ui/icons/Check";
+import RejectedIcon from "@material-ui/icons/Close";
+import PendingIcon from "@material-ui/icons/RotateRight";
+
 import InvestorIcon from "@material-ui/icons/Person";
 import CreationDateIcon from "@material-ui/icons/DateRange";
 
@@ -47,7 +49,7 @@ const styles= {
     margin: -5,
     width: 25,
     height: 25,
-    //backgroundColor : "#3480E3"
+    backgroundColor : "#3480E3"
   },
   iconCardAction: {
     width: 15,
@@ -118,9 +120,9 @@ class CasePreview extends Component {
         <CardActions style={classes.cardActions}>
           <ListItem>
               <Avatar style={classes.avatarCardAction}>
-                <StatusIcon style={classes.iconCardAction}/>
+                {this.props.case.caseStatus==="Rejected"?<RejectedIcon style={classes.iconCardAction}/>:this.props.case.caseStatus==="Accepted"?<AcceptedIcon style={classes.iconCardAction}/>:<PendingIcon style={classes.iconCardAction}/>}
               </Avatar>
-              <ListItemText disableTypography primary={<Typography variant="body1">Status</Typography>} secondary={<Typography variant="caption">{this.props.case.caseStatus}</Typography>}/>
+              <ListItemText disableTypography primary={<Typography variant="body1">Status</Typography>} secondary={<Typography style={{color:this.props.case.caseStatus==="Rejected"?"#E53167":this.props.case.caseStatus==="Accepted"?"#2DD07B":"#3480E3"}} variant="caption">{this.props.case.caseStatus}</Typography>}/>
               {/* <ListItemText primary="Status" secondary={this.props.case.caseStatus} /> */}
           </ListItem>
           <ListItem>
