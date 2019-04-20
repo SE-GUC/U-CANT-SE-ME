@@ -2,22 +2,38 @@ import React from 'react'
 import axios from 'axios';
 import Stepper from 'react-stepper-horizontal'
 import parseJwt from '../helpers/decryptAuthToken'
-
+import {Redirect} from 'react-router-dom';
 export default class TrackMyCompany extends React.Component {
 
     constructor(props) {
         super(props)
         this.state = {
-            posts: []
+            posts: [],
+            home:0
         }
     }
 
     async componentDidMount() {
+        if (!localStorage.jwtToken) {
+            alert("You must login!");
+            this.setState({ home: 1 });
+            return;
+          }
+          try{
+              await axios.get('../api/investors/auth')
+          }catch(err){
+              console.log(err);
+            alert("You are not allowed");
+            this.setState({ home: 1 });
+            return;
+          }
+          this.setState({ home: 2 });
         try{
             const data = parseJwt(localStorage.jwtToken)
             const id = data.id
-            const res = await axios.get(`api/investors/trackMyCompany/${id}`);
+            const res = await axios.get(`../api/investors/trackMyCompany/${id}`);
             const { data: posts } = res
+            console.log(posts)
             this.setState({ posts: posts.tracking });
         }
         catch(error){

@@ -1,6 +1,7 @@
 import React from 'react'
 import axios from 'axios';
 import parseJwt from '../helpers/decryptAuthToken';
+import {Redirect} from 'react-router-dom';
 const Joi = require("joi");
 
 export default class updateInvestorProfile extends React.Component {
@@ -17,12 +18,26 @@ export default class updateInvestorProfile extends React.Component {
             telephoneNumberError:'',
             faxError:'',
             valid:'',
-            investorId:""
+            investorId:"",
+            home:0
         }
     }
 
     async componentDidMount(){
-      const data = parseJwt(localStorage.jwtToken)
+      if (!localStorage.jwtToken) {
+        alert("You must login!");
+        this.setState({ home: 1 });
+        return;
+      }
+      try{
+          await axios.get('api/investors/auth')
+      }catch(err){
+        alert("You are not allowed");
+        this.setState({ home: 1 });
+        return;
+      }
+      this.setState({ home: 2 });
+        const data = parseJwt(localStorage.jwtToken)
       await this.setState({investorId:data.id})
     };
 
@@ -175,6 +190,8 @@ export default class updateInvestorProfile extends React.Component {
         }
     };
     render() {
+      if (this.state.home===0) return <div> </div>;
+      if (this.state.home===1) return <Redirect to={{ pathname: "/" }} />;
         return (
           <div>
 
