@@ -17,7 +17,10 @@ export default class AdminViewAllCases extends Component {
     }
     try{
         await axios.get('api/admins/auth')
-    }catch(err){this.setState({ home: true });}
+    }catch(err){
+        alert("You are not allowed to access this page");
+        this.setState({ home: true });
+    }
     // check that it is a reviewer if not redirect to somewhere else
   }
   render() {
