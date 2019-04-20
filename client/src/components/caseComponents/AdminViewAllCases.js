@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import CaseSwitch from "./CaseSwitch";
-import parseJwt from "../../helpers/decryptAuthToken";
 import axios from "axios";
 import {Redirect} from 'react-router-dom';
 
