@@ -13,10 +13,14 @@ import Avatar from "@material-ui/core/Avatar";
 import ImageIcon from "@material-ui/icons/Image";
 import WorkIcon from "@material-ui/icons/Work";
 import BeachAccessIcon from "@material-ui/icons/BeachAccess";
+import axios from "axios";
 
 const styles= {
   card: {
     width: 345,
+    borderRadius: 12,
+    fontFamily: "Helvetica Neue",
+    boxShadow: "0px 3px 20px rgba(0, 0, 0, 0.16)",
     margin: "1%"
   },
   media: {
@@ -30,20 +34,25 @@ const styles= {
 
 class CasePreview extends Component {
   state = {
-    companyNameArabic: "",
     investorName: "",
     caseStatus: "",
-    caseCreationDate: "",
-    companyType: "",
     commentsNumber: 0
   };
+
+  componentDidMount (){
+    axios
+      .get(`api/investors/${this.props.case.creatorInvestorId}`)
+      .then(res => {
+        this.setState({investorName:res.data.fullName});
+      })
+      .catch(err => {
+        this.setState({investorName:"NA"});
+      })
+  }
 
   render() {
     const classes = { ...styles };
     console.log(this.props.investorName)
-    // console.log("###############################");
-    // console.log(JSON.stringify(this.props.case))
-    // console.log(Object.keys(this.props.case));
     return (
       <Card style={classes.card}>
         <CardActionArea>
@@ -54,21 +63,21 @@ class CasePreview extends Component {
             <Typography component="p">
             <List style={classes.root}>
                 <ListItem>
-                  <Avatar>
+                  {/* <Avatar>
                     <ImageIcon />
-                  </Avatar>
-                  <ListItemText primary="Investor Name" secondary={this.props.investorName} />
+                  </Avatar> */}
+                  <ListItemText primary="Investor Name" secondary={this.state.investorName} />
                 </ListItem>
                 <ListItem>
-                  <Avatar>
+                  {/* <Avatar>
                     <WorkIcon />
-                  </Avatar>
+                  </Avatar> */}
                   <ListItemText primary="Company Type" secondary={this.props.case.companyType} />
                 </ListItem>
                 <ListItem>
-                  <Avatar>
+                  {/* <Avatar>
                     <BeachAccessIcon />
-                  </Avatar>
+                  </Avatar> */}
                   <ListItemText primary="Creation Date" secondary={this.props.case.caseCreationDate} />
                 </ListItem>
               </List>
@@ -77,10 +86,7 @@ class CasePreview extends Component {
         </CardActionArea>
         <CardActions>
           <Button size="small" color="primary">
-            Share
-          </Button>
-          <Button size="small" color="primary">
-            Learn More
+            View Details
           </Button>
         </CardActions>
       </Card>

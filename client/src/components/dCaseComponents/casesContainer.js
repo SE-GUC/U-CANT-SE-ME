@@ -14,24 +14,23 @@ class CasesContainer extends Component {
     axios
       .get("api/dcases/")
       .then(res => {
-        const investors = [];
-        for (let i = 0; i < res.data.data.length; i++) {
-          const investorId = res.data.data[i].creatorInvestorId;
-          axios
-            .get(`api/investors/${investorId}`)
-            .then(resInvestor => {
-              // should be .data.data
-              investors.push(resInvestor.data.fullName);
-            })
-            .catch(investorError => {
-              investors.push("NA");
-            });
-        }
-        this.setState({ cases: res.data.data, investors: investors });
+        this.setState({cases:res.data.data});
+      //   const investors = [];
+      //   for (let i = 0; i < res.data.data.length; i++) {
+      //     const investorId = res.data.data[i].creatorInvestorId;
+      //     axios
+      //       .get(`api/investors/${investorId}`)
+      //       .then(resInvestor => {
+      //         // should be .data.data
+      //         investors.push(resInvestor.data.fullName);
+      //       })
+      //       .catch(investorError => {
+      //         investors.push("NA");
+      //       });
+      //   }
+      //   this.setState({ cases: res.data.data, investors: investors });
       })
       .catch(err => {
-        console.log("###########################");
-        console.log(err);
         this.setState({ msg: err.response.data.error });
       });
   }
@@ -44,7 +43,6 @@ class CasesContainer extends Component {
           <CasePreview
             key={Case._id}
             case={Case}
-            investorName={this.state.investors[counter++]}
           />
         ))}
       </ul>
