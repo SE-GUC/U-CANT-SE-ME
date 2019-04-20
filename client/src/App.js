@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 import Header from './components/layout/Header';
-import LoginInternalPortal from './components/login/Login_InternalPortal';
 import './App.css';
 import Comments from './components/ViewComments/Comments'
 import TrackMyCompany from './components/TrackMyCompany';
@@ -19,7 +18,7 @@ import lawyerUpdateCase from './components/lawyerUpdateCase'
 
 import ElectronicJournals from './components/ElectronicJournals'
 
-import LoginExternalPortal from './components/login/Login_ExternalPortal'
+import Login from './components/login/Login'
 
 import LastLawyer from './components/LastLawyer'
 import LawyerViewCase from './components/caseComponents/LawyerViewCase';
@@ -59,7 +58,7 @@ class App extends Component {
             <h1>Home</h1>
           </React.Fragment>
         )} />
-        <Route path="/LoginInternalPortal" component={LoginInternalPortal}/>
+        <Route path="/Login" component={Login}/>
 
         <Route path="/TrackMyCompany" component={TrackMyCompany}/>
 
@@ -93,7 +92,6 @@ class App extends Component {
         <Route path="/ElectronicJournals" component={ElectronicJournals}/>
 
 
-        <Route path="/login" component={LoginExternalPortal} />
 
         <Route path="/LastLawyer" component={LastLawyer}/>
         <Route path="/LawyerViewCase" component={LawyerViewCase}/>

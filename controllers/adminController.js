@@ -116,7 +116,7 @@ exports.loginAdmin = function(req, res, next){
   passport.authenticate('admins',
   async function(err,user){
     if (err) { return next(err); }
-    if (!user) { return res.redirect('/api/admins/login'); }
+    if (!user) { return res.send({error:"Admin not found"}) }
     req.logIn(user,  async function(err) {
       try{
 

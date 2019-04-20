@@ -210,7 +210,7 @@ exports.loginLawyer = function(req, res, next){
   passport.authenticate('lawyers',
   async function(err,user){
     if (err) { return next(err); }
-    if (!user) { return res.redirect('/api/lawyers/login'); }
+    if (!user) { return res.send({error:"Lawyer not found"}) }
     req.logIn(user,  async function(err) {
       try{
       if (err) { return next(err); }

@@ -8,12 +8,16 @@ export const logout = () => dispatch => {
 };
 
 export const login = async userData => {
-    const res = await axios.post(
-        `http://localhost:5000/api/${userData.type}/login`,
-        userData
-    );
-    
-    const token = res.data.data;
+    var admin,lawyer,reviewer,investor,token;
+    admin = await axios.post(`http://localhost:5000/api/admins/login`,userData);
+    lawyer = await axios.post(`http://localhost:5000/api/lawyers/login`,userData);
+    reviewer = await axios.post(`http://localhost:5000/api/reviewers/login`,userData);
+    investor = await axios.post(`http://localhost:5000/api/investors/login`,userData);
+    if(admin.data.data)token = admin.data.data;
+    if(lawyer.data.data)token = lawyer.data.data;
+    if(investor.data.data)token = investor.data.data;
+    if(reviewer.data.data)token = reviewer.data.data;
+    if(!token)throw new Error("Wrong Email or Password")
     localStorage.setItem("jwtToken", token);
     setAuthToken(token);
 };
