@@ -44,7 +44,7 @@ import ReviewerProfile from './components/ReviewerProfile'
 import AdminProfile from './components/AdminProfile'
 import updateInvestorProfile from './components/updateInvestorProfile';
 import CreateFormTemplate from './components/CreateFormTemplate/CreateFormTemplate';
-import casesContainer from './components/dCaseComponents/casesContainer';
+import CasesContainer from './components/dCaseComponents/CasesContainer';
 class App extends Component {
   render() {
     return (
@@ -114,7 +114,7 @@ class App extends Component {
         <Route path="/internalPortal/admin/profile/:id" component={AdminProfile}/>
         <Route path="/updateInvestorProfile" component={updateInvestorProfile}/>
         <Route path="/createFormTemplate" component={CreateFormTemplate}/>
-        <Route path="/casesContainer" component={casesContainer}/>
+        <Route path="/CasesContainer" component={CasesContainer}/>
         </div>
       </Router>
     );
