@@ -9,6 +9,7 @@ class LawyerFillForm extends Component {
   constructor() {
     super();
     this.state = {
+        home:0,
         lawyerId:'',
         message : '',
         messageType:'',
@@ -53,6 +54,19 @@ class LawyerFillForm extends Component {
     this.updateManagerPosition = this.updateManagerPosition.bind(this);
 }
 async componentDidMount(){
+    if (!localStorage.jwtToken) {
+        alert("You must login!");
+        this.setState({ home: 1 });
+        return;
+      }
+      try{
+          await axios.get('api/lawyers/auth')
+      }catch(err){
+          alert("You are not allowed to access this page");
+          this.setState({ home: 1 });
+          return;
+      }
+    this.setState({home:2})
     const data = parseJwt(localStorage.jwtToken)
         await this.setState({lawyerId:data.id})
 }
@@ -333,7 +347,9 @@ async componentDidMount(){
     }
 
   render() {
-    return (
+    if (this.state.home===0) return <div></div>;
+    if (this.state.home===1) return <Redirect to={{ pathname: "/" }} />;
+    else return (
       <div className="lawyerFillForm">
             <label>Company Type: </label>
             <select onChange={this.changeType}>

@@ -2,16 +2,30 @@ import React, { Component } from 'react'
 import Case from './Case';
 import axios from 'axios';
 import parseJwt from '../../helpers/decryptAuthToken';
+import {Redirect} from 'react-router-dom'
 
 export default class LawyerViewTasks extends Component {
     state ={
         cases :[],
         caseid:"",
-        lawyerId:""
+        lawyerId:"",
+        home:0
     };
 
     async componentDidMount(){
 
+        if (!localStorage.jwtToken) {
+            alert("You must login!");
+            this.setState({ home: 1 });
+            return;
+        }
+        try{
+              await axios.get('api/lawyers/auth')
+        }catch(err){
+            alert("You are not allowed to access this page");
+            this.setState({ home: 1 });
+            return;
+        }
         const data = parseJwt(localStorage.jwtToken)
         await this.setState({lawyerId:data.id})
         const id =this.state.lawyerId;
@@ -55,6 +69,9 @@ export default class LawyerViewTasks extends Component {
     }
 
     render() {
+        if (this.state.home===0) return <div/>;
+        if (this.state.home===1) return <Redirect to={{ pathname: "/" }} />;
+        else
         return (
             <header className="LawyerViewTasks">
             <div>
