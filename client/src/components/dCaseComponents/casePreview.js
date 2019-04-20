@@ -12,8 +12,12 @@ import ListItemText from "@material-ui/core/ListItemText";
 import Avatar from "@material-ui/core/Avatar";
 import ImageIcon from "@material-ui/icons/Image";
 import WorkIcon from "@material-ui/icons/Work";
-import commentIcon from "@material-ui/icons/CommentOutlined";
-import BeachAccessIcon from "@material-ui/icons/BeachAccess";
+import CommentIcon from "@material-ui/icons/CommentOutlined";
+import StatusIcon from "@material-ui/icons/StarHalf";
+import InvestorIcon from "@material-ui/icons/Person";
+import CreationDateIcon from "@material-ui/icons/DateRange";
+
+
 import axios from "axios";
 
 const styles= {
@@ -34,12 +38,30 @@ const styles= {
     margin: -10,
     width: 35,
     height: 35,
+    backgroundColor : "#3480E3"
   },
   cardActions:{
     height: 50
+  },
+  avatarCardAction: {
+    margin: -5,
+    width: 25,
+    height: 25,
+    backgroundColor : "#3480E3"
+  },
+  iconCardAction: {
+    width: 15,
+    height: 15,
+  },
+  actionCardFont:{
+    fontSize : 12,
+    //color:"#3480E3"
+  },
+  actionCardFont2:{
+
+    color:"#E53167"
   }
 }
-
 
 class CasePreview extends Component {
   state = {
@@ -72,21 +94,21 @@ class CasePreview extends Component {
             <Typography component="p">
             <List style={classes.root}>
                 <ListItem>
-                  {/* <Avatar>
-                    <ImageIcon />
-                  </Avatar> */}
+                  <Avatar style={classes.avatar}>
+                    <InvestorIcon />
+                  </Avatar>
                   <ListItemText primary="Investor Name" secondary={this.state.investorName} />
                 </ListItem>
                 <ListItem>
-                  {/* <Avatar>
+                  <Avatar style={classes.avatar}>
                     <WorkIcon />
-                  </Avatar> */}
+                  </Avatar>
                   <ListItemText primary="Company Type" secondary={this.props.case.companyType} />
                 </ListItem>
                 <ListItem>
-                  {/* <Avatar>
-                    <BeachAccessIcon />
-                  </Avatar> */}
+                  <Avatar style={classes.avatar}>
+                    <CreationDateIcon />
+                  </Avatar>
                   <ListItemText primary="Creation Date" secondary={this.props.case.caseCreationDate} />
                 </ListItem>
               </List>
@@ -95,20 +117,19 @@ class CasePreview extends Component {
         </CardActionArea>
         <CardActions style={classes.cardActions}>
           <ListItem>
-              <Avatar style={classes.avatar}>
-                <WorkIcon />
+              <Avatar style={classes.avatarCardAction}>
+                <StatusIcon style={classes.iconCardAction}/>
               </Avatar>
-              <ListItemText primary="Status" secondary={this.props.case.caseStatus} />
+              <ListItemText disableTypography primary={<Typography variant="body1">Status</Typography>} secondary={<Typography variant="caption">{this.props.case.caseStatus}</Typography>}/>
+              {/* <ListItemText primary="Status" secondary={this.props.case.caseStatus} /> */}
           </ListItem>
           <ListItem>
-              <Avatar style={classes.avatar}>
-                <commentIcon />
+              <Avatar style={classes.avatarCardAction}>
+                <CommentIcon style={classes.iconCardAction} />
               </Avatar>
-              <ListItemText primary="Comments" secondary={this.props.case.comments.length} />
+              <ListItemText disableTypography primary={<Typography variant="body1">Comments</Typography>} secondary={<Typography variant="caption">{this.props.case.comments.length}</Typography>}/>
+              {/* <ListItemText primary="Comments" secondary={this.props.case.comments.length} /> */}
           </ListItem>
-          <Button size="small" color="primary">
-            View Details
-          </Button>
         </CardActions>
         <Button size="small" color="primary">
             View Details

@@ -45,78 +45,80 @@ import AdminProfile from './components/AdminProfile'
 import updateInvestorProfile from './components/updateInvestorProfile';
 import CreateFormTemplate from './components/CreateFormTemplate/CreateFormTemplate';
 import CasesContainer from './components/dCaseComponents/CasesContainer';
+
 class App extends Component {
+  
   render() {
     return (
-      <Router>
-        <div className="App">
-        <Header />
-        <Route exact path="/" render={props => (
-          <React.Fragment>
-            <h1>Home</h1>
-          </React.Fragment>
-        )} />
-        <Route path="/LoginInternalPortal" component={LoginInternalPortal}/>
+        <Router>
+          <div className="App">
+          <Header />
+          <Route exact path="/" render={props => (
+            <React.Fragment>
+              <h1>Home</h1>
+            </React.Fragment>
+          )} />
+          <Route path="/LoginInternalPortal" component={LoginInternalPortal}/>
 
-        <Route path="/TrackMyCompany" component={TrackMyCompany}/>
+          <Route path="/TrackMyCompany" component={TrackMyCompany}/>
 
-        <Route path="/viewComments" component={Comments}/>
+          <Route path="/viewComments" component={Comments}/>
 
-        <Route path="/MyCompanies" component={MyCompanies}/>
+          <Route path="/MyCompanies" component={MyCompanies}/>
 
-        <Route path="/GetAllCases" component={Cases}/>
-        <Route path="/CasesSummary" component={CasesSummary}/>
-
-
-
-        <Route path="/InvestorRegister" component={InvestorRegister}/>
-          
-        <Route path="/ViewMyFees" component={ViewMyFees}/>
-
-          
-        <Route path="/RegisterLawyer" component={RegisterLawyer}/>
-
-        <Route path="/RegisterReviewer" component={RegisterReviewer}/>
-
-        <Route path="/LawyerFillForm" component={LawyerFillForm}/>
-
-        <Route path="/InvestorFillForm" component={InvestorFillForm}/>
-        <Route path="/lawyerUpdateCase" component={lawyerUpdateCase}/>
-
-        <Route path="/addComment" component={addComment}/>
+          <Route path="/GetAllCases" component={Cases}/>
+          <Route path="/CasesSummary" component={CasesSummary}/>
 
 
 
-        <Route path="/ElectronicJournals" component={ElectronicJournals}/>
+          <Route path="/InvestorRegister" component={InvestorRegister}/>
+            
+          <Route path="/ViewMyFees" component={ViewMyFees}/>
+
+            
+          <Route path="/RegisterLawyer" component={RegisterLawyer}/>
+
+          <Route path="/RegisterReviewer" component={RegisterReviewer}/>
+
+          <Route path="/LawyerFillForm" component={LawyerFillForm}/>
+
+          <Route path="/InvestorFillForm" component={InvestorFillForm}/>
+          <Route path="/lawyerUpdateCase" component={lawyerUpdateCase}/>
+
+          <Route path="/addComment" component={addComment}/>
 
 
-        <Route path="/login" component={LoginExternalPortal} />
 
-        <Route path="/LastLawyer" component={LastLawyer}/>
-        <Route path="/LawyerViewCase" component={LawyerViewCase}/>
-        <Route path="/ReviewerViewCase" component={ReviewerViewCase}/>
-        <Route path="/InvestorUpdateCase" component={InvestorUpdateCase}/>
-        <Route path="/CaseSwitch" component={CaseSwitch}/>
+          <Route path="/ElectronicJournals" component={ElectronicJournals}/>
 
-        <Route path="/LawyerViewAllCases" component={LawyerViewAllCases}/>
-        <Route path="/ReviewerViewAllCases" component={ReviewerViewAllCases}/>
-        <Route path="/AdminViewAllCases" component={AdminViewAllCases}/>
-        <Route path="/LawyerGetCasesSorted" component={LawyerGetCasesSorted}/>
 
-        <Route path="/ReviewerGetCasesSorted" component={ReviewerGetCasesSorted}/>
-        <Route path="/ReviewerViewTasks" component={ReviewerViewTasks}/>
-        <Route path="/LawyerViewTasks" component={LawyerViewTasks}/>
-        <Route path="/forgot" component={Forgot}/>
-        <Route path="/:type/reset/:token" component={Reset}/>
-        <Route path="/profile/:id" component={InvestorProfile}/>
-        <Route path="/internalPortal/lawyer/profile/:id" component={LawyerProfile}/>
-        <Route path="/internalPortal/reviewer/profile/:id" component={ReviewerProfile}/>
-        <Route path="/internalPortal/admin/profile/:id" component={AdminProfile}/>
-        <Route path="/updateInvestorProfile" component={updateInvestorProfile}/>
-        <Route path="/createFormTemplate" component={CreateFormTemplate}/>
-        <Route path="/CasesContainer" component={CasesContainer}/>
-        </div>
-      </Router>
+          <Route path="/login" component={LoginExternalPortal} />
+
+          <Route path="/LastLawyer" component={LastLawyer}/>
+          <Route path="/LawyerViewCase" component={LawyerViewCase}/>
+          <Route path="/ReviewerViewCase" component={ReviewerViewCase}/>
+          <Route path="/InvestorUpdateCase" component={InvestorUpdateCase}/>
+          <Route path="/CaseSwitch" component={CaseSwitch}/>
+
+          <Route path="/LawyerViewAllCases" component={LawyerViewAllCases}/>
+          <Route path="/ReviewerViewAllCases" component={ReviewerViewAllCases}/>
+          <Route path="/AdminViewAllCases" component={AdminViewAllCases}/>
+          <Route path="/LawyerGetCasesSorted" component={LawyerGetCasesSorted}/>
+
+          <Route path="/ReviewerGetCasesSorted" component={ReviewerGetCasesSorted}/>
+          <Route path="/ReviewerViewTasks" component={ReviewerViewTasks}/>
+          <Route path="/LawyerViewTasks" component={LawyerViewTasks}/>
+          <Route path="/forgot" component={Forgot}/>
+          <Route path="/:type/reset/:token" component={Reset}/>
+          <Route path="/profile/:id" component={InvestorProfile}/>
+          <Route path="/internalPortal/lawyer/profile/:id" component={LawyerProfile}/>
+          <Route path="/internalPortal/reviewer/profile/:id" component={ReviewerProfile}/>
+          <Route path="/internalPortal/admin/profile/:id" component={AdminProfile}/>
+          <Route path="/updateInvestorProfile" component={updateInvestorProfile}/>
+          <Route path="/createFormTemplate" component={CreateFormTemplate}/>
+          <Route path="/CasesContainer" component={CasesContainer}/>
+          </div>
+        </Router>
     );
   }
 }
