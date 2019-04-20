@@ -9,7 +9,7 @@ import InputAdornment from '@material-ui/core/InputAdornment'
 import FormControl from '@material-ui/core/FormControl'
 import { Redirect } from 'react-router-dom'
 import {login} from '../../globalState/actions/authActions'
-class ExternalLogin extends Component {
+class Login extends Component {
     state = {
         email: '',
         password: '',
@@ -21,11 +21,11 @@ class ExternalLogin extends Component {
     handleSubmit = async () => {
         const req = {
             email: this.state.email,
+            username: this.state.email,
             password: this.state.password,
-            type:"investors"
         }
         try{
-            login(req)
+            await login(req)
             document.getElementById('Error').style.display = 'none'
         }
         catch(error){
@@ -115,4 +115,4 @@ render(){
     )}
 }
 
-export default ExternalLogin;
+export default Login;

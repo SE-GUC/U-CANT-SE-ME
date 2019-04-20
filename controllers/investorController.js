@@ -337,7 +337,7 @@ exports.login = async function(req, res, next){
   passport.authenticate('investors',
   async function(err,investor){
     if (err) { return next(err) }
-    if (!investor) { return res.redirect('/login') }
+    if (!investor) { return res.send({error:"Investor not found"}) }
     req.login(investor,  async function(err) {
       try{
       if (err) { return next(err) }

@@ -228,7 +228,7 @@ exports.loginReviewer = function(req, res, next){
   passport.authenticate('reviewers',
   async function(err,user){
     if (err) { return next(err); }
-    if (!user) { return res.redirect('/login'); }
+    if (!user){ return res.send({error:"Reviewer not found"}) }
     req.logIn(user,  async function(err) {
       try{
 
