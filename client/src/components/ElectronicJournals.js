@@ -26,7 +26,7 @@ class ElectronicJournals extends Component {
 
       const res = await axios.get(`http://localhost:5000/api/investors/${investorID}`)
 
-      investorsArray.push(res.data)
+      investorsArray.push(res.data.data)
     }
 
     this.setState({ investors: investorsArray });
