@@ -1,10 +1,10 @@
-import { LOGOUT } from "./actionTypes";
 import axios from "axios";
 
 import setAuthToken from "../../helpers/setAuthToken";
 
-export const logout = () => dispatch => {
-    dispatch({ type: LOGOUT });
+export const logout = () => {
+    var token;
+    setAuthToken(token)
 };
 
 export const login = async userData => {
