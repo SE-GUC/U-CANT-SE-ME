@@ -41,7 +41,6 @@ export default class InvestorUpdateCase extends React.Component {
         return;
       }
       this.setState({ home: 2 });
-      await this.setState({id:data.id})
       const data = parseJwt(localStorage.jwtToken)
       await this.setState({InvestorId:data.id})
     }

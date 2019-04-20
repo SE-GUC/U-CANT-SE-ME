@@ -31,7 +31,7 @@ export default class ReviewerViewCase extends Component {
         const id =this.state.reviwerID;
         // check that it is a reviewer if not redirect to somewhere else
         const getCases = await axios.get(`api/reviewers/getAllUnsignedCases/${id}`);
-        this.setState({cases: getCases.data});
+        this.setState({cases: getCases.data.data});
     };
     
     async handelClick (index) {

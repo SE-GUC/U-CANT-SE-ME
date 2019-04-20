@@ -19,11 +19,11 @@ class LawyerGetCasesSorted extends Component {
         const id = this.state.lawyerId;
         if(criteria === 'ID'){
             const getCases = await axios.get(`api/lawyers/getMyCasesByid/${id}`);
-            this.setState({cases: getCases.data});
+            this.setState({cases: getCases.data.data});
         }else{
             if(criteria === 'Date'){
                 const getCases = await axios.get(`api/lawyers/getMyCasesByDate/${id}`);
-                this.setState({cases: getCases.data});
+                this.setState({cases: getCases.data.data});
             }
         }
     };

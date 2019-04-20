@@ -9,6 +9,9 @@ import InvestorFillForm from'./InvestorFillForm/InvestorFillForm'
 import LastLawyer from './LastLawyer'
 import InvestorUpdateCase from './InvestorUpdateCase'
 import UpdateInvestorProfile from './updateInvestorProfile'
+import axios from 'axios';
+import { Redirect } from 'react-router-dom'
+import parseJwt from '../helpers/decryptAuthToken';
 export default class InvestorProfile extends Component {
     constructor(props) {
         super(props)
@@ -21,10 +24,13 @@ export default class InvestorProfile extends Component {
             fillForm: false,
             updateCase: false,
             lastLawyer: false,
-            updateProfile: false
+            updateProfile: false,
+            home:0
         }
       }
   render() {
+    if (this.state.home===0) return <div> </div>;
+    if (this.state.home===1) return <Redirect to={{ pathname: "/" }} />;
     return (
       <div>
         <header>
@@ -85,4 +91,21 @@ export default class InvestorProfile extends Component {
       </div>
     )
   }
+  async componentDidMount(){
+    if (!localStorage.jwtToken) {
+      alert("You must login!");
+      this.setState({ home: 1 });
+      return;
+    }
+    try{
+        await axios.get('../api/investors/auth')
+    }catch(err){
+      alert("You are not allowed");
+      this.setState({ home: 1 });
+      return;
+    }
+    this.setState({ home: 2 });
+      const data = parseJwt(localStorage.jwtToken)
+    await this.setState({id:data.id})
+  };
 }

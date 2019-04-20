@@ -7,9 +7,12 @@ const adminController = require("../../controllers/adminController");
 const caseController = require("../../controllers/caseController");
 const formTemplateController = require("../../controllers/formTemplateController");
 const adminAuth = passport.authenticate('adminAuth',{session: false});
+const allAuth = passport.authenticate(['adminAuth','lawyerAuth','reviewerAuth'],{session: false});
+
 
 //authorization
 router.get('/auth',adminAuth,(req,res)=>{res.json({msg:"Hello Admin!"})});
+router.get('/allAuth',allAuth,(req,res)=>{res.json({msg:"Hello All!"})});
 
 //Read
 router.get('/',adminAuth,adminController.getAllAdmins);

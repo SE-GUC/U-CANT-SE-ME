@@ -31,7 +31,7 @@ export default class RegisterLawyer extends React.Component {
       return;
     }
     try{
-        await axios.get('../api/investors/auth')
+        await axios.get('../api/admins/auth')
     }catch(err){
       alert("You are not allowed");
       this.setState({ home: 1 });

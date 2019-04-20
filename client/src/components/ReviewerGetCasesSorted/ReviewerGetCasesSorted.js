@@ -20,11 +20,11 @@ class ReviewerGetCasesSorted extends Component {
         const id = this.state.reviewerId;
         if(criteria === 'ID'){
             const getCases = await axios.get(`api/reviewers/getMyCasesByid/${id}`);
-            this.setState({cases: getCases.data});
+            this.setState({cases: getCases.data.data});
         }else{
             if(criteria === 'Date'){
                 const getCases = await axios.get(`api/reviewers/getMyCasesByDate/${id}`);
-                this.setState({cases: getCases.data});
+                this.setState({cases: getCases.data.data});
             }
         }
     };

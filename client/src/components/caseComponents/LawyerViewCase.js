@@ -29,7 +29,7 @@ export default class LawyerViewCase extends Component {
         await this.setState({lawyerID:data.id})
         const id =this.state.lawyerID;
         const getCases = await axios.get(`api/lawyers/getAllUnsignedCases/${id}`);
-        await this.setState({cases: getCases.data});
+        await this.setState({cases: getCases.data.data});
     };
     
     async handelClick (index) {
@@ -50,4 +50,3 @@ export default class LawyerViewCase extends Component {
         )
       }
 };
-
