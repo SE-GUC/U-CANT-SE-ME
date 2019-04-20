@@ -1,9 +1,8 @@
 // Dependencies
-// Dependencies
 const express = require("express");
 const router = express.Router();
 const passport = require('passport')
-// module Lawyer Controller
+
 const adminController = require("../../controllers/adminController");
 const caseController = require("../../controllers/caseController");
 const formTemplateController = require("../../controllers/formTemplateController");
