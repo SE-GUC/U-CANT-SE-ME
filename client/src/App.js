@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 import Header from './components/layout/Header';
 import LoginInternalPortal from './components/login/Login_InternalPortal';
@@ -47,32 +46,10 @@ import updateInvestorProfile from './components/updateInvestorProfile';
 import CreateFormTemplate from './components/CreateFormTemplate/CreateFormTemplate';
 import CasesContainer from './components/dCaseComponents/CasesContainer';
 
-const THEME = createMuiTheme({
-  typography: {
-    fontFamily: [
-     // '-apple-system',
-      // 'BlinkMacSystemFont',
-      // '"Segoe UI"',
-      // 'Roboto',
-        '"Helvetica Neue"'
-      // 'Arial',
-      // 'sans-serif',
-      // '"Apple Color Emoji"',
-      // '"Segoe UI Emoji"',
-      // '"Segoe UI Symbol"',
-    ].join(','),
-   //fontSize: 60,
-   fontWeightLight: 300,
-   fontWeightRegular: 400,
-   fontWeightMedium: 500
-  }
-});
-
 class App extends Component {
   
   render() {
     return (
-      // <MuiThemeProvider theme={THEME}>
         <Router>
           <div className="App">
           <Header />
@@ -142,7 +119,6 @@ class App extends Component {
           <Route path="/CasesContainer" component={CasesContainer}/>
           </div>
         </Router>
-        // </MuiThemeProvider>
     );
   }
 }

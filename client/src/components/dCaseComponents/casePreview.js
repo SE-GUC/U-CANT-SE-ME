@@ -15,6 +15,7 @@ import CommentIcon from "@material-ui/icons/CommentOutlined";
 import AcceptedIcon from "@material-ui/icons/Check";
 import RejectedIcon from "@material-ui/icons/Close";
 import PendingIcon from "@material-ui/icons/RotateRight";
+import EstablishedIcon from "@material-ui/icons/VerifiedUser";
 
 import InvestorIcon from "@material-ui/icons/Person";
 import CreationDateIcon from "@material-ui/icons/DateRange";
@@ -112,17 +113,15 @@ class CasePreview extends Component {
         <CardActions style={classes.cardActions}>
           <ListItem>
               <Avatar style={classes.avatarCardAction}>
-                {this.props.case.caseStatus==="Rejected"?<RejectedIcon style={classes.iconCardAction}/>:this.props.case.caseStatus==="Accepted"?<AcceptedIcon style={classes.iconCardAction}/>:<PendingIcon style={classes.iconCardAction}/>}
+                {this.props.case.caseStatus==="Rejected"?<RejectedIcon style={classes.iconCardAction}/>:this.props.case.caseStatus==="Accepted"?<AcceptedIcon style={classes.iconCardAction}/>:this.props.case.caseStatus==="Established"?<EstablishedIcon style={classes.iconCardAction}/>:<PendingIcon style={classes.iconCardAction}/>}
               </Avatar>
-              <ListItemText disableTypography primary={<Typography variant="body1" classes={classes.fonts}>Status</Typography>} secondary={<Typography style={{color:this.props.case.caseStatus==="Rejected"?"#E53167":this.props.case.caseStatus==="Accepted"?"#2DD07B":"#3480E3"}} variant="caption">{this.props.case.caseStatus}</Typography>}/>
-              {/* <ListItemText primary="Status" secondary={this.props.case.caseStatus} /> */}
+              <ListItemText disableTypography primary={<Typography variant="body1" classes={classes.fonts}>Status</Typography>} secondary={<Typography style={{color:this.props.case.caseStatus==="Rejected"?"#E53167":(this.props.case.caseStatus==="Accepted" || this.props.case.caseStatus==="Established")?"#2DD07B":"#3480E3"}} variant="caption">{this.props.case.caseStatus}</Typography>}/>
           </ListItem>
           <ListItem>
               <Avatar style={classes.avatarCardAction}>
                 <CommentIcon style={classes.iconCardAction} />
               </Avatar>
               <ListItemText disableTypography primary={<Typography variant="body1">Comments</Typography>} secondary={<Typography variant="caption">{this.props.case.comments.length}</Typography>}/>
-              {/* <ListItemText primary="Comments" secondary={this.props.case.comments.length} /> */}
           </ListItem>
         </CardActions>
         <Button size="small" color="primary">
