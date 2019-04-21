@@ -53,7 +53,7 @@ class App extends Component {
     return (
       <Router>
         <div className="App">
-        <NavBarBlue/>
+        {/* <NavBarBlue/> */}
         <Route exact path="/" render={props => (
           <React.Fragment>
             <h1>Home</h1>

@@ -4,6 +4,8 @@ import { Redirect } from 'react-router-dom'
 import Fab from '@material-ui/core/Fab'
 import {login} from '../../globalState/actions/authActions'
 import './login.scss'
+import NavBarBlue from '../NavBarBlue'
+import NavBarDashboard from '../NavBarDashboard'
 class Login extends Component {
     state = {
         email: '',
@@ -62,6 +64,12 @@ render(){
         }
     }
     return(
+     <div>
+         {/* <NavBarDashboard sumergiteColor= '#3480E3' boxShadow='0px 3px 20px rgba(0, 0, 0, 0.16)' dashboard='bold' profile='lighter' homepage='lighter' DASHBOARD={true} PROFILE={true} ProfileMargin='120px' HomePageMargin='0px'/>  */}
+         {/* <NavBarDashboard sumergiteColor= '#3480E3' boxShadow='0px 3px 20px rgba(0, 0, 0, 0.16)' dashboard='bold' profile='lighter' homepage='lighter' DASHBOARD={false} PROFILE={false} HomePageMargin='120px'/>  */}
+         {/* <NavBarDashboard sumergiteColor= '#3480E3' boxShadow='0px 3px 20px rgba(0, 0, 0, 0.16)' dashboard='bold' profile='lighter' homepage='lighter' DASHBOARD={false} PROFILE={false} HomePageMargin='120px' LeftButton={true}/>  */}
+        {/* <NavBarBlue sumergiteColor= '#FFFFFF' backgroundColor='#3480E3' loginColor='#FFFFFF'/> */}
+        <NavBarBlue sumergiteColor= '#3480E3' backgroundColor='#FFFFFF' boxShadow='0px 3px 20px rgba(0, 0, 0, 0.16)'/>
     <div style={{paddingTop: '10vh'}}>
         <div class="wrapper">
     <div class="page-header" style={{backgroundImage: "url('../assets/img/login-image.jpg')"}}>
@@ -169,6 +177,7 @@ render(){
             <Button variant="primary" size="large" onClick={() => {this.setState({forgot: true})}}>
                 Forgot password?
             </Button> */}
+    </div>
     </div>
     )}
 }

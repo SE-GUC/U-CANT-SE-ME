@@ -3,32 +3,32 @@
     position : fixed;
     top : 0;
     min-width: 100%;
+    min-height: 60px;
     overflow: auto;
     margin: 0 auto;
-    box-shadow: 0px 3px 20px rgba(0, 0, 0, 0.16);
+  }
+  i {
+    border: double #3480E3;
+    border-width:0px 6px 6px 0;
+    display: inline-block;
+    padding: 5px;
+    margin-top: 5px;
+    margin-left: 50px;
+  }
+  
+  .left {
+    transform: rotate(135deg);
+    -webkit-transform: rotate(135deg);
   }
   .Logo /* for the logo button which holds the logo image */
   {
-    /* align-self: left; */
     width: 14vh;
-    /* height: auto; */
     min-height: 40px;
     top:0;
     padding-right:60px;
-    /* border: 2px solid black; */
     background-repeat: no-repeat;
     background-size: contain;
-    
-    
   }
-  /* #burguerIcon{
-    width: auto;
-    height: 100%;
-  }
-  #GreenAd { 
-    width: auto;
-    height: 100%;
-      } */
   button {
     background: none;
     cursor:unset;
@@ -41,23 +41,14 @@
     font-weight: bold;
     margin-top: 15px;
     margin-right: 25px;
-    /* margin-right: px; */
   }
   button:focus 
   {
     outline:0;
   }
-  .navbar { 
-    /* z-index: 10; */
-    /* box-shadow:0 0 0 0.2rem rgba(0, 0, 0, 0.16) */
+  .navbar {
     background-color:rgb(255, 255, 255);
     padding-top: 0px;
-    /* height: 8vh; */
-    /* height: 10vh; */
-    /* max-ght: 50px; */
-   
-    /* background: transparent; */
-  
   }
   .navbar-toggler-icon
   {
@@ -66,16 +57,10 @@
   
   button.navbar-toggler /* for the hamburger button */
   {
-    /* max-height: 35px; */
     outline:0;border-width:0;
-  
-    /* border: 2px solid black; */
-    /* position: absolute; */
-    /* padding-right:10vw; */
     width: 6vh;
     height: 6vh;
     background-size: cover;
-    background-image: url(http://www.bigmikebailbonds.com/cms/wp-content/themes/bail%20bonds%20v2.0/images/hamburger-menu-button.png)
   } 
   
   .button span {

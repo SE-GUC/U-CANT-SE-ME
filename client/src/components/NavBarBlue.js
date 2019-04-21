@@ -14,9 +14,23 @@ export default class NavBarBlue extends Component {
         const opacity = 1-Math.min(10 / this.state.currentScrollHeight  , 1)
         const styles = {
             content: {
-              backgroundColor: 'rgba(255, 0, 0,'+ opacity +')',
+              backgroundColor: this.props.backgroundColor, //either #3480E3 or #FFFFFF
               },
-              buttonColor: 'red'
+              buttonColor: 'red',
+              SumergiteLabel: {
+                color: this.props.sumergiteColor, //either #3480E3 or #FFFFFF
+                fontSize: '28px', 
+                marginLeft: '200px', 
+                fontFamily: '-apple-system, BlinkMacSystemFont, sans-serif', 
+                fontWeight: 'bold', 
+                marginTop: '11px'
+              },
+              Header: {
+                boxShadow: this.props.boxShadow //either none or '0px 3px 20px rgba(0, 0, 0, 0.16)'
+              },
+              Login: {
+                color: this.props.loginColor //either don't pass or #FFFFFF
+              }
             }
             if(this.state.login){
                 this.setState({login: false})
@@ -31,9 +45,9 @@ export default class NavBarBlue extends Component {
         return (
             //navbar navbar-default navbar-alt
             //navbar navbar-expand-lg navbar-dark bg-dark
-            <div className="Header" id="Header" style={styles.content} ref="Header">
-              <nav className="navbar navbar-expand-lg navbar-light bg-" id="navbarmob">
-                <label style={{color: '#3480E3', fontSize: '28px', marginLeft: '200px', fontFamily: '-apple-system, BlinkMacSystemFont, sans-serif', fontWeight: 'bold', marginTop: '11px'}}>
+            <div className="Header" id="Header" style={styles.Header} ref="Header">
+              <nav className="navbar navbar-expand-lg navbar-light bg-" id="navbarmob" style={styles.content}>
+                <label style={styles.SumergiteLabel}>
                     Sumergite
                 </label>
                 <div className="collapse navbar-collapse" id="navbarSupportedContent">
@@ -47,7 +61,7 @@ export default class NavBarBlue extends Component {
                         onClick={() => {this.setState({login: true})}}
                         // disableRipple = {true}
                         >
-                      <span id="buttonHome">Login</span> 
+                      <span id="buttonHome" style={styles.Login}>Login</span> 
                       </button>
                     </li>
                     <li className="nav-item mr-auto">
