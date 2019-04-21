@@ -1,43 +1,52 @@
-import React, { Component } from 'react'
+import React, { Component } from "react";
 // Be sure to include styles at some point, probably during your bootstraping
-import '@trendmicro/react-sidenav/dist/react-sidenav.css';
-import SideNav, { Toggle, Nav, NavItem, NavIcon, NavText } from '@trendmicro/react-sidenav';
+import "@trendmicro/react-sidenav/dist/react-sidenav.css";
+import SideNav, {Toggle,Nav,NavItem,NavIcon,NavText} from "@trendmicro/react-sidenav";
 
-export default class DashBoard extends Component{
-
-    render(){
-        return(
-        <SideNav onSelect={(selected) => {/* Add your code here*/}}>
-    <SideNav.Toggle />
-    <SideNav.Nav defaultSelected="home">
-        <NavItem eventKey="home">
-            <NavIcon>
-                <i className="fa fa-home" style={{ fontSize: '1.75em' }} />
-            </NavIcon>
-            <NavText>
-                Home
-            </NavText>
-        </NavItem>
-        <NavItem eventKey="charts">
-            <NavIcon>
-                <i className="fa fa-list-alt" style={{ fontSize: '1.75em' }} />
-            </NavIcon>
-            <NavText>
-                Charts
-            </NavText>
-            <NavItem eventKey="charts/linechart">
-                <NavText>
-                    Line Chart
-                </NavText>
-            </NavItem>
-            <NavItem eventKey="charts/barchart">
-                <NavText>
-                    Bar Chart
-                </NavText>
-            </NavItem>
-        </NavItem>
-    </SideNav.Nav>
-</SideNav>
-        )
+export default class DashBoard extends Component {
+  handleSelect = selected => {
+    console.log(selected);
+    if (selected === "case/all") {
     }
+  };
+  render() {
+    const styles = {
+      iconStyle: {
+        fontSize: "1.75em"
+      },
+      navStyle: {
+        background: "#3d58db",
+        zindex:"0"
+      }
+    };
+    return (
+      <div>
+        <SideNav onSelect={this.handleSelect} style={styles.navStyle}>
+          <SideNav.Toggle />
+          <SideNav.Nav defaultSelected="home">
+            <NavItem eventKey="home">
+              <NavIcon>
+                <i className="fa fa-home" style={styles.iconStyle} />
+              </NavIcon>
+              <NavText>Home</NavText>
+            </NavItem>
+            <NavItem eventKey="case">
+              <NavIcon>
+                <i className="fa fa-list-alt" style={styles.iconStyle} />
+              </NavIcon>
+              <NavText>Case</NavText>
+              <NavItem eventKey="case/all">
+                <NavText>All</NavText>
+              </NavItem>
+              <NavItem eventKey="case/awaitingpayment">
+                <NavText>Waiting For Payment</NavText>
+              </NavItem>
+            </NavItem>
+          </SideNav.Nav>
+        </SideNav>
+        <div >
+        </div>
+      </div>
+    );
+  }
 }
