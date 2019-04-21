@@ -35,7 +35,7 @@ const styles= {
 }
 
 
-class ProfileTest extends Component {
+class InvestorProfile extends Component {
   state = {
     fullName: '',
     dateOfBirth: '',
@@ -207,4 +207,4 @@ class ProfileTest extends Component {
   }
 }
 
-export default withStyles(styles)(ProfileTest);
+export default withStyles(styles)(InvestorProfile);
