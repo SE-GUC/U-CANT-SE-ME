@@ -25,19 +25,6 @@ class Login extends Component {
         try{
             const res = await login(req)
             this.setState({res: res})
-            // if(res.toString()==='investor'){
-            //     return <Redirect to = {{pathname: '/profile/:id'}}/>
-            // }
-            // if(res.toString()==='lawyer'){
-            //     return <Redirect to='/internalPortal/lawyer/profile/:id'/>
-            // }
-            // if(res.toString()==='reviewer'){
-            //     return <Redirect to='/internalPortal/reviewer/profile/:id'/>
-            // }
-            // if(res.toString()==='admin'){
-            //     return <Redirect to='/internalPortal/admin/profile/:id'/>
-            // }
-             // document.getElementById('Error').style.display = 'none'
         }
         catch(error){
             document.getElementById('Error').style.display = 'inline'
@@ -68,117 +55,56 @@ render(){
          {/* <NavBarDashboard sumergiteColor= '#3480E3' boxShadow='0px 3px 20px rgba(0, 0, 0, 0.16)' dashboard='bold' profile='lighter' homepage='lighter' DASHBOARD={true} PROFILE={true} ProfileMargin='120px' HomePageMargin='0px'/>  */}
          {/* <NavBarDashboard sumergiteColor= '#3480E3' boxShadow='0px 3px 20px rgba(0, 0, 0, 0.16)' dashboard='bold' profile='lighter' homepage='lighter' DASHBOARD={false} PROFILE={false} HomePageMargin='120px'/>  */}
          {/* <NavBarDashboard sumergiteColor= '#3480E3' boxShadow='0px 3px 20px rgba(0, 0, 0, 0.16)' dashboard='bold' profile='lighter' homepage='lighter' DASHBOARD={false} PROFILE={false} HomePageMargin='120px' LeftButton={true}/>  */}
-        {/* <NavBarBlue sumergiteColor= '#FFFFFF' backgroundColor='#3480E3' loginColor='#FFFFFF'/> */}
+         {/* <NavBarBlue sumergiteColor= '#FFFFFF' backgroundColor='#3480E3' loginColor='#FFFFFF'/> */}
         <NavBarBlue sumergiteColor= '#3480E3' backgroundColor='#FFFFFF' boxShadow='0px 3px 20px rgba(0, 0, 0, 0.16)'/>
-    <div style={{paddingTop: '10vh'}}>
-        <div class="wrapper">
-    <div class="page-header" style={{backgroundImage: "url('../assets/img/login-image.jpg')"}}>
-        <div class="filter"></div>
-            <div class="container">
-                <div class="row">
-                    <div class="col-lg-4 col-sm-6 mr-auto ml-auto">
-                        <div class="card card-register" style={{backgroundColor: '#FFFFFF', boxShadow: "0px 3px 20px rgba(0, 0, 0, 0.16)"}}>
-                            <h3 class="title" style={{fontFamily: '-apple-system, BlinkMacSystemFont, sans-serif', fontSize: '30px', fontWeight: 'bold', color: '#223242'}}>Welcome Back!</h3>
-                            <h5 style={{marginTop: '5px',fontFamily: '-apple-system, BlinkMacSystemFont, sans-serif', fontSize: '14px', fontWeight: 'lighter', color: '#222529', textAlign: 'center'}}>Login back to your dashboard</h5>
-                            <form class="login-form">
-                                {/* <label>Email</label> */}
-                                <input type="text" id="email" onChange={this.handleChange} class="form-control" placeholder="email or username" autocomplete="username"/>
-                                {/* <label>Password</label> */}
-                                <br/>
-                                <input type="password" id="password" onChange={this.handleChange} class="form-control" placeholder="password" autocomplete = "current-password"/>
-                                {/* <button class="btn btn-success btn-block" onClick={this.handleSubmit} style={{backgroundColor: '#E53167'}}>Login</button> */}
-                                <br/>
-                                <label id="Error" style={styles.error} class="text-danger"> Wrong Email or Password</label>
-                                <br/>
-                                <Fab variant="extended" size="large" color = "secondary" style = {{color: '#FFFFFF', height: '31px', width: '107px',fontSize: '13px', boxShadow: 'none', marginRight: '240px', marginTop: '6px', display: 'block', margin: '0 auto'}} aria-label="Delete" onClick={this.handleSubmit}>
-                                    Login
-                                </Fab>
-                              </form>
-                              <br/>
-                            <div class="forgot">
-                                <Button variant="primary" style={{fontFamily: '-apple-system, BlinkMacSystemFont, sans-serif', color: '#E53167', fontSize:'11px', fontWeight: 'bold'}} size="small" onClick={() => {this.setState({forgot: true})}}>
-                                    Forgot password?
-                                </Button>
+        <div style={{paddingTop: '10vh'}}>
+            <div class="wrapper">
+                <div class="page-header" style={{backgroundImage: "url('../assets/img/login-image.jpg')"}}>
+                    <div class="filter"></div>
+                        <div class="container">
+                            <div class="row">
+                                <div class="col-lg-4 col-sm-6 mr-auto ml-auto">
+                                    <div class="card card-register" style={{backgroundColor: '#FFFFFF', boxShadow: "0px 3px 20px rgba(0, 0, 0, 0.16)"}}>
+                                        <h3 class="title" style={{fontFamily: '-apple-system, BlinkMacSystemFont, sans-serif', fontSize: '30px', fontWeight: 'bold', color: '#223242'}}>Welcome Back!</h3>
+                                        <h5 style={{marginTop: '5px',fontFamily: '-apple-system, BlinkMacSystemFont, sans-serif', fontSize: '14px', fontWeight: 'lighter', color: '#222529', textAlign: 'center'}}>Login back to your dashboard</h5>
+                                        <form class="login-form">
+                                            <input type="text" id="email" onChange={this.handleChange} class="form-control" placeholder="email or username" autocomplete="username"/>
+                                            <br/>
+                                            <input type="password" id="password" onChange={this.handleChange} class="form-control" placeholder="password" autocomplete = "current-password"/>
+                                            <br/>
+                                            <label id="Error" style={styles.error} class="text-danger"> Wrong Email or Password</label>
+                                            <br/>
+                                            <Fab variant="extended" size="large" color = "secondary" style = {{color: '#FFFFFF', height: '31px', width: '107px',fontSize: '13px', boxShadow: 'none', marginRight: '240px', marginTop: '6px', display: 'block', margin: '0 auto'}} aria-label="Delete" onClick={this.handleSubmit}>
+                                                Login
+                                            </Fab>
+                                        </form>
+                                        <br/>
+                                        <div class="forgot">
+                                            <Button variant="primary" style={{fontFamily: '-apple-system, BlinkMacSystemFont, sans-serif', color: '#E53167', fontSize:'11px', fontWeight: 'bold'}} size="small" onClick={() => {this.setState({forgot: true})}}>
+                                                Forgot password?
+                                            </Button>
+                                        </div>
+                                        <br/>
+                                        <br/>
+                                        <div style={{textAlign:'left', color: 'black', fontFamily: '-apple-system, BlinkMacSystemFont, sans-serif', fontSize: '11px'}}>Don't have an account?<a class="btn btn-link btn-info" style={{textAlign:'left', color: 'black', fontFamily: '-apple-system, BlinkMacSystemFont, sans-serif', fontSize: '11px', marginTop: '-1px', outline: 'none', border: 'none'}} onClick={() => {this.setState({register: true})}}>Create one.</a></div>   
+                                    </div>
+                                </div>      
+                                {
+                                    this.state.forgot===true? <Redirect to={{pathname: "/forgot"}}/>:
+                                    this.state.register===true? <Redirect to={{pathname: "/InvestorRegister"}}/>:<label/> //to be set to unified registration page
+                                }
                             </div>
-                            <br/>
-                            <br/>
-                            <div style={{textAlign:'left', color: 'black', fontFamily: '-apple-system, BlinkMacSystemFont, sans-serif', fontSize: '11px'}}>Don't have an account?<a class="btn btn-link btn-info" style={{textAlign:'left', color: 'black', fontFamily: '-apple-system, BlinkMacSystemFont, sans-serif', fontSize: '11px', marginTop: '-1px', outline: 'none', border: 'none'}} onClick={() => {this.setState({register: true})}}>Create one.</a></div>   
                         </div>
                     </div>
                     {
-                        this.state.forgot===true? <Redirect to={{pathname: "/forgot"}}/>:
-                        this.state.register===true? <Redirect to={{pathname: "/InvestorRegister"}}/>:<label/> //to be set to unified registration page
+                        this.state.res.toString()==='investor'? <Redirect to={{pathname: "/profile"}}/>:
+                        this.state.res.toString()==='lawyer'? <Redirect to={{pathname: "/internalPortal/lawyer/profile"}}/>:
+                        this.state.res.toString()==='reviewer'? <Redirect to={{pathname: "/internalPortal/reviewer/profile"}}/>:
+                        this.state.res.toString()==='admin'? <Redirect to={{pathname: "/internalPortal/admin/profile"}}/>:<label/>
                     }
                 </div>
-                
             </div>
-    </div>
-    {
-        this.state.res.toString()==='investor'? <Redirect to={{pathname: "/profile/:id"}}/>:
-        this.state.res.toString()==='lawyer'? <Redirect to={{pathname: "/internalPortal/lawyer/profile/:id"}}/>:
-        this.state.res.toString()==='reviewer'? <Redirect to={{pathname: "/internalPortal/reviewer/profile/:id"}}/>:
-        this.state.res.toString()==='admin'? <Redirect to={{pathname: "/internalPortal/admin/profile/:id"}}/>:<label/>
-    }
-</div>
-      
-        {/* <br />
-        <br />
-        <h3 class="text-center text-info">Login</h3>
-        <br />
-
-        <FormControl>    
-            <InputLabel>Email</InputLabel>
-            <Input
-                id="email"
-                type='text'
-                value={this.state.email}
-                style={{ width: 200 }}
-                onChange={this.handleChange}
-                
-            />
-        </FormControl>
-        <br />
-        <br />
-        <FormControl>    
-            <InputLabel htmlFor="adornment-password">Password</InputLabel>
-            <Input
-                id="password"
-                type={this.state.showPassword ? 'text' : 'password'}
-                value={this.state.password}
-                onChange={this.handleChange}
-                style={{ width: 200 }}
-                endAdornment={
-                  <InputAdornment position="end">
-                    <IconButton
-                      aria-label="Toggle password visibility"
-                      onClick={this.handleClickShowPassword}
-                    >
-                      {this.state.showPassword ? <Visibility /> : <VisibilityOff />}
-                    </IconButton>
-                  </InputAdornment>
-                }
-            />
-        </FormControl>
-        <br />
-        <br />
-        <Button variant="outlined" color="primary" onClick={this.handleSubmit}>
-            Login
-        </Button>
-        {
-            this.state.id? 
-                <Redirect to={{pathname: "/Home"}}/>:
-                (this.state.forgot? <Redirect to={{pathname: "/forgot"}}/>:
-                (this.state.signUp? <Redirect to={{pathname: "/InvestorRegister"}}/>:<div/>))
-        }
-        <div className="dropdown-divider"></div>
-            <Button variant="primary" size="large" onClick={() => {this.setState({signUp: true})}}>
-                New around here? Sign up.
-            </Button>
-            <Button variant="primary" size="large" onClick={() => {this.setState({forgot: true})}}>
-                Forgot password?
-            </Button> */}
-    </div>
-    </div>
+        </div>
     )}
 }
 
