@@ -1,20 +1,39 @@
 import React from 'react'
 import axios from 'axios';
 import Stepper from 'react-stepper-horizontal'
-
+import parseJwt from '../helpers/decryptAuthToken'
+import {Redirect} from 'react-router-dom';
 export default class TrackMyCompany extends React.Component {
 
     constructor(props) {
         super(props)
         this.state = {
-            posts: []
+            posts: [],
+            home:0
         }
     }
 
     async componentDidMount() {
+        if (!localStorage.jwtToken) {
+            alert("You must login!");
+            this.setState({ home: 1 });
+            return;
+          }
+          try{
+              await axios.get('../api/investors/auth')
+          }catch(err){
+              console.log(err);
+            alert("You are not allowed");
+            this.setState({ home: 1 });
+            return;
+          }
+          this.setState({ home: 2 });
         try{
-            const res = await axios.get(`api/investors/trackMyCompany/${this.props.location.state.id}`);
+            const data = parseJwt(localStorage.jwtToken)
+            const id = data.id
+            const res = await axios.get(`../api/investors/trackMyCompany/${id}`);
             const { data: posts } = res
+            console.log(posts.tracking)
             this.setState({ posts: posts.tracking });
         }
         catch(error){
@@ -25,7 +44,8 @@ export default class TrackMyCompany extends React.Component {
 
 
     render() {
-
+        if (this.state.home===0) return <div> </div>;
+        if (this.state.home===1) return <Redirect to={{ pathname: "/" }} />;
         return (
             <ul>
                 <p>
@@ -69,6 +89,10 @@ export default class TrackMyCompany extends React.Component {
                                 key={str}>{str}
                                 <Stepper activeColor='#f44141' steps={[{ title: 'On Update' }, { title: 'Waiting For Lawyer' }, { title: 'Assigned To Lawyer' }, { title: 'Waiting For Reviewer' }, { title: 'Assigned To Reviewer' }, { title: 'Rejected' }]} activeStep={5} />
                             </li>
+                        if(k.endsWith('Established'))
+                            return <li
+                            key={str}>{str}
+                        </li>
 
 
                     })}

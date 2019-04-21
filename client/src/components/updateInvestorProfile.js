@@ -1,5 +1,11 @@
 import React from 'react'
 import axios from 'axios';
+import parseJwt from '../helpers/decryptAuthToken'
+import {Redirect} from 'react-router-dom'
+import Select from '@material-ui/core/Select'
+import MenuItem from '@material-ui/core/MenuItem'
+import Fab from '@material-ui/core/Fab'
+import NavBarDashboard from './NavBarDashboard'
 const Joi = require("joi");
 
 export default class updateInvestorProfile extends React.Component {
@@ -16,10 +22,31 @@ export default class updateInvestorProfile extends React.Component {
             telephoneNumberError:'',
             faxError:'',
             valid:'',
+            investorId:"",
+            home:0
         }
     }
+
+    async componentDidMount(){
+      if (!localStorage.jwtToken) {
+        alert("You must login!");
+        this.setState({ home: 1 });
+        return;
+      }
+      try{
+          await axios.get('../api/investors/auth')
+      }catch(err){
+        alert("You are not allowed");
+        this.setState({ home: 1 });
+        return;
+      }
+      this.setState({ home: 2 });
+        const data = parseJwt(localStorage.jwtToken)
+      await this.setState({investorId:data.id})
+    };
+
     submit= async()=> {
-        var valid=true;
+        let valid=true;
         const me =this
         me.setState({fullNameError:''});
         me.setState({emailError:''});
@@ -35,7 +62,7 @@ export default class updateInvestorProfile extends React.Component {
         const now = Date.now();
         const earliestBirthDate = new Date(now - 21 * 365 * 24 * 60 * 60 * 1000); //21 years earlier
         const latestBirthDate = new Date(now - 120 * 365 * 24 * 60 * 60 * 1000); //can not be older than 120 years
-        var form=document.getElementById("Investorupdate")
+        let form=document.getElementById("Investorupdate")
         const body={
 
         }
@@ -86,8 +113,6 @@ export default class updateInvestorProfile extends React.Component {
           }
           if(!(form.gender.value===""))
             body.gender=form.gender.value
-            if(!(form.type.value===""))
-            body.type=form.type.value
             if(!(form.identificationNumber.value==="")){
               body.identificationNumber=form.identificationNumber.value
 
@@ -141,7 +166,7 @@ export default class updateInvestorProfile extends React.Component {
           if(!(form.fax.value==="")){
             body.fax=form.fax.value
 
-            Joi.validate({fax:body.fullName}, {fax: Joi.string().trim().regex(/^[0-9]{7,14}$/)}, function (error) {
+            Joi.validate({fax:body.fax}, {fax: Joi.string().trim().regex(/^[0-9]{7,14}$/)}, function (error) {
               if(error)
               {
                   valid=false;
@@ -151,10 +176,10 @@ export default class updateInvestorProfile extends React.Component {
           }
         if(valid)
         {
-            const investorID='5ca7594f3f074a35383a61a3';
+            const investorId=this.state.investorId;
             try
             {
-                await axios.put(`api/investors/${investorID}`,body);
+                await axios.put(`api/investors/${investorId}`,body);
                 this.setState({valid:'Successfully Updated!'})
             }
             catch
@@ -166,51 +191,160 @@ export default class updateInvestorProfile extends React.Component {
           this.setState({valid:'Oops something went wrong!'})
         }
     };
+
+    handleChange = event => {
+      this.setState({ [event.target.name]: event.target.value });
+    }
+
     render() {
+      const styles = {
+        formControl: {
+            margin: 0,
+            width: 200,
+            // backgroundColor:'red',
+        },
+        myDiv:{
+          backgroundColor:'rgba(52,128,227,0.2)',
+          // backgroundColor:'rgba(229,49,103)',
+        },
+        myButton:{
+          color:'red',
+        },
+        paper:{
+          backgroundColor:'rgb(228, 111, 146)',
+          margin:'auto',
+          width: '50%',
+          fontFamily: "SF Pro Display",
+          paddingTop: '10px',
+          paddingBottom: '10px',
+          boxShadow: '0 0 0 0.2rem rgba(229,49,103,.50)',
+        }
+    }
+
+      if (this.state.home===0) return <div> </div>;
+      if (this.state.home===1) return <Redirect to={{ pathname: "/" }} />;
         return (
           <div>
-
-            <form id="Investorupdate">
-            <br/>
-            <h1>Update Profile</h1>
-            Full Name: <input type="text" name="fullName"/><br/>
-            {this.state.fullNameError}<br/>
-            Email: <input type="text" name="email"/><br/>
-            {this.state.emailError}<br/>
-            Password: <input type="text" name="password"/><br/>
-            {this.state.passwordError}<br/>
-            Type:   <select id="type">
-                        <option value="fullTimeInvestor">Full Time Investor</option>
-                    </select><br/>
-
-            Gender: <select id="gender">
-                        <option value="Male">Male</option>
-                        <option value="Female">Female</option>
-                    </select><br/>
-
-            Nationality: <input type="text" name="nationality"/><br/>
-            {this.state.nationalityError}<br/>
-            Method Of Identification:   <select id="methodOfIdentification">
-                                            <option value="Passport">Passport</option>
-                                            <option value="National ID">National ID</option>
-                                        </select><br/>
-
-            Identification Number: <input type="text" name="identificationNumber"/><br/>
-            {this.state.identificationNumberError}<br/>
-            Date Of Birth: <input type="date" name="dateOfBirth"/><br/>
-            {this.state.dateOfBirthError}<br/>
-            Ressidence Address: <input type="text" name="residenceAddress"/><br/>
-            {this.state.residenceAddressError}<br/>
-            Telephone Number: <input type="text" name="telephoneNumber"/><br/>
-            {this.state.telephoneNumberError}<br/>
-            Fax: <input type="text" name="fax"/><br/>
-            {this.state.faxError}<br/>
-            </form>
-            <button onClick={this.submit}>Update</button><br/>
-            {this.state.valid}
-            <br/>
-            <br/>
+         <NavBarDashboard sumergiteColor= '#3480E3' boxShadow='0px 3px 20px rgba(0, 0, 0, 0.16)' dashboard='lighter' profile='bold' homepage='lighter' DASHBOARD={true} PROFILE={true} ProfileMargin='120px' HomePageMargin='0px'/> 
+         {/* <NavBarDashboard sumergiteColor= '#3480E3' boxShadow='0px 3px 20px rgba(0, 0, 0, 0.16)' dashboard='bold' profile='lighter' homepage='lighter' DASHBOARD={false} PROFILE={false} HomePageMargin='120px'/>  */}
+         {/* <NavBarDashboard sumergiteColor= '#3480E3' boxShadow='0px 3px 20px rgba(0, 0, 0, 0.16)' dashboard='bold' profile='lighter' homepage='lighter' DASHBOARD={false} PROFILE={false} HomePageMargin='120px' LeftButton={true}/>  */}
+        {/* <NavBarBlue sumergiteColor= '#FFFFFF' backgroundColor='#3480E3' loginColor='#FFFFFF'/> */}
+        {/* <NavBarBlue sumergiteColor= '#3480E3' backgroundColor='#FFFFFF' boxShadow='0px 3px 20px rgba(0, 0, 0, 0.16)'/> */}
+        <div style={{paddingTop: '10vh'}}>
+          <div class="wrapper">
+            <div class="page-header" style={{backgroundImage: "url('../assets/img/login-image.jpg')"}}>   
+              <div class="filter"></div>
+                <div class="container">
+                  <div class="row">
+                    <div class="col-lg-4 col-sm-6 mr-auto ml-auto">
+                      <div class="card card-register" style={{backgroundColor: '#FFFFFF', boxShadow: "0px 3px 20px rgba(0, 0, 0, 0.16)"}}>
+                          <h3 class="title" style={{fontFamily: '-apple-system, BlinkMacSystemFont, sans-serif', fontSize: '30px', fontWeight: 'bold', color: '#223242'}}>Update Your Profile!</h3>
+                          <br/>
+                          {/* <h5 style={{marginTop: '5px',fontFamily: '-apple-system, BlinkMacSystemFont, sans-serif', fontSize: '14px', fontWeight: 'lighter', color: '#222529', textAlign: 'center'}}>Profile</h5> */}
+                          <form class="login-form" id="Investorupdate">
+                            <input type="text" name="fullName" placeholder="full name" class="form-control"/>
+                            <br/>
+                            <label id="Error" class="text-danger">
+                              {" "}
+                              {this.state.fullNameError}
+                            </label>
+                            <input type="text" id="email" name="email" class="form-control" placeholder="email"/>
+                              <br/>
+                              <label id="Error" class="text-danger">
+                                {" "}
+                                {this.state.emailError}
+                              </label>
+                              <input type="password" id="password" name="password" class="form-control" placeholder="password"/>
+                                <br/>
+                                <label id="Error" class="text-danger">
+                                  {" "}
+                                  {this.state.passwordError}
+                                </label>
+                                <br/>
+                                {/* */}
+                                <Select id="gender" name="gender" value={this.state.gender} onChange={this.handleChange} style={{width: '100%'}}>
+                                  <MenuItem value={"Male"}>Male</MenuItem>
+                                  <MenuItem value={"Female"}>Female</MenuItem>
+                                </Select>
+                                <br/>
+                                <br/>
+                                <br/>
+                                <input name="nationality"class="form-control" placeholder="nationality"/>
+                                <br/>
+                                <label id="Error" class="text-danger">
+                                  {" "}
+                                  {this.state.nationalityError}
+                                </label>
+                                <br/>
+                                <Select id="methodOfIdentification" name="methodOfIdentification" value={this.state.methodOfIdentification} onChange={this.handleChange} style={{width: '100%'}}>
+                                  <MenuItem value={"passport"}>Passport</MenuItem>
+                                  <MenuItem value={"NID"}>National ID</MenuItem>
+                                </Select>
+                                <br/>
+                                <br/>
+                                <br/>
+                                <input name="identificationNumber" class="form-control" placeholder="identification number" />
+                                <br/>
+                                <label id="Error" class="text-danger">
+                                  {" "}
+                                  {this.state.identificationNumberError}
+                                </label>
+                                <br/>
+                                <input name="dateOfBirth" class="form-control" placeholder="date of birth"/>
+                                <br/>
+                                <label id="Error" class="text-danger">
+                                  {" "}
+                                  {this.state.dateOfBirthError}
+                                </label>
+                                <br/>
+                                <input name="residenceAddress" class="form-control" placeholder="current address"/>
+                                <br/>
+                                <label id="Error" class="text-danger">
+                                  {" "}
+                                  {this.state.residenceAddressError}
+                                </label>
+                                <br/>
+                                <input name="telephoneNumber" class="form-control" placeholder="telephone"/>
+                                <br/>
+                                <label id="Error" class="text-danger">
+                                  {" "}
+                                  {this.state.telephoneNumberError}
+                                </label>
+                                <br/>
+                                <input name="fax" class="form-control" placeholder="fax" />
+                                <br/>
+                                <label id="Error" class="text-danger">
+                                  {" "}
+                                  {this.state.faxError}
+                                </label>
+                                <br/>
+                                </form>
+                                <Fab variant="extended" size="large" color = "secondary" style = {{color: '#FFFFFF', height: '31px', width: '107px',fontSize: '13px', boxShadow: 'none', marginRight: '240px', marginTop: '6px', display: 'block', margin: '0 auto'}} aria-label="Delete" onClick={this.submit}>
+                                    Update
+                                </Fab>
+                                {this.state.valid}
+                              <br/>        
+                              <br/>                
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
           </div>
+        </div>
+
+          //   </form>
+
+          //   <Button style={styles.myButton} size="small" color="primary">
+          //   Save <EditIcon/>
+          // </Button>
+          //   {this.state.valid}
+          //   <br/>
+          //   <br/>
+          //   </div>
+          // </div>
+          
         );
       }
 }; 

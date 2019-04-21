@@ -59,7 +59,7 @@ export default class Case extends Component {
     
     return (
       <div>
-        <h2 class="text-center text-info">Case</h2>
+        <h2 className="text-center text-info">Case</h2>
         <Link to={{pathname: "/addComment",state:{caseID: this.props.case._id}}}>Add Comment</Link>
         <br />
         <TextField disabled
@@ -173,7 +173,7 @@ export default class Case extends Component {
           }}
         />
         <br />
-        <h2 class="text-center text-info">Form</h2>
+        <h2 className="text-center text-info">Form</h2>
         <TextField disabled
           id="standard-full-width"
           label="Company Type"
@@ -314,7 +314,7 @@ export default class Case extends Component {
           }}
         />
         <br />
-        <h2 class="text-center text-info">Managers</h2>
+        <h2 className="text-center text-info">Managers</h2>
         <Managers managersArray={this.state.managers} />
         <br />
         <div className="dropdown-divider"></div>

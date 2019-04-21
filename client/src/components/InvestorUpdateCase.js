@@ -1,6 +1,7 @@
 import React from 'react'
 import axios from 'axios';
 import { Redirect } from 'react-router-dom'
+import parseJwt from '../helpers/decryptAuthToken';
 const Joi = require("joi");
 const mongoValidator = require("validator");
 
@@ -9,6 +10,7 @@ export default class InvestorUpdateCase extends React.Component {
     constructor(props) {
             super(props)
             this.state = {
+              InvestorId:'',
               companyType: '',
               regulatedLaw: '',
               legalFormOfCompany: '',
@@ -20,11 +22,28 @@ export default class InvestorUpdateCase extends React.Component {
               phoneNumber: '',
               fax: '',
               currencyUsedForCapital: '',
-              capital: ''
+              capital: '',
+              home:0
               
         }
     }
-
+    async componentDidMount(){
+        if (!localStorage.jwtToken) {
+        alert("You must login!");
+        this.setState({ home: 1 });
+        return;
+      }
+      try{
+          await axios.get('../api/investors/auth')
+      }catch(err){
+        alert("You are not allowed");
+        this.setState({ home: 1 });
+        return;
+      }
+      this.setState({ home: 2 });
+      const data = parseJwt(localStorage.jwtToken)
+      await this.setState({InvestorId:data.id})
+    }
     submit= async()=> {
         var valid=true;
         const me =this
@@ -158,7 +177,7 @@ export default class InvestorUpdateCase extends React.Component {
           });
           }
           const caseID='5ca62338fd83c24bf091758f'
-          const InvestorID='5ca6229afd83c24bf091758e'
+          const InvestorID=this.state.InvestorId
           if(!mongoValidator.isMongoId(InvestorID) || !mongoValidator.isMongoId(caseID)){
             valid=false;
             this.setState({err:'Invalid either InvestorID or CaseID'})
@@ -183,6 +202,8 @@ export default class InvestorUpdateCase extends React.Component {
       }
 
     render() {
+      if (this.state.home===0) return <div> </div>;
+      if (this.state.home===1) return <Redirect to={{ pathname: "/" }} />;
         return (
           <div>
               <br/>

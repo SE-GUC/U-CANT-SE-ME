@@ -20,10 +20,26 @@ export default class RegisterReviewer extends React.Component {
             emailError:'',
             passwordError:'',
             usernameError:'',
-            val:''
+            val:'',
+            home:0
         }
     }
 
+    componentDidMount =async()=> {
+        if (!localStorage.jwtToken) {
+            alert("You must login!");
+            this.setState({ home: 1 });
+            return;
+          }
+          try{
+              await axios.get('../api/admins/auth')
+          }catch(err){
+            alert("You are not allowed");
+            this.setState({ home: 1 });
+            return;
+          }
+          this.setState({ home: 2 });
+      }
     submit= async()=> {
         var valid=true;
         const me =this
@@ -110,46 +126,52 @@ export default class RegisterReviewer extends React.Component {
     }
 
     render() {
+        if (this.state.home===0) return <div> </div>;
+        if (this.state.home===1) return <Redirect to={{ pathname: "/" }} />;
         return (
           <div>
               <br/>
               <h3 class="text-center text-info">Register</h3>
             <form id="RegisterReviewer">
-            <FormControl>    
+                <FormControl required>    
                         <InputLabel>Username</InputLabel>
                         <Input
                             id="username"
                             type='text'
+                            style={{ width: 200 }}
                         />
                     </FormControl>
                     <br />
                     <label id="Error" class="text-danger"> {this.state.usernameError}</label>
                     <br/> 
-                    <FormControl>    
+                    <FormControl required>    
                         <InputLabel>Email</InputLabel>
                         <Input
                             id="email"
                             type='text'
+                            style={{ width: 200 }}
                         />
                     </FormControl>
                     <br/> 
                     <label id="Error" class="text-danger"> {this.state.emailError}</label>
                     <br />
-                    <FormControl>    
+                    <FormControl required>    
                         <InputLabel>Full Name</InputLabel>
                         <Input
                             id="fullName"
                             type='text'
+                            style={{ width: 200 }}
                         />
                     </FormControl>
                     <br />
                     <label id="Error" class="text-danger"> {this.state.fullNameError}</label>
                     <br/> 
-                    <FormControl>    
+                    <FormControl required>    
                         <InputLabel htmlFor="adornment-password">Password</InputLabel>
                             <Input
                                 id="password"
                                 type={this.state.showPassword ? 'text' : 'password'}
+                                style={{ width: 200 }}
                                 endAdornment={
                                     <InputAdornment position="end">
                                       <IconButton

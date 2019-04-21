@@ -11,7 +11,8 @@ const CaseSchema = new Schema({
       "WaitingForReviewer",
       "AssignedToReviewer",
       "Rejected",
-      "Accepted"
+      "Accepted",
+      "Established"
     ],
     default: "WaitingForLawyer",
     required: true
@@ -44,16 +45,6 @@ const CaseSchema = new Schema({
     default: null,
     required: false
   },
-  previouslyAssignedLawyers: {
-    type: [Schema.Types.ObjectId],
-    default: [],
-    required: false
-  },
-  previouslyAssignedReviewers: {
-    type: [Schema.Types.ObjectId],
-    default: [],
-    required: false
-  },
   comments: {
     type: [
       {
@@ -75,58 +66,13 @@ const CaseSchema = new Schema({
     default: [],
     required: false
   },
+  companyType: {
+    type: String,
+    required: true
+  },
   form: {
-    companyType: {
-      type: String,
-      enum: ["SPC", "SSC"],
-      required: true
-    },
-    regulatedLaw: {
-      type: String,
-      required: true
-    },
-    legalFormOfCompany: {
-      type: String,
-      required: true
-    },
-    companyNameArabic: {
-      type: String,
-      unique: true,
-      required: true
-    },
-    companyNameEnglish: {
-      type: String,
-      unique: true,
-      required: false
-    },
-    headOfficeGovernorate: {
-      type: String,
-      required: true
-    },
-    headOfficeCity: {
-      type: String,
-      required: true
-    },
-    headOfficeAddress: {
-      type: String,
-      required: true
-    },
-    phoneNumber: {
-      type: String,
-      required: false
-    },
-    fax: {
-      type: String,
-      required: false
-    },
-    currencyUsedForCapital: {
-      type: String,
-      required: true
-    },
-    capital: {
-      type: Number,
-      required: true
-    }
+    type: Object,
+    required: true
   },
   managers: {
     type: [
@@ -176,4 +122,4 @@ const CaseSchema = new Schema({
   }
 });
 
-module.exports = Case = mongoose.model("cases", CaseSchema);
+module.exports = Case = mongoose.model("dynamicCases", CaseSchema);

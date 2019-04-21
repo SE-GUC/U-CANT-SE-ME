@@ -1,13 +1,16 @@
-import React, { Component } from 'react';
+import React, { Component, useImperativeHandle } from 'react';
 import Managers from '../Managers';
 import axios from 'axios';
 import { Redirect } from 'react-router-dom'
+import parseJwt from '../../helpers/decryptAuthToken';
 const Joi = require("joi");
 
 class LawyerFillForm extends Component {
   constructor() {
     super();
     this.state = {
+        home:0,
+        lawyerId:'',
         message : '',
         messageType:'',
         messageLaw: '',
@@ -49,6 +52,24 @@ class LawyerFillForm extends Component {
     this.updateManagerDateBirth = this.updateManagerDateBirth.bind(this);
     this.updateManagerAdrress = this.updateManagerAdrress.bind(this);
     this.updateManagerPosition = this.updateManagerPosition.bind(this);
+}
+async componentDidMount(){
+    if (!localStorage.jwtToken) {
+        alert("You must login!");
+        this.setState({ home: 1 });
+        return;
+      }
+      try{
+          await axios.get('api/lawyers/auth')
+      }catch(err){
+          console.log(err);
+          alert("You are not allowed to access this page");
+          this.setState({ home: 1 });
+          return;
+      }
+    this.setState({home:2})
+    const data = parseJwt(localStorage.jwtToken)
+    await this.setState({lawyerId:data.id})
 }
     addManager(){
         this.state.managers.slice();
@@ -316,7 +337,8 @@ class LawyerFillForm extends Component {
                 creatorInvestorId: this.state.creatorInvestorId.toString()
             }
             try{
-                await axios.post('api/lawyers/fillForm/5ca777485c74d20e80486f9c', mycase)
+                const id = this.state.lawyerId
+                await axios.post(`api/lawyers/fillForm/${id}`, mycase)
                 this.setState({message: 'Successfully added'})
             }catch (e){
                 this.setState({message: 'wrong input'})
@@ -326,7 +348,9 @@ class LawyerFillForm extends Component {
     }
 
   render() {
-    return (
+    if (this.state.home===0) return <div></div>;
+    if (this.state.home===1) return <Redirect to={{ pathname: "/" }} />;
+    else return (
       <div className="lawyerFillForm">
             <label>Company Type: </label>
             <select onChange={this.changeType}>

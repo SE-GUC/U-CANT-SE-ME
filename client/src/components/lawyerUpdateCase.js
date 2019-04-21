@@ -5,7 +5,9 @@ import Input from '@material-ui/core/Input'
 import InputLabel from '@material-ui/core/InputLabel'
 import FormControl from '@material-ui/core/FormControl'
 import { Redirect } from 'react-router-dom'
-
+import parseJwt from '../helpers/decryptAuthToken';
+import Select from '@material-ui/core/Select'
+import MenuItem from '@material-ui/core/MenuItem'
 const Joi = require("joi");
 const mongoValidator = require("validator");
 export default class lawyerUpdateCase extends React.Component {
@@ -13,6 +15,7 @@ export default class lawyerUpdateCase extends React.Component {
     constructor(props) {
             super(props)
             this.state = {
+              lawyerId: '',
               companyType: '',
               regulatedLaw: '',
               legalFormOfCompany: '',
@@ -24,10 +27,28 @@ export default class lawyerUpdateCase extends React.Component {
               phoneNumber: '',
               fax: '',
               currencyUsedForCapital: '',
-              capital: ''     
+              capital: '',
+              home:0     
         }
     }
+    async componentDidMount(){
 
+      if (!localStorage.jwtToken) {
+        alert("You must login!");
+        this.setState({ home: 1 });
+        return;
+      }
+      try{
+          await axios.get('../api/lawyers/auth')
+      }catch(err){
+        alert("You are not allowed");
+        this.setState({ home: 1 });
+        return;
+      }
+      this.setState({ home: 2 });
+      const data = parseJwt(localStorage.jwtToken)
+        await this.setState({lawyerId:data.id})
+    }
     submit= async()=> {
         var valid=true;
         const me =this
@@ -173,7 +194,7 @@ export default class lawyerUpdateCase extends React.Component {
           }
           const caseID='5ca8a6c06f7661e423afc714'
 
-          const lawyerID='5ca76f5f00b48e09001936e7'
+          const lawyerID=this.state.lawyerId
           if(!mongoValidator.isMongoId(lawyerID) || !mongoValidator.isMongoId(caseID)){
             valid=false;
             this.setState({err:'Invalid either lawyerID or CaseID'})
@@ -377,6 +398,9 @@ export default class lawyerUpdateCase extends React.Component {
         }
       }
       
+      handleChange = event => {
+        this.setState({ [event.target.name]: event.target.value });
+      }
 
     render() {
       const styles = {
@@ -384,21 +408,35 @@ export default class lawyerUpdateCase extends React.Component {
           width: "30%",
           minWidth:"200px",
           margin:"auto"
+        },
+        formControl: {
+            margin: 0,
+            width: 270
         }
       }
+      if (this.state.home===0) return <div> </div>;
+      if (this.state.home===1) return <Redirect to={{ pathname: "/" }} />;
         return (
           <div>
               <br/>
               <h2 class="text-center text-info">Update Case</h2>
             <form id="lawyerUpdate">
             {this.state.err}
-            Company type 
-            <br />
-            <select className="form-control" name="companyType" style={styles.label} >
-              <option value="">Choose type</option>
-              <option value="SPC">SPC</option>
-              <option value="SSC">SSC</option>
-            </select>
+            <FormControl style={styles.formControl}>
+              <InputLabel>Choose Type</InputLabel>
+                <Select
+                  value={this.state.companyType}
+                  onChange={this.handleChange}
+                  name="companyType"
+                  id="companyType"
+                >
+                <MenuItem value="">
+                  <em>None</em>
+                </MenuItem>
+                <MenuItem value={"SPC"}>SPC</MenuItem>
+                <MenuItem value={"SSC"}>SSC</MenuItem>
+                </Select>
+            </FormControl>
           <br/>
           <FormControl>    
             <InputLabel>Regulated Law</InputLabel>
