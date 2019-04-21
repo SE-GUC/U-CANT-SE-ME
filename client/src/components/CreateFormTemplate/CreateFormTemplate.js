@@ -5,9 +5,10 @@ import "prismjs/components/prism-clike";
 import "prismjs/components/prism-javascript";
 import "prismjs/components/prism-markup";
 import axios from "axios";
+import { Redirect } from 'react-router-dom'
 
 class CreateFormTemplate extends Component {
-  state = { code: `` };
+  state = { code: `` , home:0 };
 
   upload = ev => {
     let formTemplate = {};
@@ -37,6 +38,8 @@ class CreateFormTemplate extends Component {
   };
 
   render() {
+    if (this.state.home===0) return <div> </div>;
+    if (this.state.home===1) return <Redirect to={{ pathname: "/" }} />;
     return (
       <div style={containerStyle}>
         <br />
@@ -61,6 +64,21 @@ class CreateFormTemplate extends Component {
       </div>
     );
   }
+  async componentDidMount(){
+    if (!localStorage.jwtToken) {
+      alert("You must login!");
+      this.setState({ home: 1 });
+      return;
+    }
+    try{
+        await axios.get('../api/reviewers/auth')
+    }catch(err){
+      alert("You are not allowed");
+      this.setState({ home: 1 });
+      return;
+    }
+    this.setState({ home: 2 });
+  };
 }
 
 const containerStyle = {
@@ -71,5 +89,7 @@ const containerStyle = {
   width: "50%",
   padding: "10px"
 };
+
+
 
 export default CreateFormTemplate;

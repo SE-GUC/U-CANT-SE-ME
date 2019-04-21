@@ -41,11 +41,22 @@ class LawyerProfile extends Component {
   };
 
   async componentDidMount (){
+    if (!localStorage.jwtToken) {
+      alert("You must login!");
+      this.setState({ home: 1 });
+      return;
+    }
+    try{
+        await axios.get('../../../api/lawyers/auth')
+    }catch(err){
+      alert("You are not allowed");
+      this.setState({ home: 1 });
+      return;
+    }
+    this.setState({ home: 2 });
     try
       {
-        await this.setState({lawyerId : parseJwt(localStorage.jwtToken).id})
-        console.log(this.state.lawyerId)
-      }
+        await this.setState({lawyerId : parseJwt(localStorage.jwtToken).id})      }
       catch
       {
         this.setState({lawyerId : null})
@@ -96,6 +107,8 @@ class LawyerProfile extends Component {
         width: 345
       }
     }
+    if (this.state.home===0) return <div> </div>;
+    if (this.state.home===1) return <Redirect to={{ pathname: "/" }} />;
     return (
       <div>
       <Card style={classes.card}>

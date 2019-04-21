@@ -59,7 +59,7 @@ class InvestorFillForm extends Component {
             return;
           }
           try{
-              await axios.get('api/investors/auth')
+              await axios.get('../api/investors/auth')
           }catch(err){
               alert("You are not allowed to access this page");
               this.setState({ home: 1 });

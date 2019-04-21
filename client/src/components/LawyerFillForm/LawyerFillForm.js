@@ -62,13 +62,14 @@ async componentDidMount(){
       try{
           await axios.get('api/lawyers/auth')
       }catch(err){
+          console.log(err);
           alert("You are not allowed to access this page");
           this.setState({ home: 1 });
           return;
       }
     this.setState({home:2})
     const data = parseJwt(localStorage.jwtToken)
-        await this.setState({lawyerId:data.id})
+    await this.setState({lawyerId:data.id})
 }
     addManager(){
         this.state.managers.slice();

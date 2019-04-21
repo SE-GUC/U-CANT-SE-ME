@@ -2,12 +2,26 @@ import React, { Component } from "react";
 import Case from "./Case";
 import CaseSummary from "./CaseSummary";
 import axios from 'axios'
+import { Redirect } from 'react-router-dom'
 
 class CaseSwitch extends Component {
   state = {
     cases: []
   };
   async componentDidMount() {
+    if (!localStorage.jwtToken) {
+      alert("You must login!");
+      this.setState({ home: 1 });
+      return;
+    }
+    try{
+        await axios.get('../api/admins/allAuth')
+    }catch(err){
+      alert("You are not allowed");
+      this.setState({ home: 1 });
+      return;
+    }
+    this.setState({ home: 2 });
     const getCases = await axios.get("api/cases");
     for(let i=0;i<getCases.data.data.length;i++)
     {
@@ -38,6 +52,8 @@ handelClick (index) {
           display: "none"
         }
       };
+      if (this.state.home===0) return <div> </div>;
+      if (this.state.home===1) return <Redirect to={{ pathname: "/" }} />;
     return (
       <div>
         {this.state.cases.map((x) => (

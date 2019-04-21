@@ -33,7 +33,7 @@ export default class TrackMyCompany extends React.Component {
             const id = data.id
             const res = await axios.get(`../api/investors/trackMyCompany/${id}`);
             const { data: posts } = res
-            console.log(posts)
+            console.log(posts.tracking)
             this.setState({ posts: posts.tracking });
         }
         catch(error){
@@ -44,7 +44,8 @@ export default class TrackMyCompany extends React.Component {
 
 
     render() {
-
+        if (this.state.home===0) return <div> </div>;
+        if (this.state.home===1) return <Redirect to={{ pathname: "/" }} />;
         return (
             <ul>
                 <p>
