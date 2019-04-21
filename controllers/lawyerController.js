@@ -264,9 +264,9 @@ exports.addCommentAsLawyer = async function(req,res){
     const checkLawyer = await Lawyer.find({ _id: req.params.lawyerID });
     const checkCase = await Case.find({ _id: req.params.caseID });
     if (checkLawyer.length === 0)
-      return res.status(404).send({error:"Lawyer not Found"});
+      return res.status(409).send({error:"Lawyer not Found"});
     if (checkCase.length === 0)
-      return res.status(404).send({error:"Case not Found"});
+      return res.status(411).send({error:"Case not Found"});
     if(lawyerAuthenticated){
       if(checkCase[0].assignedLawyerId+""!==req.params.lawyerID+"")
         return res.status(403).send({error: "Only assigned Lawyers to this Case can comment on it" });

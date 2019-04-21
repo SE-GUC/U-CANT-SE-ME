@@ -10,8 +10,12 @@ import CardActionArea from "@material-ui/core/CardActionArea";
 import CardActions from "@material-ui/core/CardActions";
 import CardContent from "@material-ui/core/CardContent";
 import { Button } from "@material-ui/core";
-import { Fab } from "@material-ui/core";
-import PayMyFees from "../PayMyFees/PayMyFeesItem";
+import { Fab } from "@material-ui/core"
+import AddIcon from '@material-ui/icons/Add'
+import PayMyFees from "../PayMyFees/PayMyFeesItem"
+import moment from 'moment'
+import TextField from "@material-ui/core/TextField"
+import ListItem from "@material-ui/core/ListItem"
 
 const styles = {
     card: {
@@ -32,7 +36,6 @@ const styles = {
     },
     button: {
         background: "none",
-
         border: "none",
         fontSize: "16px",
         outline: "none",
@@ -56,7 +59,7 @@ class CaseContainer extends Component {
         reviewerName: "",
         creatorLawyerName: "",
         assignedLawyerName: "",
-        currentUserId: "5ca76f5f00b48e09001936e7"
+        currentUserId: "5ca76f5f00b48e09001936e7",
     };
 
 
@@ -114,6 +117,14 @@ class CaseContainer extends Component {
 
     }
 
+    formatTime(t) {
+        return moment.utc(t.substring(0, 23)).format('DD, MMM, YYYY').toUpperCase();
+    }
+
+    handleTextBox = (event) => {
+        this.setState({ text: event.target.value });
+    }
+
     render() {
         const classes = { ...styles };
         const expandedCase = this.props.expandedCase;
@@ -121,6 +132,8 @@ class CaseContainer extends Component {
         var formFields = []
         var caseComments = []
         console.log(this.props.expandedCase.form)
+        const canComment = (this.props.expandedCase.assignedLawyerId && (this.props.expandedCase.assignedLawyerId === this.state.currentUserId)) === true ? true : false
+        console.log('canComment', canComment)
         for (let atr in expandedCase.form) {
             let field = {
                 fieldName: camelCaseToText(atr),
@@ -163,30 +176,30 @@ class CaseContainer extends Component {
         let buttonAccept
         let buttonReject
         let buttonPaying
-        if (this.state.currentUserId === this.props.expandedCase.assignedLawyerId||this.state.currentUserId === this.props.expandedCase.creatorLawyerId) {
-   
-           buttonAccept=<Fab variant="extended" size="large" color = "secondary" style = {{color: '#FFFFFF', height: '31px', width: '107px',fontSize: '13px', boxShadow: 'none', marginRight: '240px', marginTop: '6px', display: 'block', margin: '0 auto'}} aria-label="Delete" onClick={axios.get(`api/lawyers/updateCaseStatus/${this.props.expandedCase._id}/Accepted`)}>
-           {"Accept"}
-       </Fab>
+        if (this.state.currentUserId === this.props.expandedCase.assignedLawyerId || this.state.currentUserId === this.props.expandedCase.creatorLawyerId) {
 
-        buttonReject=<Fab variant="extended" size="large" color = "secondary" style = {{color: '#FFFFFF', height: '31px', width: '107px',fontSize: '13px', boxShadow: 'none', marginRight: '240px', marginTop: '6px', display: 'block', margin: '0 auto'}} aria-label="Delete" onClick={axios.get(`api/lawyers/updateCaseStatus/${this.props.expandedCase._id}/Rejected`)}>
-        {"Reject"}
-        </Fab>
+            buttonAccept = <Fab variant="extended" size="large" color="secondary" style={{ color: '#FFFFFF', height: '31px', width: '107px', fontSize: '13px', boxShadow: 'none', marginRight: '240px', marginTop: '6px', display: 'block', margin: '0 auto' }} aria-label="Delete" onClick={axios.get(`api/lawyers/updateCaseStatus/${this.props.expandedCase._id}/Accepted`)}>
+                {"Accept"}
+            </Fab>
+
+            buttonReject = <Fab variant="extended" size="large" color="secondary" style={{ color: '#FFFFFF', height: '31px', width: '107px', fontSize: '13px', boxShadow: 'none', marginRight: '240px', marginTop: '6px', display: 'block', margin: '0 auto' }} aria-label="Delete" onClick={axios.get(`api/lawyers/updateCaseStatus/${this.props.expandedCase._id}/Rejected`)}>
+                {"Reject"}
+            </Fab>
         }
 
         if (this.state.currentUserId === this.props.expandedCase.assignedReviewerId) {
-            buttonAccept=<Fab variant="extended" size="large" color = "secondary" style = {{color: '#FFFFFF', height: '31px', width: '107px',fontSize: '13px', boxShadow: 'none', marginRight: '240px', marginTop: '6px', display: 'block', margin: '0 auto'}} aria-label="Delete" onClick={axios.get(`api/lawyers/updateCaseStatus/${this.props.expandedCase._id}/Accepted`)}>
-            {"Accept"}
-        </Fab>
- 
-         buttonReject=<Fab variant="extended" size="large" color = "secondary" style = {{color: '#FFFFFF', height: '31px', width: '107px',fontSize: '13px', boxShadow: 'none', marginRight: '240px', marginTop: '6px', display: 'block', margin: '0 auto'}} aria-label="Delete" onClick={axios.get(`api/lawyers/updateCaseStatus/${this.props.expandedCase._id}/Rejected`)}>
-         {"Reject"}
-         </Fab>
+            buttonAccept = <Fab variant="extended" size="large" color="secondary" style={{ color: '#FFFFFF', height: '31px', width: '107px', fontSize: '13px', boxShadow: 'none', marginRight: '240px', marginTop: '6px', display: 'block', margin: '0 auto' }} aria-label="Delete" onClick={axios.get(`api/lawyers/updateCaseStatus/${this.props.expandedCase._id}/Accepted`)}>
+                {"Accept"}
+            </Fab>
+
+            buttonReject = <Fab variant="extended" size="large" color="secondary" style={{ color: '#FFFFFF', height: '31px', width: '107px', fontSize: '13px', boxShadow: 'none', marginRight: '240px', marginTop: '6px', display: 'block', margin: '0 auto' }} aria-label="Delete" onClick={axios.get(`api/lawyers/updateCaseStatus/${this.props.expandedCase._id}/Rejected`)}>
+                {"Reject"}
+            </Fab>
 
         }
 
         if (this.state.currentUserId === this.props.expandedCase.creatorInvestorId) {
-            buttonPaying=<PayMyFees investorId={this.state.investor._id} caseId={this.props.expandedCase._id} />
+            buttonPaying = <PayMyFees investorId={this.state.investor._id} caseId={this.props.expandedCase._id} />
 
         }
 
@@ -201,19 +214,19 @@ class CaseContainer extends Component {
                     },
                     {
                         fieldName: "Date of creation",
-                        fieldValue: expandedCase.caseCreationDate
+                        fieldValue: this.formatTime(expandedCase.caseCreationDate)
                     },
-                    
+
                 ]}
-                
-                />
+
+            />
 
             <InfoCard
                 infoTitle={"Form Info"}
-                
+
                 fields={formFields}
-                
-                />
+
+            />
 
             <InfoCard
                 infoTitle={"Investor Info"}
@@ -230,20 +243,20 @@ class CaseContainer extends Component {
                     {
                         fieldName: "Investor email    ",
                         fieldValue: this.state.investor.email
-                        
+
                     },
                     {
                         fieldName: "Investor telephone number   ",
                         fieldValue: this.state.investor.telephoneNumber
-                        
+
                     },
                     {
                         fieldName: "Investor fax    ",
                         fieldValue: this.state.investor.fax
-                        
+
                     }
                 ]}
-                />
+            />
 
 
             <Card style={classes.card}>
@@ -278,27 +291,80 @@ class CaseContainer extends Component {
                     </CardContent>
                 </CardActionArea>
             </Card>
+            <Card style={classes.card}>
+                <CardActionArea>
+                    <CardContent>
+                        <div gutterBottom variant="h5" component="h2">
+                            <ul>
+                                <h3> Comments </h3>
+                                {caseComments.map(field => {
 
-            <InfoCard
-                infoTitle={"Comments"}
-                
-                fields={caseComments}
-                
-                />
+                                    return <div style={classes.root} divider>
+                                        <ListItem button divider>
+                                            <Typography component="h4" style={{ fontFamily: '-apple-system, BlinkMacSystemFont, sans-serif' }} >
 
-              {buttonAccept}
-              {buttonReject}
+                                                {field.fieldName.toUpperCase() + ": "}
+
+                                                {field.fieldValue}
+
+                                            </Typography >
+                                        </ListItem>
+                                    </div>
+
+                                })}
+                            </ul>
+                            <TextField
+                                id="standard-full-width"
+                                label="Comment"
+                                style={{ margin: 8 }}
+                                placeholder="Type Comment Here..."
+                                helperText="Make it descriptive!"
+                                fullWidth
+                                multiline
+                                margin="normal"
+                                onChange={this.handleTextBox}
+                                InputLabelProps={{
+                                    shrink: true
+                                }}
+                            />
+                            {
+                                canComment ?
+                                    <Fab color="primary" aria-label="Add" style={{ float: 'right' }} onClick={(ev) => {   
+                                        const body = {
+                                            body : this.state.text
+                                        }
+                                        axios.put(`api/lawyers/addCommentAsLawyer/${this.props.expandedCase.assignedLawyerId}/${this.props.expandedCase._id}`, body)
+                                        .then(res => this.componentDidMount())
+                                        .catch(err => console.log(err.message))
+                                    }
+                                    }>
+                                        <AddIcon />
+                                    </Fab> : <label />
+                            }
+                            <br />
+                        </div>
+                    </CardContent>
+                </CardActionArea>
+            </Card>
+            <br />
+            <br />
+            <br />
+            <br />
+            <div style={{ align: 'center' }}>
+                {buttonAccept}
+                {buttonReject}
+            </div>
         </div>
 
 
-}
+    }
 }
 
 function textToCamelCase(str) {
     let tokens = str.toLowerCase().split(" ").filter(s => s.length > 0);
     let res = "";
     for (let i = 0; i < tokens.length; i++)
-    res += i > 0 ? tokens[i].charAt(0).toUpperCase() + tokens[i].slice(1) : tokens[i];
+        res += i > 0 ? tokens[i].charAt(0).toUpperCase() + tokens[i].slice(1) : tokens[i];
     return res;
 }
 

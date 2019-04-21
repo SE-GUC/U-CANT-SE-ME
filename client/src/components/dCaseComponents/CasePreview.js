@@ -14,6 +14,7 @@ import ImageIcon from "@material-ui/icons/Image";
 import WorkIcon from "@material-ui/icons/Work";
 import BeachAccessIcon from "@material-ui/icons/BeachAccess";
 import axios from "axios";
+import moment from 'moment'
 
 const styles= {
   card: {
@@ -49,7 +50,9 @@ class CasePreview extends Component {
         this.setState({investorName:"NA"});
       })
   }
-
+  formatTime(t) {
+    return moment.utc(t.substring(0, 23)).format('DD, MMM, YYYY').toUpperCase();
+  }
   render() {
     const classes = { ...styles };
     console.log(this.props.investorName)
@@ -78,7 +81,7 @@ class CasePreview extends Component {
                   {/* <Avatar>
                     <BeachAccessIcon />
                   </Avatar> */}
-                  <ListItemText primary="Creation Date" secondary={this.props.case.caseCreationDate} />
+                  <ListItemText primary="Creation Date" secondary={this.formatTime(this.props.case.caseCreationDate)} />
                 </ListItem>
               </List>
             </Typography>
