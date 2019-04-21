@@ -37,7 +37,7 @@ import AdminProfile from './components/AdminProfile'
 import updateInvestorProfile from './components/updateInvestorProfile'
 import CreateFormTemplate from './components/CreateFormTemplate/CreateFormTemplate'
 import setAuthToken from './helpers/setAuthToken'
-
+import homePage from './components/HomePage';
 if(localStorage.jwtToken){
   setAuthToken(localStorage.jwtToken)
 }
@@ -52,6 +52,7 @@ class App extends Component {
             <h1>Home</h1>
           </React.Fragment>
         )} />
+                <Route path="/myHomePage" component={homePage}/>
         <Route path="/Login" component={Login}/>
         <Route path="/TrackMyCompany" component={TrackMyCompany}/>
         <Route path="/viewComments" component={Comments}/>
