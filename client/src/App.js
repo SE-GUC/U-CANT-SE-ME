@@ -1,50 +1,43 @@
-import React, { Component } from 'react';
-import { BrowserRouter as Router, Route } from 'react-router-dom';
-import Header from './components/layout/Header';
-import './App.css';
+import React, { Component } from 'react'
+import { BrowserRouter as Router, Route } from 'react-router-dom'
+import './App.css'
 import Comments from './components/ViewComments/Comments'
-import TrackMyCompany from './components/TrackMyCompany';
-import MyCompanies from './components/GetMyCompanies/MyCompanies';
-import Cases from './components/caseComponents/Cases';
-import CasesSummary from './components/caseComponents/CasesSummary';
-import CaseSwitch from './components/caseComponents/CaseSwitch';
+import TrackMyCompany from './components/TrackMyCompany'
+import MyCompanies from './components/GetMyCompanies/MyCompanies'
+import Cases from './components/caseComponents/Cases'
+import CasesSummary from './components/caseComponents/CasesSummary'
+import CaseSwitch from './components/caseComponents/CaseSwitch'
 import InvestorRegister from './components/InvestorRegister'
-import ViewMyFees from './components/ViewMyFees/ViewMyFees';
-import RegisterLawyer from './components/RegisterLawyer';
-import RegisterReviewer from './components/RegisterReviewer';
-import LawyerFillForm from './components/LawyerFillForm/LawyerFillForm';
+import ViewMyFees from './components/ViewMyFees/ViewMyFees'
+import RegisterLawyer from './components/RegisterLawyer'
+import RegisterReviewer from './components/RegisterReviewer'
+import LawyerFillForm from './components/LawyerFillForm/LawyerFillForm'
 import InvestorFillForm from'./components/InvestorFillForm/InvestorFillForm'
 import lawyerUpdateCase from './components/lawyerUpdateCase'
-
 import ElectronicJournals from './components/ElectronicJournals'
-
 import Login from './components/login/Login'
-
 import LastLawyer from './components/LastLawyer'
-import LawyerViewCase from './components/caseComponents/LawyerViewCase';
-import ReviewerViewCase from './components/caseComponents/ReviewerViewCase';
-
-import addComment from './components/AddComment';
-
-import LawyerViewAllCases from './components/caseComponents/LawyerViewAllCases';
-import ReviewerViewAllCases from './components/caseComponents/ReviewerViewAllCases';
-import AdminViewAllCases from './components/caseComponents/AdminViewAllCases';
+import LawyerViewCase from './components/caseComponents/LawyerViewCase'
+import ReviewerViewCase from './components/caseComponents/ReviewerViewCase'
+import addComment from './components/AddComment'
+import LawyerViewAllCases from './components/caseComponents/LawyerViewAllCases'
+import ReviewerViewAllCases from './components/caseComponents/ReviewerViewAllCases'
+import AdminViewAllCases from './components/caseComponents/AdminViewAllCases'
 import LawyerGetCasesSorted from './components/LawyerGetCasesSorted/LawyerGetCasesSorted'
 import ReviewerGetCasesSorted from './components/ReviewerGetCasesSorted/ReviewerGetCasesSorted'
-
-import InvestorUpdateCase from './components/InvestorUpdateCase';
-import ReviewerViewTasks from './components/caseComponents/ReviewerViewTasks';
-import LawyerViewTasks from './components/caseComponents/LawyerViewTasks';
+import InvestorUpdateCase from './components/InvestorUpdateCase'
+import ReviewerViewTasks from './components/caseComponents/ReviewerViewTasks'
+import LawyerViewTasks from './components/caseComponents/LawyerViewTasks'
 import Forgot from './components/forgotAndReset/forgot'
 import Reset from './components/forgotAndReset/reset'
 import InvestorProfile from './components/InvestorProfile'
 import LawyerProfile from './components/LawyerProfile'
 import ReviewerProfile from './components/ReviewerProfile'
 import AdminProfile from './components/AdminProfile'
-import updateInvestorProfile from './components/updateInvestorProfile';
-import CreateFormTemplate from './components/CreateFormTemplate/CreateFormTemplate';
-import setAuthToken from './helpers/setAuthToken';
-import NavBarBlue from './components/NavBarBlue.js'
+import updateInvestorProfile from './components/updateInvestorProfile'
+import CreateFormTemplate from './components/CreateFormTemplate/CreateFormTemplate'
+import setAuthToken from './helpers/setAuthToken'
+
 if(localStorage.jwtToken){
   setAuthToken(localStorage.jwtToken)
 }
@@ -60,51 +53,29 @@ class App extends Component {
           </React.Fragment>
         )} />
         <Route path="/Login" component={Login}/>
-
         <Route path="/TrackMyCompany" component={TrackMyCompany}/>
-
         <Route path="/viewComments" component={Comments}/>
-
         <Route path="/MyCompanies" component={MyCompanies}/>
-
         <Route path="/GetAllCases" component={Cases}/>
         <Route path="/CasesSummary" component={CasesSummary}/>
-
-
-
         <Route path="/InvestorRegister" component={InvestorRegister}/>
-          
         <Route path="/ViewMyFees" component={ViewMyFees}/>
-
-          
         <Route path="/RegisterLawyer" component={RegisterLawyer}/>
-
         <Route path="/RegisterReviewer" component={RegisterReviewer}/>
-
         <Route path="/LawyerFillForm" component={LawyerFillForm}/>
-
         <Route path="/InvestorFillForm" component={InvestorFillForm}/>
         <Route path="/lawyerUpdateCase" component={lawyerUpdateCase}/>
-
         <Route path="/addComment" component={addComment}/>
-
-
-
         <Route path="/ElectronicJournals" component={ElectronicJournals}/>
-
-
-
         <Route path="/LastLawyer" component={LastLawyer}/>
         <Route path="/LawyerViewCase" component={LawyerViewCase}/>
         <Route path="/ReviewerViewCase" component={ReviewerViewCase}/>
         <Route path="/InvestorUpdateCase" component={InvestorUpdateCase}/>
         <Route path="/CaseSwitch" component={CaseSwitch}/>
-
         <Route path="/LawyerViewAllCases" component={LawyerViewAllCases}/>
         <Route path="/ReviewerViewAllCases" component={ReviewerViewAllCases}/>
         <Route path="/AdminViewAllCases" component={AdminViewAllCases}/>
         <Route path="/LawyerGetCasesSorted" component={LawyerGetCasesSorted}/>
-
         <Route path="/ReviewerGetCasesSorted" component={ReviewerGetCasesSorted}/>
         <Route path="/ReviewerViewTasks" component={ReviewerViewTasks}/>
         <Route path="/LawyerViewTasks" component={LawyerViewTasks}/>
@@ -116,10 +87,9 @@ class App extends Component {
         <Route path="/internalPortal/admin/profile" component={AdminProfile}/>
         <Route path="/updateInvestorProfile" component={updateInvestorProfile}/>
         <Route path="/createFormTemplate" component={CreateFormTemplate}/>
-        <Route path="/navBarTest" component={NavBarBlue}/>
         </div>
       </Router>
-    );
+    )
   }
 }
-export default App;
+export default App
