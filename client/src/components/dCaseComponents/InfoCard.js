@@ -14,13 +14,20 @@ import ImageIcon from "@material-ui/icons/Image";
 import WorkIcon from "@material-ui/icons/Work";
 import BeachAccessIcon from "@material-ui/icons/BeachAccess";
 import axios from "axios";
+import Divider from '@material-ui/core/Divider';
+
 
 const styles = {
     card: {
         borderRadius: 12,
         fontFamily: "Helvetica Neue",
         boxShadow: "0px 3px 20px rgba(0, 0, 0, 0.16)",
-        margin: "5%"
+        marginLeft: "5%",
+        marginRight: "5%",
+        marginButtom: "1%",
+        marginTop: "1%",
+        textAlign: "left"
+
     },
     media: {
         height: 140
@@ -53,12 +60,15 @@ class InfoCard extends Component {
                             <ul>
                                 {this.props.fields.map(field => {
 
-                                    return <div style={classes.root}>
+                                    return <div style={classes.root} divider>
+                                            <ListItem button divider>
                                         <Typography component="h4">
+                                        
                                             {field.fieldName}
-                                       
                                             {field.fieldValue}
-                                        </Typography>
+                                         
+                                        </Typography >
+                                          </ListItem> 
                                     </div>
 
                                 })}
