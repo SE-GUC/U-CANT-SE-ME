@@ -51,7 +51,7 @@ export default class NavBarBlue extends Component {
                       </button>
                     </li>
                     <li className="nav-item mr-auto">
-                        <Fab variant="extended" size="medium" color = "secondary" style = {{boxShadow: 'none', marginRight: '240px', marginTop: '6px'}} aria-label="Delete" onClick={() => {this.setState({register: true})}}>
+                        <Fab variant="extended" size="medium" style = {{boxShadow: 'none', marginRight: '240px', marginTop: '6px', backgroundColor: '#E53167', color: '#FFFFFF'}} aria-label="Delete" onClick={() => {this.setState({register: true})}}>
                             Register
                         </Fab>
                     </li>
