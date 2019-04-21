@@ -20,18 +20,25 @@ export default class RegisterReviewer extends React.Component {
             emailError:'',
             passwordError:'',
             usernameError:'',
-            val:''
+            val:'',
+            home:0
         }
     }
 
     componentDidMount =async()=> {
-        //Rount for authorization
-        try {
-            await axios.get('api/admins/auth')
-          this.setState({ passed: true });
-        } catch (err) {
-          this.setState({ passed: false });
-        }
+        if (!localStorage.jwtToken) {
+            alert("You must login!");
+            this.setState({ home: 1 });
+            return;
+          }
+          try{
+              await axios.get('../api/admins/auth')
+          }catch(err){
+            alert("You are not allowed");
+            this.setState({ home: 1 });
+            return;
+          }
+          this.setState({ home: 2 });
       }
     submit= async()=> {
         var valid=true;
@@ -119,8 +126,8 @@ export default class RegisterReviewer extends React.Component {
     }
 
     render() {
-        if (!this.state.passed) return <h1>Unauthorized</h1>;
-        else
+        if (this.state.home===0) return <div> </div>;
+        if (this.state.home===1) return <Redirect to={{ pathname: "/" }} />;
         return (
           <div>
               <br/>

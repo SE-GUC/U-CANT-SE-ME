@@ -24,14 +24,13 @@ export default class ReviewerViewCase extends Component {
               this.setState({ home: 1 });
               return;
           }
-        this.setState({home:2})
-        // check if localStorage.jwtTokenis not null else he must login
+        await this.setState({home:2});
         const data = parseJwt(localStorage.jwtToken)
         await this.setState({reviwerID:data.id})
         const id =this.state.reviwerID;
-        // check that it is a reviewer if not redirect to somewhere else
+       
         const getCases = await axios.get(`api/reviewers/getAllUnsignedCases/${id}`);
-        this.setState({cases: getCases.data});
+        this.setState({cases: getCases.data.data});
     };
     
     async handelClick (index) {
@@ -43,8 +42,8 @@ export default class ReviewerViewCase extends Component {
     render() {
         if (this.state.home===0) return <div></div>;
         if (this.state.home===1) return <Redirect to={{ pathname: "/" }} />;
-        else
-        return (this.state.cases.map((x) => (
+        return this.state.cases.length===0?"There are no unassigned cases":
+        (this.state.cases.map((x) => (
         <button onClick={() => this.handelClick(x._id)}>
             <Case key={x._id} case={x} />
         </button>

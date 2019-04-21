@@ -44,6 +44,7 @@ import AdminProfile from './components/AdminProfile'
 import updateInvestorProfile from './components/updateInvestorProfile';
 import CreateFormTemplate from './components/CreateFormTemplate/CreateFormTemplate';
 import setAuthToken from './helpers/setAuthToken';
+import NavBarBlue from './components/NavBarBlue.js'
 if(localStorage.jwtToken){
   setAuthToken(localStorage.jwtToken)
 }
@@ -52,7 +53,7 @@ class App extends Component {
     return (
       <Router>
         <div className="App">
-        <Header />
+        {/* <NavBarBlue/> */}
         <Route exact path="/" render={props => (
           <React.Fragment>
             <h1>Home</h1>
@@ -115,6 +116,7 @@ class App extends Component {
         <Route path="/internalPortal/admin/profile" component={AdminProfile}/>
         <Route path="/updateInvestorProfile" component={updateInvestorProfile}/>
         <Route path="/createFormTemplate" component={CreateFormTemplate}/>
+        <Route path="/navBarTest" component={NavBarBlue}/>
         </div>
       </Router>
     );

@@ -1,20 +1,11 @@
 import React from 'react'
 import axios from 'axios';
-import parseJwt from '../helpers/decryptAuthToken';
-import {Redirect} from 'react-router-dom';
-import Button from '@material-ui/core/Button'
-import Input from '@material-ui/core/Input'
-import InputLabel from '@material-ui/core/InputLabel'
-import FormControl from '@material-ui/core/FormControl'
-import Visibility from '@material-ui/icons/Visibility'
-import VisibilityOff from '@material-ui/icons/VisibilityOff'
-import IconButton from '@material-ui/core/IconButton'
-import InputAdornment from '@material-ui/core/InputAdornment'
+import parseJwt from '../helpers/decryptAuthToken'
+import {Redirect} from 'react-router-dom'
 import Select from '@material-ui/core/Select'
 import MenuItem from '@material-ui/core/MenuItem'
-import EditIcon from '@material-ui/icons/Edit'
 import Fab from '@material-ui/core/Fab'
-import Paper from "@material-ui/core/Paper";
+import NavBarDashboard from './NavBarDashboard'
 const Joi = require("joi");
 
 export default class updateInvestorProfile extends React.Component {
@@ -55,7 +46,7 @@ export default class updateInvestorProfile extends React.Component {
     };
 
     submit= async()=> {
-        var valid=true;
+        let valid=true;
         const me =this
         me.setState({fullNameError:''});
         me.setState({emailError:''});
@@ -71,7 +62,7 @@ export default class updateInvestorProfile extends React.Component {
         const now = Date.now();
         const earliestBirthDate = new Date(now - 21 * 365 * 24 * 60 * 60 * 1000); //21 years earlier
         const latestBirthDate = new Date(now - 120 * 365 * 24 * 60 * 60 * 1000); //can not be older than 120 years
-        var form=document.getElementById("Investorupdate")
+        let form=document.getElementById("Investorupdate")
         const body={
 
         }
@@ -122,8 +113,6 @@ export default class updateInvestorProfile extends React.Component {
           }
           if(!(form.gender.value===""))
             body.gender=form.gender.value
-            if(!(form.type.value===""))
-            body.type=form.type.value
             if(!(form.identificationNumber.value==="")){
               body.identificationNumber=form.identificationNumber.value
 
@@ -177,7 +166,7 @@ export default class updateInvestorProfile extends React.Component {
           if(!(form.fax.value==="")){
             body.fax=form.fax.value
 
-            Joi.validate({fax:body.fullName}, {fax: Joi.string().trim().regex(/^[0-9]{7,14}$/)}, function (error) {
+            Joi.validate({fax:body.fax}, {fax: Joi.string().trim().regex(/^[0-9]{7,14}$/)}, function (error) {
               if(error)
               {
                   valid=false;
@@ -202,6 +191,11 @@ export default class updateInvestorProfile extends React.Component {
           this.setState({valid:'Oops something went wrong!'})
         }
     };
+
+    handleChange = event => {
+      this.setState({ [event.target.name]: event.target.value });
+    }
+
     render() {
       const styles = {
         formControl: {
@@ -230,182 +224,126 @@ export default class updateInvestorProfile extends React.Component {
       if (this.state.home===0) return <div> </div>;
       if (this.state.home===1) return <Redirect to={{ pathname: "/" }} />;
         return (
-          <div style={styles.myDiv}>
           <div>
-            <form id="EditInvestorProfile">
-            
-            <FormControl required>
-              <InputLabel>Full Name</InputLabel>
-              <Input name="fullName" type="text" style={{ width: 200 }}/>
-            </FormControl>
-           
-            {/* <br /> */}
-            <label id="Error" class="text-danger">
-              {" "}
-              {this.state.fullNameError}
-            </label>
-            <br />
-
-            
-            <FormControl required>
-              <InputLabel>Email</InputLabel>
-              <Input name="email" type="text" style={{ width: 200 }}/>
-            </FormControl>
-            
-            {/* <br /> */}
-            <label id="Error" class="text-danger">
-              {" "}
-              {this.state.emailError}
-            </label>
-
-            <br />
-
-            <FormControl required>
-              <InputLabel htmlFor="adornment-password">Password</InputLabel>
-              <Input
-                name="password"
-                type={this.state.showPassword ? "text" : "password"}
-                style={{ width: 200 }}
-                endAdornment={
-                  <InputAdornment position="end">
-                    <IconButton
-                      aria-label="Toggle password visibility"
-                      onClick={this.handleClickShowPassword}
-                    >
-                      {this.state.showPassword ? (
-                        <Visibility />
-                      ) : (
-                        <VisibilityOff />
-                      )}
-                    </IconButton>
-                  </InputAdornment>
-                }
-              />
-            </FormControl>
-            <label id="Error" class="text-danger">
-              {" "}
-              {this.state.passwordError}
-            </label>
-
-            <br />
-
-            <FormControl required style={styles.formControl}>
-              <InputLabel htmlFor="age-required">Type</InputLabel>
-              <Select id="type" >
-                <MenuItem value={"fullTimeInvestor"}>Full Time Investor</MenuItem>
-              </Select>
-            </FormControl>
-
-            <br />
-
-            <FormControl required style={styles.formControl}>
-              <InputLabel htmlFor="age-required">Type</InputLabel>
-              <Select id="gender" >
-                <MenuItem value={"Male"}>Male</MenuItem>
-                <MenuItem value={"Female"}>Female</MenuItem>
-              </Select>
-            </FormControl>
-
-            <br />
-            
-
-            <FormControl required>
-              <InputLabel>Nationality</InputLabel>
-              <Input name="nationality" type="text" style={{ width: 200 }}/>
-            </FormControl>
-            <br />
-            <label id="Error" class="text-danger">
-              {" "}
-              {this.state.nationalityError}
-            </label>
-
-            <br />
-            
-            <FormControl required style={styles.formControl}>
-              <InputLabel htmlFor="age-required">Method Of Identification</InputLabel>
-              <Select id="methodOfIdentification" >
-                <MenuItem value={"Passport"}>Passport</MenuItem>
-                <MenuItem value={"National ID"}>National ID</MenuItem>
-              </Select>
-            </FormControl>
-
-            <br />
-            
-
-            
-            <FormControl required>
-              <InputLabel>Identification Number</InputLabel>
-              <Input name="identificationNumber" type="text" style={{ width: 200 }}/>
-            </FormControl>
-            <br />
-            <label id="Error" class="text-danger">
-              {" "}
-            {this.state.identificationNumberError}<br/>
-            </label>
-            <br />
-
-
-
-            
-            <FormControl required>
-              <InputLabel>Date Of Birth</InputLabel>
-              <Input name="dateOfBirth" type="text" style={{ width: 200 }}/>
-            </FormControl>
-            <br />
-            <label id="Error" class="text-danger">
-              {" "}
-              {this.state.dateOfBirthError}<br/>
-            </label>
-            <br />
-
-            <FormControl required>
-              <InputLabel>Residence Address</InputLabel>
-              <Input name="residenceAddress" type="text" style={{ width: 200 }}/>
-            </FormControl>
-            <br />
-            <label id="Error" class="text-danger">
-              {" "}
-              {this.state.residenceAddressError}<br/>
-            </label>
-            <br />
-            
-
-
-            <FormControl required>
-              <InputLabel>Telephone Number</InputLabel>
-              <Input name="telephoneNumber" type="text" style={{ width: 200 }}/>
-            </FormControl>
-            <br />
-            <label id="Error" class="text-danger">
-              {" "}
-              {this.state.telephoneNumberError}<br/>
-            </label>
-            <br />
-
-
-            <FormControl required>
-              <InputLabel>Fax</InputLabel>
-              <Input name="fax" type="text" style={{ width: 200 }}/>
-            </FormControl>
-            <br />
-            <label id="Error" class="text-danger">
-              {" "}
-              {this.state.faxError}<br/>
-            </label>
-            <br />
-            
-            
-
-            </form>
-
-            <Button style={styles.myButton} size="small" color="primary">
-            Save <EditIcon/>
-          </Button>
-            {this.state.valid}
-            <br/>
-            <br/>
-            </div>
+         <NavBarDashboard sumergiteColor= '#3480E3' boxShadow='0px 3px 20px rgba(0, 0, 0, 0.16)' dashboard='lighter' profile='bold' homepage='lighter' DASHBOARD={true} PROFILE={true} ProfileMargin='120px' HomePageMargin='0px'/> 
+         {/* <NavBarDashboard sumergiteColor= '#3480E3' boxShadow='0px 3px 20px rgba(0, 0, 0, 0.16)' dashboard='bold' profile='lighter' homepage='lighter' DASHBOARD={false} PROFILE={false} HomePageMargin='120px'/>  */}
+         {/* <NavBarDashboard sumergiteColor= '#3480E3' boxShadow='0px 3px 20px rgba(0, 0, 0, 0.16)' dashboard='bold' profile='lighter' homepage='lighter' DASHBOARD={false} PROFILE={false} HomePageMargin='120px' LeftButton={true}/>  */}
+        {/* <NavBarBlue sumergiteColor= '#FFFFFF' backgroundColor='#3480E3' loginColor='#FFFFFF'/> */}
+        {/* <NavBarBlue sumergiteColor= '#3480E3' backgroundColor='#FFFFFF' boxShadow='0px 3px 20px rgba(0, 0, 0, 0.16)'/> */}
+        <div style={{paddingTop: '10vh'}}>
+          <div class="wrapper">
+            <div class="page-header" style={{backgroundImage: "url('../assets/img/login-image.jpg')"}}>   
+              <div class="filter"></div>
+                <div class="container">
+                  <div class="row">
+                    <div class="col-lg-4 col-sm-6 mr-auto ml-auto">
+                      <div class="card card-register" style={{backgroundColor: '#FFFFFF', boxShadow: "0px 3px 20px rgba(0, 0, 0, 0.16)"}}>
+                          <h3 class="title" style={{fontFamily: '-apple-system, BlinkMacSystemFont, sans-serif', fontSize: '30px', fontWeight: 'bold', color: '#223242'}}>Update Your Profile!</h3>
+                          <br/>
+                          {/* <h5 style={{marginTop: '5px',fontFamily: '-apple-system, BlinkMacSystemFont, sans-serif', fontSize: '14px', fontWeight: 'lighter', color: '#222529', textAlign: 'center'}}>Profile</h5> */}
+                          <form class="login-form" id="Investorupdate">
+                            <input type="text" name="fullName" placeholder="full name" class="form-control"/>
+                            <br/>
+                            <label id="Error" class="text-danger">
+                              {" "}
+                              {this.state.fullNameError}
+                            </label>
+                            <input type="text" id="email" name="email" class="form-control" placeholder="email"/>
+                              <br/>
+                              <label id="Error" class="text-danger">
+                                {" "}
+                                {this.state.emailError}
+                              </label>
+                              <input type="password" id="password" name="password" class="form-control" placeholder="password"/>
+                                <br/>
+                                <label id="Error" class="text-danger">
+                                  {" "}
+                                  {this.state.passwordError}
+                                </label>
+                                <br/>
+                                {/* */}
+                                <Select id="gender" name="gender" value={this.state.gender} onChange={this.handleChange} style={{width: '100%'}}>
+                                  <MenuItem value={"Male"}>Male</MenuItem>
+                                  <MenuItem value={"Female"}>Female</MenuItem>
+                                </Select>
+                                <br/>
+                                <br/>
+                                <br/>
+                                <input name="nationality"class="form-control" placeholder="nationality"/>
+                                <br/>
+                                <label id="Error" class="text-danger">
+                                  {" "}
+                                  {this.state.nationalityError}
+                                </label>
+                                <br/>
+                                <Select id="methodOfIdentification" name="methodOfIdentification" value={this.state.methodOfIdentification} onChange={this.handleChange} style={{width: '100%'}}>
+                                  <MenuItem value={"passport"}>Passport</MenuItem>
+                                  <MenuItem value={"NID"}>National ID</MenuItem>
+                                </Select>
+                                <br/>
+                                <br/>
+                                <br/>
+                                <input name="identificationNumber" class="form-control" placeholder="identification number" />
+                                <br/>
+                                <label id="Error" class="text-danger">
+                                  {" "}
+                                  {this.state.identificationNumberError}
+                                </label>
+                                <br/>
+                                <input name="dateOfBirth" class="form-control" placeholder="date of birth"/>
+                                <br/>
+                                <label id="Error" class="text-danger">
+                                  {" "}
+                                  {this.state.dateOfBirthError}
+                                </label>
+                                <br/>
+                                <input name="residenceAddress" class="form-control" placeholder="current address"/>
+                                <br/>
+                                <label id="Error" class="text-danger">
+                                  {" "}
+                                  {this.state.residenceAddressError}
+                                </label>
+                                <br/>
+                                <input name="telephoneNumber" class="form-control" placeholder="telephone"/>
+                                <br/>
+                                <label id="Error" class="text-danger">
+                                  {" "}
+                                  {this.state.telephoneNumberError}
+                                </label>
+                                <br/>
+                                <input name="fax" class="form-control" placeholder="fax" />
+                                <br/>
+                                <label id="Error" class="text-danger">
+                                  {" "}
+                                  {this.state.faxError}
+                                </label>
+                                <br/>
+                                </form>
+                                <Fab variant="extended" size="large" color = "secondary" style = {{color: '#FFFFFF', height: '31px', width: '107px',fontSize: '13px', boxShadow: 'none', marginRight: '240px', marginTop: '6px', display: 'block', margin: '0 auto'}} aria-label="Delete" onClick={this.submit}>
+                                    Update
+                                </Fab>
+                                {this.state.valid}
+                              <br/>        
+                              <br/>                
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
           </div>
+        </div>
+
+          //   </form>
+
+          //   <Button style={styles.myButton} size="small" color="primary">
+          //   Save <EditIcon/>
+          // </Button>
+          //   {this.state.valid}
+          //   <br/>
+          //   <br/>
+          //   </div>
+          // </div>
           
         );
       }

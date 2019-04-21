@@ -22,11 +22,25 @@ export default class InvestorUpdateCase extends React.Component {
               phoneNumber: '',
               fax: '',
               currencyUsedForCapital: '',
-              capital: ''
+              capital: '',
+              home:0
               
         }
     }
     async componentDidMount(){
+        if (!localStorage.jwtToken) {
+        alert("You must login!");
+        this.setState({ home: 1 });
+        return;
+      }
+      try{
+          await axios.get('../api/investors/auth')
+      }catch(err){
+        alert("You are not allowed");
+        this.setState({ home: 1 });
+        return;
+      }
+      this.setState({ home: 2 });
       const data = parseJwt(localStorage.jwtToken)
       await this.setState({InvestorId:data.id})
     }
@@ -188,6 +202,8 @@ export default class InvestorUpdateCase extends React.Component {
       }
 
     render() {
+      if (this.state.home===0) return <div> </div>;
+      if (this.state.home===1) return <Redirect to={{ pathname: "/" }} />;
         return (
           <div>
               <br/>

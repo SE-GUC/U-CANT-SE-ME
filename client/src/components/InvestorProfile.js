@@ -16,13 +16,6 @@ import Divider from '@material-ui/core/Divider'
 import deepOrange from '@material-ui/core/colors/deepOrange'
 import deepPurple from '@material-ui/core/colors/deepPurple'
 import moment from 'moment'
-import Visibility from '@material-ui/icons/Visibility'
-import VisibilityOff from '@material-ui/icons/VisibilityOff'
-import IconButton from '@material-ui/core/IconButton'
-import InputAdornment from '@material-ui/core/InputAdornment'
-import ImageIcon from "@material-ui/icons/Image"
-import WorkIcon from "@material-ui/icons/Work"
-import BeachAccessIcon from "@material-ui/icons/BeachAccess"
 import parseJwt from '../helpers/decryptAuthToken'
 import { Redirect } from 'react-router-dom'
 const styles= {
@@ -53,6 +46,20 @@ class ProfileTest extends Component {
   };
 
   async componentDidMount (){
+    if (!localStorage.jwtToken) {
+      alert("You must login!");
+      this.setState({ home: 1 });
+      return;
+    }
+    try{
+        await axios.get('../api/investors/auth')
+    }catch(err){
+      alert("You are not allowed");
+      this.setState({ home: 1 });
+      return;
+    }
+    this.setState({ home: 2 });
+      const data = parseJwt(localStorage.jwtToken)
     try{
         await this.setState({investorId : parseJwt(localStorage.jwtToken).id})
       }catch
@@ -119,9 +126,11 @@ class ProfileTest extends Component {
         width: 345
       }
     }
+    if (this.state.home===0) return <div> </div>;
+    if (this.state.home===1) return <Redirect to={{ pathname: "/" }} />;
     return (
-      <div>
-      <Card style={classes.card}>
+      <div style={{paddingTop: '10vh'}}>
+      <Card style={{pointerEvents: 'none'}}>
         <CardActionArea>
           <CardContent>
             <Typography gutterBottom variant="h5" component="h2">
@@ -154,7 +163,7 @@ class ProfileTest extends Component {
         </CardActions>
       </Card>
       <br/>
-      <Card style={classes.card}>
+      <Card style={{pointerEvents: 'none'}}>
       <CardActionArea>
         <CardContent>
           <Typography gutterBottom variant="h5" component="h2">
