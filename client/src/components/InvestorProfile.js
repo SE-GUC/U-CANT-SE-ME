@@ -113,8 +113,8 @@ class ProfileTest extends Component {
       }
     }
     return (
-      <div>
-      <Card style={classes.card}>
+      <div style={{paddingTop: '10vh'}}>
+      <Card style={{pointerEvents: 'none'}}>
         <CardActionArea>
           <CardContent>
             <Typography gutterBottom variant="h5" component="h2">
@@ -147,7 +147,7 @@ class ProfileTest extends Component {
         </CardActions>
       </Card>
       <br/>
-      <Card style={classes.card}>
+      <Card style={{pointerEvents: 'none'}}>
       <CardActionArea>
         <CardContent>
           <Typography gutterBottom variant="h5" component="h2">
