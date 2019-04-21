@@ -10,6 +10,7 @@ import CardActionArea from "@material-ui/core/CardActionArea";
 import CardActions from "@material-ui/core/CardActions";
 import CardContent from "@material-ui/core/CardContent";
 import { Button } from "@material-ui/core";
+import { Fab } from "@material-ui/core";
 import PayMyFees from "../PayMyFees/PayMyFeesItem";
 
 const styles = {
@@ -21,6 +22,7 @@ const styles = {
         marginRight: "5%",
         marginButtom: "1%",
         marginTop: "1%",
+        textAlign: "left"
     },
     media: {
         height: 140
@@ -138,47 +140,53 @@ class CaseContainer extends Component {
 
         var stepperCounter = 0;
         var finalstate = 'Accepted';
-        if (expandedCase.caseStatus == 'OnUpdate')
+        if (expandedCase.caseStatus === 'OnUpdate')
             stepperCounter = 0
-        if (expandedCase.caseStatus == 'WaitingForLawyer')
+        if (expandedCase.caseStatus === 'WaitingForLawyer')
             stepperCounter = 1
-        if (expandedCase.caseStatus == 'AssignedToLawyer')
+        if (expandedCase.caseStatus === 'AssignedToLawyer')
             stepperCounter = 2
-        if (expandedCase.caseStatus == 'WaitingForReviewer')
+        if (expandedCase.caseStatus === 'WaitingForReviewer')
             stepperCounter = 3
-        if (expandedCase.caseStatus == 'AssignedToReviewer')
+        if (expandedCase.caseStatus === 'AssignedToReviewer')
             stepperCounter = 4
-        if (expandedCase.caseStatus == 'Accepted')
+        if (expandedCase.caseStatus === 'Accepted')
             stepperCounter = 5
-        if (expandedCase.caseStatus == 'Rejected') {
+        if (expandedCase.caseStatus === 'Rejected') {
             stepperCounter = 5
             finalstate = 'Rejected'
         }
-        if (expandedCase.caseStatus == 'Established') {
+        if (expandedCase.caseStatus === 'Established') {
             stepperCounter = 6
         }
 
         let buttonAccept
         let buttonReject
-        if (this.state.currentUserId == this.props.expandedCase.assignedLawyerId||this.state.currentUserId == this.props.expandedCase.creatorLawyerId) {
-            buttonAccept =   <button onClick={axios.get(`api/lawyers/updateCaseStatus/${this.props.expandedCase._id}/Accepted`)} >
-            Accept
-          </button>
+        let buttonPaying
+        if (this.state.currentUserId === this.props.expandedCase.assignedLawyerId||this.state.currentUserId === this.props.expandedCase.creatorLawyerId) {
+   
+           buttonAccept=<Fab variant="extended" size="large" color = "secondary" style = {{color: '#FFFFFF', height: '31px', width: '107px',fontSize: '13px', boxShadow: 'none', marginRight: '240px', marginTop: '6px', display: 'block', margin: '0 auto'}} aria-label="Delete" onClick={axios.get(`api/lawyers/updateCaseStatus/${this.props.expandedCase._id}/Accepted`)}>
+           {"Accept"}
+       </Fab>
 
-            buttonReject =    <button onClick={axios.get(`api/lawyers/updateCaseStatus/${this.props.expandedCase._id}/Rejected`)} >
-            Reject
-          </button>
+        buttonReject=<Fab variant="extended" size="large" color = "secondary" style = {{color: '#FFFFFF', height: '31px', width: '107px',fontSize: '13px', boxShadow: 'none', marginRight: '240px', marginTop: '6px', display: 'block', margin: '0 auto'}} aria-label="Delete" onClick={axios.get(`api/lawyers/updateCaseStatus/${this.props.expandedCase._id}/Rejected`)}>
+        {"Reject"}
+        </Fab>
+        }
+
+        if (this.state.currentUserId === this.props.expandedCase.assignedReviewerId) {
+            buttonAccept=<Fab variant="extended" size="large" color = "secondary" style = {{color: '#FFFFFF', height: '31px', width: '107px',fontSize: '13px', boxShadow: 'none', marginRight: '240px', marginTop: '6px', display: 'block', margin: '0 auto'}} aria-label="Delete" onClick={axios.get(`api/lawyers/updateCaseStatus/${this.props.expandedCase._id}/Accepted`)}>
+            {"Accept"}
+        </Fab>
+ 
+         buttonReject=<Fab variant="extended" size="large" color = "secondary" style = {{color: '#FFFFFF', height: '31px', width: '107px',fontSize: '13px', boxShadow: 'none', marginRight: '240px', marginTop: '6px', display: 'block', margin: '0 auto'}} aria-label="Delete" onClick={axios.get(`api/lawyers/updateCaseStatus/${this.props.expandedCase._id}/Rejected`)}>
+         {"Reject"}
+         </Fab>
 
         }
 
-        if (this.state.currentUserId == this.props.expandedCase.assignedReviewerId) {
-            buttonAccept =   <button onClick={axios.get(`api/reviewers/updateCaseStatus/${this.props.expandedCase._id}/Accepted`)} >
-            Accept
-          </button>
-
-            buttonReject =    <button onClick={axios.get(`api/reviewers/updateCaseStatus/${this.props.expandedCase._id}/Rejected`)} >
-            Reject
-          </button>
+        if (this.state.currentUserId === this.props.expandedCase.creatorInvestorId) {
+            buttonPaying=<PayMyFees investorId={this.state.investor._id} caseId={this.props.expandedCase._id} />
 
         }
 
@@ -265,10 +273,7 @@ class CaseContainer extends Component {
 
                         </div>
 
-
-                        <PayMyFees investorId={this.state.investor._id} caseId={this.props.expandedCase._id} />
-
-
+                        {buttonPaying}
 
                     </CardContent>
                 </CardActionArea>
