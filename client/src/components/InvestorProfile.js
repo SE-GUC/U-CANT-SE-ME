@@ -16,13 +16,6 @@ import Divider from '@material-ui/core/Divider'
 import deepOrange from '@material-ui/core/colors/deepOrange'
 import deepPurple from '@material-ui/core/colors/deepPurple'
 import moment from 'moment'
-import Visibility from '@material-ui/icons/Visibility'
-import VisibilityOff from '@material-ui/icons/VisibilityOff'
-import IconButton from '@material-ui/core/IconButton'
-import InputAdornment from '@material-ui/core/InputAdornment'
-import ImageIcon from "@material-ui/icons/Image"
-import WorkIcon from "@material-ui/icons/Work"
-import BeachAccessIcon from "@material-ui/icons/BeachAccess"
 import parseJwt from '../helpers/decryptAuthToken'
 import { Redirect } from 'react-router-dom'
 const styles= {

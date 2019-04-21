@@ -1,0 +1,106 @@
+.Header{
+    z-index: 10;
+    position : fixed;
+    top : 0;
+    min-width: 100%;
+    overflow: auto;
+    margin: 0 auto;
+    box-shadow: 0px 3px 20px rgba(0, 0, 0, 0.16);
+  }
+  .Logo /* for the logo button which holds the logo image */
+  {
+    /* align-self: left; */
+    width: 14vh;
+    /* height: auto; */
+    min-height: 40px;
+    top:0;
+    padding-right:60px;
+    /* border: 2px solid black; */
+    background-repeat: no-repeat;
+    background-size: contain;
+    
+    
+  }
+  /* #burguerIcon{
+    width: auto;
+    height: 100%;
+  }
+  #GreenAd { 
+    width: auto;
+    height: 100%;
+      } */
+  button {
+    background: none;
+    cursor:unset;
+    transition: all 0.5s;
+    border: none;
+    font-size: 16px;
+    outline: none;
+    cursor: pointer;
+    color: #222529;
+    font-weight: bold;
+    margin-top: 15px;
+    margin-right: 25px;
+    /* margin-right: px; */
+  }
+  button:focus 
+  {
+    outline:0;
+  }
+  .navbar { 
+    /* z-index: 10; */
+    /* box-shadow:0 0 0 0.2rem rgba(0, 0, 0, 0.16) */
+    background-color:rgb(255, 255, 255);
+    padding-top: 0px;
+    /* height: 8vh; */
+    /* height: 10vh; */
+    /* max-ght: 50px; */
+   
+    /* background: transparent; */
+  
+  }
+  .navbar-toggler-icon
+  {
+    height: 35px;
+  }
+  
+  button.navbar-toggler /* for the hamburger button */
+  {
+    /* max-height: 35px; */
+    outline:0;border-width:0;
+  
+    /* border: 2px solid black; */
+    /* position: absolute; */
+    /* padding-right:10vw; */
+    width: 6vh;
+    height: 6vh;
+    background-size: cover;
+    background-image: url(http://www.bigmikebailbonds.com/cms/wp-content/themes/bail%20bonds%20v2.0/images/hamburger-menu-button.png)
+  } 
+  
+  .button span {
+    cursor: pointer;
+    display: inline-block;
+    position: relative;
+    transition: 0.5s;
+  }
+  
+  .button span:after {
+    content: '\00bb';
+    position: absolute;
+    opacity: 0;
+    top: 0;
+    right: -10px;
+    transition: 0.5s;
+    color: #E53167
+  }
+  
+  .button:hover span {
+    padding-right: 15px;
+    color: #E53167
+  }
+  
+  .button:hover span:after {
+    opacity: 1;
+    right: 0;
+  }
