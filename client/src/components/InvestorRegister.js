@@ -186,7 +186,7 @@ export default class InvestorRegister extends React.Component {
             }
         }
         return (
-          <div>
+          <div style={{paddingTop: '10vh'}}>
                 <br />
                 <form id="InvestorRegister">
                     <FormControl required>    
