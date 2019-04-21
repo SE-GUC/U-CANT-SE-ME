@@ -1,12 +1,5 @@
 import React, { Component } from 'react'
 import Button from '@material-ui/core/Button'
-import Visibility from '@material-ui/icons/Visibility'
-import VisibilityOff from '@material-ui/icons/VisibilityOff'
-import Input from '@material-ui/core/Input'
-import InputLabel from '@material-ui/core/InputLabel'
-import IconButton from '@material-ui/core/IconButton'
-import InputAdornment from '@material-ui/core/InputAdornment'
-import FormControl from '@material-ui/core/FormControl'
 import { Redirect } from 'react-router-dom'
 import Fab from '@material-ui/core/Fab'
 import {login} from '../../globalState/actions/authActions'
@@ -18,7 +11,8 @@ class Login extends Component {
         id: '',
         showPassword: false,
         forgot: false,
-        signUp: false
+        signUp: false,
+        res: '',
     }
     handleSubmit = async () => {
         const req = {
@@ -27,8 +21,21 @@ class Login extends Component {
             password: this.state.password,
         }
         try{
-            await login(req)
-            document.getElementById('Error').style.display = 'none'
+            const res = await login(req)
+            this.setState({res: res})
+            // if(res.toString()==='investor'){
+            //     return <Redirect to = {{pathname: '/profile/:id'}}/>
+            // }
+            // if(res.toString()==='lawyer'){
+            //     return <Redirect to='/internalPortal/lawyer/profile/:id'/>
+            // }
+            // if(res.toString()==='reviewer'){
+            //     return <Redirect to='/internalPortal/reviewer/profile/:id'/>
+            // }
+            // if(res.toString()==='admin'){
+            //     return <Redirect to='/internalPortal/admin/profile/:id'/>
+            // }
+             // document.getElementById('Error').style.display = 'none'
         }
         catch(error){
             document.getElementById('Error').style.display = 'inline'
@@ -98,6 +105,12 @@ render(){
                 
             </div>
     </div>
+    {
+        this.state.res.toString()==='investor'? <Redirect to={{pathname: "/profile/:id"}}/>:
+        this.state.res.toString()==='lawyer'? <Redirect to={{pathname: "/internalPortal/lawyer/profile/:id"}}/>:
+        this.state.res.toString()==='reviewer'? <Redirect to={{pathname: "/internalPortal/reviewer/profile/:id"}}/>:
+        this.state.res.toString()==='admin'? <Redirect to={{pathname: "/internalPortal/admin/profile/:id"}}/>:<label/>
+    }
 </div>
       
         {/* <br />
