@@ -51,16 +51,16 @@ render(){
         },
         label: {
             width: '35%',
-            margin: 'auto'
+            margin: 'auto',
         }
     }
     return(
-    <div>
+    <div style={{paddingTop: '10vh'}}>
         <br />
         <br />
         <label>Select Your Account Type</label>
         <br />
-        <select className="form-control" id="type" style={styles.label} onChange={this.handleChange}>
+        <select className="form-control" id="type" style={styles.label} onChange={this.handleChange} >
           <option value="" />
           <option value="Investor">Investor</option>
           <option value="Reviewer">Reviewer</option>
