@@ -44,13 +44,17 @@ import AdminProfile from './components/AdminProfile'
 import updateInvestorProfile from './components/updateInvestorProfile';
 import CreateFormTemplate from './components/CreateFormTemplate/CreateFormTemplate';
 import setAuthToken from './helpers/setAuthToken';
+
+import DashBoard from './components/DashBoard'
+
 if(localStorage.jwtToken){
   setAuthToken(localStorage.jwtToken)
 }
 class App extends Component {
   render() {
     return (
-      <Router>
+      <DashBoard/>
+     /*<Router>
         <div className="App">
         <Header />
         <Route exact path="/" render={props => (
@@ -116,7 +120,7 @@ class App extends Component {
         <Route path="/updateInvestorProfile" component={updateInvestorProfile}/>
         <Route path="/createFormTemplate" component={CreateFormTemplate}/>
         </div>
-      </Router>
+      </Router>*/
     );
   }
 }
