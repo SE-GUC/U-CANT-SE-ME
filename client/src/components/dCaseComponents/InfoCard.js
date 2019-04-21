@@ -17,6 +17,7 @@ import axios from "axios";
 import Divider from '@material-ui/core/Divider';
 
 
+
 const styles = {
     card: {
         borderRadius: 12,
@@ -56,15 +57,16 @@ class InfoCard extends Component {
                 <CardActionArea>
                     <CardContent>
                         <div gutterBottom variant="h5" component="h2">
-                            <h3> {this.props.infoTitle} </h3>
                             <ul>
+                            <h3> {this.props.infoTitle} </h3>
                                 {this.props.fields.map(field => {
 
                                     return <div style={classes.root} divider>
                                             <ListItem button divider>
-                                        <Typography component="h4">
+                                        <Typography component="h4"    style={{fontFamily: '-apple-system, BlinkMacSystemFont, sans-serif'}} >
+                                     
+                                        {field.fieldName.toUpperCase()+": "} 
                                         
-                                            {field.fieldName}
                                             {field.fieldValue}
                                          
                                         </Typography >
