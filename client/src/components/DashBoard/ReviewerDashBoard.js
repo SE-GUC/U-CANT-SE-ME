@@ -3,7 +3,7 @@ import React, { Component } from "react";
 import "@trendmicro/react-sidenav/dist/react-sidenav.css";
 import SideNav, {NavItem,NavIcon,NavText} from "@trendmicro/react-sidenav";
 import { Redirect } from 'react-router-dom'
-export default class InvestorDashBoard extends Component {
+export default class LawyerDashBoard extends Component {
     constructor(props) {
         super(props)
         this.state = {
@@ -60,24 +60,18 @@ export default class InvestorDashBoard extends Component {
           <SideNav.Toggle />
           <SideNav.Nav defaultSelected={this.props.defaultSelected}>
             
-            <NavItem eventKey="createformtemplate">
-              <NavIcon>
-                <i className="fa fa-home" style={styles.iconStyle} />
-              </NavIcon>
-              <NavText>Create Form Template</NavText>
-            </NavItem>
-            
-            <NavItem eventKey="register">
+            <NavItem eventKey="viewunasignedcases">
               <NavIcon>
                 <i className="fa fa-list-alt" style={styles.iconStyle} />
               </NavIcon>
-              <NavText>Register</NavText>
-              <NavItem eventKey="createnewcompany/fillform">
-                <NavText>Register Lawyer</NavText>
-              </NavItem>
-              <NavItem eventKey="createnewcompany/lawyer">
-                <NavText>Register Reviewer</NavText>
-              </NavItem>
+              <NavText>View Unasigned Cases</NavText>
+            </NavItem>
+
+            <NavItem eventKey="viewtasks">
+              <NavIcon>
+                <i className="fa fa-list-alt" style={styles.iconStyle} />
+              </NavIcon>
+              <NavText>View Tasks</NavText>
             </NavItem>
 
             <NavItem eventKey="viewallcases">
@@ -85,8 +79,8 @@ export default class InvestorDashBoard extends Component {
                 <i className="fa fa-home" style={styles.iconStyle} />
               </NavIcon>
               <NavText>View All Cases</NavText>
-            </NavItem>            
-
+            </NavItem>  
+            
           </SideNav.Nav>
         </SideNav>
       </div>
