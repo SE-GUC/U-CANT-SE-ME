@@ -6,12 +6,13 @@ import { Redirect } from 'react-router-dom'
 
 class CaseSwitch extends Component {
   state = {
-    cases: []
+    cases: [],
+    home:0
   };
   async componentDidMount() {
     if (!localStorage.jwtToken) {
       alert("You must login!");
-      this.setState({ home: 1 });
+      await this.setState({ home: 1 });
       return;
     }
     try{
@@ -54,7 +55,7 @@ handelClick (index) {
       };
       if (this.state.home===0) return <div> </div>;
       if (this.state.home===1) return <Redirect to={{ pathname: "/" }} />;
-    return (
+      else return (
       <div>
         {this.state.cases.map((x) => (
         <div key={`${x.sid}`}>
