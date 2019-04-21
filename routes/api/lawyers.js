@@ -11,10 +11,11 @@ const adminAuth = passport.authenticate('adminAuth',{session: false});
 const lawyerAuth = passport.authenticate('lawyerAuth',{session: false});
 const allAuth = passport.authenticate(['adminAuth','lawyerAuth','reviewerAuth'],{session: false});
 const admin_lawyerAuth = passport.authenticate(['adminAuth','lawyerAuth'],{session: false});
+const reviewer_lawyerAuth = passport.authenticate(['reviewerAuth','lawyerAuth'],{session: false});
 
 //authorization
 router.get('/auth',lawyerAuth, (req,res)=>{res.json({msg:"Hello Lawyer!"})});
-
+router.get('/authReviewerOrLawyer',reviewer_lawyerAuth, (req,res)=>{res.json({msg:"Hello Lawyer/Reviewer!"})});
 //Read
 router.get('/', adminAuth, lawyerController.getAllLawyers);
 

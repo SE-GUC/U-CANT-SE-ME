@@ -71,7 +71,7 @@ class CreateFormTemplate extends Component {
       return;
     }
     try{
-        await axios.get('../api/reviewers/auth')
+        await axios.get('../api/admins/auth')
     }catch(err){
       alert("You are not allowed");
       this.setState({ home: 1 });
