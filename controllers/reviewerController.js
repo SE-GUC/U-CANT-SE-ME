@@ -157,7 +157,7 @@ exports.viewTasks = async function(req, res) {
 
       if (reviewerCases !== undefined && reviewerCases.length > 0)
         res.send({ Tasks: reviewerCases });
-      else res.status(404).send({ error: "Data Not Found" });
+      else res.send({Tasks:[]})
     } else return res.status(403).send({ error: "Forbidden." });
   } catch (error) {
     res.send({ error: "An error has occured." });

@@ -49,7 +49,7 @@ class ReviewerProfile extends Component {
       {
         this.setState({reviewerId : null})
       }
-      const res = await axios.get(`../api/reviewers/${this.state.reviewerId}`)
+      const res = await axios.get(`../../../api/reviewers/${this.state.reviewerId}`)
       
     if (res.data.data.fullName)
       this.setState({ fullName: res.data.data.fullName})
@@ -97,8 +97,6 @@ class ReviewerProfile extends Component {
     return (
       <div>
       <Card style={classes.card}>
-        <CardActionArea>
-          <CardContent>
             <Typography gutterBottom variant="h5" component="h2">
             </Typography>
             <Typography component="p">
@@ -118,15 +116,11 @@ class ReviewerProfile extends Component {
                 </ListItem>
               </List>
             </Typography>
-          </CardContent>
-        </CardActionArea>
         <CardActions>
         </CardActions>
       </Card>
       <br/>
       <Card style={classes.card}>
-      <CardActionArea>
-        <CardContent>
           <Typography gutterBottom variant="h5" component="h2">
           </Typography>
           <Typography component="p">
@@ -140,8 +134,6 @@ class ReviewerProfile extends Component {
               </ListItem>
             </List>
           </Typography>
-        </CardContent>
-      </CardActionArea>
       <CardActions>
       </CardActions>
     </Card>
