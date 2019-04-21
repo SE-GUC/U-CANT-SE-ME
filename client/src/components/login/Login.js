@@ -26,7 +26,6 @@ class Login extends Component {
             username: this.state.email,
             password: this.state.password,
         }
-        console.log('req', req)
         try{
             await login(req)
             document.getElementById('Error').style.display = 'none'
@@ -74,8 +73,9 @@ render(){
                                 <input type="password" id="password" onChange={this.handleChange} class="form-control" placeholder="password" autocomplete = "current-password"/>
                                 {/* <button class="btn btn-success btn-block" onClick={this.handleSubmit} style={{backgroundColor: '#E53167'}}>Login</button> */}
                                 <br/>
+                                <label id="Error" style={styles.error} class="text-danger"> Wrong Email or Password</label>
                                 <br/>
-                                <Fab variant="extended" size="large" color = "secondary" style = {{color: '#FFFFFF', height: '31px', width: '107px',fontSize: '13px', boxShadow: 'none', marginRight: '240px', marginTop: '6px', display: 'block', margin: '0 auto'}} aria-label="Delete" onClick={() => {this.setState({register: true})}}>
+                                <Fab variant="extended" size="large" color = "secondary" style = {{color: '#FFFFFF', height: '31px', width: '107px',fontSize: '13px', boxShadow: 'none', marginRight: '240px', marginTop: '6px', display: 'block', margin: '0 auto'}} aria-label="Delete" onClick={this.handleSubmit}>
                                     Login
                                 </Fab>
                               </form>
@@ -87,10 +87,13 @@ render(){
                             </div>
                             <br/>
                             <br/>
-                            <div style={{textAlign:'left', color: 'black', fontFamily: '-apple-system, BlinkMacSystemFont, sans-serif', fontSize: '11px'}}>Don't have an account?<a class="btn btn-link btn-info" style={{textAlign:'left', color: 'black', fontFamily: '-apple-system, BlinkMacSystemFont, sans-serif', fontSize: '11px', marginTop: '-1px', outline: 'none', border: 'none'}}>Create one.</a></div>
-                            
+                            <div style={{textAlign:'left', color: 'black', fontFamily: '-apple-system, BlinkMacSystemFont, sans-serif', fontSize: '11px'}}>Don't have an account?<a class="btn btn-link btn-info" style={{textAlign:'left', color: 'black', fontFamily: '-apple-system, BlinkMacSystemFont, sans-serif', fontSize: '11px', marginTop: '-1px', outline: 'none', border: 'none'}} onClick={() => {this.setState({register: true})}}>Create one.</a></div>   
                         </div>
                     </div>
+                    {
+                        this.state.forgot===true? <Redirect to={{pathname: "/forgot"}}/>:
+                        this.state.register===true? <Redirect to={{pathname: "/InvestorRegister"}}/>:<label/> //to be set to unified registration page
+                    }
                 </div>
                 
             </div>
@@ -136,7 +139,6 @@ render(){
             />
         </FormControl>
         <br />
-        <label id="Error" style={styles.error} class="text-danger"> Wrong Email or Password</label>
         <br />
         <Button variant="outlined" color="primary" onClick={this.handleSubmit}>
             Login
