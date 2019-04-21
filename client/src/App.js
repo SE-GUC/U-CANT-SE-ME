@@ -53,8 +53,9 @@ if(localStorage.jwtToken){
 class App extends Component {
   render() {
     return (
+      <div>
       <DashBoard/>
-     /*<Router>
+     <Router>
         <div className="App">
         <Header />
         <Route exact path="/" render={props => (
@@ -120,7 +121,8 @@ class App extends Component {
         <Route path="/updateInvestorProfile" component={updateInvestorProfile}/>
         <Route path="/createFormTemplate" component={CreateFormTemplate}/>
         </div>
-      </Router>*/
+      </Router>
+      </div>
     );
   }
 }
