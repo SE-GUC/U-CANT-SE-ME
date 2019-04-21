@@ -26,6 +26,7 @@ export default class LawyerViewTasks extends Component {
             this.setState({ home: 1 });
             return;
         }
+        this.setState({home:2})
         const data = parseJwt(localStorage.jwtToken)
         await this.setState({lawyerId:data.id})
         const id =this.state.lawyerId;
@@ -73,6 +74,7 @@ export default class LawyerViewTasks extends Component {
         if (this.state.home===1) return <Redirect to={{ pathname: "/" }} />;
         else
         return (
+            this.state.cases.length==0? "You dont have any cases.":
             <header className="LawyerViewTasks">
             <div>
                 {this.state.cases.map((x) => (

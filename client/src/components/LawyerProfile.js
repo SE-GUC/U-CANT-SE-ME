@@ -56,13 +56,13 @@ class LawyerProfile extends Component {
     this.setState({ home: 2 });
     try
       {
-        await this.setState({lawyerId : parseJwt(localStorage.jwtToken).id})      }
+        await this.setState({lawyerId : parseJwt(localStorage.jwtToken).id})
+      }
       catch
       {
         this.setState({lawyerId : null})
       }
-      const res = await axios.get(`../api/lawyers/${this.state.lawyerId}`)
-      // const res = await axios.get(`http://localhost:5000/api/lawyers/${this.state.lawyerId}`)
+      const res = await axios.get(`../../../api/lawyers/${this.state.lawyerId}`)
       
     if (res.data.data.fullName)
       this.setState({ fullName: res.data.data.fullName})
@@ -70,7 +70,6 @@ class LawyerProfile extends Component {
       this.setState({ username: res.data.data.username})
     if (res.data.data.email)
       this.setState({ email: res.data.data.email}) 
-    
   }
 
   render() {
@@ -112,8 +111,6 @@ class LawyerProfile extends Component {
     return (
       <div>
       <Card style={classes.card}>
-        <CardActionArea>
-          <CardContent>
             <Typography gutterBottom variant="h5" component="h2">
             </Typography>
             <Typography component="p">
@@ -133,15 +130,11 @@ class LawyerProfile extends Component {
                 </ListItem>
               </List>
             </Typography>
-          </CardContent>
-        </CardActionArea>
         <CardActions>
         </CardActions>
       </Card>
       <br/>
       <Card style={classes.card}>
-      <CardActionArea>
-        <CardContent>
           <Typography gutterBottom variant="h5" component="h2">
           </Typography>
           <Typography component="p">
@@ -155,8 +148,6 @@ class LawyerProfile extends Component {
               </ListItem>
             </List>
           </Typography>
-        </CardContent>
-      </CardActionArea>
       <CardActions>
       </CardActions>
     </Card>

@@ -110,10 +110,10 @@ class App extends Component {
         <Route path="/LawyerViewTasks" component={LawyerViewTasks}/>
         <Route path="/forgot" component={Forgot}/>
         <Route path="/:type/reset/:token" component={Reset}/>
-        <Route path="/profile/:id" component={InvestorProfile}/>
-        <Route path="/internalPortal/lawyer/profile/:id" component={LawyerProfile}/>
-        <Route path="/internalPortal/reviewer/profile/:id" component={ReviewerProfile}/>
-        <Route path="/internalPortal/admin/profile/:id" component={AdminProfile}/>
+        <Route path="/profile" component={InvestorProfile}/>
+        <Route path="/internalPortal/lawyer/profile" component={LawyerProfile}/>
+        <Route path="/internalPortal/reviewer/profile" component={ReviewerProfile}/>
+        <Route path="/internalPortal/admin/profile" component={AdminProfile}/>
         <Route path="/updateInvestorProfile" component={updateInvestorProfile}/>
         <Route path="/createFormTemplate" component={CreateFormTemplate}/>
         <Route path="/navBarTest" component={NavBarBlue}/>
