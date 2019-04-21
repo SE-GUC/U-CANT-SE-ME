@@ -8,7 +8,9 @@ import IconButton from '@material-ui/core/IconButton'
 import InputAdornment from '@material-ui/core/InputAdornment'
 import FormControl from '@material-ui/core/FormControl'
 import { Redirect } from 'react-router-dom'
+import Fab from '@material-ui/core/Fab'
 import {login} from '../../globalState/actions/authActions'
+import './login.scss'
 class Login extends Component {
     state = {
         email: '',
@@ -24,6 +26,7 @@ class Login extends Component {
             username: this.state.email,
             password: this.state.password,
         }
+        console.log('req', req)
         try{
             await login(req)
             document.getElementById('Error').style.display = 'none'
@@ -54,7 +57,47 @@ render(){
     }
     return(
     <div style={{paddingTop: '10vh'}}>
-        <br />
+        <div class="wrapper">
+    <div class="page-header" style={{backgroundImage: "url('../assets/img/login-image.jpg')"}}>
+        <div class="filter"></div>
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-4 col-sm-6 mr-auto ml-auto">
+                        <div class="card card-register" style={{backgroundColor: '#FFFFFF', boxShadow: "0px 3px 20px rgba(0, 0, 0, 0.16)"}}>
+                            <h3 class="title" style={{fontFamily: '-apple-system, BlinkMacSystemFont, sans-serif', fontSize: '30px', fontWeight: 'bold', color: '#223242'}}>Welcome Back!</h3>
+                            <h5 style={{marginTop: '5px',fontFamily: '-apple-system, BlinkMacSystemFont, sans-serif', fontSize: '14px', fontWeight: 'lighter', color: '#222529', textAlign: 'center'}}>Login back to your dashboard</h5>
+                            <form class="login-form">
+                                {/* <label>Email</label> */}
+                                <input type="text" id="email" onChange={this.handleChange} class="form-control" placeholder="email or username" autocomplete="username"/>
+                                {/* <label>Password</label> */}
+                                <br/>
+                                <input type="password" id="password" onChange={this.handleChange} class="form-control" placeholder="password" autocomplete = "current-password"/>
+                                {/* <button class="btn btn-success btn-block" onClick={this.handleSubmit} style={{backgroundColor: '#E53167'}}>Login</button> */}
+                                <br/>
+                                <br/>
+                                <Fab variant="extended" size="large" color = "secondary" style = {{color: '#FFFFFF', height: '31px', width: '107px',fontSize: '13px', boxShadow: 'none', marginRight: '240px', marginTop: '6px', display: 'block', margin: '0 auto'}} aria-label="Delete" onClick={() => {this.setState({register: true})}}>
+                                    Login
+                                </Fab>
+                              </form>
+                              <br/>
+                            <div class="forgot">
+                                <Button variant="primary" style={{fontFamily: '-apple-system, BlinkMacSystemFont, sans-serif', color: '#E53167', fontSize:'11px', fontWeight: 'bold'}} size="small" onClick={() => {this.setState({forgot: true})}}>
+                                    Forgot password?
+                                </Button>
+                            </div>
+                            <br/>
+                            <br/>
+                            <div style={{textAlign:'left', color: 'black', fontFamily: '-apple-system, BlinkMacSystemFont, sans-serif', fontSize: '11px'}}>Don't have an account?<a class="btn btn-link btn-info" style={{textAlign:'left', color: 'black', fontFamily: '-apple-system, BlinkMacSystemFont, sans-serif', fontSize: '11px', marginTop: '-1px', outline: 'none', border: 'none'}}>Create one.</a></div>
+                            
+                        </div>
+                    </div>
+                </div>
+                
+            </div>
+    </div>
+</div>
+      
+        {/* <br />
         <br />
         <h3 class="text-center text-info">Login</h3>
         <br />
@@ -110,7 +153,7 @@ render(){
             </Button>
             <Button variant="primary" size="large" onClick={() => {this.setState({forgot: true})}}>
                 Forgot password?
-            </Button>
+            </Button> */}
     </div>
     )}
 }
