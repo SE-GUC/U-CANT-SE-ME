@@ -12,8 +12,7 @@ export default class DashBoard extends Component{
     <SideNav.Nav defaultSelected="home">
         <NavItem eventKey="home">
             <NavIcon>
-                {/* <i className="fa fa-fw fa-home" style={{ fontSize: '1.75em' }} /> */}
-                <i class="fa fa-home fa-lg" aria-hidden="true"></i>
+                <i className="fa fa-home" style={{ fontSize: '1.75em' }} />
             </NavIcon>
             <NavText>
                 Home
@@ -21,7 +20,7 @@ export default class DashBoard extends Component{
         </NavItem>
         <NavItem eventKey="charts">
             <NavIcon>
-                <i className="fa fa-fw fa-line-chart" style={{ fontSize: '1.75em' }} />
+                <i className="fa fa-list-alt" style={{ fontSize: '1.75em' }} />
             </NavIcon>
             <NavText>
                 Charts
