@@ -7,6 +7,7 @@ import { BrowserRouter as Router, Route } from 'react-router-dom';
 import MyCompanies from "../GetMyCompanies/MyCompanies";
 import CaseSwitch from "../caseComponents/CaseSwitch";
 import InvestorFillForm from "../InvestorFillForm/InvestorFillForm";
+import NavBarDashboard from '../NavBarDashboard'
 // import "./DashBoard.css"
 export default class InvestorDashBoard extends Component {
     constructor(props) {
@@ -56,25 +57,28 @@ export default class InvestorDashBoard extends Component {
       },
       navStyle: {
         background: "#3480E3",
-        zindex:"0",
-        position:"fixed"
+        position:"fixed",
       },
       divStyleShow:{
         marginLeft:this.state.dashboardwidth,
         background:"red",
         display: 'flex', 
-        justifyContent: 'center'
+        justifyContent: 'center',
+        paddingTop:'10vh'
       },
       divStyleHide:{
         display: 'none',
         textAlign: "center",
         marginLeft:this.state.dashboardwidth,
         // background:"red",
-        justifyContent: 'center'
+        justifyContent: 'center',
+        paddingTop:'10vh'
       }
     };
     //font-style:SF Pro Display
     return (
+      <div>
+        <NavBarDashboard sumergiteColor= '#3480E3' boxShadow='0px 3px 20px rgba(0, 0, 0, 0.16)' dashboard='lighter' profile='bold' homepage='lighter' DASHBOARD={true} PROFILE={true} ProfileMargin='120px' HomePageMargin='0px'  dashboardRedirect='/InvestorDashBoard' profileRedirect="/profile"/> 
       <Router>
         <SideNav id="dashboard" onSelect={this.handleSelect} style={styles.navStyle}>
           <SideNav.Toggle />
@@ -130,6 +134,7 @@ export default class InvestorDashBoard extends Component {
         <div id="Pending" style={styles.divStyleHide} >
         </div>
       </Router>
+      </div>
     );
   }
 }

@@ -9,6 +9,7 @@ import { BrowserRouter as Router, Route } from 'react-router-dom';
 import CaseSwitch from "../caseComponents/CaseSwitch";
 import CasesContainer from "../dCaseComponents/CasesContainer";
 import { red } from "@material-ui/core/colors";
+import NavBarDashboard from '../NavBarDashboard'
 export default class LawyerDashBoard extends Component {
   constructor(props) {
     super(props)
@@ -42,19 +43,21 @@ async componentDidMount(){
       },
       navStyle: {
         background: "#3480E3",
-        zindex:"0",
         position:"fixed"
       },
       divStyleShow:{
         marginLeft:this.state.dashboardwidth,
+        paddingTop:'10vh'
       },
       divStyleHide:{
         display: 'none',
         marginLeft:this.state.dashboardwidth,
+        paddingTop:'10vh'
       }
     };
     return (
       <div>
+        <NavBarDashboard sumergiteColor= '#3480E3' boxShadow='0px 3px 20px rgba(0, 0, 0, 0.16)' dashboard='lighter' profile='bold' homepage='lighter' DASHBOARD={true} PROFILE={true} ProfileMargin='120px' HomePageMargin='0px'  dashboardRedirect='/LawyerDashBoard' profileRedirect="/internalPortal/lawyer/profile"/> 
         <SideNav id="dashboard" onSelect={this.handleSelect} style={styles.navStyle}>
           <SideNav.Toggle />
           <SideNav.Nav defaultSelected="viewtasks">
