@@ -60,4 +60,7 @@ router.post('/reset/:token', investorController.reset)
 //As an investor i should update my case status after a lawyer requested a change
 router.put('/resumeWorkOnCase/:caseId/:creatorInvestorId', investorAuth, investorController.resumeWorkOnCase);
 
+router.get('/getMyCases/:creatorInvestorId',investorController.getMyCases );
+router.get('/getMyAccCases/:creatorInvestorId',investorController.getMyAccCases );
+router.get('/getMyOnUpdateCases/:creatorInvestorId',investorController.getMyOnUpdateCases );
 module.exports = router;
