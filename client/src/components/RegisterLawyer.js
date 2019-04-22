@@ -9,6 +9,8 @@ import VisibilityOff from "@material-ui/icons/VisibilityOff";
 import IconButton from "@material-ui/core/IconButton";
 import InputAdornment from "@material-ui/core/InputAdornment";
 import { Redirect } from "react-router-dom";
+import "../components/register.scss"
+import Fab from "@material-ui/core/Fab";
 const Joi = require("joi");
 
 export default class RegisterLawyer extends React.Component {
@@ -21,24 +23,18 @@ export default class RegisterLawyer extends React.Component {
       usernameError: "",
       val: "",
       showPassword: false,
-      home: 0
+      passed: false
     };
   }
-  componentDidMount =async()=> {
-    if (!localStorage.jwtToken) {
-      alert("You must login!");
-      this.setState({ home: 1 });
-      return;
+  componentDidMount = async () => {
+    //Rount for authorization
+    try {
+      await axios.get("api/admins/auth");
+      this.setState({ passed: true });
+    } catch (err) {
+      this.setState({ passed: false });
     }
-    try{
-        await axios.get('../api/admins/auth')
-    }catch(err){
-      alert("You are not allowed");
-      this.setState({ home: 1 });
-      return;
-    }
-    this.setState({ home: 2 });
-  }
+  };
   submit = async () => {
     var valid = true;
     const me = this;
@@ -49,19 +45,18 @@ export default class RegisterLawyer extends React.Component {
       email: form.email.value,
       password: form.password.value
     };
-
     Joi.validate(
       { username: body.username },
       {
         username: Joi.string()
-          .min(10)
+          .min(3)
           .required()
       },
       function(error, value) {
         if (error) {
           valid = false;
           if (value.username === "")
-            me.setState({ usernameError: "Full name is required" });
+            me.setState({ usernameError: "User name is required" });
           else me.setState({ usernameError: "Invalid Name" });
         } else me.setState({ usernameError: "" });
       }
@@ -128,89 +123,131 @@ export default class RegisterLawyer extends React.Component {
     }
   };
 
-  handleClickShowPassword = () => {
-    this.setState(state => ({ showPassword: !state.showPassword }));
-  };
 
   render() {
-    if (this.state.home===0) return <div> </div>;
-    if (this.state.home===1) return <Redirect to={{ pathname: "/" }} />;
+    const styles = {
+      error: {
+        display: "none"
+      },
+      label: {
+        width: "35%",
+        margin: "auto"
+      }
+    };
+    if (!this.state.passed) return <h1>Unauthorized</h1>;
+    else
       return (
-        <div>
-          <br />
-          <h3 class="text-center text-info">Register</h3>
-          <form id="RegisterLawyer">
-            <FormControl required>
-              <InputLabel>Username</InputLabel>
-              <Input id="username" type="text" style={{ width: 200 }}/>
-            </FormControl>
-            <br />
-            <label id="Error" class="text-danger">
-              {" "}
-              {this.state.usernameError}
-            </label>
-            <br />
-            <FormControl required>
-              <InputLabel>Email</InputLabel>
-              <Input id="email" type="text" style={{ width: 200 }}/>
-            </FormControl>
-            <br />
-            <label id="Error" class="text-danger">
-              {" "}
-              {this.state.emailError}
-            </label>
-            <br />
-            <FormControl required>
-              <InputLabel>Full Name</InputLabel>
-              <Input id="fullName" type="text" style={{ width: 200 }}/>
-            </FormControl>
-            <br />
-            <label id="Error" class="text-danger">
-              {" "}
-              {this.state.fullNameError}
-            </label>
-            <br />
-            <FormControl required>
-              <InputLabel htmlFor="adornment-password">Password</InputLabel>
-              <Input
-                id="password"
-                type={this.state.showPassword ? "text" : "password"}
-                style={{ width: 200 }}
-                endAdornment={
-                  <InputAdornment position="end">
-                    <IconButton
-                      aria-label="Toggle password visibility"
-                      onClick={this.handleClickShowPassword}
+        <div style={{ paddingTop: "10vh" }}>
+          <div class="wrapper">
+            <div
+              class="page-header"
+              style={{
+                backgroundImage: "url('../assets/img/login-image.jpg')"
+              }}
+            >
+              <div class="filter" />
+              <div class="container">
+                <div class="row">
+                  <div class="col-lg-4 col-sm-6 mr-auto ml-auto">
+                    <div
+                      class="card card-register"
+                      style={{
+                        backgroundColor: "#FFFFFF",
+                        boxShadow: "0px 3px 20px rgba(0, 0, 0, 0.16)"
+                      }}
                     >
-                      {this.state.showPassword ? (
-                        <Visibility />
-                      ) : (
-                        <VisibilityOff />
-                      )}
-                    </IconButton>
-                  </InputAdornment>
-                }
-              />
-            </FormControl>
-            <br />
-            <label id="Error" class="text-danger">
-              {" "}
-              {this.state.passwordError}
-            </label>
-          </form>
-          <Button variant="outlined" color="primary" onClick={this.submit}>
-            Register
-          </Button>
-          <br />
-          <br />
-          <label id="Success" class="text-danger">
-            {this.state.val === "Successfully Created!" ? (
-              <Redirect to={{ pathname: "/LawyerViewTasks" }} />
-            ) : (
-              this.state.val
-            )}
-          </label>
-          <br />
+                      <h3
+                        class="title"
+                        style={{
+                          fontFamily:
+                            "-apple-system, BlinkMacSystemFont, sans-serif",
+                          fontSize: "30px",
+                          fontWeight: "bold",
+                          color: "#223242"
+                        }}
+                      >
+                        Register
+                      </h3>
+                      <form id="RegisterLawyer">
+                        <input
+                          id="username"
+                          type="text"
+                          placeholder="Username"
+                          class="form-control"
+                        />
+                        <br />
+                        <label id="Error" class="text-danger">
+                          {" "}
+                          {this.state.usernameError}
+                        </label>
+                        <br />
+                        <input
+                          id="email"
+                          type="text"
+                          class="form-control"
+                          placeholder="Email"
+                        />
+                        <br />
+                        <label id="Error" class="text-danger">
+                          {" "}
+                          {this.state.emailError}
+                        </label>
+                        <br />
+                        <input
+                          id="fullName"
+                          type="text"
+                          placeholder="Full Name"
+                          class="form-control"
+                        />
+                        <br />
+                        <label id="Error" class="text-danger">
+                          {" "}
+                          {this.state.fullNameError}
+                        </label>
+                        <br />
+                        <input
+                          id="password"
+                          type="password"
+                          placeholder="Password"
+                          class="form-control"
+                        />
+                        <br />
+                        <label id="Error" class="text-danger">
+                          {" "}
+                          {this.state.passwordError}
+                        </label>
+                      </form>
+                      <div align="center">
+                        <Fab
+                          variant="extended"
+                          size="medium"
+                          style={{
+                            boxShadow: "none",
+                            marginTop: "6px",
+                            backgroundColor: "#1ace98",
+                            color: "#FFFFFF",
+                            width: 150
+                          }}
+                          aria-label="Delete"
+                          onClick={this.submit}
+                        >
+                          Register
+                        </Fab>
+                      </div>
+                      <br />
+                      <br />
+                      <label id="Success" class="text-danger">
+                        { (
+                          this.state.val
+                        )}
+                      </label>
+                      <br />
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       );
   }
