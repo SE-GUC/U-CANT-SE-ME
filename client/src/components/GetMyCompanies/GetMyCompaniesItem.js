@@ -11,10 +11,9 @@ export class GetMyCompaniesItem extends Component {
       <div>
         <TextField disabled
           id="standard-full-width"
-          label="Company Name"
+          label="Company Name Arabic"
           style={{ margin: 15 }}
-          value={this.props.company.companyName}
-          // helperText="Full width!"
+          value={this.props.company.companyNameArabic}
           fullWidth
           multiline
           margin="normal"
@@ -56,7 +55,6 @@ export class GetMyCompaniesItem extends Component {
           label="Company's Social Insurance Number"
           style={{ margin: 15 }}
           value={this.props.company.socialInsuranceNumber}
-          // helperText="Full width!"
           fullWidth
           multiline
           margin="normal"

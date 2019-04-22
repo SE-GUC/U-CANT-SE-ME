@@ -1,0 +1,287 @@
+@media screen and (min-width:600px){
+    .createCompany{
+        padding-top:35vh;
+        float:left;
+       
+     }
+     .hero{
+         background-color:#0F80ED;
+         height:100vh;
+     }
+     .createCompanySpan{
+         padding-left: 14vw;
+     color:white;
+     font-style: normal; 
+     font-weight: bold;
+     font-size :35px;
+     text-align: left;
+     max-height: 12vh;
+     }
+     .createComp{
+         padding-top:-3px;
+         padding-left: 14vw;
+         text-align: left;
+         font-family:'SF Pro Display';
+         font-style: normal;
+         font-weight: bold;
+         font-size: 17px ;
+         color:white;
+     }
+     .arrow{
+         padding-top: 90vh;
+         
+     }
+     #Path_7_A1_Path_2 {
+         
+         float:bottom;
+         opacity: 1;
+         fill: white;
+        padding-top:95vh;
+        margin-top: 95vh;
+        bottom:10px;
+         
+     }
+     .Path_7_A1_Path_2 {
+         transform: matrix(1,0,0,1,0,0);
+         overflow: visible;
+         top: 0px;
+         left: 0px;
+         width: 59.679px;
+         height: 33.831px;
+     }
+
+     .all{
+        position:relative;
+    }
+    .homePage2{
+    padding-top: 9vh;
+    }
+    .homePage2Div1{
+        height: 85vh;
+        background-color: rgb(255, 255, 255,1);
+        width:100%;
+    
+    
+    }
+    .homePage2Div2{
+        background-color:  rgba(245,246,247,1);
+    }
+    .homePage2Div3{
+        background-color:  rgba(245,246,247,1);
+        /* text-align: center; */
+    }
+    .homePageHeader2{
+        
+        text-align: center;
+        padding-top: 8%;
+        /* padding-left:10vw; */
+        font-family: 'SF Pro Display';
+        font-style: normal;
+        font-weight: lighter;
+        color: rgba(34,50,66,1);
+        font-size: 65px;
+    
+    }
+    .homePagePar2{
+        text-align: left;
+        padding-top: 1%;
+        /* padding-left:30vw; */
+        text-align: center;
+            font-family: 'SF Pro Display';
+            font-style: normal;
+            font-weight: lighter;
+            font-size: 17px;
+            color: rgba(101,119,131,1);
+    
+    }
+     .homePageContainers{
+    height: 85vh;
+    width: 100%;
+    } 
+    .homePageHeader{
+        padding-top: 8%;
+        text-align: left;
+        padding-left:10vw;
+        font-family: 'SF Pro Display';
+        font-style: normal;
+        font-weight: lighter;
+        color: rgba(34,50,66,1);
+        font-size: 65px;
+    
+    
+    }
+    .homePagePar{
+        padding-top: 1%;
+        text-align: left;
+        padding-left:10vw;
+        text-align: left;
+            font-family: 'SF Pro Display';
+            font-style: normal;
+            font-weight: lighter;
+            font-size: 17px;
+            color: rgba(101,119,131,1);
+    
+    }
+    .SumergiteCopyRight_A0_Text_16{
+        overflow: visible;
+        height: 20vh;
+        background-color: black;
+        
+    }
+    .sumergiteCopyRight{
+        color: rgba(255,255,255,1);
+        text-align: left;
+        font-family: 'SF Pro Display';
+        font-style: normal;
+        font-weight: bold;
+        font-size: 28px;
+        margin-left:10vw;
+        padding-top:2%;
+        
+    }
+}
+@media screen and (max-width:599px){
+    .createCompany{
+        padding-top:35vh;
+        float:left;
+       
+     }
+     .hero{
+         background-color:#0F80ED;
+         height:100vh;
+         width :100vw;
+     }
+     .createCompanySpan{
+         padding-left: 14vw;
+     color:white;
+     font-style: normal; 
+     font-weight: bold;
+     font-size :30px;
+     text-align: left;
+     max-height: 12vh;
+     }
+     .createComp{
+         padding-top:-3px;
+         padding-left: 14vw;
+         text-align: left;
+         font-family:'SF Pro Display';
+         font-style: normal;
+         font-weight: bold;
+         font-size: 14px ;
+         color:white;
+     }
+     .arrow{
+         padding-top: 90vh;
+         align-self: right; 
+         
+     }
+     #Path_7_A1_Path_2 {
+         
+         float:bottom;
+         opacity: 1;
+         fill: rgb(255,255, 255,1);
+        padding-top:95vh;
+        margin-top: 95vh;
+        bottom:10px;
+         
+     }
+     .Path_7_A1_Path_2 {
+         transform: matrix(1,0,0,1,0,0);
+         overflow: visible;
+         top: 0px;
+         left: 0px;
+         width: 59.679px;
+         height: 33.831px;
+     }
+
+
+    .all{
+        position:relative;
+    }
+    .homePage2{
+    padding-top: 9vh;
+    }
+    .homePage2Div1{
+        /* height: 45vh; */
+        background-color: rgb(255, 255, 255,1);
+        width:100%;
+    
+    
+    }
+    .homePage2Div2{
+        background-color:  rgba(245,246,247,1);
+    }
+    .homePage2Div3{
+        background-color:  rgba(245,246,247,1);
+        /* text-align: center; */
+    }
+    .homePageHeader2{
+        
+        text-align: center;
+        padding-top: 8%;
+        /* padding-left:10vw; */
+        font-family: 'SF Pro Display';
+        font-style: normal;
+        font-weight: lighter;
+        color: rgba(34,50,66,1);
+        font-size: 30px;
+    
+    }
+    .homePagePar2{
+        text-align: left;
+        padding-top: 1%;
+        /* padding-left:30vw; */
+        text-align: center;
+            font-family: 'SF Pro Display';
+            font-style: normal;
+            font-weight: lighter;
+            font-size: 11px;
+            color: rgba(101,119,131,1);
+    
+    }
+     .homePageContainers{
+    height: 45vh;
+    width: 100%;
+    } 
+    .homePageHeader{
+        padding-top: 8%;
+        text-align: left;
+        padding-left:10vw;
+        font-family: 'SF Pro Display';
+        font-style: normal;
+        font-weight: lighter;
+        color: rgba(34,50,66,1);
+        font-size: 30px;
+    
+    
+    }
+    .homePagePar{
+        padding-top: 1%;
+        text-align: left;
+        padding-left:10vw;
+        text-align: left;
+            font-family: 'SF Pro Display';
+            font-style: normal;
+            font-weight: lighter;
+            font-size: 11px;
+            color: rgba(101,119,131,1);
+    
+    }
+    .SumergiteCopyRight_A0_Text_16{
+        overflow: visible;
+        height: 6vh;
+        background-color: black;
+        
+    }
+    .sumergiteCopyRight{
+        color: rgba(255,255,255,1);
+        text-align: left;
+        font-family: 'SF Pro Display';
+        font-style: normal;
+        font-weight: bold;
+        font-size: 14px;
+        margin-left:10vw;
+        padding-top:2%;
+        
+    }
+}

@@ -1,12 +1,16 @@
 import React, { Component } from 'react';
 import Managers from '../Managers';
 import axios from 'axios';
+import parseJwt from '../../helpers/decryptAuthToken';
+import {Redirect} from 'react-router-dom'
 const Joi = require("joi");
 
 class InvestorFillForm extends Component {
   constructor() {
     super();
     this.state = {
+        home:0,
+        investorid:'',
         message : '',
         messageType:'',
         messageLaw: '',
@@ -47,6 +51,24 @@ class InvestorFillForm extends Component {
     this.updateManagerAdrress = this.updateManagerAdrress.bind(this);
     this.updateManagerPosition = this.updateManagerPosition.bind(this);
 }
+    async componentDidMount()
+    {
+        if (!localStorage.jwtToken) {
+            alert("You must login!");
+            this.setState({ home: 1 });
+            return;
+          }
+          try{
+              await axios.get('../api/investors/auth')
+          }catch(err){
+              alert("You are not allowed to access this page");
+              this.setState({ home: 1 });
+              return;
+          }
+        this.setState({home:2})
+        const data = parseJwt(localStorage.jwtToken)
+        await this.setState({investorid:data.id})
+    }
     addManager(){
         this.state.managers.slice();
         this.state.managers.push({ managerName: "" ,managerType: "", managerGender: "" , managerNationality: "" , 
@@ -299,14 +321,17 @@ class InvestorFillForm extends Component {
             }
         }
         try{
-        await axios.post('api/investors/fillForm/5ca7a93fbac716049d1e3af8', mycase)
+            const id = this.state.investorid;
+        await axios.post(`api/investors/fillForm/${id}`, mycase)
         this.setState({message: 'Successfully added'})
     }catch{
         this.setState({message: 'wrong input'})
         }
     }
   render() {
-    return (
+    if (this.state.home===0) return <div></div>;
+    if (this.state.home===1) return <Redirect to={{ pathname: "/" }} />;
+    else return (
         <div className="lawyerFillForm">
         <label>Company Type: </label>
         <select onChange={this.changeType}>

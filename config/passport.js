@@ -2,10 +2,18 @@ const LocalStrategy = require('passport-local').Strategy
 const mongoose = require('mongoose')
 const bcrypt = require('bcryptjs')
 
+const JwtStrategy = require('passport-jwt').Strategy
+const ExtractJwt = require('passport-jwt').ExtractJwt
+const tokenKey = require('./keys').secretOrKey
+
 const Investor = require('../models/Investor')
 const Reviewer = require('../models/Reviewer')
 const Admin = require('../models/Admin')
 const Lawyer = require('../models/Lawyer')
+
+let opts = {};
+opts.jwtFromRequest = ExtractJwt.fromAuthHeaderAsBearerToken()
+opts.secretOrKey = tokenKey
 
 module.exports = function(passport){
     passport.use('investors',
@@ -82,7 +90,6 @@ module.exports = function(passport){
             Lawyer.findOne({ email: email })
             .then(lawyer => {
                 if(!lawyer){
-                    console.log(lawyer)
                     return done(null, false, {message: 'That email is not registered' })
                 }
 
@@ -146,4 +153,24 @@ module.exports = function(passport){
           done(err, admin)
         })
     })
+    passport.use('adminAuth',new JwtStrategy(opts, async (jwtPayload, done) => {
+        const currentUser = await Admin.findById(jwtPayload.id)
+        if(currentUser) return done(null,currentUser)
+        return done(null,false)
+     }))
+    passport.use('reviewerAuth',new JwtStrategy(opts, async (jwtPayload, done) => {
+        const currentUser = await Reviewer.findById(jwtPayload.id)
+        if(currentUser) return done(null,currentUser)
+        return done(null,false)
+     }))
+    passport.use('lawyerAuth',new JwtStrategy(opts, async (jwtPayload, done) => {
+        const currentUser = await Lawyer.findById(jwtPayload.id)
+        if(currentUser) return done(null,currentUser)
+        return done(null,false)
+     }))
+    passport.use('investorAuth',new JwtStrategy(opts, async (jwtPayload, done) => {
+        const currentUser = await Investor.findById(jwtPayload.id)
+        if(currentUser) return done(null,currentUser)
+        return done(null,false)
+     }))
 }

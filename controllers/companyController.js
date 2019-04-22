@@ -11,9 +11,9 @@ exports.getCompany = async function(req, res) {
   try {
     //query for specified company (specific id passed in params)
     const requestedCompany = await Company.findById(req.params.id);
-    res.json({ msg: "Company was found successfully", data: requestedCompany });
+    res.send({ msg: "Company was found successfully", data: requestedCompany });
   } catch (error) {
-    return res.status(404).send({ error: "ERROR 404: Company does not exist" });
+    return res.status(404).send({ error: "Company does not exist!" });
   }
 };
 
@@ -22,10 +22,9 @@ exports.getAllCompanies = async function(req, res) {
   try {
     //query for all companies
     const companies = await Company.find();
-    res.json({ data: companies });
+    res.send({ data: companies });
   } catch (error) {
-    res.send({ error: "Oops something went wrong!" });
-    console.log(error);
+    res.send({ error: "Something went wrong!" });
   }
 };
 
@@ -33,11 +32,9 @@ exports.getAllCompanies = async function(req, res) {
 exports.createCompany = async function(req, res) {
   try {
     //saving caseID and passedID passed in body
-    const caseID = req.body.caseID;
-    const investorID = req.body.investorID;
-    //deleting caseID and investorID from body
-    delete req.body.caseID;
-    delete req.body.investorID;
+    const caseId = req.body.caseId;
+    const investorId = req.body.investorId;
+
     //passing body to the validator without caseID and investorID as they're not validated using Joi
     const result = validator.createValidation(req.body);
     //check that the passed data is valid if not return an error
@@ -45,11 +42,14 @@ exports.createCompany = async function(req, res) {
       return res.status(400).send({ error: result.error.details[0].message });
     //querying for companies where the companyName is the same as the one passed in the body,
     //if the length of said query is >0 that means the companyName has been used before
-    let postCompany = await Company.where("companyName", req.body.companyName);
+    let postCompany = await Company.where(
+      "companyNameArabic",
+      req.body.companyNameArabic
+    );
     //querying for all companies by the specified investor to check that they only have 1 SSC company (shown in loop)
     let investorCompanies = await Company.where(
-      "investorID",
-      req.body.investorID
+      "investorId",
+      req.body.investorId
     );
     let countSSC = 0;
     for (let i = 0; i < investorCompanies.length; i++)
@@ -60,20 +60,22 @@ exports.createCompany = async function(req, res) {
     if (postCompany.length > 0)
       return res.status(400).send({ error: "Company name already taken!" });
     //return the caseID and investorID values to the body as they were deleted initially
-    req.body.caseID = caseID;
-    req.body.investorID = investorID;
+    req.body.caseId = caseId;
+    req.body.investorId = investorId;
     //checking that both investorID and caseID exist in the DB if they don't return an error
-    const checkInvestorExists = await Investor.findById(req.body.investorID);
-    const checkCaseExists = await Case.findById(req.body.caseID);
+    const checkInvestorExists = await Investor.findById(req.body.investorId);
+    const checkCaseExists = await Case.findById(req.body.caseId);
     if (checkCaseExists === null)
-      return res.status(403).send({ msg: "Forbidden" });
+      return res.status(403).send({ error: "Forbidden" });
     if (checkInvestorExists === null)
-      return res.status(403).send({ msg: "Forbidden" });
+      return res.status(403).send({ error: "Forbidden" });
     //creating the company after it passes all these tests
     const newCompany = await Company.create(req.body);
-    res.json({ msg: "Company was created successfully", data: newCompany });
+    res.send({ msg: "Company was created successfully", data: newCompany });
   } catch (error) {
-    res.json({ msg: "An error has occured, check your entered data please." });
+    res.send({
+      error: "An error has occured, check your entered data please."
+    });
   }
 };
 
@@ -86,23 +88,23 @@ exports.updateCompany = async function(req, res) {
         .status(400)
         .send({ error: resultBody.error.details[0].message });
     let putCompany = await Company.findById(req.params.id);
-    // console.log(putCompany)
     if (putCompany.length === 0)
       return res.status(404).send({ error: "Company does not exist!" });
-    if (req.body.newCompanyName !== undefined) {
+    if (req.body.companyNameArabic) {
       let checkIfCompanyNameExists = await Company.where(
-        "companyName",
-        req.body.newCompanyName
+        "companyNameArabic",
+        req.body.companyNameArabic
       );
       if (checkIfCompanyNameExists.length > 0)
         return res.status(400).send({ error: "Company name already taken!" });
-      putCompany.companyName = req.body.newCompanyName;
+      putCompany.companyNameArabic = req.body.companyNameArabic;
     }
     await Company.findByIdAndUpdate(req.params.id, putCompany);
-    res.json({ msg: "Company updated successfully" });
+    res.send({ msg: "Company updated successfully" });
   } catch (error) {
-    // console.log(error)
-    res.json({ msg: " An error has occured, check your entered data please." });
+    res.send({
+      error: " An error has occured, check your entered data please."
+    });
   }
 };
 
@@ -114,8 +116,10 @@ exports.deleteCompany = async function(req, res) {
     //if company does not exist notify the requester
     if (deletedCompany === null)
       return res.status(404).send({ error: "Company does not exist!" });
-    res.json({ msg: "Company was deleted successfully", data: deletedCompany });
+    res.send({ msg: "Company was deleted successfully", data: deletedCompany });
   } catch (error) {
-    res.json({ msg: "An error has occured, please check your entered data." });
+    res.send({
+      error: "An error has occured, please check your entered data."
+    });
   }
 };
