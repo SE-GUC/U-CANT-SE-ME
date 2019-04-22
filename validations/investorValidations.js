@@ -17,17 +17,41 @@ module.exports = {
         .min(3)
         .required(),
       type: Joi.string().required(), //Input will come from a list. No need for: Joi.any().valid(['a', 'b', 'c']).required()
-      gender: Joi.any().valid(["Male", "Female"]).required(), //Input will come from a list. No need for: Joi.any().valid(['M', 'F']).required()
+      gender: Joi.any()
+        .valid(["Male", "Female"])
+        .required(), //Input will come from a list. No need for: Joi.any().valid(['M', 'F']).required()
       nationality: Joi.string().required(), //Input will come from a list
-      methodOfIdentification: Joi.string().required(), //Input will come from a list
+      methodOfIdentification: Joi.string()
+        .valid(["NID", "passport"])
+        .required(), //Input will come from a list
       identificationNumber: Joi.string().required(),
       dateOfBirth: Joi.date()
         .max(earliestBirthDate)
-        .required().min(latestBirthDate),
+        .required()
+        .min(latestBirthDate),
       residenceAddress: Joi.string().required(),
-      telephoneNumber: Joi.string().trim().regex(/^[0-9]{7,14}$/),
-      fax: Joi.string().trim().regex(/^[0-9]{7,10}$/)
+      telephoneNumber: Joi.string()
+        .trim()
+        .regex(/^[0-9]{7,14}$/),
+      fax: Joi.string()
+        .trim()
+        .regex(/^[0-9]{7,10}$/)
     };
+
+    if (
+      request.nationality === "Egyptian" &&
+      request.methodOfIdentification === "NID"
+    ) {
+      let validation = Joi.validate(
+        { identificationNumber: request.identificationNumber },
+        {
+          identificationNumber: Joi.string()
+            .trim()
+            .regex(/^[0-9]{14}$/)
+        }
+      );
+      if (validation.error) return validation;
+    }
 
     return Joi.validate(request, createSchema);
   },
@@ -45,13 +69,34 @@ module.exports = {
       type: Joi.string(), //Input will come from a list. No need for: Joi.any().valid(['a', 'b', 'c']).required()
       gender: Joi.any().valid(["Male", "Female"]), //Input will come from a list. No need for: Joi.any().valid(['M', 'F']).required()
       nationality: Joi.string(), //Input will come from a list
-      methodOfIdentification: Joi.string(), //Input will come from a list
+      methodOfIdentification: Joi.string().valid(["NID", "passport"]), //Input will come from a list
       identificationNumber: Joi.string(),
-      dateOfBirth: Joi.date().max(earliestBirthDate).min(latestBirthDate),
+      dateOfBirth: Joi.date()
+        .max(earliestBirthDate)
+        .min(latestBirthDate),
       residenceAddress: Joi.string(),
-      telephoneNumber: Joi.string().trim().regex(/^[0-9]{7,14}$/),
-      fax: Joi.string().trim().regex(/^[0-9]{7,10}$/)
+      telephoneNumber: Joi.string()
+        .trim()
+        .regex(/^[0-9]{7,14}$/),
+      fax: Joi.string()
+        .trim()
+        .regex(/^[0-9]{7,10}$/)
     };
+
+    if (
+      request.nationality === "Egyptian" &&
+      request.methodOfIdentification === "NID"
+    ) {
+      let validation = Joi.validate(
+        { identificationNumber: request.identificationNumber },
+        {
+          identificationNumber: Joi.string()
+            .trim()
+            .regex(/^[0-9]{14}$/)
+        }
+      );
+      if (validation.error) return validation;
+    }
 
     return Joi.validate(request, updateSchema);
   }

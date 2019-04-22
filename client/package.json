@@ -5,8 +5,10 @@
   "dependencies": {
     "@material-ui/core": "^3.9.3",
     "@material-ui/icons": "^3.0.2",
+    "@trendmicro/react-sidenav": "^0.4.5",
     "mdbreact": "^4.12.0",
     "moment": "^2.24.0",
+    "node-sass": "^4.11.0",
     "prismjs": "^1.16.0",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",

@@ -18,7 +18,6 @@ class CheckoutForm extends Component {
       );
       verdict = { completed: true, failed: false };
     } catch (err) {
-      console.log(err);
       verdict = { completed: false, failed: true };
     }
     this.props.submitAction(verdict);

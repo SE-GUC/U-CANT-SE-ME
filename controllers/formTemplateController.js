@@ -5,7 +5,7 @@ const validator = require("../validations/formTemplateValidations");
 const mongoValidator = require("validator");
 
 const FormTemplate = require("../models/FormTemplate");
-const Case = require("../models/dCase");
+const Case = require("../models/Case");
 
 //Get all FormTemplate
 exports.getAllFormTemplates = async function(req, res) {
@@ -83,8 +83,9 @@ exports.deleteFormTemplate = async function(req, res) {
   res.send({ msg: "Form Template successfully deleted!", data: formTemplate });
 };
 
+
 //make an an instance of the ruleFunction
-function makeRuleFunction(rulesFunction) {
+exports.makeRuleFunction = function (rulesFunction) {
   let wrapper =
     "function (investor, form, managers = []) { " + rulesFunction + " } ";
   return new Function("return " + wrapper);
@@ -225,7 +226,7 @@ exports.validateForm = async (form, formTemplate, update) => {
 exports.validateRules = async (formTemplate, newCase) => {
   let valid = false;
   try {
-    const rulesFunction = makeRuleFunction(formTemplate.rulesFunction)();
+    const rulesFunction = exports.makeRuleFunction(formTemplate.rulesFunction)();
     valid = rulesFunction(
       await Investor.findById(newCase.creatorInvestorId),
       newCase.form,

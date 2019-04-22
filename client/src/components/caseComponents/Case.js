@@ -21,7 +21,7 @@ export default class Case extends Component {
   }
   async componentDidMount(){
     const{assignedLawyerId,assignedReviewerId,caseCreationDate,caseStatus,creatorInvestorId,
-      creatorLawyerId,form,managers,previouslyAssignedLawyers,previouslyAssignedReviewers}=this.props.case;
+      creatorLawyerId,form,managers,previouslyAssignedLawyers,previouslyAssignedReviewers,companyType}=this.props.case;
       
       let getAssignedLawyer = '';
       let getAssignedReviewer = '';
@@ -46,6 +46,7 @@ export default class Case extends Component {
       this.setState({caseStatus:caseStatus});
       this.setState({caseCreationDate:caseCreationDate});
       this.setState({form:form});
+      this.setState({companyType:companyType});
       this.setState({managers:managers});
       this.setState({previouslyAssignedLawyers:previouslyAssignedLawyers});
       this.setState({previouslyAssignedReviewers:previouslyAssignedReviewers});     
@@ -59,7 +60,7 @@ export default class Case extends Component {
     
     return (
       <div>
-        <h2 class="text-center text-info">Case</h2>
+        <h2 className="text-center text-info">Case</h2>
         <Link to={{pathname: "/addComment",state:{caseID: this.props.case._id}}}>Add Comment</Link>
         <br />
         <TextField disabled
@@ -173,12 +174,12 @@ export default class Case extends Component {
           }}
         />
         <br />
-        <h2 class="text-center text-info">Form</h2>
+        <h2 className="text-center text-info">Form</h2>
         <TextField disabled
           id="standard-full-width"
           label="Company Type"
           style={{ margin: 15 }}
-          value={this.state.form.companyType}
+          value={this.state.companyType}
           // helperText="Full width!"
           fullWidth
           multiline
@@ -314,7 +315,7 @@ export default class Case extends Component {
           }}
         />
         <br />
-        <h2 class="text-center text-info">Managers</h2>
+        <h2 className="text-center text-info">Managers</h2>
         <Managers managersArray={this.state.managers} />
         <br />
         <div className="dropdown-divider"></div>

@@ -5,6 +5,8 @@ import Comment from './ViewComments/Comment';
 import Button from '@material-ui/core/Button'
 import SendIcon from '@material-ui/icons/Send'
 import TextField from "@material-ui/core/TextField"
+import parseJwt from '../helpers/decryptAuthToken';
+import {Redirect} from 'react-router-dom'
 
 class AddComment extends Component {
   state = {
@@ -12,29 +14,48 @@ class AddComment extends Component {
     text:'',
     authorID:'',
     type:'',
-    actionMsg:''
+    actionMsg:'',
+    home:0
   }
 
   handleTextBox = (event) => {
     this.setState({text: event.target.value});
   }
 
-  componentDidMount() {
+  async componentDidMount() {
+    if (!localStorage.jwtToken) {
+      alert("You must login!");
+      this.setState({ home: 1 });
+      return;
+    }
+    try{
+        await axios.get('api/lawyers/authReviewerOrLawyer')
+    }catch(err){
+        alert("You are not allowed to access this page");
+        this.setState({ home: 1 });
+        return;
+    }
+  await this.setState({home:2});
+ 
     if(this.props.location.state){
       axios.get(`api/cases/${this.props.location.state.caseID}`)
       .then(res => {
         if(res.data.data){
           this.setState({case:res.data.data})
-          // put the hardcoded author ID here to test different cases and change state attributes accordingly (no authentication implemented yet)
-          this.setState({authorID:'5ca7af43cd22733af4ab9d51',type:'lawyer'})
+          // this.setState({authorID:'5ca7af43cd22733af4ab9d51',type:'lawyer'})
         }
       }).catch(err =>{
         this.setState({case:err.response.data.error});
       })
     }
+    const data = parseJwt(localStorage.jwtToken)
+     this.setState({authorID:data.id,type:data.type});
+     
   }
 
   render() {
+    if (this.state.home===0) return <div></div>;
+    if (this.state.home===1) return <Redirect to={{ pathname: "/" }} />;
     return (
       <header className="Comments">
         <div>

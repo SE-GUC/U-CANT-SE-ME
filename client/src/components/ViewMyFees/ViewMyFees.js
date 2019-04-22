@@ -2,23 +2,35 @@ import React, { Component } from "react";
 import axios from "axios";
 import ViewMyFeesItem from "./ViewMyFeesItem";
 import PayMyFees from "../PayMyFees/PayMyFeesItem";
-
-const investorId = "5ca7594f3f074a35383a61a3";
-// const investorId="5ca6229afd83c24bf091758e"
+import parseJwt from "../../helpers/decryptAuthToken";
+import {Redirect} from 'react-router-dom';
 
 class ViewMyFees extends Component {
   state = {
-    fees: []
+    fees: [],
+    investorId:""
   };
   
-  componentDidMount() {
-    // const { data: fees } = await axios.get(
-    //   `http://localhost:5000/api/investors/viewMyFees/${investorId}/`
-    // );
-    // this.setState({ fees: fees.response });
+  async componentDidMount() {
+    if (!localStorage.jwtToken) {
+      alert("You must login!");
+      this.setState({ home: 1 });
+      return;
+    }
+    try{
+        await axios.get('../api/investors/auth')
+    }catch(err){
+      alert("You are not allowed");
+      this.setState({ home: 1 });
+      return;
+    }
+    this.setState({ home: 2 });
+    const data = parseJwt(localStorage.jwtToken)
+    await this.setState({investorId:data.id})
+    const id = this.state.investorId
     axios
-      .get(`api/investors/viewMyFees/${investorId}/`)
-      .then(res => this.setState({ fees: res.data.response }));
+      .get(`../api/investors/viewMyFees/${id}/`)
+      .then(res => this.setState({ fees: res.data }));
   }
 
   getStyle = () => {
@@ -30,15 +42,17 @@ class ViewMyFees extends Component {
   };
 
   render() {
-    return Array.isArray(this.state.fees) ? (
-      this.state.fees.map(fees => (
+    if (this.state.home===0) return <div> </div>;
+      if (this.state.home===1) return <Redirect to={{ pathname: "/" }} />;
+      return (this.state.fees.data) ? (
+      this.state.fees.data.map(fees => (
         <div key={fees.companyName} style = {this.getStyle()}>
           <ViewMyFeesItem fees={fees} valid={true} />
-          <PayMyFees investorId = {investorId} caseId = {fees._id}/>
+          <PayMyFees investorId = {this.state.investorId} caseId = {fees._id}/>
         </div>
       ))
     ) : (
-      <ViewMyFeesItem valid={false} message={this.state.fees} />
+      <ViewMyFeesItem valid={false} message={this.state.fees.msg} />
     );
   }
 }

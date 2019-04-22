@@ -11,11 +11,14 @@ const ExternalEntitySchema = new Schema({
     type: String,
     required: false
   },
-  socket: {
+  url: {
     type: String,
     unique: true,
     required: true
   }
 });
 
-module.exports = ExternalEntity = mongoose.model("externalEntities", ExternalEntitySchema);
+module.exports = ExternalEntity = mongoose.model(
+  "ExternalEntity",
+  ExternalEntitySchema
+);

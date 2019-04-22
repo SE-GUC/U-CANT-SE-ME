@@ -1,19 +1,37 @@
 import React, { Component } from 'react'
 import Case from './Case';
 import axios from 'axios';
-
+import parseJwt from '../../helpers/decryptAuthToken';
+import {Redirect} from 'react-router-dom'
+const  prefix="http://localhost:5000/";
 export default class LawyerViewTasks extends Component {
     state ={
         cases :[],
         caseid:"",
-        LawyerID:"5ca777485c74d20e80486f9c"
+        lawyerId:"",
+        home:0
     };
 
     async componentDidMount(){
 
-        const id =this.state.LawyerID;
+        if (!localStorage.jwtToken) {
+            alert("You must login!");
+            this.setState({ home: 1 });
+            return;
+        }
+        try{
+              await axios.get('api/lawyers/auth')
+        }catch(err){
+            alert("You are not allowed to access this page");
+            this.setState({ home: 1 });
+            return;
+        }
+        this.setState({ home: 2 });
+        const data = parseJwt(localStorage.jwtToken)
+        await this.setState({lawyerId:data.id})
+        const id =this.state.lawyerId;
         const getCases = await axios.get(`api/lawyers/lawyerTasks/${id}`);
-        this.setState({cases: getCases.data.Tasks});
+        await this.setState({cases: getCases.data.Tasks});
     };
     accept=async (caseId)=>
     {
@@ -36,30 +54,34 @@ export default class LawyerViewTasks extends Component {
 
     viewDecision=async (id) =>
     {
-        window.open(`api/lawyers/viewDecision/${id}`,'_blank');
+        window.open(`${prefix}api/lawyers/viewDecision/${id}`,'_blank');
     }
     downloadDecision=async (id) =>
     {
-        window.open(`api/lawyers/downloadDecision/${id}`,'_blank');
+        window.open(`${prefix}api/lawyers/downloadDecision/${id}`,'_blank');
     }
     viewContract=async (id) =>
     {
-        window.open(`api/lawyers/viewContract/${id}`,'_blank');
+        window.open(`${prefix}api/lawyers/viewContract/${id}`,'_blank');
     }
     downloadContract=async (id) =>
     {
-        window.open(`api/lawyers/downloadContract/${id}`,'_blank');
+        window.open(`${prefix}api/lawyers/downloadContract/${id}`,'_blank');
     }
 
     render() {
+        if (this.state.home===0) return <div/>;
+        if (this.state.home===1) return <Redirect to={{ pathname: "/" }} />;
+        else
         return (
+            this.state.cases.length==0? <h1>You dont have any cases.</h1>:
             <header className="LawyerViewTasks">
             <div>
                 {this.state.cases.map((x) => (
                     <div>
-                        {x.form.companyType==="SPC"?
+                        {x.companyType==="SPC"?
                         <div>
-                            <button onClick={() => this.viewDecision(x._id)}>View Dicision</button>
+                            <button onClick={() => this.viewDecision(x._id)}>View Decision</button>
                             <button onClick={() =>this.downloadDecision(x._id)}>Download PDF</button>
                         </div>:
                         <div>
