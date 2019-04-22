@@ -25,13 +25,13 @@ export default class ReviewerViewCase extends Component {
               this.setState({ home: 1 });
               return;
           }
-        await this.setState({home:2});
-        const data = parseJwt(localStorage.jwtToken)
-        await this.setState({reviwerID:data.id})
-        const id =this.state.reviwerID;
-       
-        const getCases = await axios.get(`api/reviewers/getAllUnsignedCases/${id}`);
-        this.setState({cases: getCases.data.data});
+          const data = parseJwt(localStorage.jwtToken)
+          await this.setState({reviwerID:data.id})
+          const id =this.state.reviwerID;
+          
+          const getCases = await axios.get(`api/reviewers/getAllUnsignedCases/${id}`);
+          await this.setState({cases: getCases.data.data});
+        this.setState({home:2});
     };
     
     async handelClick (index) {
@@ -41,20 +41,16 @@ export default class ReviewerViewCase extends Component {
         this.componentDidMount()
     }
     render() {
-        if (this.state.home===0) return <div></div>;
+        if (this.state.home===0) return <div />;
         if (this.state.home===1) return <Redirect to={{ pathname: "/" }} />;
-        return this.state.cases.length===0?<h1>There are no unassigned cases</h1>:
-        (this.state.cases.map((x) => (
-        // <button onClick={() => this.handelClick(x._id)}>
-        //     <Case key={x._id} case={x} />
-        // </button>
-        <CasePreview
-              key={Case._id}
-              case={Case}
-            //   handleCaseFullDetails={this.handleCaseFullDetails}
-            />
-        ))
+        else
+        return (
+            <CasesContainerProps cases={this.state.cases}/>
         )
+      }
+      handleCaseFullDetails = (expandedCase) => {
+        this.setState({ isCaseExpaned: true })
+        this.setState({ expandedCase: expandedCase })
       }
 };
 

@@ -45,16 +45,6 @@ export default class LawyerViewCase extends Component {
         else
         return (
             <CasesContainerProps cases={this.state.cases}/>
-            // this.state.cases.map((x) => (
-        // <button onClick={() => this.handelClick(x._id)}>
-            // {/* <Case key={x._id} case={x} /> */}
-        // {/* </button> */}
-        // <CasePreview
-        //       key={x._id}
-        //       case={x}
-        //       handleCaseFullDetails={this.handleCaseFullDetails}
-        //     />
-        // ))
         )
       }
       handleCaseFullDetails = (expandedCase) => {
