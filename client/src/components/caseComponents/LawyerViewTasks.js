@@ -3,7 +3,7 @@ import Case from './Case';
 import axios from 'axios';
 import parseJwt from '../../helpers/decryptAuthToken';
 import {Redirect} from 'react-router-dom'
-
+const  prefix="http://localhost:5000/";
 export default class LawyerViewTasks extends Component {
     state ={
         cases :[],
@@ -54,19 +54,19 @@ export default class LawyerViewTasks extends Component {
 
     viewDecision=async (id) =>
     {
-        window.open(`api/lawyers/viewDecision/${id}`,'_blank');
+        window.open(`${prefix}api/lawyers/viewDecision/${id}`,'_blank');
     }
     downloadDecision=async (id) =>
     {
-        window.open(`api/lawyers/downloadDecision/${id}`,'_blank');
+        window.open(`${prefix}api/lawyers/downloadDecision/${id}`,'_blank');
     }
     viewContract=async (id) =>
     {
-        window.open(`api/lawyers/viewContract/${id}`,'_blank');
+        window.open(`${prefix}api/lawyers/viewContract/${id}`,'_blank');
     }
     downloadContract=async (id) =>
     {
-        window.open(`api/lawyers/downloadContract/${id}`,'_blank');
+        window.open(`${prefix}api/lawyers/downloadContract/${id}`,'_blank');
     }
 
     render() {
@@ -74,14 +74,14 @@ export default class LawyerViewTasks extends Component {
         if (this.state.home===1) return <Redirect to={{ pathname: "/" }} />;
         else
         return (
-            this.state.cases.length==0? "You dont have any cases.":
+            this.state.cases.length==0? <h1>You dont have any cases.</h1>:
             <header className="LawyerViewTasks">
             <div>
                 {this.state.cases.map((x) => (
                     <div>
-                        {x.form.companyType==="SPC"?
+                        {x.companyType==="SPC"?
                         <div>
-                            <button onClick={() => this.viewDecision(x._id)}>View Dicision</button>
+                            <button onClick={() => this.viewDecision(x._id)}>View Decision</button>
                             <button onClick={() =>this.downloadDecision(x._id)}>Download PDF</button>
                         </div>:
                         <div>
