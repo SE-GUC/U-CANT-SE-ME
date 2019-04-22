@@ -104,6 +104,123 @@ export default class InvestorRegister extends React.Component {
           };
         }
       }
+
+        this.setState({type: body.type})
+        Joi.validate({fullName:body.fullName}, {fullName: Joi.string().min(3)}, function (error, value) {
+            if(error)
+            {
+                valid=false;
+                if(value.fullName==='')
+                    me.setState({fullNameError:'Full name is required'})
+                else
+                    me.setState({fullNameError:'Invalid Name'});
+            }
+            else
+                me.setState({fullNameError:''});
+        });
+        Joi.validate({email:body.email}, {email: Joi.string().email()}, function (error, value) {
+            if(error)
+            {
+                valid=false;
+                if(value.email==='')
+                    me.setState({emailError:'Email is required'})
+                else
+                    me.setState({emailError:'Invalid Email'});
+            }    
+            else
+                me.setState({emailError:''});
+        });
+        Joi.validate({password:body.password}, {password: Joi.string().min(8)}, function (error, value) {
+            if(error)
+            {
+                valid=false;
+                if(value.password==='')
+                    me.setState({passwordError:'Password is required'});
+                else
+                    me.setState({passwordError:'Password is weak'});
+            }    
+            else
+                me.setState({passwordError:''});
+        });
+        Joi.validate({nationality:body.nationality}, {nationality: Joi.string()}, function (error, value) {
+            if(error)
+            {
+                valid=false;
+                me.setState({nationalityError:'Nationality is required'});
+            }
+            else
+                me.setState({nationalityError:''});
+        });
+        Joi.validate({identificationNumber:body.identificationNumber}, {identificationNumber: Joi.string()}, function (error, value) {
+            if(body.nationality==='Egyptian' && body.identificationNumber.length !== 14)
+            {
+                valid=false;
+                me.setState({identificationNumberError:'Identification number must be 14 digits'});
+            }
+            else if(error)
+            {
+                valid=false;
+                me.setState({identificationNumberError:'Identification number is required'});
+            }
+            else
+                me.setState({identificationNumberError:''});
+        });
+        Joi.validate({dateOfBirth:body.dateOfBirth}, {dateOfBirth: Joi.date().max(earliestBirthDate).required().min(latestBirthDate)}, function (error, value) {
+            if(error)
+            {
+                valid=false;
+                if(value.dateOfBirth==='')
+                    me.setState({dateOfBirthError:'Date of birth is required'});
+                else
+                    me.setState({dateOfBirthError:'Invalid date of birth'});
+            }
+            else
+                me.setState({dateOfBirthError:''});
+        });
+        Joi.validate({residenceAddress:body.residenceAddress}, {residenceAddress: Joi.string()}, function (error, value) {
+            if(error)
+            {
+                valid=false;
+                me.setState({residenceAddressError:'Residence Address is required'});
+            }
+            else
+                me.setState({residenceAddressError:''});
+        });
+        Joi.validate({telephoneNumber:body.telephoneNumber}, {telephoneNumber: Joi.string().trim().regex(/^[0-9]{7,14}$/)}, function (error, value) {
+            if(value.telephoneNumber!=='' && error)
+            {
+                valid=false;
+                me.setState({telephoneNumberError:'Invalid Telephone number'});
+            }
+            else
+                me.setState({telephoneNumberError:''});
+        });
+        Joi.validate({fax:body.fax}, {fax: Joi.string().trim().regex(/^[0-9]{7,10}$/)}, function (error, value) {
+            if(value.fax!=='' && error)
+            {
+                valid=false
+                me.setState({faxError:'Invalid Fax'});
+            }
+            else
+                me.setState({faxError:''});
+        });
+        if(valid)
+        {
+            try
+            {
+                await axios.post("api/investors/register",body);
+                this.setState({valid:'Successfully Created!'})                
+            }
+            catch(error)
+            {   
+                this.state.emailError='This email is already in use'
+                this.setState({valid:'Oops something went wrong!'})
+            }
+        }
+    };
+
+    handleClickShowPassword = () => {
+        this.setState(state => ({ showPassword: !state.showPassword }));
     }
     this.setState({ type: body.type });
     Joi.validate(
