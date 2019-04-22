@@ -446,7 +446,7 @@ class RegisterModal extends React.Component {
           aria-label="Delete"
           onClick={this.openModal}
         >
-          Register
+          {this.props.buttonText}
         </Fab>
 
         {this.state.stage === 0 ? (
