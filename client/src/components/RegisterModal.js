@@ -714,7 +714,7 @@ class RegisterModal extends React.Component {
             </form>
             <label id="Success" class="text-danger">
               {this.state.valid === "Successfully Created!" ? (
-                <Redirect to={{ pathname: "/MyCompanies" }} />
+                <Redirect to={{ pathname: "/profile" }} />
               ) : (
                 <div />
               )}
