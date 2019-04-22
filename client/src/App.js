@@ -37,7 +37,7 @@ import AdminProfile from './components/AdminProfile'
 import updateInvestorProfile from './components/updateInvestorProfile'
 import CreateFormTemplate from './components/CreateFormTemplate/CreateFormTemplate'
 import setAuthToken from './helpers/setAuthToken'
-
+import heroPage from './components/HomePage';
 if(localStorage.jwtToken){
   setAuthToken(localStorage.jwtToken)
 }
@@ -46,12 +46,8 @@ class App extends Component {
     return (
       <Router>
         <div className="App">
-        {/* <NavBarBlue/> */}
-        <Route exact path="/" render={props => (
-          <React.Fragment>
-            <h1>Home</h1>
-          </React.Fragment>
-        )} />
+        
+        <Route  exact path="/" component={heroPage}/>
         <Route path="/Login" component={Login}/>
         <Route path="/TrackMyCompany" component={TrackMyCompany}/>
         <Route path="/viewComments" component={Comments}/>
