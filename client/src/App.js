@@ -39,7 +39,7 @@ import CreateFormTemplate from './components/CreateFormTemplate/CreateFormTempla
 import CasesContainer from './components/dCaseComponents/CasesContainer';
 import setAuthToken from './helpers/setAuthToken';
 import InvestorDashBoard from './components/DashBoard/InvestorDashBoard';
-
+import heroPage from './components/HomePage';
 if(localStorage.jwtToken){
   setAuthToken(localStorage.jwtToken)
 }
@@ -50,12 +50,8 @@ class App extends Component {
       <div>
      <Router>
         <div className="App">
-        {/* <NavBarBlue/> */}
-        <Route exact path="/" render={props => (
-          <React.Fragment>
-            <h1>Home</h1>
-          </React.Fragment>
-        )} />
+        
+        <Route  exact path="/" component={heroPage}/>
         <Route path="/Login" component={Login}/>
         <Route path="/TrackMyCompany" component={TrackMyCompany}/>
         <Route path="/viewComments" component={Comments}/>

@@ -156,7 +156,6 @@ exports.postSSCPDF = async function(req, res) {
 
   pdf.create(allHtml, {}).toFile(caseId + ".pdf", err => {
     if (err) {
-      return console.log("error");
     }
     res.send(Promise.resolve());
   });

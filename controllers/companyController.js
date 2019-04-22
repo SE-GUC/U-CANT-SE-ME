@@ -88,7 +88,6 @@ exports.updateCompany = async function(req, res) {
         .status(400)
         .send({ error: resultBody.error.details[0].message });
     let putCompany = await Company.findById(req.params.id);
-    // console.log(putCompany)
     if (putCompany.length === 0)
       return res.status(404).send({ error: "Company does not exist!" });
     if (req.body.companyNameArabic) {
