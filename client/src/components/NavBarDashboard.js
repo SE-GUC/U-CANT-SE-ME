@@ -27,7 +27,8 @@ export default class NavBarDashboard extends Component {
         marginTop: "11px"
       },
       Header: {
-        boxShadow: this.props.boxShadow
+        boxShadow: this.props.boxShadow,
+        position: 'fixed'
       },
       Dashboard: {
         fontWeight: this.props.dashboard, //either lighter or bold
@@ -62,7 +63,7 @@ export default class NavBarDashboard extends Component {
       this.setState({ homepage: false });
       this.setState({ profile: false });
       this.setState({ electronicJournals: false });
-      return <Redirect to="/InvestorRegister" />;
+      return <Redirect to="/" />;
     }
     if (this.state.profile) {
       //profile
@@ -70,7 +71,7 @@ export default class NavBarDashboard extends Component {
       this.setState({ homepage: false });
       this.setState({ profile: false });
       this.setState({ electronicJournals: false });
-      return <Redirect to="/InvestorRegister" />;
+      return <Redirect to={this.props.profileRedirect} />;
     }
     if (this.state.electronicJournals) {
       //electronicJournals

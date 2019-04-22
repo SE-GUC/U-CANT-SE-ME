@@ -21,7 +21,7 @@ export default class Case extends Component {
   }
   async componentDidMount(){
     const{assignedLawyerId,assignedReviewerId,caseCreationDate,caseStatus,creatorInvestorId,
-      creatorLawyerId,form,managers,previouslyAssignedLawyers,previouslyAssignedReviewers}=this.props.case;
+      creatorLawyerId,form,managers,previouslyAssignedLawyers,previouslyAssignedReviewers,companyType}=this.props.case;
       
       let getAssignedLawyer = '';
       let getAssignedReviewer = '';
@@ -46,6 +46,7 @@ export default class Case extends Component {
       this.setState({caseStatus:caseStatus});
       this.setState({caseCreationDate:caseCreationDate});
       this.setState({form:form});
+      this.setState({companyType:companyType});
       this.setState({managers:managers});
       this.setState({previouslyAssignedLawyers:previouslyAssignedLawyers});
       this.setState({previouslyAssignedReviewers:previouslyAssignedReviewers});     
@@ -178,7 +179,7 @@ export default class Case extends Component {
           id="standard-full-width"
           label="Company Type"
           style={{ margin: 15 }}
-          value={this.state.form.companyType}
+          value={this.state.companyType}
           // helperText="Full width!"
           fullWidth
           multiline

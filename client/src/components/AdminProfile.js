@@ -23,8 +23,8 @@ export default class AdminProfile extends Component {
     if (this.state.home===1) return <Redirect to={{ pathname: "/" }} />;
     return (
       <div>
-        <NavBarDashboard dashboardRedirect="/AdminDashBoard" sumergiteColor= '#3480E3' boxShadow='0px 3px 20px rgba(0, 0, 0, 0.16)' dashboard='bold' profile='lighter' homepage='lighter' DASHBOARD={true} PROFILE={true} ProfileMargin='120px' HomePageMargin='0px'/>
-      
+      <NavBarDashboard dashboardRedirect="/AdminDashBoard" sumergiteColor= '#3480E3' boxShadow='0px 3px 20px rgba(0, 0, 0, 0.16)' dashboard='bold' profile='lighter' homepage='lighter' DASHBOARD={true} PROFILE={true} ProfileMargin='120px' HomePageMargin='0px'/>
+        <div  style={{paddingTop: '10vh'}}>
         {
             this.state.caseSummary? <Redirect to={{pathname: "/CasesSummary"}}/>:
             this.state.caseSwitch? <Redirect to={{pathname: "/CaseSwitch"}}/>:
@@ -63,6 +63,7 @@ export default class AdminProfile extends Component {
       }}>
                 Create Form Template
         </Button>
+      </div>
       </div>
     )
   }
