@@ -106,7 +106,6 @@ export default class InvestorRegister extends React.Component {
       }
     }
     this.setState({ type: body.type });
-    console.log("body", body);
     Joi.validate(
       { fullName: body.fullName },
       { fullName: Joi.string().min(3) },
