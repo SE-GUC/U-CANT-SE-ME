@@ -34,17 +34,24 @@ import InvestorProfile from './components/InvestorProfile'
 import LawyerProfile from './components/LawyerProfile'
 import ReviewerProfile from './components/ReviewerProfile'
 import AdminProfile from './components/AdminProfile'
-import updateInvestorProfile from './components/updateInvestorProfile'
-import CreateFormTemplate from './components/CreateFormTemplate/CreateFormTemplate'
-import setAuthToken from './helpers/setAuthToken'
+import updateInvestorProfile from './components/updateInvestorProfile';
+import CreateFormTemplate from './components/CreateFormTemplate/CreateFormTemplate';
+import CasesContainer from './components/dCaseComponents/CasesContainer';
+import setAuthToken from './helpers/setAuthToken';
+import InvestorDashBoard from './components/DashBoard/InvestorDashBoard';
+import LawyerDashBoard from './components/DashBoard/LawyerDashBoard';
+import AdminDashBoard from './components/DashBoard/AdminDashBoard';
+import ReviewerDashBoard from './components/DashBoard/ReviewerDashBoard';
 import heroPage from './components/HomePage';
 if(localStorage.jwtToken){
   setAuthToken(localStorage.jwtToken)
 }
+
 class App extends Component {
   render() {
     return (
-      <Router>
+      <div>
+     <Router>
         <div className="App">
         
         <Route  exact path="/" component={heroPage}/>
@@ -83,9 +90,15 @@ class App extends Component {
         <Route path="/internalPortal/admin/profile" component={AdminProfile}/>
         <Route path="/updateInvestorProfile" component={updateInvestorProfile}/>
         <Route path="/createFormTemplate" component={CreateFormTemplate}/>
+        <Route path="/CasesContainer" component={CasesContainer}/>
+        <Route path="/InvestorDashboard" component={InvestorDashBoard}/>
+        <Route path="/LawyerDashboard" component={LawyerDashBoard}/>
+        <Route path="/ReviewerDashboard" component={ReviewerDashBoard}/>
+        <Route path="/AdminDashboard" component={AdminDashBoard}/>
         </div>
       </Router>
-    )
+      </div>
+    );
   }
 }
 export default App

@@ -18,6 +18,7 @@ import deepPurple from '@material-ui/core/colors/deepPurple'
 import moment from 'moment'
 import parseJwt from '../helpers/decryptAuthToken'
 import { Redirect } from 'react-router-dom'
+import NavBarDashboard from "./NavBarDashboard";
 const styles= {
   card: {
     width: 345,
@@ -130,6 +131,7 @@ class InvestorProfile extends Component {
     if (this.state.home===1) return <Redirect to={{ pathname: "/" }} />;
     return (
       <div style={{paddingTop: '10vh'}}>
+      <NavBarDashboard dashboardRedirect="/InvestorDashBoard" sumergiteColor= '#3480E3' boxShadow='0px 3px 20px rgba(0, 0, 0, 0.16)' dashboard='bold' profile='lighter' homepage='lighter' DASHBOARD={true} PROFILE={true} ProfileMargin='120px' HomePageMargin='0px'/>
       <Card style={{pointerEvents: 'none'}}>
         <CardActionArea>
           <CardContent>

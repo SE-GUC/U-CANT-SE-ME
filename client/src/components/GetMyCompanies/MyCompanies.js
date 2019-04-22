@@ -53,4 +53,4 @@ class MyCompanies extends Component {
       )
   }
 }
-export default MyCompanies
+export default MyCompanies;

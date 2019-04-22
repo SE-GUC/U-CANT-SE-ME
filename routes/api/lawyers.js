@@ -69,8 +69,8 @@ router.post('/forgot', lawyerController.forgot)
 
 router.post('/reset/:token', lawyerController.reset)
 
-router.get('/downloadContract/:id', lawyerAuth, externalEntityController.getSSCPDF);
-router.get('/viewContract/:id', lawyerAuth, externalEntityController.viewSSCPDF);
+router.get('/downloadContract/:id', externalEntityController.getSSCPDF);
+router.get('/viewContract/:id',  externalEntityController.viewSSCPDF);
 
 
 //As a lawyer i should be able to request change from the investor on his case
@@ -79,7 +79,7 @@ router.put('/requestUpdate/:caseId/:assignedLawyerId', lawyerAuth, lawyerControl
 //As a lawyer i should update my case status after a reviewer requested a change
 router.put('/resumeWorkOnCase/:caseId/:assignedLawyerId', lawyerAuth, lawyerController.resumeWorkOnCase);
 // As a lawyer I should be able to view the generated decision/form for some case
-router.get('/viewDecision/:id', lawyerAuth, externalEntityController.viewSPCHtml)
+router.get('/viewDecision/:id',  externalEntityController.viewSPCHtml)
 // As a lawyer, I should be able to download the pdf for a decision
-router.get('/downloadDecision/:id',lawyerAuth, externalEntityController.generateSPCPdf)
+router.get('/downloadDecision/:id', externalEntityController.generateSPCPdf)
 module.exports = router;
