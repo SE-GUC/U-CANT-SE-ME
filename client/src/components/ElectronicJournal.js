@@ -119,7 +119,7 @@ class ElectronicJournal extends Component {
                 </ListItem>
                 <ListItem>
                   <Avatar style={classes.avatar}>
-                    <LocalPhone />
+                    <CreationDateIcon />
                   </Avatar>
                   <ListItemText
                     primary="Date of Birth"

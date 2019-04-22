@@ -109,16 +109,12 @@ export default class NavBarBlue extends Component {
                     Register
                   </Fab>
                 ) : (
-                  <RegisterModal />
+                  <RegisterModal buttonText="Register" />
                 )}
               </li>
             </ul>
           </div>
         </nav>
-        {/* {
-                  this.state.login===true? <Redirect to={{pathname: '/Login'}}/>:
-                  this.state.register===true? <Redirect to={{pathname: '/InvestorRegister'}}/>:<label/>
-              } */}
       </div>
     );
   }
