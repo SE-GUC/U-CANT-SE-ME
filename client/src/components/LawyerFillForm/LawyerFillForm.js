@@ -62,7 +62,6 @@ async componentDidMount(){
       try{
           await axios.get('api/lawyers/auth')
       }catch(err){
-          console.log(err);
           alert("You are not allowed to access this page");
           this.setState({ home: 1 });
           return;

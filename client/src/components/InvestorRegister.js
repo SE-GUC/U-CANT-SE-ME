@@ -56,7 +56,6 @@ export default class InvestorRegister extends React.Component {
             fax: form.fax.value
         }
         this.setState({type: body.type})
-        console.log('body', body)
         Joi.validate({fullName:body.fullName}, {fullName: Joi.string().min(3)}, function (error, value) {
             if(error)
             {
@@ -164,7 +163,6 @@ export default class InvestorRegister extends React.Component {
             }
             catch(error)
             {   
-                console.log('error', error)
                 this.state.emailError='This email is already in use'
                 this.setState({valid:'Oops something went wrong!'})
             }

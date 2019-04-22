@@ -388,7 +388,6 @@ export default class lawyerUpdateCase extends React.Component {
         }
         if(this.state.val==='Successfully updated'){
           const mycase = await axios.get(`api/cases/${caseID}`);
-          console.log(mycase)
           if(mycase.data.data.form.companyType ==='SPC'){
             window.open(`api/lawyers/downloadDecision/${caseID}`,'_blank');
           }

@@ -44,7 +44,6 @@ exports.createAdmin = async function(req, res) {
     res.json({ msg: "Admin was created successfully", data: newAdmin });
   } catch (error) {
     // We will be handling the error later
-    console.log(error);
   }
 };
 
@@ -77,7 +76,6 @@ exports.updateAdmin = async function(req, res) {
     res.json({ msg: "Admin updated successfully" });
   } catch (error) {
     // We will be handling the error later
-    console.log(error);
   }
 };
 
@@ -93,7 +91,6 @@ exports.deleteAdmin = async function(req, res) {
     res.json({ msg: "Admin was deleted successfully", data: deletedAdmin });
   } catch (error) {
     // We will be handling the error later
-    console.log(error);
   }
 };
 

@@ -19,12 +19,10 @@ class ExternalLogin extends Component {
             if(this.state.type.toString()==="")
                 throw new Error('You Have To Select an Account Type')
             let type = this.state.type.toString().toLowerCase()+'s'
-            console.log('type', type)
             let res = await axios.post(`api/${type}/forgot`, req)
             document.getElementById('Error').style.display = 'none'
             document.getElementById('Error_Type').style.display = 'none'
             document.getElementById('Success').style.display = 'inline'
-            console.log('res', res)
         }
         catch(error){
             if(error.message === 'You Have To Select an Account Type'){
