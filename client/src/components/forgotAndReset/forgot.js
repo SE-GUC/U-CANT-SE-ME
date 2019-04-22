@@ -19,7 +19,6 @@ class ExternalLogin extends Component {
 
             let email = this.state.email.toString()
             let res = await axios.post(`/api/${type}/forgot`, req)
-
             document.getElementById('Error').style.display = 'none'
             document.getElementById('Error_Type').style.display = 'none'
             document.getElementById('Success').style.display = 'inline'

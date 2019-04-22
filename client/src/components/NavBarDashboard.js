@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import "./NavBarBlue.css";
 import { Redirect } from "react-router-dom";
+
 export default class NavBarDashboard extends Component {
   state = {
     headerHeight: 0,
@@ -55,6 +56,7 @@ export default class NavBarDashboard extends Component {
       this.setState({ homepage: false });
       this.setState({ profile: false });
       this.setState({ electronicJournals: false });
+      this.setState({ hero: false });
       return <Redirect to={this.props.dashboardRedirect}/>;
     }
     if (this.state.homepage) {
@@ -63,6 +65,7 @@ export default class NavBarDashboard extends Component {
       this.setState({ homepage: false });
       this.setState({ profile: false });
       this.setState({ electronicJournals: false });
+      this.setState({ hero: false });
       return <Redirect to="/" />;
     }
     if (this.state.profile) {
@@ -71,6 +74,7 @@ export default class NavBarDashboard extends Component {
       this.setState({ homepage: false });
       this.setState({ profile: false });
       this.setState({ electronicJournals: false });
+      this.setState({ hero: false });
       return <Redirect to={this.props.profileRedirect} />;
     }
     if (this.state.electronicJournals) {
@@ -79,7 +83,16 @@ export default class NavBarDashboard extends Component {
       this.setState({ homepage: false });
       this.setState({ profile: false });
       this.setState({ electronicJournals: false });
+      this.setState({ hero: false });
       return <Redirect to="/ElectronicJournals" />;
+    }
+    if (this.state.hero) {
+      this.setState({ dashboard: false });
+      this.setState({ homepage: false });
+      this.setState({ profile: false });
+      this.setState({ electronicJournals: false });
+      this.setState({ hero: false });
+      return <Redirect to="/" />;
     }
     return (
       //navbar navbar-default navbar-alt
@@ -97,7 +110,16 @@ export default class NavBarDashboard extends Component {
             <label />
           )}
           {/* on click handle whatever you want with the back button */}
-          <label style={styles.SumergiteLabel}>Sumergite</label>
+          <label>
+            <button
+              style={styles.SumergiteLabel}
+              onClick={() => {
+                this.setState({ hero: true });
+              }}
+            >
+              Sumergite
+            </button>
+          </label>
           <div className="collapse navbar-collapse" id="navbarSupportedContent">
             <ul className="navbar-nav ml-auto">
               {this.props.DASHBOARD ? (
