@@ -66,14 +66,14 @@ export default class InvestorDashBoard extends Component {
         display: ' inline',
         marginLeft:this.state.dashboardwidth,
         background:"red",
-        display: 'flex', 
+        // display: 'flex', 
         justifyContent: 'center'
       },
       divStyleHide:{
         display: 'none',
         textAlign: "center",
         marginLeft:this.state.dashboardwidth,
-        background:"red",
+        // background:"red",
         justifyContent: 'center'
       }
     };
