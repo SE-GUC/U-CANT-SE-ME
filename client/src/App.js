@@ -38,6 +38,7 @@ import updateInvestorProfile from './components/updateInvestorProfile';
 import CreateFormTemplate from './components/CreateFormTemplate/CreateFormTemplate';
 import CasesContainer from './components/dCaseComponents/CasesContainer';
 import setAuthToken from './helpers/setAuthToken';
+import InvestorDashBoard from './components/DashBoard/InvestorDashBoard';
 
 if(localStorage.jwtToken){
   setAuthToken(localStorage.jwtToken)
@@ -91,6 +92,7 @@ class App extends Component {
         <Route path="/updateInvestorProfile" component={updateInvestorProfile}/>
         <Route path="/createFormTemplate" component={CreateFormTemplate}/>
         <Route path="/CasesContainer" component={CasesContainer}/>
+        <Route path="/InvestorDashboard" component={InvestorDashBoard}/>
         </div>
       </Router>
       </div>

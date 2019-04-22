@@ -15,7 +15,7 @@ class CasesContainer extends Component {
 
   componentDidMount() {
     axios
-      .get("api/dcases/")
+      .get("api/cases/")
       .then(res => {
         this.setState({ cases: res.data.data });
         //   const investors = [];

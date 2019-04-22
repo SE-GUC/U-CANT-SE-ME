@@ -7,6 +7,8 @@ import { BrowserRouter as Router, Route } from 'react-router-dom';
 import CaseSwitch from "../caseComponents/CaseSwitch";
 import RegisterLawyer from "../RegisterLawyer";
 import RegisterReviewer from "../RegisterReviewer";
+import CasesContainer from "../dCaseComponents/CasesContainer";
+import CreateFormTemplate from "../CreateFormTemplate/CreateFormTemplate";
 export default class InvestorDashBoard extends Component {
   constructor(props) {
     super(props)
@@ -45,7 +47,8 @@ async componentDidMount(){
       navStyle: {
         background: "#3480E3",
         zindex:"0",
-        position:"fixed"
+        position:"fixed",
+        boxShadow: "5px 0px 20px rgba(0, 0, 0, 0.16)"
       },
       divStyleShow:{
         display: ' inline',
@@ -70,14 +73,14 @@ async componentDidMount(){
             
           <NavItem eventKey="viewallcases">
               <NavIcon>
-                <i className="fa fa-home" style={styles.iconStyle} />
+                <a className="fa fa-home" style={styles.iconStyle} />
               </NavIcon>
               <NavText>View All Cases</NavText>
             </NavItem>
 
             <NavItem eventKey="register">
               <NavIcon>
-                <i className="fa fa-list-alt" style={styles.iconStyle} />
+                <a className="fa fa-list-alt" style={styles.iconStyle} />
               </NavIcon>
               <NavText>Register</NavText>
               <NavItem eventKey="register/lawyer">
@@ -90,7 +93,7 @@ async componentDidMount(){
 
             <NavItem eventKey="createformtemplate">
               <NavIcon>
-                <i className="fa fa-home" style={styles.iconStyle} />
+                <a className="fa fa-home" style={styles.iconStyle} />
               </NavIcon>
               <NavText>Create Form Template</NavText>
             </NavItem>
@@ -98,7 +101,8 @@ async componentDidMount(){
           </SideNav.Nav>
         </SideNav>
 
-        <div id="CreateForm" style={styles.divStyleShow} >
+        <div id="CreateForm" style={styles.divStyleHide} >
+        <CreateFormTemplate/>
         </div>
         <div id="RegisterLawyer" style={styles.divStyleHide} >
           <RegisterLawyer/>
@@ -106,10 +110,8 @@ async componentDidMount(){
         <div id="RegisterReviewer" style={styles.divStyleHide} >
           <RegisterReviewer/>
         </div>
-        <div id="AllCases" style={styles.divStyleHide} >
-        <Router>
-          <CaseSwitch/>
-          </Router>
+        <div id="AllCases" style={styles.divStyleShow} >
+          <CasesContainer/>
         </div>
 
       </div>
