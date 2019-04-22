@@ -6,5 +6,5 @@ import InvestorDashBoard from './components/DashBoard/InvestorDashBoard'
 
 ReactDOM.render(<App />, document.getElementById('root'));
 // ReactDOM.render(<InvestorDashBoard />, document.getElementById('root'));
-ReactDOM.render(<ReviewerDashBoard />, document.getElementById('root'));
+// ReactDOM.render(<ReviewerDashBoard />, document.getElementById('root'));
 // 

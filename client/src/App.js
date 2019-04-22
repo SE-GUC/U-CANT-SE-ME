@@ -39,6 +39,9 @@ import CreateFormTemplate from './components/CreateFormTemplate/CreateFormTempla
 import CasesContainer from './components/dCaseComponents/CasesContainer';
 import setAuthToken from './helpers/setAuthToken';
 import InvestorDashBoard from './components/DashBoard/InvestorDashBoard';
+import LawyerDashBoard from './components/DashBoard/LawyerDashBoard';
+import AdminDashBoard from './components/DashBoard/AdminDashBoard';
+import ReviewerDashBoard from './components/DashBoard/ReviewerDashBoard';
 import heroPage from './components/HomePage';
 if(localStorage.jwtToken){
   setAuthToken(localStorage.jwtToken)
@@ -89,6 +92,8 @@ class App extends Component {
         <Route path="/createFormTemplate" component={CreateFormTemplate}/>
         <Route path="/CasesContainer" component={CasesContainer}/>
         <Route path="/InvestorDashboard" component={InvestorDashBoard}/>
+        <Route path="/LawyerDashboard" component={LawyerDashBoard}/>
+        <Route path="/ReviewerDashboard" component={ReviewerDashBoard}/>
         </div>
       </Router>
       </div>

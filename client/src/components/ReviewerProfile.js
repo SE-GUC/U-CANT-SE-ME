@@ -15,6 +15,7 @@ import deepOrange from '@material-ui/core/colors/deepOrange'
 import deepPurple from '@material-ui/core/colors/deepPurple'
 import parseJwt from '../helpers/decryptAuthToken'
 import { Redirect } from 'react-router-dom'
+import NavBarDashboard from './NavBarDashboard'
 const styles= {
   card: {
     width: 345,
@@ -112,6 +113,8 @@ class ReviewerProfile extends Component {
     if (this.state.home===1) return <Redirect to={{ pathname: "/" }} />;
     return (
       <div>
+        {/* <NavBarDashboard/> */}
+        <NavBarDashboard dashboardRedirect="/ReviewerDashBoard" sumergiteColor= '#3480E3' boxShadow='0px 3px 20px rgba(0, 0, 0, 0.16)' dashboard='bold' profile='lighter' homepage='lighter' DASHBOARD={true} PROFILE={true} ProfileMargin='120px' HomePageMargin='0px'/>
       <Card style={classes.card}>
             <Typography gutterBottom variant="h5" component="h2">
             </Typography>

@@ -44,6 +44,7 @@ export default class LawyerViewCase extends Component {
         if (this.state.home===1) return <Redirect to={{ pathname: "/" }} />;
         else
         return (
+            this.state.cases.length===0?<h1> There are no unassigned cases</h1>:
             <CasesContainerProps cases={this.state.cases}/>
         )
       }
