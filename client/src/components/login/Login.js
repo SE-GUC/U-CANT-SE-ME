@@ -6,6 +6,7 @@ import { login } from "../../globalState/actions/authActions";
 import "./login.scss";
 import NavBarBlue from "../NavBarBlue";
 import NavBarDashboard from "../NavBarDashboard";
+import parseJwt from "../../helpers/decryptAuthToken";
 class Login extends Component {
   state = {
     email: "",
@@ -14,7 +15,8 @@ class Login extends Component {
     showPassword: false,
     forgot: false,
     signUp: false,
-    res: ""
+    res: "",
+    loggedIn: false
   };
   handleSubmit = async () => {
     const req = {
@@ -35,11 +37,24 @@ class Login extends Component {
     });
   };
 
+  async componentDidMount() {
+    try {
+      const id = await parseJwt(localStorage.jwtToken).id;
+      if (id) this.setState({ loggedIn: true });
+      else this.setState({ loggedIn: false });
+    } catch {
+      this.setState({ loggedIn: false });
+    }
+  }
+
   handleClickShowPassword = () => {
     this.setState(state => ({ showPassword: !state.showPassword }));
   };
 
   render() {
+    if (this.state.loggedIn) {
+      return <Redirect to="/" />;
+    }
     const styles = {
       error: {
         display: "none"
