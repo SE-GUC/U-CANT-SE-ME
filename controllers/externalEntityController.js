@@ -428,17 +428,19 @@ toSPCHTML = function(data) {
   return `
   <!doctype html>
   <html>
+  <head><style>h3{text-align:right font-size:14px}h1{text-align:right;font-weight: bold;font-size: 18px;}p{text-align:right;font-weight: normal;font-size: 12px;} </style></head>
   <div>
     <h3>122:رقم
     <h3> التاريخ
     <h1> السید الأستاذ / مدیر مكتب سجل تجارى الاستثمار
-    <h1> تحیة طیبة ،،،،،،
-    <h1> hey:${data.investorName}</h1>
+    <h1> ،،،،،، تحیة طیبة </h1>
+    <h1> ${data.investorName}</h1>
     <p>
     یرجى التكرم بالإحاطة بأن قانون الاستثمار الصادر بالقانون رقم ٧٢ لسنة ٢٠١٧ ولائحتة التنفیذیة
     قد سمحا بوجود المنشأة الفردیة كأحد الأشكال القانونیة التي یمكن أن تزاول الأغراض المنصوص علیھا فى قانون
     الاستثمار ولائحتھ التنفیذیة.
     </p>
+    <p>
     علما بأن بیاناتھا الرئیسیة على النحو التالى :-
     
     اسم المنشأة :${data.companyNameArabic} لصاحبھا : ${data.investorName}
@@ -459,6 +461,7 @@ toSPCHTML = function(data) {
      مدیر عام
      الإدارة العامة للعقود و قرارات التأسیس
      دالیا نبیل
+     </p>
     </div>
     </html>
     `;
