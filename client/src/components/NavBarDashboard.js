@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import "./NavBarBlue.css";
 import { Redirect } from "react-router-dom";
+import { logout } from "../globalState/actions/authActions";
 
 export default class NavBarDashboard extends Component {
   state = {
@@ -10,7 +11,8 @@ export default class NavBarDashboard extends Component {
     dashboard: false,
     homepage: false,
     profile: false,
-    electronicJournals: false
+    electronicJournals: false,
+    logout: false,
   };
   render() {
     const opacity = 1 - Math.min(10 / this.state.currentScrollHeight, 1);
@@ -65,7 +67,7 @@ export default class NavBarDashboard extends Component {
       this.setState({ profile: false });
       this.setState({ electronicJournals: false });
       this.setState({ hero: false });
-      return <Redirect to="/InvestorRegister" />;
+      return <Redirect to="/" />;
     }
     if (this.state.profile) {
       //profile
@@ -91,6 +93,12 @@ export default class NavBarDashboard extends Component {
       this.setState({ profile: false });
       this.setState({ electronicJournals: false });
       this.setState({ hero: false });
+      return <Redirect to="/" />;
+    }
+    if (this.state.logout) {
+      logout();
+      this.setState({ logout: false})
+      window.location.reload()
       return <Redirect to="/" />;
     }
     return (
@@ -192,6 +200,22 @@ export default class NavBarDashboard extends Component {
               ) : (
                 <label />
               )}
+              <li className="nav-item mr-auto">
+                <button
+                  // className="nav-link ml-auto"
+                  className="button"
+                  data-toggle="collapse"
+                  data-target=".navbar-collapse.show"
+                  onClick={() => {
+                    this.setState({ logout: true });
+                  }}
+                  // disableRipple = {true}
+                >
+                  <span id="buttonHome" style={styles.HomePage}>
+                    Logout
+                  </span>
+                </button>
+              </li>
             </ul>
           </div>
         </nav>
