@@ -1,16 +1,19 @@
 import React, { Component } from "react";
 import "./heroPage.css";
 import NavBarBlue from "./NavBarBlue";
+import NavBarDashboard from "./NavBarDashboard";
 import Fab from "@material-ui/core/Fab";
 import RegisterModal from "./RegisterModal";
 import { Redirect } from "react-router-dom";
+import parseJwt from "../helpers/decryptAuthToken";
 
 export default class HomePage extends Component {
   state = {
     navColor: "#FFF",
     sumergiteColor: "#0F80ED",
     loginColor: "#0F80ED",
-    journals: false
+    journals: false,
+    loggedIn: false
   };
   handleClick = () => {
     var devID =
@@ -21,7 +24,15 @@ export default class HomePage extends Component {
     this.setState({ sumergiteColor: "#FFF" });
     this.setState({ loginColor: "#FFF" });
   };
-
+  async componentDidMount() {
+    try {
+      const id = await parseJwt(localStorage.jwtToken).id;
+      if (id) this.setState({ loggedIn: true });
+      else this.setState({ loggedIn: false });
+    } catch {
+      this.setState({ loggedIn: false });
+    }
+  }
   render() {
     if (this.state.journals) {
       return <Redirect to="/ElectronicJournals" />;
@@ -29,13 +40,25 @@ export default class HomePage extends Component {
     return (
       <div className="HeroAndHome">
         <div className="hero">
-          {/* <NavBarBlue sumergiteColor= '#FFF' backgroundColor='#3480E3' boxShadow='0px 3px 20px rgba(0, 0, 0, 0.16)'/> */}
-          <NavBarBlue
-            sumergiteColor={this.state.sumergiteColor}
-            backgroundColor={this.state.navColor}
-            loginColor={this.state.loginColor}
-          />
-
+          {this.state.loggedIn === false ? (
+            <NavBarBlue
+              sumergiteColor={this.state.sumergiteColor}
+              backgroundColor={this.state.navColor}
+              loginColor={this.state.loginColor}
+            />
+          ) : (
+            <NavBarDashboard
+              sumergiteColor="#3480E3"
+              boxShadow="0px 3px 20px rgba(0, 0, 0, 0.16)"
+              dashboard="lighter"
+              profile="lighter"
+              homepage="lighter"
+              DASHBOARD={true}
+              PROFILE={true}
+              ProfileMargin="120px"
+              HomePageMargin="0px"
+            />
+          )}
           <div className="createCompany">
             <p className="createCompanySpan">
               {" "}
