@@ -4,6 +4,7 @@ import axios from 'axios';
 import parseJwt from '../../helpers/decryptAuthToken';
 import {Redirect} from 'react-router-dom'
 import CasePreview from '../dCaseComponents/CasePreview'
+import CasesContainerProps from '../dCaseComponents/CasesContainerProps';
 export default class ReviewerViewCase extends Component {
     state ={
         cases :[],
