@@ -55,7 +55,7 @@ export default class NavBarDashboard extends Component {
                 this.setState({electronicJournals: false})
                 return <Redirect to='/InvestorDashBoard'/>
             }
-            if(this.state.homapage){ //homepage
+            if(this.state.homepage){ //homepage
                 this.setState({dashboard: false})
                 this.setState({homepage: false})
                 this.setState({profile: false})

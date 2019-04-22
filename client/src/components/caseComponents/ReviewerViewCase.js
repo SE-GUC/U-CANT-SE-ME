@@ -3,6 +3,7 @@ import Case from './Case';
 import axios from 'axios';
 import parseJwt from '../../helpers/decryptAuthToken';
 import {Redirect} from 'react-router-dom'
+import CasePreview from '../dCaseComponents/CasePreview'
 export default class ReviewerViewCase extends Component {
     state ={
         cases :[],
@@ -42,11 +43,16 @@ export default class ReviewerViewCase extends Component {
     render() {
         if (this.state.home===0) return <div></div>;
         if (this.state.home===1) return <Redirect to={{ pathname: "/" }} />;
-        return this.state.cases.length===0?"There are no unassigned cases":
+        return this.state.cases.length===0?<h1>There are no unassigned cases</h1>:
         (this.state.cases.map((x) => (
-        <button onClick={() => this.handelClick(x._id)}>
-            <Case key={x._id} case={x} />
-        </button>
+        // <button onClick={() => this.handelClick(x._id)}>
+        //     <Case key={x._id} case={x} />
+        // </button>
+        <CasePreview
+              key={Case._id}
+              case={Case}
+            //   handleCaseFullDetails={this.handleCaseFullDetails}
+            />
         ))
         )
       }

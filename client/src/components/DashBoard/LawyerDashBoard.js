@@ -7,6 +7,8 @@ import LawyerViewTasks from "../caseComponents/LawyerViewTasks";
 import LawyerViewCase from "../caseComponents/LawyerViewCase";
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 import CaseSwitch from "../caseComponents/CaseSwitch";
+import CasesContainer from "../dCaseComponents/CasesContainer";
+import { red } from "@material-ui/core/colors";
 export default class LawyerDashBoard extends Component {
   constructor(props) {
     super(props)
@@ -20,22 +22,18 @@ async componentDidMount(){
 }
     handleSelect = selected => {
     console.log(selected);
-    document.getElementById("FormRequest").style.display="none";
     document.getElementById("UnassignedCases").style.display="none";
     document.getElementById("Tasks").style.display="none";
     document.getElementById("AllCases").style.display="none";
 
-    if(selected === "formrequest")
-        document.getElementById("FormRequest").style.display="flex";
-
     if (selected === "viewunasignedcases")
-        document.getElementById("UnassignedCases").style.display="flex";
+      document.getElementById("UnassignedCases").style.display=null;
 
     if (selected === "viewtasks")
-        document.getElementById("Tasks").style.display="flex";
+      document.getElementById("Tasks").style.display=null;
 
     if (selected === "viewallcases")
-        document.getElementById("AllCases").style.display="flex";
+        document.getElementById("AllCases").style.display=null;
   };
   render() {
     const styles = {
@@ -48,18 +46,11 @@ async componentDidMount(){
         position:"fixed"
       },
       divStyleShow:{
-        display: ' inline',
         marginLeft:this.state.dashboardwidth,
-        background:"red",
-        // display: 'flex', 
-        justifyContent: 'center'
       },
       divStyleHide:{
         display: 'none',
-        textAlign: "center",
         marginLeft:this.state.dashboardwidth,
-        // background:"red",
-        justifyContent: 'center'
       }
     };
     return (
@@ -70,21 +61,21 @@ async componentDidMount(){
             
           <NavItem eventKey="viewtasks">
               <NavIcon>
-                <i className="fa fa-list-alt" style={styles.iconStyle} />
+                <a className="fa fa-list-alt" style={styles.iconStyle} />
               </NavIcon>
               <NavText>View Tasks</NavText>
             </NavItem>
 
             <NavItem eventKey="viewunasignedcases">
               <NavIcon>
-                <i className="fa fa-list-alt" style={styles.iconStyle} />
+                <a className="fa fa-list-alt" style={styles.iconStyle} />
               </NavIcon>
               <NavText>View Unasigned Cases</NavText>
             </NavItem>
 
             <NavItem eventKey="viewallcases">
               <NavIcon>
-                <i className="fa fa-home" style={styles.iconStyle} />
+                <a className="fa fa-home" style={styles.iconStyle} />
               </NavIcon>
               <NavText>View All Cases</NavText>
             </NavItem>  
@@ -97,15 +88,13 @@ async componentDidMount(){
           <LawyerViewCase/>
           </Router>
         </div>
-        <div id="Tasks" style={styles.divStyleHide} >
+        <div id="Tasks" style={styles.divStyleShow} >
         <Router>
           <LawyerViewTasks/>
           </Router>
         </div>
         <div id="AllCases" style={styles.divStyleHide} >
-        <Router>
-          <CaseSwitch/>
-          </Router>
+          <CasesContainer/>
         </div>
 
       </div>

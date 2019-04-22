@@ -6,7 +6,7 @@ import { Redirect } from 'react-router-dom'
 import ReviewerViewTasks from "../caseComponents/ReviewerViewTasks";
 import ReviewerViewCase from "../caseComponents/ReviewerViewCase";
 import { BrowserRouter as Router, Route } from 'react-router-dom';
-import CaseSwitch from "../caseComponents/CaseSwitch";
+import CasesContainer from "../dCaseComponents/CasesContainer";
 export default class ReviewerDashBoard extends Component {
   constructor(props) {
     super(props)
@@ -44,17 +44,13 @@ async componentDidMount(){
         position:"fixed"
       },
       divStyleShow:{
-        display: ' inline',
         marginLeft:this.state.dashboardwidth,
-        background:"red",
-        // display: 'flex', 
+        display: 'flex', 
         justifyContent: 'center'
       },
       divStyleHide:{
         display: 'none',
-        textAlign: "center",
         marginLeft:this.state.dashboardwidth,
-        // background:"red",
         justifyContent: 'center'
       }
     };
@@ -66,21 +62,21 @@ async componentDidMount(){
             
           <NavItem eventKey="viewtasks">
               <NavIcon>
-                <i className="fa fa-list-alt" style={styles.iconStyle} />
+                <a className="fa fa-list-alt" style={styles.iconStyle} />
               </NavIcon>
               <NavText>View Tasks</NavText>
             </NavItem>
-            
+
             <NavItem eventKey="viewunasignedcases">
               <NavIcon>
-                <i className="fa fa-list-alt" style={styles.iconStyle} />
+                <a className="fa fa-list-alt" style={styles.iconStyle} />
               </NavIcon>
               <NavText>View Unasigned Cases</NavText>
             </NavItem>
 
             <NavItem eventKey="viewallcases">
               <NavIcon>
-                <i className="fa fa-home" style={styles.iconStyle} />
+                <a className="fa fa-home" style={styles.iconStyle} />
               </NavIcon>
               <NavText>View All Cases</NavText>
             </NavItem>  
@@ -88,21 +84,19 @@ async componentDidMount(){
           </SideNav.Nav>
         </SideNav>
 
-        <div id="FormRequest" style={styles.divStyleShow} >
-        </div>
         <div id="UnassignedCases" style={styles.divStyleHide} >
         <Router>
           <ReviewerViewCase/>
           </Router>
         </div>
-        <div id="Tasks" style={styles.divStyleHide} >
+        <div id="Tasks" style={styles.divStyleShow} >
         <Router>
           <ReviewerViewTasks/>
           </Router>
         </div>
         <div id="AllCases" style={styles.divStyleHide} >
         <Router>
-          <CaseSwitch/>
+          <CasesContainer/>
           </Router>
         </div>
 

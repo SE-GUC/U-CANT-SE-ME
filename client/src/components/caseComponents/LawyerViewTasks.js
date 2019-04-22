@@ -31,7 +31,7 @@ export default class LawyerViewTasks extends Component {
         await this.setState({lawyerId:data.id})
         const id =this.state.lawyerId;
         const getCases = await axios.get(`api/lawyers/lawyerTasks/${id}`);
-        this.setState({cases: getCases.data.Tasks});
+        await this.setState({cases: getCases.data.Tasks});
     };
     accept=async (caseId)=>
     {
