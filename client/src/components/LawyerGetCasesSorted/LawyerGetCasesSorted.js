@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import Case from './Case';
 import parseJwt from '../../helpers/decryptAuthToken';
+import {Redirect} from 'react-router-dom'
 
 class LawyerGetCasesSorted extends Component {
     constructor(){
@@ -9,11 +10,25 @@ class LawyerGetCasesSorted extends Component {
         this.state ={
             criterion :'',
             cases :[],
-            lawyerId:''
+            lawyerId:'',
+            home:0
         };
     }
     
     async componentDidMount(criteria){
+        if (!localStorage.jwtToken) {
+            alert("You must login!");
+            this.setState({ home: 1 });
+            return;
+          }
+          try{
+              await axios.get('api/lawyers/auth')
+          }catch(err){
+              alert("You are not allowed to access this page");
+              this.setState({ home: 1 });
+              return;
+          }
+        this.setState({home:2});
         const data = parseJwt(localStorage.jwtToken)
         await this.setState({lawyerId:data.id})
         const id = this.state.lawyerId;
@@ -34,6 +49,8 @@ class LawyerGetCasesSorted extends Component {
     }
 
     render() {
+        if (this.state.home===0) return <div></div>;
+        if (this.state.home===1) return <Redirect to={{ pathname: "/" }} />;
         return (
             <div>
                 <label>Selection Criterion: </label>

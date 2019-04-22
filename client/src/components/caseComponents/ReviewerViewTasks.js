@@ -30,8 +30,7 @@ export default class ReviewerViewTasks extends Component {
         await this.setState({reviwerID:data.id})
         const id =this.state.reviwerID;
         const getCases = await axios.get(`api/reviewers/reviewerTasks/${id}`);
-        this.setState({cases: getCases.data.Tasks});
-
+        this.setState({cases: getCases.data.Tasks})
     };
     accept=async (caseId)=>
     {
@@ -55,7 +54,7 @@ export default class ReviewerViewTasks extends Component {
         if (this.state.home===0) return <div></div>;
         if (this.state.home===1) return <Redirect to={{ pathname: "/" }} />;
         else
-        return (this.state.cases.map((x) => (
+        return this.state.cases.length==0? "You dont have any cases.":(this.state.cases.map((x) => (
             <div>
                 <Case key={x._id} case={x} />
                 <button onClick={() => this.accept(x._id)}>Accept</button>

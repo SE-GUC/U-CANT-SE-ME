@@ -1,92 +1,44 @@
-import React, { Component } from 'react'
-import Button from '@material-ui/core/Button'
+import React, { Component } from "react"
+import { withStyles } from "@material-ui/core/styles"
+import Card from "@material-ui/core/Card"
+import CardActions from "@material-ui/core/CardActions"
+import Typography from "@material-ui/core/Typography"
+import List from "@material-ui/core/List"
+import ListItem from "@material-ui/core/ListItem"
+import ListItemText from "@material-ui/core/ListItemText"
+import Avatar from "@material-ui/core/Avatar"
+import axios from "axios"
+import Divider from '@material-ui/core/Divider'
+import deepOrange from '@material-ui/core/colors/deepOrange'
+import deepPurple from '@material-ui/core/colors/deepPurple'
+import parseJwt from '../helpers/decryptAuthToken'
 import { Redirect } from 'react-router-dom'
-import axios from 'axios';
-
-export default class LawyerProfile extends Component {
-    constructor(props) {
-        super(props)
-        this.state = {
-            id: '',
-            getAllCases: false,
-            fillForm: false,
-            updateCase: false,
-            viewCase: false,
-            caseSummary: false,
-            caseSwitch: false,
-            viewAllCases: false,
-            getCasesSorted: false,
-            viewTasks: false,
-            home:0
-        }
-      }
-  render() {
-    if (this.state.home===0) return <div> </div>;
-      if (this.state.home===1) return <Redirect to={{ pathname: "/" }} />;
-    return (
-      <div>
-        {
-            this.state.getAllCases? <Redirect to={{pathname: "/getAllCases"}}/>:
-            this.state.fillForm? <Redirect to={{pathname: "/LawyerFillForm"}}/>:
-            this.state.updateCase? <Redirect to={{pathname: "/lawyerUpdateCase"}}/>:
-            this.state.viewCase? <Redirect to={{pathname: "/LawyerViewCase"}}/>:
-            this.state.caseSummary? <Redirect to={{pathname: "/CasesSummary"}}/>:
-            this.state.caseSwitch? <Redirect to={{pathname: "/CaseSwitch"}}/>:
-            this.state.viewAllCases? <Redirect to={{pathname: "/LawyerViewAllCases"}}/>:
-            this.state.getCasesSorted? <Redirect to={{pathname: "/LawyerGetCasesSorted"}}/>:
-            this.state.viewTasks? <Redirect to={{pathname: "/LawyerViewTasks"}}/>:<div/>
-        }
-        <Button variant="primary" size="large" onClick={() => {
-        this.setState({getAllCases: true})
-      }}>
-                Get All Cases
-        </Button>
-        <Button variant="primary" size="large" onClick={() => {
-        this.setState({fillForm: true})
-      }}>
-                Fill Form
-        </Button>
-        <Button variant="primary" size="large" onClick={() => {
-        this.setState({updateCase: true})
-      }}>
-                Update Case
-        </Button>
-        <Button variant="primary" size="large" onClick={() => {
-        this.setState({viewCase: true})
-      }}>
-                View Case
-        </Button>
-        <Button variant="primary" size="large" onClick={() => {
-        this.setState({caseSummary: true})
-      }}>
-                Case Summary
-        </Button>
-        <Button variant="primary" size="large" onClick={() => {
-        this.setState({caseSwitch: true})
-      }}>
-                Case Switch
-        </Button>
-        <Button variant="primary" size="large" onClick={() => {
-        this.setState({viewAllCases: true})
-      }}>
-                View All Cases
-        </Button>
-        <Button variant="primary" size="large" onClick={() => {
-        this.setState({getCasesSorted: true})
-      }}>
-                Get Cases Sorted
-        </Button>
-        <Button variant="primary" size="large" onClick={() => {
-        this.setState({viewTasks: true})
-      }}>
-                View Tasks
-        </Button>
-      </div>
-    )
+const styles= {
+  card: {
+    width: 345,
+    borderRadius: 12,
+    fontFamily: "Helvetica Neue",
+    boxShadow: "0px 3px 20px rgba(0, 0, 0, 0.16)",
+    margin: "1%"
+  },
+  media: {
+    height: 140
+  },
+  root: {
+    width: 345
   }
+}
 
 
-  async componentDidMount() {
+class LawyerProfile extends Component {
+  state = {
+    lawyerId: '',
+    username: '',
+    fullName: '',
+    email: ''
+  };
+
+  async componentDidMount (){
     if (!localStorage.jwtToken) {
       alert("You must login!");
       this.setState({ home: 1 });
@@ -100,5 +52,110 @@ export default class LawyerProfile extends Component {
       return;
     }
     this.setState({ home: 2 });
+    try
+      {
+        await this.setState({lawyerId : parseJwt(localStorage.jwtToken).id})
+      }
+      catch
+      {
+        this.setState({lawyerId : null})
+      }
+      const res = await axios.get(`../../../api/lawyers/${this.state.lawyerId}`)
+      
+    if (res.data.data.fullName)
+      this.setState({ fullName: res.data.data.fullName})
+    if (res.data.data.username)
+      this.setState({ username: res.data.data.username})
+    if (res.data.data.email)
+      this.setState({ email: res.data.data.email}) 
+  }
+
+  render() {
+    const classes = { ...styles }
+    const styles = {
+        avatar: {
+          margin: 10,
+      },
+      orangeAvatar: {
+        margin: 'auto',
+        color: '#fff',
+        backgroundColor: deepOrange[500],
+        },
+      purpleAvatar: {
+        margin: 'auto',
+        color: '#fff',
+        backgroundColor: deepPurple[500],
+      },
+      author: {
+          margin: 'auto',
+          padding: '0px'
+      },
+      card: {
+        width: 345,
+        borderRadius: 12,
+        fontFamily: 'Helvetica Neue',
+        boxShadow: '0px 3px 20px rgba(0, 0, 0, 0.16)',
+        margin: '1%'
+      },
+      media: {
+        height: 140
+      },
+      root: {
+        width: 345
+      }
+    }
+    if (this.state.home===0) return <div> </div>;
+    if (this.state.home===1) return <Redirect to={{ pathname: "/" }} />;
+    return (
+      <div>
+      <Card style={classes.card}>
+            <Typography gutterBottom variant="h5" component="h2">
+            </Typography>
+            <Typography component="p">
+            <List style={classes.root}>
+                <ListItem>
+                    <ListItemText primary="Profile"/>
+                    <Avatar style={styles.purpleAvatar}>{this.state.fullName.toString().charAt(0)}</Avatar>
+                </ListItem>
+                <Divider light/>
+                <Divider/>
+                <ListItem>
+                  <ListItemText primary="Full Name" secondary={this.state.fullName} />
+                </ListItem>
+                <Divider/>
+                <ListItem>
+                  <ListItemText primary="Username" secondary={this.state.username} />
+                </ListItem>
+              </List>
+            </Typography>
+        <CardActions>
+        </CardActions>
+      </Card>
+      <br/>
+      <Card style={classes.card}>
+          <Typography gutterBottom variant="h5" component="h2">
+          </Typography>
+          <Typography component="p">
+          <List style={classes.root}>
+              <ListItem>
+                  <ListItemText primary="Contact info"/>
+              </ListItem>
+              <Divider/>
+              <ListItem>
+                <ListItemText primary="Email" secondary={this.state.email} />
+              </ListItem>
+            </List>
+          </Typography>
+      <CardActions>
+      </CardActions>
+    </Card>
+    <br/>
+    {this.state.lawyerId===null? <Redirect to={{pathname: "/LoginInternalPortal"}}/>:<label/>}
+    <br/>
+    <br/>
+    </div>
+    );
   }
 }
+
+export default withStyles(styles)(LawyerProfile);

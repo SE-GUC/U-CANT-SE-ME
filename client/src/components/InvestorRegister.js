@@ -11,6 +11,7 @@ import InputAdornment from '@material-ui/core/InputAdornment'
 import Select from '@material-ui/core/Select'
 import MenuItem from '@material-ui/core/MenuItem'
 import { Redirect } from 'react-router-dom'
+import NavBarBlue from './NavBarBlue'
 const Joi = require("joi");
 
 export default class InvestorRegister extends React.Component {
@@ -186,7 +187,9 @@ export default class InvestorRegister extends React.Component {
             }
         }
         return (
-          <div>
+            <div> 
+                <NavBarBlue sumergiteColor= '#3480E3' backgroundColor='#FFFFFF' boxShadow='0px 3px 20px rgba(0, 0, 0, 0.16)'/>
+          <div style={{paddingTop: '10vh'}}>
                 <br />
                 <form id="InvestorRegister">
                     <FormControl required>    
@@ -347,6 +350,7 @@ export default class InvestorRegister extends React.Component {
                     {this.state.valid==="Successfully Created!" ?  <Redirect to={{pathname: "/MyCompanies"}}/>:<div/>}
                 </label>
                 <br />
+          </div>
           </div>
         );
       }

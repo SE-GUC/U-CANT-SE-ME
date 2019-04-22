@@ -149,7 +149,7 @@ exports.viewTasks = async function(req, res) {
 
       if (lawyerCases !== undefined && lawyerCases.length > 0)
         res.send({ Tasks: lawyerCases });
-      else res.status(404).send({ error: "Data Not Found" });
+      else res.send({Tasks:[]});
   } catch (error) {
     res.status(400).send({ error: "An error has occured." });
   }

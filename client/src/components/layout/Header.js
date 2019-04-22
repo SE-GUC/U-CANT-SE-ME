@@ -6,10 +6,10 @@ function Header() {
     <header style={headerStyle}>
       <h1>SUMERGITE</h1>
       <Link style={linkStyle} to="/">Home</Link> 
-    | <Link style={linkStyle} to="/profile/:id">Investor Profile</Link>
-    | <Link style={linkStyle} to="/internalPortal/lawyer/profile/:id">Lawyer Profile</Link>
-    | <Link style={linkStyle} to="/internalPortal/reviewer/profile/:id">Reviewer Profile</Link>
-    | <Link style={linkStyle} to="/internalPortal/admin/profile/:id">Admin Profile</Link>
+    | <Link style={linkStyle} to="/profile">Investor Profile</Link>
+    | <Link style={linkStyle} to="/internalPortal/lawyer/profile">Lawyer Profile</Link>
+    | <Link style={linkStyle} to="/internalPortal/reviewer/profile">Reviewer Profile</Link>
+    | <Link style={linkStyle} to="/internalPortal/admin/profile">Admin Profile</Link>
     | <Link style={linkStyle} to="/LoginInternalPortal">Login InternalPortal</Link>
     | <Link style={linkStyle} to="/login">Login</Link>
     | <Link style={linkStyle} to="/InvestorRegister">Register Investor</Link>

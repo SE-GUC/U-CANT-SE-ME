@@ -74,6 +74,7 @@ export default class LawyerViewTasks extends Component {
         if (this.state.home===1) return <Redirect to={{ pathname: "/" }} />;
         else
         return (
+            this.state.cases.length==0? "You dont have any cases.":
             <header className="LawyerViewTasks">
             <div>
                 {this.state.cases.map((x) => (

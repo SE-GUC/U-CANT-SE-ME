@@ -1,97 +1,51 @@
-import React, { Component } from 'react'
-import Button from '@material-ui/core/Button'
-import '../header.css'
-import Comments from './ViewComments/Comments'
-import TrackMyCompany from './TrackMyCompany';
-import MyCompanies from './GetMyCompanies/MyCompanies'
-import ViewMyFees from './ViewMyFees/ViewMyFees'
-import InvestorFillForm from'./InvestorFillForm/InvestorFillForm'
-import LastLawyer from './LastLawyer'
-import InvestorUpdateCase from './InvestorUpdateCase'
-import UpdateInvestorProfile from './updateInvestorProfile'
-import axios from 'axios';
+import React, { Component } from "react"
+import { withStyles } from "@material-ui/core/styles"
+import Card from "@material-ui/core/Card"
+import CardActionArea from "@material-ui/core/CardActionArea"
+import CardActions from "@material-ui/core/CardActions"
+import CardContent from "@material-ui/core/CardContent"
+import Button from "@material-ui/core/Button"
+import Typography from "@material-ui/core/Typography"
+import List from "@material-ui/core/List"
+import ListItem from "@material-ui/core/ListItem"
+import ListItemText from "@material-ui/core/ListItemText"
+import Avatar from "@material-ui/core/Avatar"
+import EditIcon from '@material-ui/icons/Edit'
+import axios from "axios"
+import Divider from '@material-ui/core/Divider'
+import deepOrange from '@material-ui/core/colors/deepOrange'
+import deepPurple from '@material-ui/core/colors/deepPurple'
+import moment from 'moment'
+import parseJwt from '../helpers/decryptAuthToken'
 import { Redirect } from 'react-router-dom'
-import parseJwt from '../helpers/decryptAuthToken';
-export default class InvestorProfile extends Component {
-    constructor(props) {
-        super(props)
-        this.state = {
-            id: '',
-            trackMyCompanies: false,
-            comments: false,
-            myCompanies: false,
-            viewMyFees: false,
-            fillForm: false,
-            updateCase: false,
-            lastLawyer: false,
-            updateProfile: false,
-            home:0
-        }
-      }
-  render() {
-    if (this.state.home===0) return <div> </div>;
-    if (this.state.home===1) return <Redirect to={{ pathname: "/" }} />;
-    return (
-      <div>
-        <header>
-          <div class="container">
-            <h1 class="logo"></h1>
-              <nav>
-                <ul>
-                  <li><Button variant="primary" onClick={() => {
-                    this.setState({updateProfile: false, lastLawyer: false, updateCase: false, fillForm: false, viewMyFees: false, myCompanies: false, trackMyCompanies: true})
-                  }}>
-                      Track my companies
-                  </Button></li>
-                  <li><Button variant="primary" onClick={() => {
-                    this.setState({updateProfile: false, lastLawyer: false, updateCase: false, fillForm: false, viewMyFees: false, myCompanies: true, trackMyCompanies: false})
-                  }}>
-                      My Companies
-                  </Button></li>
-                  <li><Button variant="primary" onClick={() => {
-                    this.setState({updateProfile: false, lastLawyer: false, updateCase: false, fillForm: false, viewMyFees: true, myCompanies: false, trackMyCompanies: false})
-                  }}>
-                      View My Fees
-                  </Button></li>
-                  <li><Button variant="primary" onClick={() => {
-                    this.setState({updateProfile: false, lastLawyer: false, updateCase: false, fillForm: true, viewMyFees: false, myCompanies: false, trackMyCompanies: false})
-                      }}>
-                        Fill a form
-                  </Button></li>
-                  <li><Button variant="primary" onClick={() => {
-                    this.setState({updateProfile: false, lastLawyer: false, updateCase: true, fillForm: false, viewMyFees: false, myCompanies: false, trackMyCompanies: false})
-                  }}>
-                      Update a case.
-                  </Button></li>
-                  <li><Button variant="primary" onClick={() => {
-                    this.setState({updateProfile: false, lastLawyer: true, updateCase: false, fillForm: false, viewMyFees: false, myCompanies: false, trackMyCompanies: false})
-                  }}>
-                      View Last Lawyer
-                  </Button></li>
-                  <li><Button variant="primary" onClick={() => {
-                    this.setState({updateProfile: true, lastLawyer: false, updateCase: false, fillForm: false, viewMyFees: false, myCompanies: false, trackMyCompanies: false})
-                  }}>
-                      Update Profile
-                  </Button></li>
-                </ul>
-              </nav>
-            </div>
-          </header>
-          <br />
-          {
-              this.state.trackMyCompanies? <TrackMyCompany/>:
-              this.state.myCompanies? <MyCompanies/>:
-              this.state.comments? <Comments/>:
-              this.state.viewMyFees? <ViewMyFees/>:
-              this.state.fillForm? <InvestorFillForm/>:
-              this.state.updateCase? <InvestorUpdateCase/>:
-              this.state.lastLawyer? <LastLawyer/>:
-              this.state.updateProfile? <UpdateInvestorProfile/>:<div/>
-          }
-      </div>
-    )
+const styles= {
+  card: {
+    width: 345,
+    borderRadius: 12,
+    fontFamily: "Helvetica Neue",
+    boxShadow: "0px 3px 20px rgba(0, 0, 0, 0.16)",
+    margin: "1%"
+  },
+  media: {
+    height: 140
+  },
+  root: {
+    width: 345
   }
-  async componentDidMount(){
+}
+
+
+class InvestorProfile extends Component {
+  state = {
+    fullName: '',
+    dateOfBirth: '',
+    password: '',
+    gender: '',
+    showPassword: false,
+    edit: false,
+  };
+
+  async componentDidMount (){
     if (!localStorage.jwtToken) {
       alert("You must login!");
       this.setState({ home: 1 });
@@ -106,6 +60,151 @@ export default class InvestorProfile extends Component {
     }
     this.setState({ home: 2 });
       const data = parseJwt(localStorage.jwtToken)
-    await this.setState({id:data.id})
-  };
+    try{
+        await this.setState({investorId : parseJwt(localStorage.jwtToken).id})
+      }catch
+      {
+        this.setState({investorId : null})
+      }
+    const res = await axios.get(`../api/investors/${this.state.investorId}`)
+    if (res.data.data.fullName)
+      this.setState({ fullName: res.data.data.fullName})
+    if (res.data.data.dateOfBirth)
+      this.setState({ dateOfBirth: res.data.data.dateOfBirth})
+    if (res.data.data.gender)
+      this.setState({ gender: res.data.data.gender})
+    if (res.data.data.nationality)
+      this.setState({ nationality: res.data.data.nationality})
+    if (res.data.data.email)
+      this.setState({ email: res.data.data.email})
+    if (res.data.data.fax)
+      this.setState({ fax: res.data.data.fax})
+    if (res.data.data.telephoneNumber)
+      this.setState({ telephoneNumber: res.data.data.telephoneNumber})  
+    
+  }
+
+    formatTime(t) {
+        return moment.utc(t.substring(0, 23)).format('DD MMM, YYYY').toUpperCase();
+    }
+
+    handleClickShowPassword = () => {
+        this.setState(state => ({ showPassword: !state.showPassword }));
+    }
+
+  render() {
+    const classes = { ...styles }
+    const styles = {
+        avatar: {
+          margin: 10,
+      },
+      orangeAvatar: {
+        margin: 'auto',
+        color: '#fff',
+        backgroundColor: deepOrange[500],
+        },
+      purpleAvatar: {
+        margin: 'auto',
+        color: '#fff',
+        backgroundColor: deepPurple[500],
+      },
+      author: {
+          margin: 'auto',
+          padding: '0px'
+      },
+      card: {
+        width: 345,
+        borderRadius: 12,
+        fontFamily: 'Helvetica Neue',
+        boxShadow: '0px 3px 20px rgba(0, 0, 0, 0.16)',
+        margin: '1%'
+      },
+      media: {
+        height: 140
+      },
+      root: {
+        width: 345
+      }
+    }
+    if (this.state.home===0) return <div> </div>;
+    if (this.state.home===1) return <Redirect to={{ pathname: "/" }} />;
+    return (
+      <div style={{paddingTop: '10vh'}}>
+      <Card style={{pointerEvents: 'none'}}>
+        <CardActionArea>
+          <CardContent>
+            <Typography gutterBottom variant="h5" component="h2">
+              {/* {this.props.case.form.companyNameArabic} */}
+            </Typography>
+            <Typography component="p">
+            <List style={classes.root}>
+                <ListItem>
+                    <ListItemText primary="Profile"/>
+                    <Avatar style={styles.purpleAvatar}>{this.state.fullName.toString().charAt(0)}</Avatar>
+                </ListItem>
+                <Divider light/>
+                <Divider/>
+                <ListItem>
+                  <ListItemText primary="Name" secondary={this.state.fullName} />
+                </ListItem>
+                <Divider/>
+                <ListItem>
+                  <ListItemText primary="Birthday" secondary={this.formatTime(this.state.dateOfBirth)} />
+                </ListItem>
+                <Divider/>
+                <ListItem>
+                    <ListItemText primary="Gender" secondary={this.state.gender}/>
+                </ListItem>
+              </List>
+            </Typography>
+          </CardContent>
+        </CardActionArea>
+        <CardActions>
+        </CardActions>
+      </Card>
+      <br/>
+      <Card style={{pointerEvents: 'none'}}>
+      <CardActionArea>
+        <CardContent>
+          <Typography gutterBottom variant="h5" component="h2">
+            {/* {this.props.case.form.companyNameArabic} */}
+          </Typography>
+          <Typography component="p">
+          <List style={classes.root}>
+              <ListItem>
+                  <ListItemText primary="Contact info"/>
+              </ListItem>
+              <Divider/>
+              <ListItem>
+                <ListItemText primary="Email" secondary={this.state.email} />
+              </ListItem>
+              <Divider/>
+              <ListItem>
+                <ListItemText primary="Telephone" secondary={this.state.telephoneNumber} />
+              </ListItem>
+              <Divider/>
+              <ListItem>
+                  <ListItemText primary="Fax" secondary={this.state.fax}/>
+              </ListItem>
+            </List>
+          </Typography>
+        </CardContent>
+      </CardActionArea>
+      <CardActions>
+      </CardActions>
+    </Card>
+    <br/>
+    {this.state.investorId===null? <Redirect to={{pathname: "/Login"}}/>:
+      this.state.edit===true? <Redirect to={{pathname: "/updateInvestorProfile"}}/>:<label/>
+    }
+      <Button size="small" color="primary"  onClick={() => {this.setState({edit: true})}}>
+        Edit Profile <EditIcon/>
+      </Button>
+    <br/>
+    <br/>
+    </div>
+    );
+  }
 }
+
+export default withStyles(styles)(InvestorProfile);
