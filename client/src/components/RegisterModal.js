@@ -13,7 +13,7 @@ import InputAdornment from "@material-ui/core/InputAdornment";
 import { Redirect } from "react-router-dom";
 import Fab from "@material-ui/core/Fab";
 import "../components/register.scss";
-import {login} from '../globalState/actions/authActions.js'
+import { login } from "../globalState/actions/authActions.js";
 const Joi = require("joi");
 
 const customStyles = {
@@ -442,6 +442,7 @@ class RegisterModal extends React.Component {
           color="secondary"
           style={{
             boxShadow: "none",
+            marginRight: "240px",
             marginTop: "6px",
             backgroundColor: "#E53167",
             color: "#FFFFFF"
@@ -701,14 +702,6 @@ class RegisterModal extends React.Component {
               <Fab
                 variant="extended"
                 size="medium"
-                style={{
-                  boxShadow: "none",
-                  marginTop: "6px",
-                  backgroundColor: "#1ace98",
-                  color: "#FFFFFF",
-                  float: "right",
-                  width: 150
-                }}
                 aria-label="Delete"
                 onClick={this.submit}
               >

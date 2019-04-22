@@ -1,21 +1,12 @@
 import React from "react";
 import axios from "axios";
-import Button from "@material-ui/core/Button";
-import Input from "@material-ui/core/Input";
-import InputLabel from "@material-ui/core/InputLabel";
-import FormControl from "@material-ui/core/FormControl";
-import Visibility from "@material-ui/icons/Visibility";
-import VisibilityOff from "@material-ui/icons/VisibilityOff";
-import IconButton from "@material-ui/core/IconButton";
-import InputAdornment from "@material-ui/core/InputAdornment";
-import Select from "@material-ui/core/Select";
-import MenuItem from "@material-ui/core/MenuItem";
 import { Redirect } from "react-router-dom";
 import "../components/register.scss";
 import Fab from "@material-ui/core/Fab";
-import {login} from '../globalState/actions/authActions.js'
-const Joi = require("joi");
+import { login } from "../globalState/actions/authActions.js";
+import NavBarBlue from "./NavBarBlue";
 
+const Joi = require("joi");
 export default class InvestorRegister extends React.Component {
   constructor(props) {
     super(props);
@@ -73,7 +64,7 @@ export default class InvestorRegister extends React.Component {
           fax: form.fax.value
         };
       } else {
-        if (form.fax.value=== "" && form.telephoneNumber.value !== "") {
+        if (form.fax.value === "" && form.telephoneNumber.value !== "") {
           body = {
             fullName: form.fullName.value,
             email: form.email.value,
@@ -105,123 +96,142 @@ export default class InvestorRegister extends React.Component {
         }
       }
 
-        this.setState({type: body.type})
-        Joi.validate({fullName:body.fullName}, {fullName: Joi.string().min(3)}, function (error, value) {
-            if(error)
-            {
-                valid=false;
-                if(value.fullName==='')
-                    me.setState({fullNameError:'Full name is required'})
-                else
-                    me.setState({fullNameError:'Invalid Name'});
-            }
-            else
-                me.setState({fullNameError:''});
-        });
-        Joi.validate({email:body.email}, {email: Joi.string().email()}, function (error, value) {
-            if(error)
-            {
-                valid=false;
-                if(value.email==='')
-                    me.setState({emailError:'Email is required'})
-                else
-                    me.setState({emailError:'Invalid Email'});
-            }    
-            else
-                me.setState({emailError:''});
-        });
-        Joi.validate({password:body.password}, {password: Joi.string().min(8)}, function (error, value) {
-            if(error)
-            {
-                valid=false;
-                if(value.password==='')
-                    me.setState({passwordError:'Password is required'});
-                else
-                    me.setState({passwordError:'Password is weak'});
-            }    
-            else
-                me.setState({passwordError:''});
-        });
-        Joi.validate({nationality:body.nationality}, {nationality: Joi.string()}, function (error, value) {
-            if(error)
-            {
-                valid=false;
-                me.setState({nationalityError:'Nationality is required'});
-            }
-            else
-                me.setState({nationalityError:''});
-        });
-        Joi.validate({identificationNumber:body.identificationNumber}, {identificationNumber: Joi.string()}, function (error, value) {
-            if(body.nationality==='Egyptian' && body.identificationNumber.length !== 14)
-            {
-                valid=false;
-                me.setState({identificationNumberError:'Identification number must be 14 digits'});
-            }
-            else if(error)
-            {
-                valid=false;
-                me.setState({identificationNumberError:'Identification number is required'});
-            }
-            else
-                me.setState({identificationNumberError:''});
-        });
-        Joi.validate({dateOfBirth:body.dateOfBirth}, {dateOfBirth: Joi.date().max(earliestBirthDate).required().min(latestBirthDate)}, function (error, value) {
-            if(error)
-            {
-                valid=false;
-                if(value.dateOfBirth==='')
-                    me.setState({dateOfBirthError:'Date of birth is required'});
-                else
-                    me.setState({dateOfBirthError:'Invalid date of birth'});
-            }
-            else
-                me.setState({dateOfBirthError:''});
-        });
-        Joi.validate({residenceAddress:body.residenceAddress}, {residenceAddress: Joi.string()}, function (error, value) {
-            if(error)
-            {
-                valid=false;
-                me.setState({residenceAddressError:'Residence Address is required'});
-            }
-            else
-                me.setState({residenceAddressError:''});
-        });
-        Joi.validate({telephoneNumber:body.telephoneNumber}, {telephoneNumber: Joi.string().trim().regex(/^[0-9]{7,14}$/)}, function (error, value) {
-            if(value.telephoneNumber!=='' && error)
-            {
-                valid=false;
-                me.setState({telephoneNumberError:'Invalid Telephone number'});
-            }
-            else
-                me.setState({telephoneNumberError:''});
-        });
-        Joi.validate({fax:body.fax}, {fax: Joi.string().trim().regex(/^[0-9]{7,10}$/)}, function (error, value) {
-            if(value.fax!=='' && error)
-            {
-                valid=false
-                me.setState({faxError:'Invalid Fax'});
-            }
-            else
-                me.setState({faxError:''});
-        });
-        if(valid)
-        {
-            try
-            {
-                await axios.post("api/investors/register",body);
-                this.setState({valid:'Successfully Created!'})                
-            }
-            catch(error)
-            {   
-                this.state.emailError='This email is already in use'
-                this.setState({valid:'Oops something went wrong!'})
-            }
+      this.setState({ type: body.type });
+      Joi.validate(
+        { fullName: body.fullName },
+        { fullName: Joi.string().min(3) },
+        function(error, value) {
+          if (error) {
+            valid = false;
+            if (value.fullName === "")
+              me.setState({ fullNameError: "Full name is required" });
+            else me.setState({ fullNameError: "Invalid Name" });
+          } else me.setState({ fullNameError: "" });
         }
-    };
-
-    handleClickShowPassword = () => {
-        this.setState(state => ({ showPassword: !state.showPassword }));
+      );
+      Joi.validate(
+        { email: body.email },
+        { email: Joi.string().email() },
+        function(error, value) {
+          if (error) {
+            valid = false;
+            if (value.email === "")
+              me.setState({ emailError: "Email is required" });
+            else me.setState({ emailError: "Invalid Email" });
+          } else me.setState({ emailError: "" });
+        }
+      );
+      Joi.validate(
+        { password: body.password },
+        { password: Joi.string().min(8) },
+        function(error, value) {
+          if (error) {
+            valid = false;
+            if (value.password === "")
+              me.setState({ passwordError: "Password is required" });
+            else me.setState({ passwordError: "Password is weak" });
+          } else me.setState({ passwordError: "" });
+        }
+      );
+      Joi.validate(
+        { nationality: body.nationality },
+        { nationality: Joi.string() },
+        function(error, value) {
+          if (error) {
+            valid = false;
+            me.setState({ nationalityError: "Nationality is required" });
+          } else me.setState({ nationalityError: "" });
+        }
+      );
+      Joi.validate(
+        { identificationNumber: body.identificationNumber },
+        { identificationNumber: Joi.string() },
+        function(error, value) {
+          if (
+            body.nationality === "Egyptian" &&
+            body.identificationNumber.length !== 14
+          ) {
+            valid = false;
+            me.setState({
+              identificationNumberError:
+                "Identification number must be 14 digits"
+            });
+          } else if (error) {
+            valid = false;
+            me.setState({
+              identificationNumberError: "Identification number is required"
+            });
+          } else me.setState({ identificationNumberError: "" });
+        }
+      );
+      Joi.validate(
+        { dateOfBirth: body.dateOfBirth },
+        {
+          dateOfBirth: Joi.date()
+            .max(earliestBirthDate)
+            .required()
+            .min(latestBirthDate)
+        },
+        function(error, value) {
+          if (error) {
+            valid = false;
+            if (value.dateOfBirth === "")
+              me.setState({ dateOfBirthError: "Date of birth is required" });
+            else me.setState({ dateOfBirthError: "Invalid date of birth" });
+          } else me.setState({ dateOfBirthError: "" });
+        }
+      );
+      Joi.validate(
+        { residenceAddress: body.residenceAddress },
+        { residenceAddress: Joi.string() },
+        function(error, value) {
+          if (error) {
+            valid = false;
+            me.setState({
+              residenceAddressError: "Residence Address is required"
+            });
+          } else me.setState({ residenceAddressError: "" });
+        }
+      );
+      Joi.validate(
+        { telephoneNumber: body.telephoneNumber },
+        {
+          telephoneNumber: Joi.string()
+            .trim()
+            .regex(/^[0-9]{7,14}$/)
+        },
+        function(error, value) {
+          if (value.telephoneNumber !== "" && error) {
+            valid = false;
+            me.setState({ telephoneNumberError: "Invalid Telephone number" });
+          } else me.setState({ telephoneNumberError: "" });
+        }
+      );
+      Joi.validate(
+        { fax: body.fax },
+        {
+          fax: Joi.string()
+            .trim()
+            .regex(/^[0-9]{7,10}$/)
+        },
+        function(error, value) {
+          if (value.fax !== "" && error) {
+            valid = false;
+            me.setState({ faxError: "Invalid Fax" });
+          } else me.setState({ faxError: "" });
+        }
+      );
+      if (valid) {
+        try {
+          await axios.post("api/investors/register", body);
+          this.setState({ valid: "Successfully Created!" });
+        } catch (error) {
+          this.state.emailError = "This email is already in use";
+          this.setState({ valid: "Oops something went wrong!" });
+        }
+      }
     }
+
     this.setState({ type: body.type });
     Joi.validate(
       { fullName: body.fullName },
@@ -348,13 +358,13 @@ export default class InvestorRegister extends React.Component {
     );
     if (valid) {
       try {
-        const inv=await axios.post("api/investors/register", body);
+        const inv = await axios.post("api/investors/register", body);
         const req = {
-            email: body.email,
-            username: body.email,
-            password: body.password
-          };
-          const res = await login(req);
+          email: body.email,
+          username: body.email,
+          password: body.password
+        };
+        const res = await login(req);
         this.setState({ valid: "Successfully Created!" });
       } catch (error) {
         console.log("error", error);
@@ -364,14 +374,13 @@ export default class InvestorRegister extends React.Component {
     }
   };
 
-  handleClickShowPassword = () => {
-    this.setState(state => ({ showPassword: !state.showPassword }));
-  };
-
   handleChange = event => {
     this.setState({ [event.target.name]: event.target.value });
   };
 
+  handleClickShowPassword = () => {
+    this.setState(state => ({ showPassword: !state.showPassword }));
+  };
   render() {
     const styles = {
       formControl: {
@@ -380,203 +389,214 @@ export default class InvestorRegister extends React.Component {
       }
     };
     return (
-      <div style={{ paddingTop: "10vh" }}>
-        <div class="wrapper">
-          <div
-            class="page-header"
-            style={{ backgroundImage: "url('../assets/img/login-image.jpg')" }}
-          >
-            <div class="filter" />
-            <div class="container">
-              <div class="row">
-                <div class="col-lg-4 col-sm-6 mr-auto ml-auto">
-                  <div
-                    class="card card-register"
-                    style={{
-                      backgroundColor: "#FFFFFF",
-                      boxShadow: "0px 3px 20px rgba(0, 0, 0, 0.16)"
-                    }}
-                  >
-                    <h2 align="center" style={{ color: "#223242" }}>
-                      Create an account
-                    </h2>
-                    <br />
-                    <form id="InvestorRegister" class="login-form">
-                      <input
-                        id="fullName"
-                        type="text"
-                        placeholder="Full Name"
-                        class="form-control"
-                      />
-                      <label id="Error" className="text-danger">
-                        {" "}
-                        {this.state.fullNameError}
-                      </label>
+      <div>
+        <NavBarBlue
+          sumergiteColor="#3480E3"
+          backgroundColor="#FFFFFF"
+          boxShadow="0px 3px 20px rgba(0, 0, 0, 0.16)"
+        />
+        <div style={{ paddingTop: "10vh" }}>
+          <div class="wrapper">
+            <div
+              class="page-header"
+              style={{
+                backgroundImage: "url('../assets/img/login-image.jpg')"
+              }}
+            >
+              <div class="filter" />
+              <div class="container">
+                <div class="row">
+                  <div class="col-lg-4 col-sm-6 mr-auto ml-auto">
+                    <div
+                      class="card card-register"
+                      style={{
+                        backgroundColor: "#FFFFFF",
+                        boxShadow: "0px 3px 20px rgba(0, 0, 0, 0.16)"
+                      }}
+                    >
+                      <h2 align="center" style={{ color: "#223242" }}>
+                        Create an account
+                      </h2>
                       <br />
-                      <input
-                        id="email"
-                        type="text"
-                        placeholder="Email"
-                        class="form-control"
-                      />
-                      <label id="Error" className="text-danger">
-                        {" "}
-                        {this.state.emailError}
-                      </label>
-                      <br />
-                      <input
-                        id="password"
-                        type="password"
-                        placeholder="password"
-                        class="form-control"
-                      />
-                      <label id="Error" class="text-danger">
-                        {" "}
-                        {this.state.passwordError}
-                      </label>
-                      <br />
-                      <div align="left">
-                        <label style={{ color: "#223242" }}>Type </label>
-                      </div>
-                      <select
-                        value={this.state.methodOfIdentification}
-                        class="form-control"
-                        value={this.state.type}
-                        onChange={this.handleChange}
-                        name="type"
-                        id="type"
-                      >
-                        <option value={"fullTimeInvestor"}>
-                          Full Time Investor
-                        </option>
-                      </select>
-                      <br />
-                      <div align="left">
-                        <label style={{ color: "#223242" }}>Gender </label>
-                      </div>
-                      <select
-                        value={this.state.gender}
-                        onChange={this.handleChange}
-                        name="gender"
-                        id="gender"
-                        class="form-control"
-                      >
-                        <option value={"Male"}>Male</option>
-                        <option value={"Female"}>Female</option>
-                      </select>
-                      <br />
-                      <input
-                        id="nationality"
-                        type="text"
-                        placeholder="Nationality"
-                        class="form-control"
-                      />
-                      <label id="Error" class="text-danger">
-                        {" "}
-                        {this.state.nationalityError}
-                      </label>
-                      <br />
-                      <div align="left">
-                        <label style={{ color: "#223242" }}>
-                          Method Of Identification{" "}
+                      <form id="InvestorRegister" class="login-form">
+                        <input
+                          id="fullName"
+                          type="text"
+                          placeholder="Full Name"
+                          class="form-control"
+                        />
+                        <label id="Error" className="text-danger">
+                          {" "}
+                          {this.state.fullNameError}
                         </label>
+                        <br />
+                        <input
+                          id="email"
+                          type="text"
+                          placeholder="Email"
+                          class="form-control"
+                        />
+                        <label id="Error" className="text-danger">
+                          {" "}
+                          {this.state.emailError}
+                        </label>
+                        <br />
+                        <input
+                          id="password"
+                          type="password"
+                          placeholder="password"
+                          class="form-control"
+                        />
+                        <label id="Error" class="text-danger">
+                          {" "}
+                          {this.state.passwordError}
+                        </label>
+                        <br />
+                        <div align="left">
+                          <label style={{ color: "#223242" }}>Type </label>
+                        </div>
+                        <select
+                          value={this.state.methodOfIdentification}
+                          class="form-control"
+                          value={this.state.type}
+                          onChange={this.handleChange}
+                          name="type"
+                          id="type"
+                        >
+                          <option value={"fullTimeInvestor"}>
+                            Full Time Investor
+                          </option>
+                        </select>
+                        <br />
+                        <div align="left">
+                          <label style={{ color: "#223242" }}>Gender </label>
+                        </div>
+                        <select
+                          value={this.state.gender}
+                          onChange={this.handleChange}
+                          name="gender"
+                          id="gender"
+                          class="form-control"
+                        >
+                          <option value={"Male"}>Male</option>
+                          <option value={"Female"}>Female</option>
+                        </select>
+                        <br />
+                        <input
+                          id="nationality"
+                          type="text"
+                          placeholder="Nationality"
+                          class="form-control"
+                        />
+                        <label id="Error" class="text-danger">
+                          {" "}
+                          {this.state.nationalityError}
+                        </label>
+                        <br />
+                        <div align="left">
+                          <label style={{ color: "#223242" }}>
+                            Method Of Identification{" "}
+                          </label>
+                        </div>
+                        <select
+                          value={this.state.methodOfIdentification}
+                          onChange={this.handleChange}
+                          name="methodOfIdentification"
+                          id="methodOfIdentification"
+                          class="form-control"
+                        >
+                          <option value={"passport"}>Passport</option>
+                          <option value={"NID"}>National ID</option>
+                        </select>
+                        <br />
+                        <input
+                          id="identificationNumber"
+                          type="text"
+                          class="form-control"
+                          placeholder="Identification Number"
+                        />
+                        <label id="Error" class="text-danger">
+                          {" "}
+                          {this.state.identificationNumberError}
+                        </label>
+                        <div align="left">
+                          <label style={{ color: "#223242" }}>
+                            Birth Date{" "}
+                          </label>
+                        </div>
+                        <input
+                          type="date"
+                          name="dateOfBirth"
+                          class="form-control"
+                          placeholder="Date Of Birth"
+                        />
+                        <label id="Error" class="text-danger">
+                          {" "}
+                          {this.state.dateOfBirthError}
+                        </label>
+                        <br />
+                        <input
+                          id="residenceAddress"
+                          type="text"
+                          placeholder="Residence Address"
+                          class="form-control"
+                        />
+                        <label id="Error" class="text-danger">
+                          {" "}
+                          {this.state.residenceAddressError}
+                        </label>
+                        <br />
+                        <input
+                          id="telephoneNumber"
+                          type="text"
+                          placeholder="Telephone Number"
+                          class="form-control"
+                        />
+                        <label id="Error" class="text-danger">
+                          {" "}
+                          {this.state.telephoneNumberError}
+                        </label>
+                        <br />
+                        <input
+                          id="fax"
+                          type="text"
+                          placeholder="Fax"
+                          class="form-control"
+                        />
+                        <label id="Error" class="text-danger">
+                          {" "}
+                          {this.state.faxError}
+                        </label>
+                        <br />
+                      </form>
+                      <br />
+                      <div align="center">
+                        <Fab
+                          variant="extended"
+                          size="medium"
+                          style={{
+                            boxShadow: "none",
+                            marginTop: "6px",
+                            backgroundColor: "#1ace98",
+                            color: "#FFFFFF",
+                            width: 150
+                          }}
+                          aria-label="Delete"
+                          onClick={this.submit}
+                        >
+                          Register
+                        </Fab>
                       </div>
-                      <select
-                        value={this.state.methodOfIdentification}
-                        onChange={this.handleChange}
-                        name="methodOfIdentification"
-                        id="methodOfIdentification"
-                        class="form-control"
-                      >
-                        <option value={"passport"}>Passport</option>
-                        <option value={"NID"}>National ID</option>
-                      </select>
                       <br />
-                      <input
-                        id="identificationNumber"
-                        type="text"
-                        class="form-control"
-                        placeholder="Identification Number"
-                      />
-                      <label id="Error" class="text-danger">
-                        {" "}
-                        {this.state.identificationNumberError}
-                      </label>
-                      <div align="left">
-                        <label style={{ color: "#223242" }}>Birth Date </label>
-                      </div>
-                      <input
-                        type="date"
-                        name="dateOfBirth"
-                        class="form-control"
-                        placeholder="Date Of Birth"
-                      />
-                      <label id="Error" class="text-danger">
-                        {" "}
-                        {this.state.dateOfBirthError}
+                      <label id="Success" class="text-danger">
+                        {this.state.valid === "Successfully Created!" ? (
+                          <Redirect to={{ pathname: "/MyCompanies" }} />
+                        ) : (
+                          <div />
+                        )}
                       </label>
                       <br />
-                      <input
-                        id="residenceAddress"
-                        type="text"
-                        placeholder="Residence Address"
-                        class="form-control"
-                      />
-                      <label id="Error" class="text-danger">
-                        {" "}
-                        {this.state.residenceAddressError}
-                      </label>
-                      <br />
-                      <input
-                        id="telephoneNumber"
-                        type="text"
-                        placeholder="Telephone Number"
-                        class="form-control"
-                      />
-                      <label id="Error" class="text-danger">
-                        {" "}
-                        {this.state.telephoneNumberError}
-                      </label>
-                      <br />
-                      <input
-                        id="fax"
-                        type="text"
-                        placeholder="Fax"
-                        class="form-control"
-                      />
-                      <label id="Error" class="text-danger">
-                        {" "}
-                        {this.state.faxError}
-                      </label>
-                      <br />
-                    </form>
-                    <br />
-                    <div align="center">
-                      <Fab
-                        variant="extended"
-                        size="medium"
-                        style={{
-                          boxShadow: "none",
-                          marginTop: "6px",
-                          backgroundColor: "#1ace98",
-                          color: "#FFFFFF",
-                          width: 150
-                        }}
-                        aria-label="Delete"
-                        onClick={this.submit}
-                      >
-                        Register
-                      </Fab>
                     </div>
-                    <br />
-                    <label id="Success" class="text-danger">
-                      {this.state.valid === "Successfully Created!" ? (
-                        <Redirect to={{ pathname: "/MyCompanies" }} />
-                      ) : (
-                        <div />
-                      )}
-                    </label>
-                    <br />
                   </div>
                 </div>
               </div>
