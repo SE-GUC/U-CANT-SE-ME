@@ -9,7 +9,8 @@ export default class NavBarBlue extends Component {
     screenHeight: 0,
     screenWidth: 0,
     login: false,
-    register: false
+    register: false,
+    hero: false
   };
   render() {
     const opacity = 1 - Math.min(10 / this.state.currentScrollHeight, 1);
@@ -36,12 +37,20 @@ export default class NavBarBlue extends Component {
     if (this.state.login) {
       this.setState({ login: false });
       this.setState({ register: false });
+      this.setState({ hero: false });
       return <Redirect to="/Login" />;
     }
     if (this.state.register) {
       this.setState({ login: false });
       this.setState({ register: false });
+      this.setState({ hero: false });
       return <Redirect to="/InvestorRegister" />;
+    }
+    if (this.state.hero) {
+      this.setState({ login: false });
+      this.setState({ register: false });
+      this.setState({ hero: false });
+      return <Redirect to="/" />;
     }
     return (
       //navbar navbar-default navbar-alt
@@ -52,7 +61,16 @@ export default class NavBarBlue extends Component {
           id="navbarmob"
           style={styles.content}
         >
-          <label style={styles.SumergiteLabel}>Sumergite</label>
+          <label>
+            <button
+              style={styles.SumergiteLabel}
+              onClick={() => {
+                this.setState({ hero: true });
+              }}
+            >
+              Sumergite
+            </button>
+          </label>
           <div className="collapse navbar-collapse" id="navbarSupportedContent">
             <ul className="navbar-nav ml-auto">
               <li className="nav-item mr-auto">
