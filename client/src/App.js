@@ -36,11 +36,13 @@ import ReviewerProfile from './components/ReviewerProfile'
 import AdminProfile from './components/AdminProfile'
 import updateInvestorProfile from './components/updateInvestorProfile';
 import CreateFormTemplate from './components/CreateFormTemplate/CreateFormTemplate';
+import CasesContainer from './components/dCaseComponents/CasesContainer';
 import setAuthToken from './helpers/setAuthToken';
 
 if(localStorage.jwtToken){
   setAuthToken(localStorage.jwtToken)
 }
+
 class App extends Component {
   render() {
     return (
@@ -88,6 +90,7 @@ class App extends Component {
         <Route path="/internalPortal/admin/profile" component={AdminProfile}/>
         <Route path="/updateInvestorProfile" component={updateInvestorProfile}/>
         <Route path="/createFormTemplate" component={CreateFormTemplate}/>
+        <Route path="/CasesContainer" component={CasesContainer}/>
         </div>
       </Router>
       </div>
