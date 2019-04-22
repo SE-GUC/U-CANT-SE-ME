@@ -1,17 +1,35 @@
 import React, { Component } from 'react'
 import Case from './Case';
 import axios from 'axios';
+import parseJwt from '../../helpers/decryptAuthToken';
+import {Redirect} from 'react-router-dom'
 
 export default class LawyerViewTasks extends Component {
     state ={
         cases :[],
         caseid:"",
-        LawyerID:"5ca777485c74d20e80486f9c"
+        lawyerId:"",
+        home:0
     };
 
     async componentDidMount(){
 
-        const id =this.state.LawyerID;
+        if (!localStorage.jwtToken) {
+            alert("You must login!");
+            this.setState({ home: 1 });
+            return;
+        }
+        try{
+              await axios.get('api/lawyers/auth')
+        }catch(err){
+            alert("You are not allowed to access this page");
+            this.setState({ home: 1 });
+            return;
+        }
+        this.setState({ home: 2 });
+        const data = parseJwt(localStorage.jwtToken)
+        await this.setState({lawyerId:data.id})
+        const id =this.state.lawyerId;
         const getCases = await axios.get(`api/lawyers/lawyerTasks/${id}`);
         this.setState({cases: getCases.data.Tasks});
     };
@@ -52,7 +70,11 @@ export default class LawyerViewTasks extends Component {
     }
 
     render() {
+        if (this.state.home===0) return <div/>;
+        if (this.state.home===1) return <Redirect to={{ pathname: "/" }} />;
+        else
         return (
+            this.state.cases.length==0? "You dont have any cases.":
             <header className="LawyerViewTasks">
             <div>
                 {this.state.cases.map((x) => (

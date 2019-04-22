@@ -8,7 +8,10 @@ import Visibility from '@material-ui/icons/Visibility'
 import VisibilityOff from '@material-ui/icons/VisibilityOff'
 import IconButton from '@material-ui/core/IconButton'
 import InputAdornment from '@material-ui/core/InputAdornment'
+import Select from '@material-ui/core/Select'
+import MenuItem from '@material-ui/core/MenuItem'
 import { Redirect } from 'react-router-dom'
+import NavBarBlue from './NavBarBlue'
 const Joi = require("joi");
 
 export default class InvestorRegister extends React.Component {
@@ -25,6 +28,9 @@ export default class InvestorRegister extends React.Component {
             telephoneNumberError:'',
             faxError:'',
             valid:'',
+            type: '',
+            gender: '',
+            methodOfIdentification: '',
             showPassword: false
         }
     }
@@ -49,6 +55,7 @@ export default class InvestorRegister extends React.Component {
             telephoneNumber: form.telephoneNumber.value,
             fax: form.fax.value
         }
+        this.setState({type: body.type})
         console.log('body', body)
         Joi.validate({fullName:body.fullName}, {fullName: Joi.string().min(3)}, function (error, value) {
             if(error)
@@ -155,8 +162,9 @@ export default class InvestorRegister extends React.Component {
                 await axios.post("api/investors/register",body);
                 this.setState({valid:'Successfully Created!'})                
             }
-            catch
-            {
+            catch(error)
+            {   
+                console.log('error', error)
                 this.state.emailError='This email is already in use'
                 this.setState({valid:'Oops something went wrong!'})
             }
@@ -167,36 +175,51 @@ export default class InvestorRegister extends React.Component {
         this.setState(state => ({ showPassword: !state.showPassword }));
     }
 
+    handleChange = event => {
+        this.setState({ [event.target.name]: event.target.value });
+    }
+
     render() {
+        const styles = {
+            formControl: {
+                margin: 0,
+                width: 200
+            }
+        }
         return (
-          <div>
+            <div> 
+                <NavBarBlue sumergiteColor= '#3480E3' backgroundColor='#FFFFFF' boxShadow='0px 3px 20px rgba(0, 0, 0, 0.16)'/>
+          <div style={{paddingTop: '10vh'}}>
                 <br />
                 <form id="InvestorRegister">
-                    <FormControl>    
+                    <FormControl required>    
                         <InputLabel>Full Name</InputLabel>
                         <Input
                             id="fullName"
                             type='text'
+                            style={{ width: 200 }}
                         />
                     </FormControl>
                     <br />
-                    <label id="Error" class="text-danger"> {this.state.fullNameError}</label>
+                    <label id="Error" className="text-danger"> {this.state.fullNameError}</label>
                     <br/> 
-                    <FormControl>    
+                    <FormControl required>    
                         <InputLabel>Email</InputLabel>
                         <Input
                             id="email"
                             type='text'
+                            style={{ width: 200 }}
                         />
                     </FormControl>
                     <br />
-                    <label id="Error" class="text-danger"> {this.state.emailError}</label>
+                    <label id="Error" className="text-danger"> {this.state.emailError}</label>
                     <br/> 
-                    <FormControl>    
+                    <FormControl required>    
                         <InputLabel htmlFor="adornment-password">Password</InputLabel>
                             <Input
                                 id="password"
                                 type={this.state.showPassword ? 'text' : 'password'}
+                                style={{ width: 200 }}
                                 endAdornment={
                                     <InputAdornment position="end">
                                       <IconButton
@@ -212,33 +235,70 @@ export default class InvestorRegister extends React.Component {
                     <br />
                     <label id="Error" class="text-danger"> {this.state.passwordError}</label>
                     <br/> 
-                    Type:   <select id="type">
-                                <option value="fullTimeInvestor">Full Time Investor</option>
-                            </select><br/>
-                    Gender: <select id="gender">
-                                <option value="Male">Male</option>
-                                <option value="Female">Female</option>
-                            </select><br/>
-                    <FormControl>    
+                    <FormControl required style={styles.formControl}>
+                        <InputLabel htmlFor="age-required">Type</InputLabel>
+                            <Select
+                                value={this.state.type}
+                                onChange={this.handleChange}
+                                name="type"
+                                id="type"
+                            >
+                            <MenuItem value="">
+                                <em>None</em>
+                            </MenuItem>
+                            <MenuItem value={"fullTimeInvestor"}>Full Time Investor</MenuItem>
+                            </Select>
+                    </FormControl>
+                    <br />
+                    <FormControl required style={styles.formControl}>
+                        <InputLabel htmlFor="age-required">Gender</InputLabel>
+                            <Select
+                                value={this.state.gender}
+                                onChange={this.handleChange}
+                                name="gender"
+                                id="gender"
+                            >
+                            <MenuItem value="">
+                                <em>None</em>
+                            </MenuItem>
+                            <MenuItem value={"Male"}>Male</MenuItem>
+                            <MenuItem value={"Female"}>Female</MenuItem>
+                            </Select>
+                    </FormControl>
+                    <br />
+                    <FormControl required>    
                         <InputLabel>Nationality</InputLabel>
                             <Input
                                 id="nationality"
                                 type='text'
+                                style={{ width: 200 }}
                             />
                     </FormControl>
                     <br />
                     <label id="Error" class="text-danger"> {this.state.nationalityError}</label>
-                    <br/> 
-                    Method Of Identification:   <select id="methodOfIdentification">
-                                                    <option value="Passport">Passport</option>
-                                                    <option value="National ID">National ID</option>
-                                                </select><br/>
-
-                    <FormControl>    
+                    <br/>  
+                    <FormControl required style={styles.formControl}>
+                        <InputLabel htmlFor="age-required">Method of Identification</InputLabel>
+                            <Select
+                                value={this.state.methodOfIdentification}
+                                onChange={this.handleChange}
+                                name="methodOfIdentification"
+                                id="methodOfIdentification"
+                            >
+                            <MenuItem value="">
+                                <em>None</em>
+                            </MenuItem>
+                            <MenuItem value={"passport"}>Passport</MenuItem>
+                            <MenuItem value={"NID"}>National ID</MenuItem>
+                            </Select>
+                    </FormControl>
+                    <br />
+                    <FormControl required>    
                         <InputLabel>Identification Number</InputLabel>
                             <Input
                                 id="identificationNumber"
                                 type='text'
+                                style={{ width: 200 }}
                             />
                     </FormControl>
                     <br />
@@ -247,11 +307,12 @@ export default class InvestorRegister extends React.Component {
                     Date Of Birth: <input type="date" name="dateOfBirth"/><br/>
                     <label id="Error" class="text-danger"> {this.state.dateOfBirthError}</label>
                     <br/>             
-                    <FormControl>    
+                    <FormControl required>    
                         <InputLabel>Residence Address</InputLabel>
                             <Input
                                 id="residenceAddress"
                                 type='text'
+                                style={{ width: 200 }}
                             />
                     </FormControl>
                     <br />
@@ -262,6 +323,7 @@ export default class InvestorRegister extends React.Component {
                             <Input
                                 id="telephoneNumber"
                                 type='text'
+                                style={{ width: 200 }}
                             />
                     </FormControl>
                     <br />
@@ -272,6 +334,7 @@ export default class InvestorRegister extends React.Component {
                             <Input
                                 id="fax"
                                 type='text'
+                                style={{ width: 200 }}
                             />
                     </FormControl>
                     <br />
@@ -287,6 +350,7 @@ export default class InvestorRegister extends React.Component {
                     {this.state.valid==="Successfully Created!" ?  <Redirect to={{pathname: "/MyCompanies"}}/>:<div/>}
                 </label>
                 <br />
+          </div>
           </div>
         );
       }

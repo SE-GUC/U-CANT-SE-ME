@@ -11,7 +11,6 @@ const lawyers = require("./routes/api/lawyers");
 const reviewers = require("./routes/api/reviewers");
 const admins = require("./routes/api/admins");
 const cases = require("./routes/api/cases");
-const dcases = require("./routes/api/dcases");
 const formTemplates = require("./routes/api/formTemplates");
 const companies = require("./routes/api/companies");
 const notifications = require("./routes/api/notifications");
@@ -26,6 +25,10 @@ app.use(cors());
 
 //Getting Mongo's connection URI
 const db = require("./config/keys").mongoURI;
+
+mongoose.set('useNewUrlParser', true);
+mongoose.set('useFindAndModify', false);
+mongoose.set('useCreateIndex', true);
 
 //Connecting to MongoDB
 mongoose
@@ -76,7 +79,6 @@ app.use("/api/reviewers", reviewers);
 app.use("/api/admins", admins);
 app.use("/api/companies", companies);
 app.use("/api/cases", cases);
-app.use("/api/dcases", dcases);
 app.use("/api/formTemplates", formTemplates);
 app.use("/api/notifications", notifications);
 app.use("/api/externalEntities", externalEntities);
