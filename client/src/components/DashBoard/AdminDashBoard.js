@@ -9,6 +9,7 @@ import RegisterLawyer from "../RegisterLawyer";
 import RegisterReviewer from "../RegisterReviewer";
 import CasesContainer from "../dCaseComponents/CasesContainer";
 import CreateFormTemplate from "../CreateFormTemplate/CreateFormTemplate";
+import NavBarDashboard from '../NavBarDashboard'
 export default class InvestorDashBoard extends Component {
   constructor(props) {
     super(props)
@@ -46,27 +47,29 @@ async componentDidMount(){
       },
       navStyle: {
         background: "#3480E3",
-        zindex:"0",
         position:"fixed",
-        boxShadow: "5px 0px 20px rgba(0, 0, 0, 0.16)"
+        boxShadow: "5px 0px 20px rgba(0, 0, 0, 0.16)",
       },
       divStyleShow:{
         display: ' inline',
         marginLeft:this.state.dashboardwidth,
         // background:"red",
         display: 'flex', 
-        justifyContent: 'center'
+        justifyContent: 'center',
+        paddingTop:'10vh'
       },
       divStyleHide:{
         display: 'none',
         textAlign: "center",
         marginLeft:this.state.dashboardwidth,
         // background:"red",
-        justifyContent: 'center'
+        justifyContent: 'center',
+        paddingTop:'10vh'
       }
     };
     return (
       <div>
+         <NavBarDashboard sumergiteColor= '#3480E3' boxShadow='0px 3px 20px rgba(0, 0, 0, 0.16)' dashboard='lighter' profile='bold' homepage='lighter' DASHBOARD={true} PROFILE={true} ProfileMargin='120px' HomePageMargin='0px' dashboardRedirect='/AdminDashBoard' profileRedirect="/internalPortal/admin/profile"/> 
         <SideNav id="dashboard" onSelect={this.handleSelect} style={styles.navStyle}>
           <SideNav.Toggle />
           <SideNav.Nav defaultSelected="viewallcases">

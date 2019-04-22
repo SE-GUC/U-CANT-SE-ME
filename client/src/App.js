@@ -94,6 +94,7 @@ class App extends Component {
         <Route path="/InvestorDashboard" component={InvestorDashBoard}/>
         <Route path="/LawyerDashboard" component={LawyerDashBoard}/>
         <Route path="/ReviewerDashboard" component={ReviewerDashBoard}/>
+        <Route path="/AdminDashboard" component={AdminDashBoard}/>
         </div>
       </Router>
       </div>
