@@ -22,7 +22,6 @@ export default class TrackMyCompany extends React.Component {
           try{
               await axios.get('../api/investors/auth')
           }catch(err){
-              console.log(err);
             alert("You are not allowed");
             this.setState({ home: 1 });
             return;
@@ -33,7 +32,6 @@ export default class TrackMyCompany extends React.Component {
             const id = data.id
             const res = await axios.get(`../api/investors/trackMyCompany/${id}`);
             const { data: posts } = res
-            console.log(posts.tracking)
             this.setState({ posts: posts.tracking });
         }
         catch(error){

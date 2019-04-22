@@ -77,7 +77,6 @@ exports.createCase = async function(req, res) {
     res.send({ msg: "Case was created successfully", data: newCase });
   } catch (error) {
     res.send({ error: "Something went wrong!" });
-    console.log(error);
   }
 };
 
@@ -139,7 +138,6 @@ exports.updateCase = async function(req, res) {
     res.send({ msg: "Case updated successfully" });
   } catch (error) {
     res.status(403).send({ error: "Something went wrong" });
-    console.log(error);
   }
 };
 

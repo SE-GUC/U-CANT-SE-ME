@@ -22,10 +22,8 @@ class ExternalLogin extends Component {
         try{
             let res = await axios.post(`api/${this.props.match.params.type}/reset/${this.props.match.params.token}`, req)
             document.getElementById('Success').style.display = 'inline'
-            console.log('res', res)
         }
         catch(error){
-            console.log('in catch', error)
             if(error.message === 'Network Error')
                 document.getElementById('Token').style.display = 'inline'
             document.getElementById('Success').style.display = 'none'
