@@ -3,29 +3,39 @@ import React, { Component } from "react";
 import "@trendmicro/react-sidenav/dist/react-sidenav.css";
 import SideNav, {NavItem,NavIcon,NavText} from "@trendmicro/react-sidenav";
 import { Redirect } from 'react-router-dom'
+import LawyerViewTasks from "../caseComponents/LawyerViewTasks";
+import LawyerViewCase from "../caseComponents/LawyerViewCase";
+import { BrowserRouter as Router, Route } from 'react-router-dom';
+import CaseSwitch from "../caseComponents/CaseSwitch";
 export default class LawyerDashBoard extends Component {
-    constructor(props) {
-        super(props)
-        this.state = {
-            id: '',
-            caseSummary: false,
-            caseSwitch: false,
-            viewAllCases: false,
-            registerLawyer: false,
-            registerReviewer: false,
-            createFormTemplate: false,
-            home:0
-        }
-      }
+  constructor(props) {
+    super(props)
+    this.state = {
+        dashboardwidth:0
+    }
+  }
+async componentDidMount(){
+  const width = document.getElementById("dashboard").clientWidth
+  await this.setState({dashboardwidth:width});
+}
     handleSelect = selected => {
     console.log(selected);
-    if(selected === "viewmycompanies")
-    {
-        this.setState({registerLawyer: true})
-    }else
-    if (selected === "case/all") {
+    document.getElementById("FormRequest").style.display="none";
+    document.getElementById("UnassignedCases").style.display="none";
+    document.getElementById("Tasks").style.display="none";
+    document.getElementById("AllCases").style.display="none";
 
-    }
+    if(selected === "formrequest")
+        document.getElementById("FormRequest").style.display="flex";
+
+    if (selected === "viewunasignedcases")
+        document.getElementById("UnassignedCases").style.display="flex";
+
+    if (selected === "viewtasks")
+        document.getElementById("Tasks").style.display="flex";
+
+    if (selected === "viewallcases")
+        document.getElementById("AllCases").style.display="flex";
   };
   render() {
     const styles = {
@@ -33,52 +43,43 @@ export default class LawyerDashBoard extends Component {
         fontSize: "1.75em"
       },
       navStyle: {
-        background: "#3d58db",
-        zindex:"0"
+        background: "#3480E3",
+        zindex:"0",
+        position:"fixed"
       },
       divStyleShow:{
         display: ' inline',
-        textAlign: "center"
-        // marginLeft:"64px",
-        // backgroundColor:"black"
+        marginLeft:this.state.dashboardwidth,
+        background:"red",
+        // display: 'flex', 
+        justifyContent: 'center'
       },
       divStyleHide:{
-        display: 'none'
+        display: 'none',
+        textAlign: "center",
+        marginLeft:this.state.dashboardwidth,
+        // background:"red",
+        justifyContent: 'center'
       }
     };
     return (
       <div>
-          {
-            this.state.caseSummary? <Redirect to={{pathname: "/CasesSummary"}}/>:
-            this.state.caseSwitch? <Redirect to={{pathname: "/CaseSwitch"}}/>:
-            this.state.viewAllCases? <Redirect to={{pathname: "/AdminViewAllCases"}}/>:
-            this.state.registerLawyer? <Redirect to={{pathname: "/RegisterLawyer"}}/>:
-            this.state.registerReviewer? <Redirect to={{pathname: "/RegisterReviewer"}}/>:
-            this.state.createFormTemplate? <Redirect to={{pathname: "/CreateFormTemplate"}}/>:<div/>
-        }
-        <SideNav onSelect={this.handleSelect} style={styles.navStyle}>
+        <SideNav id="dashboard" onSelect={this.handleSelect} style={styles.navStyle}>
           <SideNav.Toggle />
-          <SideNav.Nav defaultSelected={this.props.defaultSelected}>
+          <SideNav.Nav defaultSelected="viewtasks">
             
-            <NavItem eventKey="formrequest">
+          <NavItem eventKey="viewtasks">
               <NavIcon>
-                <i className="fa fa-home" style={styles.iconStyle} />
+                <i className="fa fa-list-alt" style={styles.iconStyle} />
               </NavIcon>
-              <NavText>View Form Requests</NavText>
+              <NavText>View Tasks</NavText>
             </NavItem>
-            
+
             <NavItem eventKey="viewunasignedcases">
               <NavIcon>
                 <i className="fa fa-list-alt" style={styles.iconStyle} />
               </NavIcon>
               <NavText>View Unasigned Cases</NavText>
-            </NavItem>
-
-            <NavItem eventKey="viewtasks">
-              <NavIcon>
-                <i className="fa fa-list-alt" style={styles.iconStyle} />
-              </NavIcon>
-              <NavText>View Tasks</NavText>
             </NavItem>
 
             <NavItem eventKey="viewallcases">
@@ -90,6 +91,23 @@ export default class LawyerDashBoard extends Component {
 
           </SideNav.Nav>
         </SideNav>
+
+        <div id="UnassignedCases" style={styles.divStyleHide} >
+        <Router>
+          <LawyerViewCase/>
+          </Router>
+        </div>
+        <div id="Tasks" style={styles.divStyleHide} >
+        <Router>
+          <LawyerViewTasks/>
+          </Router>
+        </div>
+        <div id="AllCases" style={styles.divStyleHide} >
+        <Router>
+          <CaseSwitch/>
+          </Router>
+        </div>
+
       </div>
     );
   }

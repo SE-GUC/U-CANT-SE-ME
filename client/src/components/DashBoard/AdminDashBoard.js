@@ -3,9 +3,10 @@ import React, { Component } from "react";
 import "@trendmicro/react-sidenav/dist/react-sidenav.css";
 import SideNav, {NavItem,NavIcon,NavText} from "@trendmicro/react-sidenav";
 import { Redirect } from 'react-router-dom'
+import { BrowserRouter as Router, Route } from 'react-router-dom';
+import CaseSwitch from "../caseComponents/CaseSwitch";
 import RegisterLawyer from "../RegisterLawyer";
 import RegisterReviewer from "../RegisterReviewer";
-import CaseSwitch from "../caseComponents/CaseSwitch";
 export default class InvestorDashBoard extends Component {
   constructor(props) {
     super(props)
@@ -42,8 +43,9 @@ async componentDidMount(){
         fontSize: "1.75em"
       },
       navStyle: {
-        background: "#3d58db",
-        zindex:"0"
+        background: "#3480E3",
+        zindex:"0",
+        position:"fixed"
       },
       divStyleShow:{
         display: ' inline',
@@ -64,15 +66,15 @@ async componentDidMount(){
       <div>
         <SideNav id="dashboard" onSelect={this.handleSelect} style={styles.navStyle}>
           <SideNav.Toggle />
-          <SideNav.Nav defaultSelected="register/lawyer">
+          <SideNav.Nav defaultSelected="viewallcases">
             
-            <NavItem eventKey="createformtemplate">
+          <NavItem eventKey="viewallcases">
               <NavIcon>
                 <i className="fa fa-home" style={styles.iconStyle} />
               </NavIcon>
-              <NavText>Create Form Template</NavText>
+              <NavText>View All Cases</NavText>
             </NavItem>
-            
+
             <NavItem eventKey="register">
               <NavIcon>
                 <i className="fa fa-list-alt" style={styles.iconStyle} />
@@ -86,12 +88,12 @@ async componentDidMount(){
               </NavItem>
             </NavItem>
 
-            <NavItem eventKey="viewallcases">
+            <NavItem eventKey="createformtemplate">
               <NavIcon>
                 <i className="fa fa-home" style={styles.iconStyle} />
               </NavIcon>
-              <NavText>View All Cases</NavText>
-            </NavItem>            
+              <NavText>Create Form Template</NavText>
+            </NavItem>
 
           </SideNav.Nav>
         </SideNav>
@@ -105,7 +107,9 @@ async componentDidMount(){
           <RegisterReviewer/>
         </div>
         <div id="AllCases" style={styles.divStyleHide} >
-          {/* <CaseSwitch/> */}
+        <Router>
+          <CaseSwitch/>
+          </Router>
         </div>
 
       </div>

@@ -26,6 +26,7 @@ export default class LawyerViewTasks extends Component {
             this.setState({ home: 1 });
             return;
         }
+        this.setState({ home: 2 });
         const data = parseJwt(localStorage.jwtToken)
         await this.setState({lawyerId:data.id})
         const id =this.state.lawyerId;

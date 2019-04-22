@@ -24,7 +24,6 @@ export default class InvestorDashBoard extends Component {
     
     document.getElementById("MyCompanies").style.display="none";
     document.getElementById("FillForm").style.display="none";
-    document.getElementById("AskLawyer").style.display="none";
     document.getElementById("AllCompanies").style.display="none";
     document.getElementById("AwaitingPayment").style.display="none";
     document.getElementById("NeedUpdate").style.display="none";
@@ -33,11 +32,8 @@ export default class InvestorDashBoard extends Component {
     if(selected === "viewmycompanies")
         document.getElementById("MyCompanies").style.display="flex";
 
-    if (selected === "createnewcompany/fillform")
+    if (selected === "createnewcompany")
         document.getElementById("FillForm").style.display="flex";
-
-    if (selected === "createnewcompany/lawyer")
-        document.getElementById("AskLawyer").style.display="flex";
 
     if (selected === "viewongoingcompanyrequests/all")
         document.getElementById("AllCompanies").style.display="flex";
@@ -60,13 +56,13 @@ export default class InvestorDashBoard extends Component {
       },
       navStyle: {
         background: "#3480E3",
-        zindex:"0"
+        zindex:"0",
+        position:"fixed"
       },
       divStyleShow:{
-        display: ' inline',
         marginLeft:this.state.dashboardwidth,
         background:"red",
-        // display: 'flex', 
+        display: 'flex', 
         justifyContent: 'center'
       },
       divStyleHide:{
@@ -96,12 +92,6 @@ export default class InvestorDashBoard extends Component {
                 <i className="fa fa-list-alt" style={styles.iconStyle} />
               </NavIcon>
               <NavText>Create Your Company</NavText>
-              <NavItem eventKey="createnewcompany/fillform">
-                <NavText>Fill The Form</NavText>
-              </NavItem>
-              <NavItem eventKey="createnewcompany/lawyer">
-                <NavText>Ask A Lawyer</NavText>
-              </NavItem>
             </NavItem>
 
             <NavItem eventKey="viewongoingcompanyrequests">
@@ -130,8 +120,6 @@ export default class InvestorDashBoard extends Component {
         </div>
         <div id="FillForm" style={styles.divStyleHide} >
           <InvestorFillForm/>
-        </div>
-        <div id="AskLawyer" style={styles.divStyleHide} >
         </div>
         <div id="AllCompanies" style={styles.divStyleHide} >
         </div>
