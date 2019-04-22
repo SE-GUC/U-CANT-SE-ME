@@ -149,8 +149,6 @@ class RegisterModal extends React.Component {
         }
       }
     }
-
-    console.log("body", body);
     Joi.validate(
       { fullName: body.fullName },
       { fullName: Joi.string().min(3) },
@@ -277,15 +275,13 @@ class RegisterModal extends React.Component {
     if (valid) {
       try {
         await axios.post("api/investors/register", body);
-        this.setState({ modalIsOpen: false });
+        //this.setState({ modalIsOpen: false });
         const req = {
           email: this.state.email,
           username: this.state.email,
           password: this.state.password
         };
-        console.log(req);
         const res = await login(req);
-        console.log(res);
         this.setState({ valid: "Successfully Created!" });
       } catch {
         this.setState({ stage: 0 });
@@ -702,6 +698,14 @@ class RegisterModal extends React.Component {
               <Fab
                 variant="extended"
                 size="medium"
+                style={{
+                  boxShadow: "none",
+                  marginTop: "6px",
+                  backgroundColor: "#1ace98",
+                  color: "#FFFFFF",
+                  float: "right",
+                  width: 150
+                }}
                 aria-label="Delete"
                 onClick={this.submit}
               >
@@ -710,7 +714,7 @@ class RegisterModal extends React.Component {
             </form>
             <label id="Success" class="text-danger">
               {this.state.valid === "Successfully Created!" ? (
-                <Redirect to={{ pathname: "/MyCompanies" }} />
+                <Redirect to={{ pathname: "/profile" }} />
               ) : (
                 <div />
               )}
