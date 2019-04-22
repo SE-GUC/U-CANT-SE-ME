@@ -4,6 +4,7 @@ import setAuthToken from "../../helpers/setAuthToken";
 
 export const logout = () => {
     var token;
+    localStorage.setItem("jwtToken", token);
     setAuthToken(token)
 };
 
