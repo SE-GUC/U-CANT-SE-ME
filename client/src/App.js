@@ -45,8 +45,6 @@ import updateInvestorProfile from './components/updateInvestorProfile';
 import CreateFormTemplate from './components/CreateFormTemplate/CreateFormTemplate';
 import setAuthToken from './helpers/setAuthToken';
 
-import DashBoard from './components/DashBoard/DashBoard'
-
 if(localStorage.jwtToken){
   setAuthToken(localStorage.jwtToken)
 }
