@@ -84,7 +84,7 @@ export default class NavBarBlue extends Component {
                 this.setState({ hero: true });
               }}
             >
-              Sumergite
+              {this.state.lang === "eng" ? "Sumergite" : "سمرجايت"}
             </button>
           </label>
           <div className="collapse navbar-collapse" id="navbarSupportedContent">
@@ -101,7 +101,7 @@ export default class NavBarBlue extends Component {
                   // disableRipple = {true}
                 >
                   <span id="buttonHome" style={styles.Login}>
-                    Login
+                    {this.state.lang === "eng" ? "Login" : "تسجيل الدخول"}
                   </span>
                 </button>
               </li>
@@ -122,7 +122,7 @@ export default class NavBarBlue extends Component {
                       this.setState({ register: true });
                     }}
                   >
-                    Register
+                    {this.state.lang === "eng" ? "Register" : "افتح حسابًا"}
                   </Fab>
                 ) : (
                   <RegisterModal buttonText="Register" />
