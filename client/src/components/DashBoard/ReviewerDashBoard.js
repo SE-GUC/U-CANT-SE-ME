@@ -26,13 +26,13 @@ async componentDidMount(){
     document.getElementById("AllCases").style.display="none";
 
     if (selected === "viewunasignedcases")
-        document.getElementById("UnassignedCases").style.display="flex";
+        document.getElementById("UnassignedCases").style.display=null;
 
     if (selected === "viewtasks")
-        document.getElementById("Tasks").style.display="flex";
+        document.getElementById("Tasks").style.display=null;
 
     if (selected === "viewallcases")
-        document.getElementById("AllCases").style.display="flex";
+        document.getElementById("AllCases").style.display=null;
   };
   render() {
     const styles = {
@@ -45,7 +45,6 @@ async componentDidMount(){
       },
       divStyleShow:{
         marginLeft:this.state.dashboardwidth,
-        display: 'flex', 
         justifyContent: 'center',
         paddingTop:'10vh'
       },

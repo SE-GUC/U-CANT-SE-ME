@@ -38,12 +38,15 @@ export default class RegisterLawyer extends React.Component {
   submit = async () => {
     var valid = true;
     const me = this;
-    var form = document.getElementById("RegisterLawyer");
+    var username = document.getElementById("username");
+    var fullName = document.getElementById("fullName");
+    var email = document.getElementById("email");
+    var password = document.getElementById("password");
     const body = {
-      username: form.username.value,
-      fullName: form.fullName.value,
-      email: form.email.value,
-      password: form.password.value
+      username: username.value,
+      fullName: fullName.value,
+      email: email.value,
+      password: password.value
     };
     Joi.validate(
       { username: body.username },
@@ -137,7 +140,7 @@ export default class RegisterLawyer extends React.Component {
     if (!this.state.passed) return <h1>Unauthorized</h1>;
     else
       return (
-        <div style={{ paddingTop: "10vh" }}>
+        <div style={{ paddingTop: "0vh" }}>
           <div class="wrapper">
             <div
               class="page-header"
@@ -166,7 +169,7 @@ export default class RegisterLawyer extends React.Component {
                           color: "#223242"
                         }}
                       >
-                        Register
+                        Register Lawyer
                       </h3>
                       <form id="RegisterLawyer">
                         <input

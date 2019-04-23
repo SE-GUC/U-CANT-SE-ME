@@ -3,6 +3,7 @@ import Case from './Case';
 import axios from 'axios';
 import parseJwt from '../../helpers/decryptAuthToken';
 import {Redirect} from 'react-router-dom'
+import CasesContainerProps from '../dCaseComponents/CasesContainerProps'
 const  prefix="http://localhost:5000/";
 export default class LawyerViewTasks extends Component {
     state ={
@@ -77,7 +78,8 @@ export default class LawyerViewTasks extends Component {
             this.state.cases.length==0? <h1>You dont have any cases.</h1>:
             <header className="LawyerViewTasks">
             <div>
-                {this.state.cases.map((x) => (
+                <CasesContainerProps cases={this.state.cases} currentUserId={this.state.lawyerId}/>
+                {/* {this.state.cases.map((x) => (
                     <div>
                         {x.companyType==="SPC"?
                         <div>
@@ -92,7 +94,7 @@ export default class LawyerViewTasks extends Component {
                         <Case key={x._id} case={x} />
                         <button onClick={() => this.accept(x._id)}>Accept</button>
                     </div>
-                    ))}
+                    ))} */}
             </div>
             </header>
         )

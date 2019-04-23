@@ -100,7 +100,7 @@ render(){
                         this.state.res.toString()==='investor'? <Redirect to={{pathname: "/profile"}}/>:
                         this.state.res.toString()==='lawyer'? <Redirect to={{pathname: "/internalPortal/lawyer/profile"}}/>:
                         this.state.res.toString()==='reviewer'? <Redirect to={{pathname: "/internalPortal/reviewer/profile"}}/>:
-                        this.state.res.toString()==='admin'? <Redirect to={{pathname: "/internalPortal/admin/profile"}}/>:<label/>
+                        this.state.res.toString()==='admin'? <Redirect to={{pathname: "/AdminDashBoard"}}/>:<label/>
                     }
                 </div>
             </div>
