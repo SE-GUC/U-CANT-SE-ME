@@ -148,7 +148,7 @@ export default class NavBarDashboard extends Component {
             <label />
           )}
           {/* on click handle whatever you want with the back button */}
-          <label>
+          <label id="logo">
             <button
               style={styles.SumergiteLabel}
               onClick={() => {

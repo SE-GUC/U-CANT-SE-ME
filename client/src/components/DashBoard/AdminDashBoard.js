@@ -16,6 +16,22 @@ export default class InvestorDashBoard extends Component {
       dashboardwidth: 0
     };
   }
+  async handleToggle(){
+    console.log("dondo")
+    // await 5000
+    var width = document.getElementById("dashboard").clientWidth
+    if(width===64)
+      width=240
+    else
+      width=64
+    await this.setState({dashboardwidth:width});
+    document.getElementById("CreateFormJSON").style.marginLeft=`${width}px`;
+    document.getElementById("CreateFormInteractive").style.marginLeft=`${width}px`;
+    document.getElementById("RegisterLawyer").style.marginLeft=`${width}px`;
+    document.getElementById("RegisterReviewer").style.marginLeft=`${width}px`;
+    document.getElementById("AllCases").style.marginLeft=`${width}px`;
+    document.getElementById("logo").style.marginLeft=`${width}px`;
+  }
   async componentDidMount() {
     const width = document.getElementById("dashboard").clientWidth;
     await this.setState({ dashboardwidth: width });
@@ -101,6 +117,7 @@ export default class InvestorDashBoard extends Component {
           id="dashboard"
           onSelect={this.handleSelect}
           style={styles.navStyle}
+          onToggle={this.handleToggle}
         >
           <SideNav.Toggle />
           <SideNav.Nav defaultSelected="viewallcases">

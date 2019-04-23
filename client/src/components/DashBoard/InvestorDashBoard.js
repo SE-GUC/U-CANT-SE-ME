@@ -18,6 +18,22 @@ export default class InvestorDashBoard extends Component {
       dashboardwidth: 0
     };
   }
+  async handleToggle(){
+    console.log("dondo")
+    // await 5000
+    var width = document.getElementById("dashboard").clientWidth
+    if(width===64)
+      width=240
+    else
+      width=64
+    await this.setState({dashboardwidth:width});
+    document.getElementById("MyCompanies").style.marginLeft=`${width}px`;
+    document.getElementById("FillForm").style.marginLeft=`${width}px`;
+    document.getElementById("AllCompanies").style.marginLeft=`${width}px`;
+    document.getElementById("AwaitingPayment").style.marginLeft=`${width}px`;
+    document.getElementById("NeedUpdate").style.marginLeft=`${width}px`;
+    document.getElementById("logo").style.marginLeft=`${width}px`;
+  }
   async componentDidMount() {
     const width = document.getElementById("dashboard").clientWidth;
     await this.setState({ dashboardwidth: width });
@@ -31,12 +47,6 @@ export default class InvestorDashBoard extends Component {
     document.getElementById("AwaitingPayment").style.display="none";
     document.getElementById("NeedUpdate").style.display="none";
 
-    document.getElementById("MyCompanies").style.display = "none";
-    document.getElementById("FillForm").style.display = "none";
-    document.getElementById("AllCompanies").style.display = "none";
-    document.getElementById("AwaitingPayment").style.display = "none";
-    document.getElementById("NeedUpdate").style.display = "none";
-
     if (selected === "viewmycompanies")
       document.getElementById("MyCompanies").style.display = "flex";
 
@@ -44,13 +54,13 @@ export default class InvestorDashBoard extends Component {
       document.getElementById("FillForm").style.display = "flex";
 
     if (selected === "viewongoingcompanyrequests/all")
-      document.getElementById("AllCompanies").style.display = "flex";
+      document.getElementById("AllCompanies").style.display = null;
 
     if (selected === "viewongoingcompanyrequests/awaitingpayment")
-      document.getElementById("AwaitingPayment").style.display = "flex";
+      document.getElementById("AwaitingPayment").style.display = null;
 
     if (selected === "viewongoingcompanyrequests/needupdate")
-        document.getElementById("NeedUpdate").style.display="flex";
+        document.getElementById("NeedUpdate").style.display=null;
 
 
 
@@ -101,6 +111,7 @@ export default class InvestorDashBoard extends Component {
             id="dashboard"
             onSelect={this.handleSelect}
             style={styles.navStyle}
+            onToggle={this.handleToggle}
           >
             <SideNav.Toggle />
             <SideNav.Nav defaultSelected="viewmycompanies">
