@@ -4,7 +4,8 @@ import "@trendmicro/react-sidenav/dist/react-sidenav.css";
 import SideNav, { NavItem, NavIcon, NavText } from "@trendmicro/react-sidenav";
 import { BrowserRouter as Router, Route } from "react-router-dom";
 import MyCompanies from "../GetMyCompanies/MyCompanies";
-import InvestorFillForm from "../InvestorFillForm/InvestorFillForm";
+import CaseSwitch from "../caseComponents/CaseSwitch";
+import InvestorFillForm from "../dCaseComponents/FillForm";
 import NavBarDashboard from '../NavBarDashboard'
 import AwaitingPayment from '../InvestorDashboardRoutes/AwaitingPayment'
 import NeedUpdate from '../InvestorDashboardRoutes/NeedUpdate'
@@ -48,10 +49,10 @@ export default class InvestorDashBoard extends Component {
     document.getElementById("NeedUpdate").style.display="none";
 
     if (selected === "viewmycompanies")
-      document.getElementById("MyCompanies").style.display = "flex";
+      document.getElementById("MyCompanies").style.display = null;
 
     if (selected === "createnewcompany")
-      document.getElementById("FillForm").style.display = "flex";
+      document.getElementById("FillForm").style.display = null;
 
     if (selected === "viewongoingcompanyrequests/all")
       document.getElementById("AllCompanies").style.display = null;

@@ -43,6 +43,7 @@ import LawyerDashBoard from './components/DashBoard/LawyerDashBoard';
 import AdminDashBoard from './components/DashBoard/AdminDashBoard';
 import ReviewerDashBoard from './components/DashBoard/ReviewerDashBoard';
 import heroPage from './components/HomePage';
+import fillForm from './components/dCaseComponents/FillForm';
 if(localStorage.jwtToken){
   setAuthToken(localStorage.jwtToken)
 }
@@ -95,6 +96,7 @@ class App extends Component {
         <Route path="/lawyerDashboard" component={LawyerDashBoard}/>
         <Route path="/reviewerDashboard" component={ReviewerDashBoard}/>
         <Route path="/adminDashboard" component={AdminDashBoard}/>
+        <Route path="/FillFormS" component={fillForm}/>
         </div>
       </Router>
       </div>
