@@ -535,3 +535,38 @@ exports.resumeWorkOnCase = async function(req, res) {
       });
     }
 };
+
+exports.getMyCases = async function(req, res) {
+  if (!mongoValidator.isMongoId(req.params.creatorInvestorId))
+    return res.status(400).send({ error: "Invalid investor id" });
+  const investor = await Investor.findById(req.params.creatorInvestorId);
+  if (!investor) return res.status(400).send({ error: "investor not found" });
+
+  res.send({
+    
+    data: await Case.find({ creatorInvestorId: req.params.creatorInvestorId })
+  });
+};
+
+exports.getMyAccCases = async function(req, res) {
+  if (!mongoValidator.isMongoId(req.params.creatorInvestorId))
+    return res.status(400).send({ error: "Invalid investor id" });
+  const investor = await Investor.findById(req.params.creatorInvestorId);
+  if (!investor) return res.status(400).send({ error: "investor not found" });
+
+  res.send({
+    
+    data: await Case.find({ creatorInvestorId: req.params.creatorInvestorId , caseStatus: "Accepted" })
+  });
+};
+
+exports.getMyOnUpdateCases = async function(req, res) {
+  if (!mongoValidator.isMongoId(req.params.creatorInvestorId))
+    return res.status(400).send({ error: "Invalid investor id" });
+  const investor = await Investor.findById(req.params.creatorInvestorId);
+  if (!investor) return res.status(400).send({ error: "investor not found" });
+
+  res.send({
+    data: await Case.find({ creatorInvestorId: req.params.creatorInvestorId , caseStatus: "OnUpdate" , assignedReviewerId: null})
+  });
+};
