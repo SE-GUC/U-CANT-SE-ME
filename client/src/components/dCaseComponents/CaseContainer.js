@@ -60,7 +60,7 @@ class CaseContainer extends Component {
         reviewerName: "",
         creatorLawyerName: "",
         assignedLawyerName: "",
-        currentUserId: "",
+        currentUserId: this.props.currentUserId,
     };
 
     acceptLawyer=async (caseId)=>{
@@ -116,7 +116,7 @@ class CaseContainer extends Component {
         axios
             .get(`api/investors/${this.props.expandedCase.creatorInvestorId}`)
             .then(res => {
-                this.setState({ investor: res.data });
+                this.setState({ investor: res.data.data });
 
             })
             .catch(err => {
@@ -269,7 +269,7 @@ class CaseContainer extends Component {
 
         }
 
-        if (this.state.currentUserId === this.props.expandedCase.creatorInvestorId) {
+        if (this.state.currentUserId === this.props.expandedCase.creatorInvestorId && this.props.expandedCase.caseStatus === "Accepted") {
             buttonPaying = <PayMyFees investorId={this.state.investor._id} caseId={this.props.expandedCase._id} />
 
         }

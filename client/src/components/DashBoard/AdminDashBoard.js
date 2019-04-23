@@ -8,12 +8,29 @@ import CasesContainer from "../dCaseComponents/CasesContainer";
 import CreateFormTemplate from "../CreateFormTemplate/CreateFormTemplate";
 import NavBarDashboard from "../NavBarDashboard";
 import FormTemplate from "../CreateFormTemplate/FormTemplate"
+import Tooltip from '@material-ui/core/Tooltip';
 export default class InvestorDashBoard extends Component {
   constructor(props) {
     super(props);
     this.state = {
       dashboardwidth: 0
     };
+  }
+  async handleToggle(){
+    console.log("dondo")
+    // await 5000
+    var width = document.getElementById("dashboard").clientWidth
+    if(width===64)
+      width=240
+    else
+      width=64
+    await this.setState({dashboardwidth:width});
+    document.getElementById("CreateFormJSON").style.marginLeft=`${width}px`;
+    document.getElementById("CreateFormInteractive").style.marginLeft=`${width}px`;
+    document.getElementById("RegisterLawyer").style.marginLeft=`${width}px`;
+    document.getElementById("RegisterReviewer").style.marginLeft=`${width}px`;
+    document.getElementById("AllCases").style.marginLeft=`${width}px`;
+    document.getElementById("logo").style.marginLeft=`${width}px`;
   }
   async componentDidMount() {
     const width = document.getElementById("dashboard").clientWidth;
@@ -100,16 +117,18 @@ export default class InvestorDashBoard extends Component {
           id="dashboard"
           onSelect={this.handleSelect}
           style={styles.navStyle}
+          onToggle={this.handleToggle}
         >
           <SideNav.Toggle />
           <SideNav.Nav defaultSelected="viewallcases">
+            
             <NavItem eventKey="viewallcases">
               <NavIcon>
                 <a className="fas fa-briefcase" style={styles.iconStyle} />
               </NavIcon>
               <NavText>View All Cases</NavText>
             </NavItem>
-
+            
             <NavItem eventKey="register">
               <NavIcon>
                 <a className="fas fa-user-tie" style={styles.iconStyle} />
