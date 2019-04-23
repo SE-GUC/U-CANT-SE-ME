@@ -220,15 +220,21 @@ class Login extends Component {
                         </a>
                       </div>
                     </div>
-                  </div>
-                  {this.state.forgot === true ? (
-                    <Redirect to={{ pathname: "/forgot" }} />
+                    {
+                        this.state.res.toString()==='investor'? <Redirect to={{pathname: "/profile"}}/>:
+                        this.state.res.toString()==='lawyer'? <Redirect to={{pathname: "/internalPortal/lawyer/profile"}}/>:
+                        this.state.res.toString()==='reviewer'? <Redirect to={{pathname: "/internalPortal/reviewer/profile"}}/>:
+                        this.state.res.toString()==='admin'? <Redirect to={{pathname: "/AdminDashBoard"}}/>:<label/>
+                    }
+                   </div>
+                   {this.state.forgot === true ? (
+                     <Redirect to={{ pathname: "/forgot" }} />
                   ) : this.state.register === true ? (
                     <Redirect to={{ pathname: "/InvestorRegister" }} />
                   ) : (
                     <label />
                   ) //to be set to unified registration page
-                  }
+                  } 
                 </div>
               </div>
             </div>

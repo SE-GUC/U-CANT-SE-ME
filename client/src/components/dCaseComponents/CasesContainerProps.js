@@ -21,7 +21,7 @@ class CasesContainerProps extends Component {
   render() {
     if (this.state.isCaseExpaned) {
       return (
-        <CaseContainer expandedCase={this.state.expandedCase} />
+        <CaseContainer expandedCase={this.state.expandedCase} currentUserId={this.props.currentUserId} />
       );
     } else {
       var counter = 0;
