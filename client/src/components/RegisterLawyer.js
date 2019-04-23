@@ -9,7 +9,7 @@ import VisibilityOff from "@material-ui/icons/VisibilityOff";
 import IconButton from "@material-ui/core/IconButton";
 import InputAdornment from "@material-ui/core/InputAdornment";
 import { Redirect } from "react-router-dom";
-import "../components/register.scss"
+import "../components/register.scss";
 import Fab from "@material-ui/core/Fab";
 const Joi = require("joi");
 
@@ -23,11 +23,15 @@ export default class RegisterLawyer extends React.Component {
       usernameError: "",
       val: "",
       showPassword: false,
-      passed: false
+      passed: false,
+      lang: ""
     };
   }
   componentDidMount = async () => {
     //Rount for authorization
+    if (localStorage.getItem("lang"))
+      this.setState({ lang: localStorage.getItem("lang") });
+    else this.setState({ lang: "eng" });
     try {
       await axios.get("api/admins/auth");
       this.setState({ passed: true });
@@ -126,7 +130,6 @@ export default class RegisterLawyer extends React.Component {
     }
   };
 
-
   render() {
     const styles = {
       error: {
@@ -169,13 +172,19 @@ export default class RegisterLawyer extends React.Component {
                           color: "#223242"
                         }}
                       >
-                        Register Lawyer
+                        {this.state.lang === "eng"
+                          ? "Register Lawyer"
+                          : "سجل محامي"}
                       </h3>
                       <form id="RegisterLawyer">
                         <input
                           id="username"
                           type="text"
-                          placeholder="Username"
+                          placeholder={
+                            this.state.lang === "eng"
+                              ? "Username"
+                              : "اسم المستخدم"
+                          }
                           class="form-control"
                         />
                         <br />
@@ -188,7 +197,11 @@ export default class RegisterLawyer extends React.Component {
                           id="email"
                           type="text"
                           class="form-control"
-                          placeholder="Email"
+                          placeholder={
+                            this.state.lang === "eng"
+                              ? "Email"
+                              : "البريد الإلكتروني"
+                          }
                         />
                         <br />
                         <label id="Error" class="text-danger">
@@ -199,7 +212,11 @@ export default class RegisterLawyer extends React.Component {
                         <input
                           id="fullName"
                           type="text"
-                          placeholder="Full Name"
+                          placeholder={
+                            this.state.lang === "eng"
+                              ? "Full Name"
+                              : "الاسم الكامل"
+                          }
                           class="form-control"
                         />
                         <br />
@@ -211,7 +228,9 @@ export default class RegisterLawyer extends React.Component {
                         <input
                           id="password"
                           type="password"
-                          placeholder="Password"
+                          placeholder={
+                            this.state.lang === "eng" ? "Password" : "كلمة السر"
+                          }
                           class="form-control"
                         />
                         <br />
@@ -234,15 +253,13 @@ export default class RegisterLawyer extends React.Component {
                           aria-label="Delete"
                           onClick={this.submit}
                         >
-                          Register
+                          {this.state.lang === "eng" ? "Register" : "سجل"}
                         </Fab>
                       </div>
                       <br />
                       <br />
                       <label id="Success" class="text-danger">
-                        { (
-                          this.state.val
-                        )}
+                        {this.state.val}
                       </label>
                       <br />
                     </div>

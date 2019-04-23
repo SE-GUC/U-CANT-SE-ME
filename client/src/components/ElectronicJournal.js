@@ -53,8 +53,15 @@ const styles = {
     height: 15
   }
 };
-
 class ElectronicJournal extends Component {
+  state = {
+    lang: ""
+  };
+  async componentDidMount() {
+    if (localStorage.getItem("lang"))
+      this.setState({ lang: localStorage.getItem("lang") });
+    else this.setState({ lang: "eng" });
+  }
   formatTime(t) {
     return moment
       .utc(t.substring(0, 23))
@@ -76,7 +83,11 @@ class ElectronicJournal extends Component {
                     <InvestorIcon />
                   </Avatar>
                   <ListItemText
-                    primary="Investor Name"
+                    primary={
+                      this.state.lang === "eng"
+                        ? "Investor Name"
+                        : "اسم المستثمر"
+                    }
                     secondary={this.props.electronicJournal.fullName}
                   />
                   <EstablishedIcon />
@@ -86,7 +97,9 @@ class ElectronicJournal extends Component {
                     <Public />
                   </Avatar>
                   <ListItemText
-                    primary="Nationality"
+                    primary={
+                      this.state.lang === "eng" ? "Nationality" : "الجنسية"
+                    }
                     secondary={this.props.electronicJournal.nationality}
                   />
                 </ListItem>
@@ -95,7 +108,9 @@ class ElectronicJournal extends Component {
                     <Email />
                   </Avatar>
                   <ListItemText
-                    primary="Email"
+                    primary={
+                      this.state.lang === "eng" ? "Email" : "البريد الإلكتروني"
+                    }
                     secondary={this.props.electronicJournal.email}
                   />
                 </ListItem>
@@ -104,7 +119,7 @@ class ElectronicJournal extends Component {
                     <LocalPhone />
                   </Avatar>
                   <ListItemText
-                    primary="Telephone"
+                    primary={this.state.lang === "eng" ? "Telephone" : "الهاتف"}
                     secondary={this.props.electronicJournal.telephoneNumber}
                   />
                 </ListItem>
@@ -113,7 +128,7 @@ class ElectronicJournal extends Component {
                     <LocalPhone />
                   </Avatar>
                   <ListItemText
-                    primary="Fax"
+                    primary={this.state.lang === "eng" ? "Fax" : "الفاكس"}
                     secondary={this.props.electronicJournal.fax}
                   />
                 </ListItem>
@@ -122,7 +137,11 @@ class ElectronicJournal extends Component {
                     <CreationDateIcon />
                   </Avatar>
                   <ListItemText
-                    primary="Date of Birth"
+                    primary={
+                      this.state.lang === "eng"
+                        ? "Date of Birth"
+                        : "تاريخ الميلاد"
+                    }
                     secondary={this.formatTime(
                       this.props.electronicJournal.dateOfBirth
                     )}
@@ -133,7 +152,11 @@ class ElectronicJournal extends Component {
                     <Language />
                   </Avatar>
                   <ListItemText
-                    primary="Arabic Company Name"
+                    primary={
+                      this.state.lang === "eng"
+                        ? "Arabic Company Name"
+                        : "اسم الشركة العربي"
+                    }
                     secondary={this.props.electronicJournal.companyNameArabic}
                   />
                 </ListItem>
@@ -143,7 +166,11 @@ class ElectronicJournal extends Component {
                       <Language />
                     </Avatar>
                     <ListItemText
-                      primary="English Company Name"
+                      primary={
+                        this.state.lang === "eng"
+                          ? "English Company Name"
+                          : "اسم الشركة الإنجليزي"
+                      }
                       secondary={
                         this.props.electronicJournal.companyNameEnglish
                       }
@@ -157,7 +184,9 @@ class ElectronicJournal extends Component {
                     <WorkIcon />
                   </Avatar>
                   <ListItemText
-                    primary="Company Type"
+                    primary={
+                      this.state.lang === "eng" ? "Company Type" : "نوع الشركة"
+                    }
                     secondary={this.props.electronicJournal.companyType}
                   />
                 </ListItem>
@@ -166,7 +195,11 @@ class ElectronicJournal extends Component {
                     <CreationDateIcon />
                   </Avatar>
                   <ListItemText
-                    primary="Creation Date"
+                    primary={
+                      this.state.lang === "eng"
+                        ? "Creation Date"
+                        : "تاريخ الإنشاء"
+                    }
                     secondary={this.formatTime(
                       this.props.electronicJournal.dateOfCreation
                     )}

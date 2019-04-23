@@ -42,7 +42,8 @@ class InvestorProfile extends Component {
     password: "",
     gender: "",
     showPassword: false,
-    edit: false
+    edit: false,
+    lang: ""
   };
 
   async componentDidMount() {
@@ -51,6 +52,9 @@ class InvestorProfile extends Component {
       this.setState({ home: 1 });
       return;
     }
+    if (localStorage.getItem("lang"))
+      this.setState({ lang: localStorage.getItem("lang") });
+    else this.setState({ lang: "eng" });
     try {
       await axios.get("../api/investors/auth");
     } catch (err) {
@@ -149,7 +153,11 @@ class InvestorProfile extends Component {
               <Typography component="p">
                 <List style={classes.root}>
                   <ListItem>
-                    <ListItemText primary="Profile" />
+                    <ListItemText
+                      primary={
+                        this.state.lang === "eng" ? "Profile" : "الملف الشخصي"
+                      }
+                    />
                     <Avatar style={styles.purpleAvatar}>
                       {this.state.fullName.toString().charAt(0)}
                     </Avatar>
@@ -158,21 +166,23 @@ class InvestorProfile extends Component {
                   <Divider />
                   <ListItem>
                     <ListItemText
-                      primary="Name"
+                      primary={this.state.lang === "eng" ? "Name" : "الأسم"}
                       secondary={this.state.fullName}
                     />
                   </ListItem>
                   <Divider />
                   <ListItem>
                     <ListItemText
-                      primary="Birthday"
+                      primary={
+                        this.state.lang === "eng" ? "Birthday" : "تاريخ الميلاد"
+                      }
                       secondary={this.formatTime(this.state.dateOfBirth)}
                     />
                   </ListItem>
                   <Divider />
                   <ListItem>
                     <ListItemText
-                      primary="Gender"
+                      primary={this.state.lang === "eng" ? "Gender" : "الجنس"}
                       secondary={this.state.gender}
                     />
                   </ListItem>
@@ -192,25 +202,40 @@ class InvestorProfile extends Component {
               <Typography component="p">
                 <List style={classes.root}>
                   <ListItem>
-                    <ListItemText primary="Contact info" />
+                    <ListItemText
+                      primary={
+                        this.state.lang === "eng"
+                          ? "Contact info"
+                          : "معلومات الاتصال"
+                      }
+                    />
                   </ListItem>
                   <Divider />
                   <ListItem>
                     <ListItemText
-                      primary="Email"
+                      primary={
+                        this.state.lang === "eng"
+                          ? "Email"
+                          : "البريد الإلكتروني"
+                      }
                       secondary={this.state.email}
                     />
                   </ListItem>
                   <Divider />
                   <ListItem>
                     <ListItemText
-                      primary="Telephone"
+                      primary={
+                        this.state.lang === "eng" ? "Telephone" : "الهاتف"
+                      }
                       secondary={this.state.telephoneNumber}
                     />
                   </ListItem>
                   <Divider />
                   <ListItem>
-                    <ListItemText primary="Fax" secondary={this.state.fax} />
+                    <ListItemText
+                      primary={this.state.lang === "eng" ? "Fax" : "الفاكس"}
+                      secondary={this.state.fax}
+                    />
                   </ListItem>
                 </List>
               </Typography>
@@ -233,7 +258,8 @@ class InvestorProfile extends Component {
             this.setState({ edit: true });
           }}
         >
-          Edit Profile <EditIcon />
+          {this.state.lang === "eng" ? "Edit Profile" : "تعديل الملف الشخصي"}{" "}
+          <EditIcon />
         </Button>
         <br />
         <br />

@@ -35,7 +35,8 @@ class ReviewerProfile extends Component {
     reviewerId: "",
     username: "",
     fullName: "",
-    email: ""
+    email: "",
+    lang: ""
   };
 
   async componentDidMount() {
@@ -61,7 +62,9 @@ class ReviewerProfile extends Component {
     const res = await axios.get(
       `../../../api/reviewers/${this.state.reviewerId}`
     );
-
+    if (localStorage.getItem("lang"))
+      this.setState({ lang: localStorage.getItem("lang") });
+    else this.setState({ lang: "eng" });
     if (res.data.data.fullName)
       this.setState({ fullName: res.data.data.fullName });
     if (res.data.data.username)
@@ -124,7 +127,11 @@ class ReviewerProfile extends Component {
           <Typography component="p">
             <List style={classes.root}>
               <ListItem>
-                <ListItemText primary="Profile" />
+                <ListItemText
+                  primary={
+                    this.state.lang === "eng" ? "Profile" : "الملف الشخصي"
+                  }
+                />
                 <Avatar style={styles.purpleAvatar}>
                   {this.state.fullName.toString().charAt(0)}
                 </Avatar>
@@ -133,14 +140,16 @@ class ReviewerProfile extends Component {
               <Divider />
               <ListItem>
                 <ListItemText
-                  primary="Full Name"
+                  primary={
+                    this.state.lang === "eng" ? "Profile" : "الملف الشخصي"
+                  }
                   secondary={this.state.fullName}
                 />
               </ListItem>
               <Divider />
               <ListItem>
                 <ListItemText
-                  primary="Username"
+                  primary={this.state.lang === "eng" ? "Name" : "الأسم"}
                   secondary={this.state.username}
                 />
               </ListItem>
@@ -154,11 +163,22 @@ class ReviewerProfile extends Component {
           <Typography component="p">
             <List style={classes.root}>
               <ListItem>
-                <ListItemText primary="Contact info" />
+                <ListItemText
+                  primary={
+                    this.state.lang === "eng"
+                      ? "Contact info"
+                      : "معلومات الاتصال"
+                  }
+                />
               </ListItem>
               <Divider />
               <ListItem>
-                <ListItemText primary="Email" secondary={this.state.email} />
+                <ListItemText
+                  primary={
+                    this.state.lang === "eng" ? "Email" : "البريد الإلكتروني"
+                  }
+                  secondary={this.state.email}
+                />
               </ListItem>
             </List>
           </Typography>

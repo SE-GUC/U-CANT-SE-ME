@@ -3,6 +3,8 @@ import "./NavBarBlue.css";
 import { Redirect } from "react-router-dom";
 import { logout } from "../globalState/actions/authActions";
 import parseJwt from "../helpers/decryptAuthToken";
+import Language from "@material-ui/icons/Language";
+import Fab from "@material-ui/core/Fab";
 
 export default class NavBarDashboard extends Component {
   state = {
@@ -14,7 +16,23 @@ export default class NavBarDashboard extends Component {
     profile: false,
     electronicJournals: false,
     logout: false,
-    type: ""
+    type: "",
+    lang: ""
+  };
+  async componentDidMount() {
+    if (localStorage.getItem("lang"))
+      this.setState({ lang: localStorage.getItem("lang") });
+    else this.setState({ lang: "eng" });
+  }
+  handleChangeLanguage = () => {
+    if (this.state.lang === "eng") {
+      localStorage.setItem("lang", "ar");
+      this.setState(state => ({ lang: "ar" }));
+    } else {
+      localStorage.setItem("lang", "eng");
+      this.setState(state => ({ lang: "eng" }));
+    }
+    window.location.reload();
   };
   render() {
     try {
@@ -155,7 +173,7 @@ export default class NavBarDashboard extends Component {
                 this.setState({ hero: true });
               }}
             >
-              Sumergite
+              {this.state.lang === "eng" ? "Sumergite" : "سمرجايت"}
             </button>
           </label>
           <div className="collapse navbar-collapse" id="navbarSupportedContent">
@@ -173,7 +191,7 @@ export default class NavBarDashboard extends Component {
                     // disableRipple = {true}
                   >
                     <span id="buttonHome" style={styles.Dashboard}>
-                      Dashboard
+                      {this.state.lang === "eng" ? "Dashboard" : "لوحة القيادة"}
                     </span>
                   </button>
                 </li>
@@ -190,7 +208,9 @@ export default class NavBarDashboard extends Component {
                     // disableRipple = {true}
                   >
                     <span id="buttonHome" style={styles.ElectronicJournals}>
-                      Electronic Journals
+                      {this.state.lang === "eng"
+                        ? "Electronic Journals"
+                        : "المجلات الإلكترونية"}
                     </span>
                   </button>
                 </li>
@@ -207,11 +227,11 @@ export default class NavBarDashboard extends Component {
                   // disableRipple = {true}
                 >
                   <span id="buttonHome" style={styles.HomePage}>
-                    Homepage
+                    {this.state.lang === "eng" ? "Homepage" : "الصفحة الرئيسية"}
                   </span>
                 </button>
               </li>
-              {(this.props.PROFILE && !this.props.admin) ? (
+              {this.props.PROFILE && !this.props.admin ? (
                 <li className="nav-item mr-auto">
                   <button
                     // className="nav-link ml-auto"
@@ -224,7 +244,7 @@ export default class NavBarDashboard extends Component {
                     // disableRipple = {true}
                   >
                     <span id="buttonHome" style={styles.Profile}>
-                      Profile
+                      {this.state.lang === "eng" ? "Profile" : "الملف الشخصي"}
                     </span>
                   </button>
                 </li>
@@ -243,17 +263,20 @@ export default class NavBarDashboard extends Component {
                   // disableRipple = {true}
                 >
                   <span id="buttonHome" style={styles.HomePage}>
-                    Logout
+                    {this.state.lang === "eng" ? "Logout" : "تسجيل الخروج"}
                   </span>
                 </button>
+                <Fab
+                  onClick={this.handleChangeLanguage}
+                  style={{ color: "default" }}
+                  size="small"
+                >
+                  <Language />
+                </Fab>
               </li>
             </ul>
           </div>
         </nav>
-        {/* {
-                  this.state.login===true? <Redirect to={{pathname: '/Login'}}/>:
-                  this.state.register===true? <Redirect to={{pathname: '/InvestorRegister'}}/>:<label/>
-              } */}
       </div>
     );
   }
