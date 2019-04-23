@@ -57,7 +57,7 @@ async componentDidMount(){
     };
     return (
       <div>
-        <NavBarDashboard sumergiteColor= '#3480E3' boxShadow='0px 3px 20px rgba(0, 0, 0, 0.16)' dashboard='lighter' profile='bold' homepage='lighter' DASHBOARD={true} PROFILE={true} ProfileMargin='120px' HomePageMargin='0px' dashboardRedirect='/ReviewerDashBoard' profileRedirect="/internalPortal/reviewer/profile"/> 
+        <NavBarDashboard sumergiteColor= '#3480E3' boxShadow='0px 3px 20px rgba(0, 0, 0, 0.16)' dashboard='bold' profile='lighter' homepage='lighter' DASHBOARD={true} PROFILE={true} ProfileMargin='120px' HomePageMargin='0px' dashboardRedirect='/ReviewerDashBoard' profileRedirect="/internalPortal/reviewer/profile"/> 
         <SideNav id="dashboard" onSelect={this.handleSelect} style={styles.navStyle}>
           <SideNav.Toggle />
           <SideNav.Nav defaultSelected="viewtasks">

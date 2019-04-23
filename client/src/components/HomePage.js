@@ -13,7 +13,8 @@ export default class HomePage extends Component {
     sumergiteColor: "#0F80ED",
     loginColor: "#0F80ED",
     journals: false,
-    loggedIn: false
+    loggedIn: false,
+    admin: false
   };
   handleClick = () => {
     var devID =
@@ -31,6 +32,13 @@ export default class HomePage extends Component {
       else this.setState({ loggedIn: false });
     } catch {
       this.setState({ loggedIn: false });
+    }
+    try {
+      const type = await parseJwt(localStorage.jwtToken).type;
+      if (type.toString() === 'admin') this.setState({ admin: true });
+      else this.setState({ admin: false });
+    } catch {
+      this.setState({ admin: false });
     }
   }
   render() {
@@ -52,11 +60,12 @@ export default class HomePage extends Component {
               boxShadow="0px 3px 20px rgba(0, 0, 0, 0.16)"
               dashboard="lighter"
               profile="lighter"
-              homepage="lighter"
+              homepage="bold"
               DASHBOARD={true}
               PROFILE={true}
               ProfileMargin="120px"
               HomePageMargin="0px"
+              admin={this.state.admin? true: false}
             />
           )}
           <div className="createCompany">
