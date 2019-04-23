@@ -1,44 +1,44 @@
 import React, { Component } from "react";
 // Be sure to include styles at some point, probably during your bootstraping
 import "@trendmicro/react-sidenav/dist/react-sidenav.css";
-import SideNav, {NavItem,NavIcon,NavText} from "@trendmicro/react-sidenav";
-import { Redirect } from 'react-router-dom'
-import { BrowserRouter as Router, Route } from 'react-router-dom';
+import SideNav, { NavItem, NavIcon, NavText } from "@trendmicro/react-sidenav";
+import { Redirect } from "react-router-dom";
+import { BrowserRouter as Router, Route } from "react-router-dom";
 import CaseSwitch from "../caseComponents/CaseSwitch";
 import RegisterLawyer from "../RegisterLawyer";
 import RegisterReviewer from "../RegisterReviewer";
 import CasesContainer from "../dCaseComponents/CasesContainer";
 import CreateFormTemplate from "../CreateFormTemplate/CreateFormTemplate";
-import NavBarDashboard from '../NavBarDashboard'
+import NavBarDashboard from "../NavBarDashboard";
 export default class InvestorDashBoard extends Component {
   constructor(props) {
-    super(props)
+    super(props);
     this.state = {
-        dashboardwidth:0
-    }
+      dashboardwidth: 0
+    };
   }
-async componentDidMount(){
-  const width = document.getElementById("dashboard").clientWidth
-  await this.setState({dashboardwidth:width});
-}
-    handleSelect = selected => {
+  async componentDidMount() {
+    const width = document.getElementById("dashboard").clientWidth;
+    await this.setState({ dashboardwidth: width });
+  }
+  handleSelect = selected => {
     console.log(selected);
-    document.getElementById("CreateForm").style.display="none";
-    document.getElementById("RegisterLawyer").style.display="none";
-    document.getElementById("RegisterReviewer").style.display="none";
-    document.getElementById("AllCases").style.display="none";
+    document.getElementById("CreateForm").style.display = "none";
+    document.getElementById("RegisterLawyer").style.display = "none";
+    document.getElementById("RegisterReviewer").style.display = "none";
+    document.getElementById("AllCases").style.display = "none";
 
-    if(selected === "createformtemplate")
-        document.getElementById("CreateForm").style.display="flex";
+    if (selected === "createformtemplate")
+      document.getElementById("CreateForm").style.display = "flex";
 
     if (selected === "register/lawyer")
-        document.getElementById("RegisterLawyer").style.display="flex";
+      document.getElementById("RegisterLawyer").style.display = "flex";
 
     if (selected === "register/reviewer")
-        document.getElementById("RegisterReviewer").style.display="flex";
+      document.getElementById("RegisterReviewer").style.display = "flex";
 
     if (selected === "viewallcases")
-        document.getElementById("AllCases").style.display="flex";
+      document.getElementById("AllCases").style.display = "flex";
   };
   render() {
     const styles = {
@@ -47,34 +47,48 @@ async componentDidMount(){
       },
       navStyle: {
         background: "#3480E3",
-        position:"fixed",
-        boxShadow: "5px 0px 20px rgba(0, 0, 0, 0.16)",
+        position: "fixed",
+        boxShadow: "5px 0px 20px rgba(0, 0, 0, 0.16)"
       },
-      divStyleShow:{
-        display: ' inline',
-        marginLeft:this.state.dashboardwidth,
+      divStyleShow: {
+        display: " inline",
+        marginLeft: this.state.dashboardwidth,
         // background:"red",
-        display: 'flex', 
-        justifyContent: 'center',
-        paddingTop:'10vh'
+        display: "flex",
+        justifyContent: "center",
+        paddingTop: "10vh"
       },
-      divStyleHide:{
-        display: 'none',
+      divStyleHide: {
+        display: "none",
         textAlign: "center",
-        marginLeft:this.state.dashboardwidth,
+        marginLeft: this.state.dashboardwidth,
         // background:"red",
-        justifyContent: 'center',
-        paddingTop:'10vh'
+        justifyContent: "center",
+        paddingTop: "10vh"
       }
     };
     return (
       <div>
-         <NavBarDashboard sumergiteColor= '#3480E3' boxShadow='0px 3px 20px rgba(0, 0, 0, 0.16)' dashboard='lighter' profile='bold' homepage='lighter' DASHBOARD={true} PROFILE={true} ProfileMargin='120px' HomePageMargin='0px' dashboardRedirect='/AdminDashBoard' profileRedirect="/internalPortal/admin/profile"/> 
-        <SideNav id="dashboard" onSelect={this.handleSelect} style={styles.navStyle}>
+        <NavBarDashboard
+          sumergiteColor="#3480E3"
+          boxShadow="0px 3px 20px rgba(0, 0, 0, 0.16)"
+          dashboard="bold"
+          profile="lighter"
+          homepage="lighter"
+          DASHBOARD={true}
+          PROFILE={true}
+          ProfileMargin="120px"
+          HomePageMargin="0px"
+          admin={true}
+        />
+        <SideNav
+          id="dashboard"
+          onSelect={this.handleSelect}
+          style={styles.navStyle}
+        >
           <SideNav.Toggle />
           <SideNav.Nav defaultSelected="viewallcases">
-            
-          <NavItem eventKey="viewallcases">
+            <NavItem eventKey="viewallcases">
               <NavIcon>
                 <a className="fa fa-home" style={styles.iconStyle} />
               </NavIcon>
@@ -100,23 +114,21 @@ async componentDidMount(){
               </NavIcon>
               <NavText>Create Form Template</NavText>
             </NavItem>
-
           </SideNav.Nav>
         </SideNav>
 
-        <div id="CreateForm" style={styles.divStyleHide} >
-        <CreateFormTemplate/>
+        <div id="CreateForm" style={styles.divStyleHide}>
+          <CreateFormTemplate />
         </div>
-        <div id="RegisterLawyer" style={styles.divStyleHide} >
-          <RegisterLawyer/>
+        <div id="RegisterLawyer" style={styles.divStyleHide}>
+          <RegisterLawyer />
         </div>
-        <div id="RegisterReviewer" style={styles.divStyleHide} >
-          <RegisterReviewer/>
+        <div id="RegisterReviewer" style={styles.divStyleHide}>
+          <RegisterReviewer />
         </div>
-        <div id="AllCases" style={styles.divStyleShow} >
-          <CasesContainer/>
+        <div id="AllCases" style={styles.divStyleShow}>
+          <CasesContainer />
         </div>
-
       </div>
     );
   }

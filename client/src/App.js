@@ -91,10 +91,10 @@ class App extends Component {
         <Route path="/updateInvestorProfile" component={updateInvestorProfile}/>
         <Route path="/createFormTemplate" component={CreateFormTemplate}/>
         <Route path="/CasesContainer" component={CasesContainer}/>
-        <Route path="/InvestorDashboard" component={InvestorDashBoard}/>
-        <Route path="/LawyerDashboard" component={LawyerDashBoard}/>
-        <Route path="/ReviewerDashboard" component={ReviewerDashBoard}/>
-        <Route path="/AdminDashboard" component={AdminDashBoard}/>
+        <Route path="/investorDashboard" component={InvestorDashBoard}/>
+        <Route path="/lawyerDashboard" component={LawyerDashBoard}/>
+        <Route path="/reviewerDashboard" component={ReviewerDashBoard}/>
+        <Route path="/adminDashboard" component={AdminDashBoard}/>
         </div>
       </Router>
       </div>

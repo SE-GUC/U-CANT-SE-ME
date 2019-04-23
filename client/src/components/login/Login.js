@@ -63,7 +63,7 @@ class Login extends Component {
         width: "35%",
         margin: "auto"
       }
-    };
+    }; 
     return (
       <div>
         {/* <NavBarDashboard sumergiteColor= '#3480E3' boxShadow='0px 3px 20px rgba(0, 0, 0, 0.16)' dashboard='bold' profile='lighter' homepage='lighter' DASHBOARD={true} PROFILE={true} ProfileMargin='120px' HomePageMargin='0px'/>  */}
@@ -233,13 +233,13 @@ class Login extends Component {
               </div>
             </div>
             {this.state.res.toString() === "investor" ? (
-              <Redirect to={{ pathname: "/profile" }} />
+              <Redirect to={{ pathname: "/investorDashboard" }} />
             ) : this.state.res.toString() === "lawyer" ? (
-              <Redirect to={{ pathname: "/internalPortal/lawyer/profile" }} />
+              <Redirect to={{ pathname: "/lawyerDashboard" }} />
             ) : this.state.res.toString() === "reviewer" ? (
-              <Redirect to={{ pathname: "/internalPortal/reviewer/profile" }} />
+              <Redirect to={{ pathname: "/reviewerDashboard" }} />
             ) : this.state.res.toString() === "admin" ? (
-              <Redirect to={{ pathname: "/internalPortal/admin/profile" }} />
+              <Redirect to={{ pathname: "/adminDashboard" }} />
             ) : (
               <label />
             )}
