@@ -6,7 +6,7 @@ import { Redirect } from "react-router-dom";
 import { BrowserRouter as Router, Route } from "react-router-dom";
 import MyCompanies from "../GetMyCompanies/MyCompanies";
 import CaseSwitch from "../caseComponents/CaseSwitch";
-import InvestorFillForm from "../InvestorFillForm/InvestorFillForm";
+import InvestorFillForm from "../dCaseComponents/FillForm";
 import NavBarDashboard from '../NavBarDashboard'
 import AwaitingPayment from '../InvestorDashboardRoutes/AwaitingPayment'
 import NeedUpdate from '../InvestorDashboardRoutes/NeedUpdate'

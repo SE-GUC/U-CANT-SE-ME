@@ -10,6 +10,8 @@ import CaseSwitch from "../caseComponents/CaseSwitch";
 import CasesContainer from "../dCaseComponents/CasesContainer";
 import { red } from "@material-ui/core/colors";
 import NavBarDashboard from '../NavBarDashboard'
+import LawyerFillForm from "../dCaseComponents/FillForm";
+
 export default class LawyerDashBoard extends Component {
   constructor(props) {
     super(props)
@@ -35,6 +37,9 @@ async componentDidMount(){
 
     if (selected === "viewallcases")
         document.getElementById("AllCases").style.display=null;
+
+    if (selected === "createnewcompany")
+      document.getElementById("FillForm").style.display = null;
   };
   render() {
     const styles = {
@@ -83,6 +88,13 @@ async componentDidMount(){
               <NavText>View All Cases</NavText>
             </NavItem>  
 
+            <NavItem eventKey="createnewcompany">
+                <NavIcon>
+                  <a className="far fa-building" style={styles.iconStyle} />
+                </NavIcon>
+                <NavText>Create Your Company</NavText>
+              </NavItem>
+
           </SideNav.Nav>
         </SideNav>
 
@@ -98,6 +110,9 @@ async componentDidMount(){
         </div>
         <div id="AllCases" style={styles.divStyleHide} >
           <CasesContainer/>
+        </div>
+        <div id="FillForm" style={styles.divStyleHide} >
+          <LawyerFillForm/>
         </div>
 
       </div>
