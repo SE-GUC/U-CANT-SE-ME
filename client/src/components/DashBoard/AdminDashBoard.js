@@ -8,6 +8,7 @@ import CasesContainer from "../dCaseComponents/CasesContainer";
 import CreateFormTemplate from "../CreateFormTemplate/CreateFormTemplate";
 import NavBarDashboard from "../NavBarDashboard";
 import FormTemplate from "../CreateFormTemplate/FormTemplate"
+import Tooltip from '@material-ui/core/Tooltip';
 export default class InvestorDashBoard extends Component {
   constructor(props) {
     super(props);
@@ -103,13 +104,16 @@ export default class InvestorDashBoard extends Component {
         >
           <SideNav.Toggle />
           <SideNav.Nav defaultSelected="viewallcases">
+            <Tooltip title="View All Cases">
             <NavItem eventKey="viewallcases">
               <NavIcon>
                 <a className="fas fa-briefcase" style={styles.iconStyle} />
               </NavIcon>
               <NavText>View All Cases</NavText>
             </NavItem>
-
+              </Tooltip>
+            
+            <Tooltip title="Register">
             <NavItem eventKey="register">
               <NavIcon>
                 <a className="fas fa-user-tie" style={styles.iconStyle} />
@@ -122,7 +126,9 @@ export default class InvestorDashBoard extends Component {
                 <NavText>Register Reviewer</NavText>
               </NavItem>
             </NavItem>
+            </Tooltip>
 
+            <Tooltip title="Create Form Template">
             <NavItem eventKey="createformtemplate">
               <NavIcon>
                 <a className="fab fa-wpforms" style={styles.iconStyle} />
@@ -135,6 +141,7 @@ export default class InvestorDashBoard extends Component {
                 <NavText>Create Form Template</NavText>
               </NavItem>
             </NavItem>
+            </Tooltip>
           </SideNav.Nav>
         </SideNav>
 
