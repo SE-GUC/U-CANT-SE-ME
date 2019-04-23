@@ -1,3 +1,4 @@
+import moment from 'moment'
 import React, { Component } from "react";
 import { withStyles } from "@material-ui/core/styles";
 import Card from "@material-ui/core/Card";
@@ -10,11 +11,15 @@ import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemText from "@material-ui/core/ListItemText";
 import Avatar from "@material-ui/core/Avatar";
-import ImageIcon from "@material-ui/icons/Image";
 import WorkIcon from "@material-ui/icons/Work";
-import BeachAccessIcon from "@material-ui/icons/BeachAccess";
+import CommentIcon from "@material-ui/icons/CommentOutlined";
+import AcceptedIcon from "@material-ui/icons/Check";
+import RejectedIcon from "@material-ui/icons/Close";
+import PendingIcon from "@material-ui/icons/RotateRight";
+import EstablishedIcon from "@material-ui/icons/VerifiedUser";
+import InvestorIcon from "@material-ui/icons/Person";
+import CreationDateIcon from "@material-ui/icons/DateRange";
 import axios from "axios";
-import moment from 'moment'
 
 const styles= {
   card: {
@@ -29,6 +34,25 @@ const styles= {
   },
   root: {
     width: 345
+  },
+  avatar: {
+    margin: -10,
+    width: 35,
+    height: 35,
+    backgroundColor : "#3480E3"
+  },
+  cardActions:{
+    height: 50
+  },
+  avatarCardAction: {
+    margin: -5,
+    width: 25,
+    height: 25,
+    backgroundColor : "#3480E3"
+  },
+  iconCardAction: {
+    width: 15,
+    height: 15,
   }
 }
 
@@ -60,38 +84,50 @@ class CasePreview extends Component {
       <Card style={classes.card}>
         <CardActionArea>
           <CardContent>
-            <Typography gutterBottom variant="h5" component="h2">
-              {this.props.case.form.companyNameArabic}
+            <Typography gutterBottom variant="h4" component="h2">
+                {this.props.case.form.companyNameArabic}
             </Typography>
             <Typography component="p">
             <List style={classes.root}>
                 <ListItem>
-                  {/* <Avatar>
-                    <ImageIcon />
-                  </Avatar> */}
+                  <Avatar style={classes.avatar}>
+                    <InvestorIcon />
+                  </Avatar>
                   <ListItemText primary="Investor Name" secondary={this.state.investorName} />
                 </ListItem>
                 <ListItem>
-                  {/* <Avatar>
+                  <Avatar style={classes.avatar}>
                     <WorkIcon />
-                  </Avatar> */}
+                  </Avatar>
                   <ListItemText primary="Company Type" secondary={this.props.case.companyType} />
                 </ListItem>
                 <ListItem>
-                  {/* <Avatar>
-                    <BeachAccessIcon />
-                  </Avatar> */}
+                  <Avatar style={classes.avatar}>
+                    <CreationDateIcon />
+                  </Avatar>
                   <ListItemText primary="Creation Date" secondary={this.formatTime(this.props.case.caseCreationDate)} />
                 </ListItem>
               </List>
             </Typography>
           </CardContent>
         </CardActionArea>
-        <CardActions>
-          <Button size="small" color="primary" onClick = { this.props.handleCaseFullDetails.bind(this, this.props.case) } >
+        <CardActions style={classes.cardActions}>
+          <ListItem>
+              <Avatar style={classes.avatarCardAction}>
+                {this.props.case.caseStatus==="Rejected"?<RejectedIcon style={classes.iconCardAction}/>:this.props.case.caseStatus==="Accepted"?<AcceptedIcon style={classes.iconCardAction}/>:this.props.case.caseStatus==="Established"?<EstablishedIcon style={classes.iconCardAction}/>:<PendingIcon style={classes.iconCardAction}/>}
+              </Avatar>
+              <ListItemText disableTypography primary={<Typography variant="body1" classes={classes.fonts}>Status</Typography>} secondary={<Typography style={{color:this.props.case.caseStatus==="Rejected"?"#E53167":(this.props.case.caseStatus==="Accepted" || this.props.case.caseStatus==="Established")?"#2DD07B":"#3480E3"}} variant="caption">{this.props.case.caseStatus}</Typography>}/>
+          </ListItem>
+          <ListItem>
+              <Avatar style={classes.avatarCardAction}>
+                <CommentIcon style={classes.iconCardAction} />
+              </Avatar>
+              <ListItemText disableTypography primary={<Typography variant="body1">Comments</Typography>} secondary={<Typography variant="caption">{this.props.case.comments.length}</Typography>}/>
+          </ListItem>
+        </CardActions>
+        <Button size="small" color="primary"  onClick = { this.props.handleCaseFullDetails.bind(this, this.props.case)}>
             View Details
           </Button>
-        </CardActions>
       </Card>
     );
   }
