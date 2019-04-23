@@ -108,21 +108,21 @@ export default class InvestorDashBoard extends Component {
             <SideNav.Nav defaultSelected="viewmycompanies">
               <NavItem eventKey="viewmycompanies">
                 <NavIcon>
-                  <a className="fa fa-home" style={styles.iconStyle} />
+                  <a className="fas fa-building" style={styles.iconStyle} />
                 </NavIcon>
                 <NavText>My Companies</NavText>
               </NavItem>
               
               <NavItem eventKey="createnewcompany">
                 <NavIcon>
-                  <a className="fa fa-home" style={styles.iconStyle} />
+                  <a className="far fa-building" style={styles.iconStyle} />
                 </NavIcon>
                 <NavText>Create Your Company</NavText>
               </NavItem>
              
               <NavItem eventKey="viewongoingcompanyrequests">
               <NavIcon>
-                <a className="fa fa-list-alt" style={styles.iconStyle} />
+                <a className="fas fa-shipping-fast" style={styles.iconStyle} />
               </NavIcon>
               <NavText>View Ongoing Requests</NavText>
              
