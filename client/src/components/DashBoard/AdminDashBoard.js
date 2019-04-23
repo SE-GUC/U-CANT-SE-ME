@@ -103,14 +103,14 @@ export default class InvestorDashBoard extends Component {
           <SideNav.Nav defaultSelected="viewallcases">
             <NavItem eventKey="viewallcases">
               <NavIcon>
-                <a className="fa fa-home" style={styles.iconStyle} />
+                <a className="fas fa-briefcase" style={styles.iconStyle} />
               </NavIcon>
               <NavText>View All Cases</NavText>
             </NavItem>
 
             <NavItem eventKey="register">
               <NavIcon>
-                <a className="fa fa-list-alt" style={styles.iconStyle} />
+                <a className="fas fa-user-tie" style={styles.iconStyle} />
               </NavIcon>
               <NavText>Register</NavText>
               <NavItem eventKey="register/lawyer">
@@ -123,7 +123,7 @@ export default class InvestorDashBoard extends Component {
 
             <NavItem eventKey="createformtemplate">
               <NavIcon>
-                <a className="fa fa-home" style={styles.iconStyle} />
+                <a className="fab fa-wpforms" style={styles.iconStyle} />
               </NavIcon>
               <NavText>Create Form Template</NavText>
             </NavItem>

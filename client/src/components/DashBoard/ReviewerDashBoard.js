@@ -64,21 +64,21 @@ async componentDidMount(){
             
           <NavItem eventKey="viewtasks">
               <NavIcon>
-                <a className="fa fa-list-alt" style={styles.iconStyle} />
+                <a className="fas fa-tasks"  style={styles.iconStyle} />
               </NavIcon>
               <NavText>View Tasks</NavText>
             </NavItem>
 
             <NavItem eventKey="viewunasignedcases">
               <NavIcon>
-                <a className="fa fa-list-alt" style={styles.iconStyle} />
+                <a className="fas fa-suitcase-rolling" style={styles.iconStyle} />
               </NavIcon>
               <NavText>View Unasigned Cases</NavText>
             </NavItem>
 
             <NavItem eventKey="viewallcases">
               <NavIcon>
-                <a className="fa fa-home" style={styles.iconStyle} />
+                <a className="fas fa-briefcase" style={styles.iconStyle} />
               </NavIcon>
               <NavText>View All Cases</NavText>
             </NavItem>  
