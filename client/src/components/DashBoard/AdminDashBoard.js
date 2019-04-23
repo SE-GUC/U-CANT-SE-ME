@@ -2,14 +2,12 @@ import React, { Component } from "react";
 // Be sure to include styles at some point, probably during your bootstraping
 import "@trendmicro/react-sidenav/dist/react-sidenav.css";
 import SideNav, { NavItem, NavIcon, NavText } from "@trendmicro/react-sidenav";
-import { Redirect } from "react-router-dom";
-import { BrowserRouter as Router, Route } from "react-router-dom";
-import CaseSwitch from "../caseComponents/CaseSwitch";
 import RegisterLawyer from "../RegisterLawyer";
 import RegisterReviewer from "../RegisterReviewer";
 import CasesContainer from "../dCaseComponents/CasesContainer";
 import CreateFormTemplate from "../CreateFormTemplate/CreateFormTemplate";
 import NavBarDashboard from "../NavBarDashboard";
+import FormTemplate from "../CreateFormTemplate/FormTemplate"
 export default class InvestorDashBoard extends Component {
   constructor(props) {
     super(props);
@@ -23,14 +21,18 @@ export default class InvestorDashBoard extends Component {
   }
   handleSelect = selected => {
     console.log(selected);
-    document.getElementById("CreateForm").style.display = "none";
+    document.getElementById("CreateFormJSON").style.display = "none";
+    document.getElementById("CreateFormInteractive").style.display = "none";
     document.getElementById("RegisterLawyer").style.display = "none";
     document.getElementById("RegisterReviewer").style.display = "none";
     document.getElementById("AllCases").style.display = "none";
 
 
-    if(selected === "createformtemplate")
-        document.getElementById("CreateForm").style.display=null;
+    if(selected === "createformtemplate/code")
+        document.getElementById("CreateFormJSON").style.display=null;
+    
+        if(selected === "createformtemplate/interactive")
+        document.getElementById("CreateFormInteractive").style.display=null;
 
     if (selected === "register/lawyer")
         document.getElementById("RegisterLawyer").style.display=null;
@@ -126,12 +128,21 @@ export default class InvestorDashBoard extends Component {
                 <a className="fab fa-wpforms" style={styles.iconStyle} />
               </NavIcon>
               <NavText>Create Form Template</NavText>
+            <NavItem eventKey="createformtemplate/code">
+                <NavText>Upload JSON File</NavText>
+              </NavItem>
+              <NavItem eventKey="createformtemplate/interactive">
+                <NavText>Create Form Template</NavText>
+              </NavItem>
             </NavItem>
           </SideNav.Nav>
         </SideNav>
 
-        <div id="CreateForm" style={styles.divStyleHide}>
+        <div id="CreateFormJSON" style={styles.divStyleHide}>
           <CreateFormTemplate />
+        </div>
+        <div id="CreateFormInteractive" style={styles.divStyleHide}>
+          <FormTemplate />
         </div>
         <div id="RegisterLawyer" style={styles.divStyleHideRegister} >
           <RegisterLawyer/>
