@@ -75,9 +75,9 @@ export default class InvestorDashBoard extends Component {
         marginLeft:this.state.dashboardwidth,
         // background:"red",
         justifyContent: 'center',
-        // paddingTop:'10vh'
+        // paddingTop:'-10px',
         justifyContent: "center",
-        paddingTop: "10vh"
+        // paddingTop: "10vh"
       }
     };
     return (

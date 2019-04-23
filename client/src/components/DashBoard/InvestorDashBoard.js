@@ -38,7 +38,6 @@ export default class InvestorDashBoard extends Component {
     document.getElementById("AllCompanies").style.display = "none";
     document.getElementById("AwaitingPayment").style.display = "none";
     document.getElementById("NeedUpdate").style.display = "none";
-    document.getElementById("Pending").style.display = "none";
 
     if (selected === "viewmycompanies")
       document.getElementById("MyCompanies").style.display = "flex";
@@ -69,7 +68,7 @@ export default class InvestorDashBoard extends Component {
       },
       divStyleShow: {
         marginLeft: this.state.dashboardwidth,
-        background: "red",
+        // background: "red",
         display: "flex",
         justifyContent: "center",
         paddingTop: "10vh"
@@ -113,11 +112,34 @@ export default class InvestorDashBoard extends Component {
                 </NavIcon>
                 <NavText>My Companies</NavText>
               </NavItem>
+              
+              <NavItem eventKey="createnewcompany">
+                <NavIcon>
+                  <a className="fa fa-home" style={styles.iconStyle} />
+                </NavIcon>
+                <NavText>Create Your Company</NavText>
+              </NavItem>
+             
+              <NavItem eventKey="viewongoingcompanyrequests">
+              <NavIcon>
+                <a className="fa fa-list-alt" style={styles.iconStyle} />
+              </NavIcon>
+              <NavText>View Ongoing Requests</NavText>
+             
+              <NavItem eventKey="viewongoingcompanyrequests/all">
+                <NavText>All Companies</NavText>
+              </NavItem>
+              
+              <NavItem eventKey="viewongoingcompanyrequests/awaitingpayment">
+                <NavText>Awaiting Payment</NavText>
+              </NavItem>
+              
               <NavItem eventKey="viewongoingcompanyrequests/needupdate">
                 <NavText>Need Update</NavText>
               </NavItem>
-             
+           
             </NavItem>
+             
 
           </SideNav.Nav>
         </SideNav>
@@ -136,8 +158,7 @@ export default class InvestorDashBoard extends Component {
         <div id="NeedUpdate" style={styles.divStyleHide} >
         <NeedUpdate/>
         </div>
-        <div id="Pending" style={styles.divStyleHide} >
-        </div>
+        </Router>
       </div>
     );
   }
