@@ -15,7 +15,7 @@ import AddIcon from "@material-ui/icons/Add";
 import currencies from "../../data/currencies";
 import cities from "../../data/cities"
 import governates from "../../data/governorates";
-
+import parseJwt from '../../helpers/decryptAuthToken';
 
 const styles = {
   root: {
@@ -150,14 +150,15 @@ class FillForm extends Component {
   };
 
   async componentDidMount() {
-    this.setState({
-      labelWidth: ReactDOM.findDOMNode(this.InputLabelRef).offsetWidth
+    const data = parseJwt(localStorage.jwtToken)
+    await this.setState({
+      labelWidth: ReactDOM.findDOMNode(this.InputLabelRef).offsetWidth,
+      creatorId:data.id
     });
     const formTemplates = await axios.get(`api/formTemplates/`);
     this.setState({ formTemplates: formTemplates.data.data });
-    this.setState({ creatorId: "5ca76f5f00b48e09001936e7" });
     axios
-        .get(`api/investors/5ca76f5f00b48e09001936e7`)
+        .get(`api/investors/${this.state.creatorId}`)
         .then(res =>{
           this.setState({ creatorType: "investor" });
         })
