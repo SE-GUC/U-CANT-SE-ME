@@ -590,7 +590,7 @@ export default class InvestorRegister extends React.Component {
                       <br />
                       <label id="Success" class="text-danger">
                         {this.state.valid === "Successfully Created!" ? (
-                          <Redirect to={{ pathname: "/investorDashBoard" }} />
+                          <Redirect to={{ pathname: "/investorDashboard" }} />
                         ) : (
                           <div />
                         )}
