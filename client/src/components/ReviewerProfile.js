@@ -127,7 +127,11 @@ class ReviewerProfile extends Component {
           <Typography component="p">
             <List style={classes.root}>
               <ListItem>
-                <ListItemText primary="Profile" />
+                <ListItemText
+                  primary={
+                    this.state.lang === "eng" ? "Profile" : "الملف الشخصي"
+                  }
+                />
                 <Avatar style={styles.purpleAvatar}>
                   {this.state.fullName.toString().charAt(0)}
                 </Avatar>
