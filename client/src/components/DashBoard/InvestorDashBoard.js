@@ -104,25 +104,20 @@ export default class InvestorDashBoard extends Component {
           >
             <SideNav.Toggle />
             <SideNav.Nav defaultSelected="viewmycompanies">
-            <Tooltip title="My Companies">
               <NavItem eventKey="viewmycompanies">
                 <NavIcon>
                   <a className="fas fa-building" style={styles.iconStyle} />
                 </NavIcon>
                 <NavText>My Companies</NavText>
               </NavItem>
-              </Tooltip>
 
-              <Tooltip title="Create Your Company">
               <NavItem eventKey="createnewcompany">
                 <NavIcon>
                   <a className="far fa-building" style={styles.iconStyle} />
                 </NavIcon>
                 <NavText>Create Your Company</NavText>
               </NavItem>
-              </Tooltip>
 
-              <Tooltip title="View Ongoing Requests">
               <NavItem eventKey="viewongoingcompanyrequests">
               <NavIcon>
                 <a className="fas fa-shipping-fast" style={styles.iconStyle} />
@@ -142,7 +137,6 @@ export default class InvestorDashBoard extends Component {
               </NavItem>
            
             </NavItem>
-            </Tooltip>
 
           </SideNav.Nav>
         </SideNav>

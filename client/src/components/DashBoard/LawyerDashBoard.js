@@ -10,6 +10,7 @@ import CaseSwitch from "../caseComponents/CaseSwitch";
 import CasesContainer from "../dCaseComponents/CasesContainer";
 import { red } from "@material-ui/core/colors";
 import NavBarDashboard from '../NavBarDashboard'
+import Tooltip from '@material-ui/core/Tooltip';
 export default class LawyerDashBoard extends Component {
   constructor(props) {
     super(props)
@@ -61,7 +62,6 @@ async componentDidMount(){
         <SideNav id="dashboard" onSelect={this.handleSelect} style={styles.navStyle}>
           <SideNav.Toggle />
           <SideNav.Nav defaultSelected="viewtasks">
-            
           <NavItem eventKey="viewtasks">
               <NavIcon>
                 <a className="fas fa-tasks" style={styles.iconStyle} />
