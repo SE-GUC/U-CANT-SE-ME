@@ -48,7 +48,7 @@ export default class LawyerDashBoard extends Component {
     document.getElementById("Tasks").style.marginLeft=`${width}px`;
     document.getElementById("AllCases").style.marginLeft=`${width}px`;
     document.getElementById("logo").style.marginLeft=`${width}px`;
-  }
+  
 
 
     if (selected === "viewunasignedcases")
