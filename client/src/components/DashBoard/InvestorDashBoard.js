@@ -8,6 +8,10 @@ import MyCompanies from "../GetMyCompanies/MyCompanies";
 import CaseSwitch from "../caseComponents/CaseSwitch";
 import InvestorFillForm from "../InvestorFillForm/InvestorFillForm";
 import NavBarDashboard from '../NavBarDashboard'
+import AwaitingPayment from '../InvestorDashboardRoutes/AwaitingPayment'
+import NeedUpdate from '../InvestorDashboardRoutes/NeedUpdate'
+import AllCases from "../InvestorDashboardRoutes/AllCases";
+
 // import "./DashBoard.css"
 export default class InvestorDashBoard extends Component {
     constructor(props) {
@@ -28,7 +32,6 @@ export default class InvestorDashBoard extends Component {
     document.getElementById("AllCompanies").style.display="none";
     document.getElementById("AwaitingPayment").style.display="none";
     document.getElementById("NeedUpdate").style.display="none";
-    document.getElementById("Pending").style.display="none";
 
     if(selected === "viewmycompanies")
         document.getElementById("MyCompanies").style.display="flex";
@@ -42,11 +45,9 @@ export default class InvestorDashBoard extends Component {
     if (selected === "viewongoingcompanyrequests/awaitingpayment")
         document.getElementById("AwaitingPayment").style.display="flex";
 
-    if (selected === "viewongoingcompanyrequests/fillform")
+    if (selected === "viewongoingcompanyrequests/needupdate")
         document.getElementById("NeedUpdate").style.display="flex";
 
-    if (selected === "viewongoingcompanyrequests/pending")
-        document.getElementById("Pending").style.display="flex";
 
 
   };
@@ -112,9 +113,7 @@ export default class InvestorDashBoard extends Component {
               <NavItem eventKey="viewongoingcompanyrequests/needupdate">
                 <NavText>Need Update</NavText>
               </NavItem>
-              <NavItem eventKey="viewongoingcompanyrequests/pending">
-                <NavText>Pending</NavText>
-              </NavItem>
+             
             </NavItem>
 
           </SideNav.Nav>
@@ -126,10 +125,13 @@ export default class InvestorDashBoard extends Component {
           <InvestorFillForm/>
         </div>
         <div id="AllCompanies" style={styles.divStyleHide} >
+        <AllCases/>
         </div>
         <div id="AwaitingPayment" style={styles.divStyleHide} >
+        <AwaitingPayment/>
         </div>
         <div id="NeedUpdate" style={styles.divStyleHide} >
+        <NeedUpdate/>
         </div>
         <div id="Pending" style={styles.divStyleHide} >
         </div>
