@@ -27,7 +27,7 @@ class CasesContainer extends Component {
   render() {
     if (this.state.isCaseExpaned) {
       return (
-        <CaseContainer expandedCase={this.state.expandedCase} />
+        <CaseContainer expandedCase={this.state.expandedCase} handleBack={this.handleBack} />
       );
     } else {
       return (
@@ -47,6 +47,10 @@ class CasesContainer extends Component {
   handleCaseFullDetails = (expandedCase) => {
     this.setState({ isCaseExpaned: true })
     this.setState({ expandedCase: expandedCase })
+  }
+  handleBack = () => {
+    this.setState({ isCaseExpaned: false })
+    this.setState({ expandedCase: {} })
   }
 
 }
