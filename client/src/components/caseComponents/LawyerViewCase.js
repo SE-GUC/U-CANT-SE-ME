@@ -3,7 +3,7 @@ import Case from './Case';
 import axios from 'axios';
 import parseJwt from '../../helpers/decryptAuthToken'
 import {Redirect} from 'react-router-dom'
-import CasePreview from '../dCaseComponents/CasePreview'
+// import CasePreview from '../dCaseComponents/CasePreview'
 import CasesContainerProps from '../dCaseComponents/CasesContainerProps';
 export default class LawyerViewCase extends Component {
     state ={
