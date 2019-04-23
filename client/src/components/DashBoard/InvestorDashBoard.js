@@ -7,9 +7,9 @@ import { BrowserRouter as Router, Route } from "react-router-dom";
 import MyCompanies from "../GetMyCompanies/MyCompanies";
 import CaseSwitch from "../caseComponents/CaseSwitch";
 import InvestorFillForm from "../InvestorFillForm/InvestorFillForm";
-import NavBarDashboard from '../NavBarDashboard'
-import AwaitingPayment from '../InvestorDashboardRoutes/AwaitingPayment'
-import NeedUpdate from '../InvestorDashboardRoutes/NeedUpdate'
+import NavBarDashboard from "../NavBarDashboard";
+import AwaitingPayment from "../InvestorDashboardRoutes/AwaitingPayment";
+import NeedUpdate from "../InvestorDashboardRoutes/NeedUpdate";
 import AllCases from "../InvestorDashboardRoutes/AllCases";
 
 // import "./DashBoard.css"
@@ -17,22 +17,23 @@ export default class InvestorDashBoard extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      dashboardwidth: 0
+      dashboardwidth: 0,
+      lang: ""
     };
   }
   async componentDidMount() {
+    if (localStorage.getItem("lang"))
+      this.setState({ lang: localStorage.getItem("lang") });
+    else this.setState({ lang: "eng" });
     const width = document.getElementById("dashboard").clientWidth;
     await this.setState({ dashboardwidth: width });
   }
   handleSelect = selected => {
-    console.log(selected);
-    
-    document.getElementById("MyCompanies").style.display="none";
-    document.getElementById("FillForm").style.display="none";
-    document.getElementById("AllCompanies").style.display="none";
-    document.getElementById("AwaitingPayment").style.display="none";
-    document.getElementById("NeedUpdate").style.display="none";
-
+    document.getElementById("MyCompanies").style.display = "none";
+    document.getElementById("FillForm").style.display = "none";
+    document.getElementById("AllCompanies").style.display = "none";
+    document.getElementById("AwaitingPayment").style.display = "none";
+    document.getElementById("NeedUpdate").style.display = "none";
     document.getElementById("MyCompanies").style.display = "none";
     document.getElementById("FillForm").style.display = "none";
     document.getElementById("AllCompanies").style.display = "none";
@@ -52,10 +53,7 @@ export default class InvestorDashBoard extends Component {
       document.getElementById("AwaitingPayment").style.display = "flex";
 
     if (selected === "viewongoingcompanyrequests/needupdate")
-        document.getElementById("NeedUpdate").style.display="flex";
-
-
-
+      document.getElementById("NeedUpdate").style.display = "flex";
   };
   render() {
     const styles = {
@@ -110,54 +108,73 @@ export default class InvestorDashBoard extends Component {
                 <NavIcon>
                   <a className="fa fa-home" style={styles.iconStyle} />
                 </NavIcon>
-                <NavText>My Companies</NavText>
+                <NavText>
+                  {this.state.lang === "eng" ? "My Companies" : "شركاتي"}
+                </NavText>
               </NavItem>
-              
+
               <NavItem eventKey="createnewcompany">
                 <NavIcon>
                   <a className="fa fa-home" style={styles.iconStyle} />
                 </NavIcon>
-                <NavText>Create Your Company</NavText>
+                <NavText>
+                  {this.state.lang === "eng"
+                    ? "Create Your Company"
+                    : "انشىء شركتك"}
+                </NavText>
               </NavItem>
-             
-              <NavItem eventKey="viewongoingcompanyrequests">
-              <NavIcon>
-                <a className="fa fa-list-alt" style={styles.iconStyle} />
-              </NavIcon>
-              <NavText>View Ongoing Requests</NavText>
-             
-              <NavItem eventKey="viewongoingcompanyrequests/all">
-                <NavText>All Companies</NavText>
-              </NavItem>
-              
-              <NavItem eventKey="viewongoingcompanyrequests/awaitingpayment">
-                <NavText>Awaiting Payment</NavText>
-              </NavItem>
-              
-              <NavItem eventKey="viewongoingcompanyrequests/needupdate">
-                <NavText>Need Update</NavText>
-              </NavItem>
-           
-            </NavItem>
-             
 
-          </SideNav.Nav>
-        </SideNav>
-        <div id="MyCompanies" style={styles.divStyleShow} >
-          <MyCompanies/>
-        </div>
-        <div id="FillForm" style={styles.divStyleHide} >
-          <InvestorFillForm/>
-        </div>
-        <div id="AllCompanies" style={styles.divStyleHide} >
-        <AllCases/>
-        </div>
-        <div id="AwaitingPayment" style={styles.divStyleHide} >
-        <AwaitingPayment/>
-        </div>
-        <div id="NeedUpdate" style={styles.divStyleHide} >
-        <NeedUpdate/>
-        </div>
+              <NavItem eventKey="viewongoingcompanyrequests">
+                <NavIcon>
+                  <a className="fa fa-list-alt" style={styles.iconStyle} />
+                </NavIcon>
+                <NavText>
+                  {this.state.lang === "eng"
+                    ? "View Ongoing Requests"
+                    : "أظهر العمليات الجارية"}
+                </NavText>
+
+                <NavItem eventKey="viewongoingcompanyrequests/all">
+                  <NavText>
+                    {this.state.lang === "eng"
+                      ? "All Companies"
+                      : "اظهر شركاتي"}
+                  </NavText>
+                </NavItem>
+
+                <NavItem eventKey="viewongoingcompanyrequests/awaitingpayment">
+                  <NavText>
+                    {this.state.lang === "eng"
+                      ? "Awaiting Payments"
+                      : "اظهر العمليات النقدية المطالبة"}
+                  </NavText>
+                </NavItem>
+
+                <NavItem eventKey="viewongoingcompanyrequests/needupdate">
+                  <NavText>
+                    {this.state.eng === "eng"
+                      ? "Cases Awaiting Update"
+                      : "العمليات التي بحاجة الى تعديل"}
+                  </NavText>
+                </NavItem>
+              </NavItem>
+            </SideNav.Nav>
+          </SideNav>
+          <div id="MyCompanies" style={styles.divStyleShow}>
+            <MyCompanies />
+          </div>
+          <div id="FillForm" style={styles.divStyleHide}>
+            <InvestorFillForm />
+          </div>
+          <div id="AllCompanies" style={styles.divStyleHide}>
+            <AllCases />
+          </div>
+          <div id="AwaitingPayment" style={styles.divStyleHide}>
+            <AwaitingPayment />
+          </div>
+          <div id="NeedUpdate" style={styles.divStyleHide}>
+            <NeedUpdate />
+          </div>
         </Router>
       </div>
     );
