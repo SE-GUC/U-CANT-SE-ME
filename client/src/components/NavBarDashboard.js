@@ -130,7 +130,6 @@ export default class NavBarDashboard extends Component {
       this.state.electronicJournals = false;
       this.state.hero = false;
       this.state.logout = false;
-      window.location.reload();
       return <Redirect to="/" />;
     }
     return (
