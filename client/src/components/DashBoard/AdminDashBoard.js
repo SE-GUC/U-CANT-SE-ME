@@ -2,14 +2,12 @@ import React, { Component } from "react";
 // Be sure to include styles at some point, probably during your bootstraping
 import "@trendmicro/react-sidenav/dist/react-sidenav.css";
 import SideNav, { NavItem, NavIcon, NavText } from "@trendmicro/react-sidenav";
-import { Redirect } from "react-router-dom";
-import { BrowserRouter as Router, Route } from "react-router-dom";
-import CaseSwitch from "../caseComponents/CaseSwitch";
 import RegisterLawyer from "../RegisterLawyer";
 import RegisterReviewer from "../RegisterReviewer";
 import CasesContainer from "../dCaseComponents/CasesContainer";
 import CreateFormTemplate from "../CreateFormTemplate/CreateFormTemplate";
 import NavBarDashboard from "../NavBarDashboard";
+import FormTemplate from "../CreateFormTemplate/FormTemplate"
 export default class InvestorDashBoard extends Component {
   constructor(props) {
     super(props);
@@ -26,13 +24,24 @@ export default class InvestorDashBoard extends Component {
     await this.setState({ dashboardwidth: width });
   }
   handleSelect = selected => {
+
     document.getElementById("CreateForm").style.display = "none";
+    document.getElementById("CreateFormJSON").style.display = "none";
+    document.getElementById("CreateFormInteractive").style.display = "none";
     document.getElementById("RegisterLawyer").style.display = "none";
     document.getElementById("RegisterReviewer").style.display = "none";
     document.getElementById("AllCases").style.display = "none";
 
     if (selected === "createformtemplate")
       document.getElementById("CreateForm").style.display = null;
+
+
+    if(selected === "createformtemplate/code")
+        document.getElementById("CreateFormJSON").style.display=null;
+    
+        if(selected === "createformtemplate/interactive")
+        document.getElementById("CreateFormInteractive").style.display=null;
+
 
     if (selected === "register/lawyer")
       document.getElementById("RegisterLawyer").style.display = null;
@@ -103,7 +112,7 @@ export default class InvestorDashBoard extends Component {
           <SideNav.Nav defaultSelected="viewallcases">
             <NavItem eventKey="viewallcases">
               <NavIcon>
-                <a className="fa fa-home" style={styles.iconStyle} />
+                <a className="fas fa-briefcase" style={styles.iconStyle} />
               </NavIcon>
               <NavText>
                 {this.state.lang === "eng"
@@ -114,7 +123,7 @@ export default class InvestorDashBoard extends Component {
 
             <NavItem eventKey="register">
               <NavIcon>
-                <a className="fa fa-list-alt" style={styles.iconStyle} />
+                <a className="fas fa-user-tie" style={styles.iconStyle} />
               </NavIcon>
               <NavText>
                 {this.state.lang === "eng" ? "Register" : "سجل موظف"}
@@ -135,22 +144,37 @@ export default class InvestorDashBoard extends Component {
 
             <NavItem eventKey="createformtemplate">
               <NavIcon>
-                <a className="fa fa-home" style={styles.iconStyle} />
+                <a className="fab fa-wpforms" style={styles.iconStyle} />
               </NavIcon>
               <NavText>
                 {this.state.lang === "eng"
                   ? "Create Form Template"
                   : "إنشاء نموذج"}
               </NavText>
-            </NavItem>
+      </NavItem>
+              <NavText>Create Form Template</NavText>
+            <NavItem eventKey="createformtemplate/code">
+                <NavText>Upload JSON File</NavText>
+              </NavItem>
+              <NavItem eventKey="createformtemplate/interactive">
+                <NavText>Create Form Template</NavText>
+              </NavItem>
+
           </SideNav.Nav>
         </SideNav>
 
-        <div id="CreateForm" style={styles.divStyleHide}>
+        <div id="CreateFormJSON" style={styles.divStyleHide}>
           <CreateFormTemplate />
         </div>
+
         <div id="RegisterLawyer" style={styles.divStyleHideRegister}>
           <RegisterLawyer />
+
+        <div id="CreateFormInteractive" style={styles.divStyleHide}>
+          <FormTemplate />
+        </div>
+       
+
         </div>
         <div id="RegisterReviewer" style={styles.divStyleHideRegister}>
           <RegisterReviewer />

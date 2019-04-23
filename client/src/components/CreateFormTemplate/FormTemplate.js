@@ -443,7 +443,7 @@ class FormTemplate extends Component {
       <div style={{ paddingBottom: "5%" }}>
         <div
           style={{
-            fontFamily: "Helvetica Neue",
+            // fontFamily: "Helvetica Neue",
             fontSize: "17px",
             color: "#707070"
           }}
@@ -622,7 +622,7 @@ const styles = {
 
   card: {
     borderRadius: 12,
-    fontFamily: "Helvetica Neue",
+    // fontFamily: "Helvetica Neue",
     boxShadow: "0px 3px 20px rgba(0, 0, 0, 0.16)",
     marginLeft: "7%",
     marginRight: "7%",
@@ -636,19 +636,19 @@ const styles = {
   },
 
   bodyText: {
-    fontFamily: "Helvetica Neue",
+    // fontFamily: "Helvetica Neue",
     fontSize: "17px",
     float: "left"
   },
 
   headerText: {
-    fontFamily: "Helvetica Neue",
+    // fontFamily: "Helvetica Neue",
     fontStyle: "Bold",
     fontSize: "24px"
   },
 
   label: {
-    fontFamily: "Helvetica Neue",
+    // fontFamily: "Helvetica Neue",
     fontSize: "17px",
     float: "left"
   },

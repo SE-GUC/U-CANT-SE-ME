@@ -82,7 +82,7 @@ export default class ReviewerDashBoard extends Component {
           <SideNav.Nav defaultSelected="viewtasks">
             <NavItem eventKey="viewtasks">
               <NavIcon>
-                <a className="fa fa-list-alt" style={styles.iconStyle} />
+                <a className="fas fa-tasks"  style={styles.iconStyle} />
               </NavIcon>
               <NavText>
                 {this.state.lang === "eng" ? "View Tasks" : "أظهر مهماتي"}
@@ -91,7 +91,7 @@ export default class ReviewerDashBoard extends Component {
 
             <NavItem eventKey="viewunasignedcases">
               <NavIcon>
-                <a className="fa fa-list-alt" style={styles.iconStyle} />
+                <a className="fas fa-suitcase-rolling" style={styles.iconStyle} />
               </NavIcon>
               <NavText>
                 {this.state.lang === "eng"
@@ -102,7 +102,7 @@ export default class ReviewerDashBoard extends Component {
 
             <NavItem eventKey="viewallcases">
               <NavIcon>
-                <a className="fa fa-home" style={styles.iconStyle} />
+                <a className="fas fa-briefcase" style={styles.iconStyle} />
               </NavIcon>
               <NavText>
                 {this.state.lang === "eng"

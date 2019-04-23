@@ -106,7 +106,7 @@ export default class InvestorDashBoard extends Component {
             <SideNav.Nav defaultSelected="viewmycompanies">
               <NavItem eventKey="viewmycompanies">
                 <NavIcon>
-                  <a className="fa fa-home" style={styles.iconStyle} />
+                  <a className="fas fa-building" style={styles.iconStyle} />
                 </NavIcon>
                 <NavText>
                   {this.state.lang === "eng" ? "My Companies" : "شركاتي"}
@@ -115,7 +115,7 @@ export default class InvestorDashBoard extends Component {
 
               <NavItem eventKey="createnewcompany">
                 <NavIcon>
-                  <a className="fa fa-home" style={styles.iconStyle} />
+                  <a className="far fa-building" style={styles.iconStyle} />
                 </NavIcon>
                 <NavText>
                   {this.state.lang === "eng"
@@ -125,15 +125,16 @@ export default class InvestorDashBoard extends Component {
               </NavItem>
 
               <NavItem eventKey="viewongoingcompanyrequests">
+
                 <NavIcon>
-                  <a className="fa fa-list-alt" style={styles.iconStyle} />
+                  <a className="fas fa-shipping-fast" style={styles.iconStyle} />
                 </NavIcon>
                 <NavText>
                   {this.state.lang === "eng"
                     ? "View Ongoing Requests"
                     : "أظهر العمليات الجارية"}
                 </NavText>
-
+                </NavItem>
                 <NavItem eventKey="viewongoingcompanyrequests/all">
                   <NavText>
                     {this.state.lang === "eng"
@@ -141,7 +142,8 @@ export default class InvestorDashBoard extends Component {
                       : "اظهر شركاتي"}
                   </NavText>
                 </NavItem>
-
+    
+            
                 <NavItem eventKey="viewongoingcompanyrequests/awaitingpayment">
                   <NavText>
                     {this.state.lang === "eng"

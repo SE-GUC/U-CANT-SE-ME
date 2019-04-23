@@ -79,10 +79,6 @@ export default class HomePage extends Component {
             <p className="createComp">
               Create your company in less than a day
               <br />
-              Create your company in less than a day
-              <br />
-              Create your company <br />
-              <br />
             </p>
 
             <label

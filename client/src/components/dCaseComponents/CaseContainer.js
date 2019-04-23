@@ -64,27 +64,34 @@ class CaseContainer extends Component {
     };
 
     acceptLawyer=async (caseId)=>{
-        console.log("AcceptLawyer")
         await axios.put(`api/lawyers/updateCaseStatus/${caseId}/WaitingForReviewer`);
+        window.location.reload();
     }
     rejectLawyer=async (caseId)=>{
-        console.log("RejectLawyer")
         await axios.put(`api/lawyers/updateCaseStatus/${caseId}/OnUpdate`);
+        window.location.reload();
     }
     takeLawyer=async (caseId)=>{
-        console.log(caseId)
-        await axios.get(`api/lawyers/assigncase/${this.state.currentUserId}/${caseId}`);
+        if (window.confirm('Are you sure you want to assign yourself to this case ?')) {
+            await axios.get(`api/lawyers/assigncase/${this.state.currentUserId}/${caseId}`);
+            window.location.reload();
+        }
     }
     acceptReviewer=async (caseId)=>{
-        console.log("AcceptReviewer")
         await axios.put(`api/reviewers/updateCaseStatus/${caseId}/Accepted`);
+        window.location.reload();
     }
     rejectReviewer=async (caseId)=>{
-        console.log("RejectReviewer")
         await axios.put(`api/reviewers/updateCaseStatus/${caseId}/OnUpdate`);
+        window.location.reload();
     }
     takeReviewer=async (caseId)=>{
-        await axios.get(`api/reviewers/assigncase/${this.state.currentUserId}/${caseId}`);
+        if (window.confirm('Are you sure you want to assign yourself to this case ?')) {
+            // Save it!
+            await axios.get(`api/reviewers/assigncase/${this.state.currentUserId}/${caseId}`);
+            window.location.reload();
+        }
+        
     }
     viewDecision=async (id) =>
     {
@@ -280,7 +287,11 @@ class CaseContainer extends Component {
 
 
         return <div>
+            <Fab variant="extended" size="large" color="secondary" style={{ color: '#FFFFFF', height: '31px', width: '107px', fontSize: '13px', boxShadow: 'none',  margin: '0 auto' }} aria-label="Delete" onClick={this.props.handleBack} >
+            {"Back"}
+        </Fab>
             <InfoCard
+                
                 infoTitle={"Case Info"}
                 fields={[
                     {
@@ -295,6 +306,7 @@ class CaseContainer extends Component {
                 ]}
 
             />
+            
 
             <InfoCard
                 infoTitle={"Form Info"}
