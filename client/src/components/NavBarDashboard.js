@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import "./NavBarBlue.css";
 import { Redirect } from "react-router-dom";
 import { logout } from "../globalState/actions/authActions";
+import parseJwt from "../helpers/decryptAuthToken";
 
 export default class NavBarDashboard extends Component {
   state = {
@@ -13,8 +14,13 @@ export default class NavBarDashboard extends Component {
     profile: false,
     electronicJournals: false,
     logout: false,
+    type: ""
   };
   render() {
+    try {
+      const type = parseJwt(localStorage.jwtToken).type;
+      this.state.type = type;
+    } catch {}
     const opacity = 1 - Math.min(10 / this.state.currentScrollHeight, 1);
     const styles = {
       content: {
@@ -31,7 +37,7 @@ export default class NavBarDashboard extends Component {
       },
       Header: {
         boxShadow: this.props.boxShadow,
-        position: 'fixed'
+        position: "fixed"
       },
       Dashboard: {
         fontWeight: this.props.dashboard, //either lighter or bold
@@ -54,52 +60,76 @@ export default class NavBarDashboard extends Component {
     };
     if (this.state.dashboard) {
       //dashboard
-      this.setState({ dashboard: false });
-      this.setState({ homepage: false });
-      this.setState({ profile: false });
-      this.setState({ electronicJournals: false });
-      this.setState({ hero: false });
-      return <Redirect to={this.props.dashboardRedirect}/>;
+      this.state.dashboard = false;
+      this.state.homepage = false;
+      this.state.profile = false;
+      this.state.electronicJournals = false;
+      this.state.hero = false;
+      this.state.logout = false;
+      let redirectString = "/" + this.state.type.toString() + "Dashboard";
+      return <Redirect to={redirectString} />;
     }
     if (this.state.homepage) {
       //homepage
-      this.setState({ dashboard: false });
-      this.setState({ homepage: false });
-      this.setState({ profile: false });
-      this.setState({ electronicJournals: false });
-      this.setState({ hero: false });
+      this.state.dashboard = false;
+      this.state.homepage = false;
+      this.state.profile = false;
+      this.state.electronicJournals = false;
+      this.state.hero = false;
+      this.state.logout = false;
       return <Redirect to="/" />;
     }
     if (this.state.profile) {
       //profile
-      this.setState({ dashboard: false });
-      this.setState({ homepage: false });
-      this.setState({ profile: false });
-      this.setState({ electronicJournals: false });
-      this.setState({ hero: false });
-      return <Redirect to={this.props.profileRedirect} />;
+      this.state.dashboard = false;
+      this.state.homepage = false;
+      this.state.profile = false;
+      this.state.electronicJournals = false;
+      this.state.hero = false;
+      this.state.logout = false;
+      const type = this.state.type;
+      let profileString = "";
+      if (type.toString() === "investor") {
+        profileString = "/profile";
+      }
+      if (type.toString() === "reviewer") {
+        profileString = "/internalPortal/reviewer/profile";
+      }
+      if (type.toString() === "lawyer") {
+        profileString = "/internalPortal/lawyer/profile";
+      }
+      if (type.toString() === "admin") {
+        profileString = "/internalPortal/admin/profile";
+      }
+      return <Redirect to={profileString} />;
     }
     if (this.state.electronicJournals) {
       //electronicJournals
-      this.setState({ dashboard: false });
-      this.setState({ homepage: false });
-      this.setState({ profile: false });
-      this.setState({ electronicJournals: false });
-      this.setState({ hero: false });
+      this.state.dashboard = false;
+      this.state.homepage = false;
+      this.state.profile = false;
+      this.state.electronicJournals = false;
+      this.state.hero = false;
+      this.state.logout = false;
       return <Redirect to="/ElectronicJournals" />;
     }
     if (this.state.hero) {
-      this.setState({ dashboard: false });
-      this.setState({ homepage: false });
-      this.setState({ profile: false });
-      this.setState({ electronicJournals: false });
-      this.setState({ hero: false });
+      this.state.dashboard = false;
+      this.state.homepage = false;
+      this.state.profile = false;
+      this.state.electronicJournals = false;
+      this.state.hero = false;
+      this.state.logout = false;
       return <Redirect to="/" />;
     }
     if (this.state.logout) {
       logout();
-      this.setState({ logout: false})
-      window.location.reload()
+      this.state.dashboard = false;
+      this.state.homepage = false;
+      this.state.profile = false;
+      this.state.electronicJournals = false;
+      this.state.hero = false;
+      this.state.logout = false;
       return <Redirect to="/" />;
     }
     return (
@@ -118,7 +148,7 @@ export default class NavBarDashboard extends Component {
             <label />
           )}
           {/* on click handle whatever you want with the back button */}
-          <label>
+          <label id="logo">
             <button
               style={styles.SumergiteLabel}
               onClick={() => {
@@ -181,7 +211,7 @@ export default class NavBarDashboard extends Component {
                   </span>
                 </button>
               </li>
-              {this.props.PROFILE ? (
+              {(this.props.PROFILE && !this.props.admin) ? (
                 <li className="nav-item mr-auto">
                   <button
                     // className="nav-link ml-auto"

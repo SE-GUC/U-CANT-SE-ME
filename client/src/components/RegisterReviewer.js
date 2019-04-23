@@ -39,14 +39,21 @@ export default class RegisterReviewer extends React.Component {
   submit = async () => {
     var valid = true;
     const me = this;
-    var form = document.getElementById("RegisterReviewer");
+    var username = document.getElementById("usernameRev");
+    var fullName = document.getElementById("fullNameRev");
+    var email = document.getElementById("emailRev");
+    var password = document.getElementById("passwordRev");
+    console.log(username)
+    console.log(password)
+    console.log(email)
+    console.log(fullName)
     const body = {
-      username: form.username.value,
-      fullName: form.fullName.value,
-      email: form.email.value,
-      password: form.password.value
+      username: username.value,
+      fullName: fullName.value,
+      email: email.value,
+      password: password.value
     };
-
+    console.log(body)
     Joi.validate(
       { username: body.username },
       {
@@ -145,7 +152,7 @@ export default class RegisterReviewer extends React.Component {
     if (!this.state.passed) return <h1>Unauthorized</h1>;
     else
       return (
-        <div style={{ paddingTop: "10vh" }}>
+        <div style={{ paddingTop: "0vh" }}>
           <div class="wrapper">
             <div
               class="page-header"
@@ -174,11 +181,11 @@ export default class RegisterReviewer extends React.Component {
                           color: "#223242"
                         }}
                       >
-                        Register
+                        Register Reviewer
                       </h3>
                       <form id="RegisterReviewer">
                         <input
-                          id="username"
+                          id="usernameRev"
                           type="text"
                           placeholder="Username"
                           class="form-control"
@@ -190,7 +197,7 @@ export default class RegisterReviewer extends React.Component {
                         </label>
                         <br />
                         <input
-                          id="email"
+                          id="emailRev"
                           type="text"
                           class="form-control"
                           placeholder="Email"
@@ -202,7 +209,7 @@ export default class RegisterReviewer extends React.Component {
                         </label>
                         <br />
                         <input
-                          id="fullName"
+                          id="fullNameRev"
                           type="text"
                           placeholder="Full Name"
                           class="form-control"
@@ -214,7 +221,7 @@ export default class RegisterReviewer extends React.Component {
                         </label>
                         <br />
                         <input
-                          id="password"
+                          id="passwordRev"
                           type="password"
                           placeholder="Password"
                           class="form-control"

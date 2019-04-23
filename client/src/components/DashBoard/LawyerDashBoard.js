@@ -10,12 +10,27 @@ import CaseSwitch from "../caseComponents/CaseSwitch";
 import CasesContainer from "../dCaseComponents/CasesContainer";
 import { red } from "@material-ui/core/colors";
 import NavBarDashboard from '../NavBarDashboard'
+import Tooltip from '@material-ui/core/Tooltip';
 export default class LawyerDashBoard extends Component {
   constructor(props) {
     super(props)
     this.state = {
         dashboardwidth:0
     }
+  }
+  async handleToggle(){
+    console.log("dondo")
+    // await 5000
+    var width = document.getElementById("dashboard").clientWidth
+    if(width===64)
+      width=240
+    else
+      width=64
+    await this.setState({dashboardwidth:width});
+    document.getElementById("UnassignedCases").style.marginLeft=`${width}px`;
+    document.getElementById("Tasks").style.marginLeft=`${width}px`;
+    document.getElementById("AllCases").style.marginLeft=`${width}px`;
+    document.getElementById("logo").style.marginLeft=`${width}px`;
   }
 async componentDidMount(){
   const width = document.getElementById("dashboard").clientWidth
@@ -57,28 +72,27 @@ async componentDidMount(){
     };
     return (
       <div>
-        <NavBarDashboard sumergiteColor= '#3480E3' boxShadow='0px 3px 20px rgba(0, 0, 0, 0.16)' dashboard='lighter' profile='bold' homepage='lighter' DASHBOARD={true} PROFILE={true} ProfileMargin='120px' HomePageMargin='0px'  dashboardRedirect='/LawyerDashBoard' profileRedirect="/internalPortal/lawyer/profile"/> 
-        <SideNav id="dashboard" onSelect={this.handleSelect} style={styles.navStyle}>
+        <NavBarDashboard sumergiteColor= '#3480E3' boxShadow='0px 3px 20px rgba(0, 0, 0, 0.16)' dashboard='bold' profile='lighter' homepage='lighter' DASHBOARD={true} PROFILE={true} ProfileMargin='120px' HomePageMargin='0px'  dashboardRedirect='/LawyerDashBoard' profileRedirect="/internalPortal/lawyer/profile"/> 
+        <SideNav onToggle={this.handleToggle} id="dashboard" onSelect={this.handleSelect} style={styles.navStyle}>
           <SideNav.Toggle />
           <SideNav.Nav defaultSelected="viewtasks">
-            
           <NavItem eventKey="viewtasks">
               <NavIcon>
-                <a className="fa fa-list-alt" style={styles.iconStyle} />
+                <a className="fas fa-tasks" style={styles.iconStyle} />
               </NavIcon>
               <NavText>View Tasks</NavText>
             </NavItem>
 
             <NavItem eventKey="viewunasignedcases">
               <NavIcon>
-                <a className="fa fa-list-alt" style={styles.iconStyle} />
+                <a className="fas fa-suitcase-rolling" style={styles.iconStyle} />
               </NavIcon>
               <NavText>View Unasigned Cases</NavText>
             </NavItem>
 
             <NavItem eventKey="viewallcases">
               <NavIcon>
-                <a className="fa fa-home" style={styles.iconStyle} />
+                <a className="fas fa-briefcase" style={styles.iconStyle} />
               </NavIcon>
               <NavText>View All Cases</NavText>
             </NavItem>  

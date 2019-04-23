@@ -21,7 +21,7 @@ class CasesContainerProps extends Component {
   render() {
     if (this.state.isCaseExpaned) {
       return (
-        <CaseContainer expandedCase={this.state.expandedCase} />
+        <CaseContainer expandedCase={this.state.expandedCase} currentUserId={this.props.currentUserId}  handleBack={this.handleBack}/>
       );
     } else {
       var counter = 0;
@@ -43,7 +43,10 @@ class CasesContainerProps extends Component {
     this.setState({ isCaseExpaned: true })
     this.setState({ expandedCase: expandedCase })
   }
-
+  handleBack = () => {
+    this.setState({ isCaseExpaned: false })
+    this.setState({ expandedCase: {} })
+  }
 }
 
 
