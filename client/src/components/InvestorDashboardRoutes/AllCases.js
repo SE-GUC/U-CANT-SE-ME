@@ -43,7 +43,7 @@ export default class AllCases extends Component {
         else
         return (
             this.state.cases.length===0?<h1>You do not have any ongoing requests</h1>:
-            <CasesContainerProps cases={this.state.cases}/>
+            <CasesContainerProps cases={this.state.cases} currentUserId={this.state.investorID}/>
         )
       }
       handleCaseFullDetails = (expandedCase) => {
