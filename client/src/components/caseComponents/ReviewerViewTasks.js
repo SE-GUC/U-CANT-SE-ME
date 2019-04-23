@@ -3,6 +3,7 @@ import Case from './Case';
 import axios from 'axios';
 import parseJwt from '../../helpers/decryptAuthToken';
 import {Redirect} from 'react-router-dom'
+import CasesContainerProps from '../dCaseComponents/CasesContainerProps';
 export default class ReviewerViewTasks extends Component {
     state ={
         cases :[],
@@ -55,10 +56,11 @@ export default class ReviewerViewTasks extends Component {
         if (this.state.home===1) return <Redirect to={{ pathname: "/" }} />;
         else
         return this.state.cases.length==0? <h1>You don't have any cases.</h1>:(this.state.cases.map((x) => (
-            <div>
-                <Case key={x._id} case={x} />
-                <button onClick={() => this.accept(x._id)}>Accept</button>
-            </div>
+            // <div>
+            //     <Case key={x._id} case={x} />
+            //     <button onClick={() => this.accept(x._id)}>Accept</button>
+            // </div>
+            <CasesContainerProps cases={this.state.cases} currentUserId={this.state.reviwerID}/>
         ))
         )
       }

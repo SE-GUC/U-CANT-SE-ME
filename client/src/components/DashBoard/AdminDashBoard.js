@@ -28,17 +28,20 @@ export default class InvestorDashBoard extends Component {
     document.getElementById("RegisterReviewer").style.display = "none";
     document.getElementById("AllCases").style.display = "none";
 
-    if (selected === "createformtemplate")
-      document.getElementById("CreateForm").style.display = "flex";
+
+    if(selected === "createformtemplate")
+        document.getElementById("CreateForm").style.display=null;
 
     if (selected === "register/lawyer")
-      document.getElementById("RegisterLawyer").style.display = "flex";
+        document.getElementById("RegisterLawyer").style.display=null;
 
     if (selected === "register/reviewer")
-      document.getElementById("RegisterReviewer").style.display = "flex";
+        document.getElementById("RegisterReviewer").style.display=null;
 
     if (selected === "viewallcases")
-      document.getElementById("AllCases").style.display = "flex";
+        document.getElementById("AllCases").style.display=null;
+
+    
   };
   render() {
     const styles = {
@@ -63,8 +66,18 @@ export default class InvestorDashBoard extends Component {
         textAlign: "center",
         marginLeft: this.state.dashboardwidth,
         // background:"red",
+        justifyContent: 'center',
+        paddingTop:'10vh'
+      },
+      divStyleHideRegister:{
+        display: 'none',
+        // textAlign: "center",
+        marginLeft:this.state.dashboardwidth,
+        // background:"red",
+        justifyContent: 'center',
+        // paddingTop:'-10px',
         justifyContent: "center",
-        paddingTop: "10vh"
+        // paddingTop: "10vh"
       }
     };
     return (
@@ -120,11 +133,11 @@ export default class InvestorDashBoard extends Component {
         <div id="CreateForm" style={styles.divStyleHide}>
           <CreateFormTemplate />
         </div>
-        <div id="RegisterLawyer" style={styles.divStyleHide}>
-          <RegisterLawyer />
+        <div id="RegisterLawyer" style={styles.divStyleHideRegister} >
+          <RegisterLawyer/>
         </div>
-        <div id="RegisterReviewer" style={styles.divStyleHide}>
-          <RegisterReviewer />
+        <div id="RegisterReviewer" style={styles.divStyleHideRegister} >
+          <RegisterReviewer/>
         </div>
         <div id="AllCases" style={styles.divStyleShow}>
           <CasesContainer />

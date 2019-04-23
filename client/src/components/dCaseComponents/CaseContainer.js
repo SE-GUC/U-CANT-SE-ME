@@ -16,7 +16,8 @@ import PayMyFees from "../PayMyFees/PayMyFeesItem"
 import moment from 'moment'
 import TextField from "@material-ui/core/TextField"
 import ListItem from "@material-ui/core/ListItem"
-
+import parseJwt from "../../helpers/decryptAuthToken";
+const  prefix="http://localhost:5000/";
 const styles = {
     card: {
         borderRadius: 12,
@@ -59,11 +60,52 @@ class CaseContainer extends Component {
         reviewerName: "",
         creatorLawyerName: "",
         assignedLawyerName: "",
-        currentUserId: "5ca76f5f00b48e09001936e7",
+        currentUserId: "",
     };
 
-
-    componentDidMount() {
+    acceptLawyer=async (caseId)=>{
+        console.log("AcceptLawyer")
+        await axios.put(`api/lawyers/updateCaseStatus/${caseId}/WaitingForReviewer`);
+    }
+    rejectLawyer=async (caseId)=>{
+        console.log("RejectLawyer")
+        await axios.put(`api/lawyers/updateCaseStatus/${caseId}/OnUpdate`);
+    }
+    takeLawyer=async (caseId)=>{
+        console.log(caseId)
+        await axios.get(`api/lawyers/assigncase/${this.state.currentUserId}/${caseId}`);
+    }
+    acceptReviewer=async (caseId)=>{
+        console.log("AcceptReviewer")
+        await axios.put(`api/reviewers/updateCaseStatus/${caseId}/Accepted`);
+    }
+    rejectReviewer=async (caseId)=>{
+        console.log("RejectReviewer")
+        await axios.put(`api/reviewers/updateCaseStatus/${caseId}/OnUpdate`);
+    }
+    takeReviewer=async (caseId)=>{
+        await axios.get(`api/reviewers/assigncase/${this.state.currentUserId}/${caseId}`);
+    }
+    viewDecision=async (id) =>
+    {
+        window.open(`${prefix}api/lawyers/viewDecision/${id}`,'_blank');
+    }
+    downloadDecision=async (id) =>
+    {
+        window.open(`${prefix}api/lawyers/downloadDecision/${id}`,'_blank');
+    }
+    viewContract=async (id) =>
+    {
+        window.open(`${prefix}api/lawyers/viewContract/${id}`,'_blank');
+    }
+    downloadContract=async (id) =>
+    {
+        window.open(`${prefix}api/lawyers/downloadContract/${id}`,'_blank');
+    }
+    async componentDidMount() {
+        const data = parseJwt(localStorage.jwtToken);
+        // await this.setState({currentUserId:data.id})
+        await this.setState({currentUserId:this.props.currentUserId})
         axios
             .get(`api/investors/${this.props.expandedCase.creatorInvestorId}`)
             .then(res => {
@@ -131,7 +173,6 @@ class CaseContainer extends Component {
 
         var formFields = []
         var caseComments = []
-        console.log(this.props.expandedCase.form)
         const canComment = (this.props.expandedCase.assignedLawyerId && (this.props.expandedCase.assignedLawyerId === this.state.currentUserId)) === true ? true : false
         console.log('canComment', canComment)
         for (let atr in expandedCase.form) {
@@ -176,23 +217,46 @@ class CaseContainer extends Component {
         let buttonAccept
         let buttonReject
         let buttonPaying
-        if (this.state.currentUserId === this.props.expandedCase.assignedLawyerId || this.state.currentUserId === this.props.expandedCase.creatorLawyerId) {
+        let buttonTakeLawyer
+        let buttonTakeReviewer
+        let buttoncontract
+        let buttondownload
+        if ((this.state.currentUserId === this.props.expandedCase.assignedLawyerId || this.state.currentUserId === this.props.expandedCase.creatorLawyerId) && this.props.expandedCase.caseStatus !== "WaitingForLawyer") {
 
-            buttonAccept = <Fab variant="extended" size="large" color="secondary" style={{ color: '#FFFFFF', height: '31px', width: '107px', fontSize: '13px', boxShadow: 'none', marginRight: '240px', marginTop: '6px', display: 'block', margin: '0 auto' }} aria-label="Delete" onClick={axios.get(`api/lawyers/updateCaseStatus/${this.props.expandedCase._id}/Accepted`)}>
-                {"Accept"}
+            buttonAccept =<Fab id="AcceptLawyer "variant="extended" size="large" color="secondary" style={{ color: '#FFFFFF', height: '31px', width: '107px', fontSize: '13px', boxShadow: 'none', marginRight: '240px', marginTop: '6px', display: 'block', margin: '0 auto' }} aria-label="Delete" onClick={this.acceptLawyer.bind(this,this.props.expandedCase._id)}>
+               {"Accept"}
             </Fab>
 
-            buttonReject = <Fab variant="extended" size="large" color="secondary" style={{ color: '#FFFFFF', height: '31px', width: '107px', fontSize: '13px', boxShadow: 'none', marginRight: '240px', marginTop: '6px', display: 'block', margin: '0 auto' }} aria-label="Delete" onClick={axios.get(`api/lawyers/updateCaseStatus/${this.props.expandedCase._id}/Rejected`)}>
+            buttonReject = <Fab id="RejectLawyer" variant="extended" size="large" color="secondary" style={{ color: '#FFFFFF', height: '31px', width: '107px', fontSize: '13px', boxShadow: 'none', marginRight: '240px', marginTop: '6px', display: 'block', margin: '0 auto' }} aria-label="Delete" onClick={this.rejectLawyer.bind(this,this.props.expandedCase._id)}>
                 {"Reject"}
             </Fab>
+
+            if(this.props.expandedCase.companyType==="SPC"){//decision
+                buttoncontract = <Fab id="View" variant="extended" size="large" color="secondary" style={{ color: '#FFFFFF', height: '31px', width: '107px', fontSize: '13px', boxShadow: 'none', marginRight: '240px', marginTop: '6px', display: 'block', margin: '0 auto' }} aria-label="Delete" onClick={this.viewDecision.bind(this,this.props.expandedCase._id)}>
+                    {"View Decision"}
+                </Fab>
+
+                buttondownload = <Fab id="Download" variant="extended" size="large" color="secondary" style={{ color: '#FFFFFF', height: '31px', width: '107px', fontSize: '13px', boxShadow: 'none', marginRight: '240px', marginTop: '6px', display: 'block', margin: '0 auto' }} aria-label="Delete" onClick={this.downloadDecision.bind(this,this.props.expandedCase._id)}>
+                    {"Download Decision"}
+                </Fab>
+            }
+            else{
+                buttoncontract = <Fab id="View" variant="extended" size="large" color="secondary" style={{ color: '#FFFFFF', height: '31px', width: '107px', fontSize: '13px', boxShadow: 'none', marginRight: '240px', marginTop: '6px', display: 'block', margin: '0 auto' }} aria-label="Delete" onClick={this.viewContract.bind(this,this.props.expandedCase._id)}>
+                {"View Contract"}
+            </Fab>
+
+            buttondownload = <Fab id="Download" variant="extended" size="large" color="secondary" style={{ color: '#FFFFFF', height: '31px', width: '107px', fontSize: '13px', boxShadow: 'none', marginRight: '240px', marginTop: '6px', display: 'block', margin: '0 auto' }} aria-label="Delete" onClick={this.downloadContract.bind(this,this.props.expandedCase._id)}>
+                {"Download Contract"}
+            </Fab> 
+            }
         }
 
-        if (this.state.currentUserId === this.props.expandedCase.assignedReviewerId) {
-            buttonAccept = <Fab variant="extended" size="large" color="secondary" style={{ color: '#FFFFFF', height: '31px', width: '107px', fontSize: '13px', boxShadow: 'none', marginRight: '240px', marginTop: '6px', display: 'block', margin: '0 auto' }} aria-label="Delete" onClick={axios.get(`api/lawyers/updateCaseStatus/${this.props.expandedCase._id}/Accepted`)}>
+        if (this.state.currentUserId === this.props.expandedCase.assignedReviewerId && this.props.expandedCase.caseStatus !== "WaitingForReviewer") {
+            buttonAccept = <Fab variant="extended" size="large" color="secondary" style={{ color: '#FFFFFF', height: '31px', width: '107px', fontSize: '13px', boxShadow: 'none', marginRight: '240px', marginTop: '6px', display: 'block', margin: '0 auto' }} aria-label="Delete" onClick={this.acceptReviewer.bind(this,this.props.expandedCase._id)}>
                 {"Accept"}
             </Fab>
 
-            buttonReject = <Fab variant="extended" size="large" color="secondary" style={{ color: '#FFFFFF', height: '31px', width: '107px', fontSize: '13px', boxShadow: 'none', marginRight: '240px', marginTop: '6px', display: 'block', margin: '0 auto' }} aria-label="Delete" onClick={axios.get(`api/lawyers/updateCaseStatus/${this.props.expandedCase._id}/Rejected`)}>
+            buttonReject = <Fab variant="extended" size="large" color="secondary" style={{ color: '#FFFFFF', height: '31px', width: '107px', fontSize: '13px', boxShadow: 'none', marginRight: '240px', marginTop: '6px', display: 'block', margin: '0 auto' }} aria-label="Delete" onClick={this.rejectReviewer.bind(this,this.props.expandedCase._id)}>
                 {"Reject"}
             </Fab>
 
@@ -201,6 +265,17 @@ class CaseContainer extends Component {
         if (this.state.currentUserId === this.props.expandedCase.creatorInvestorId) {
             buttonPaying = <PayMyFees investorId={this.state.investor._id} caseId={this.props.expandedCase._id} />
 
+        }
+
+        if(this.props.expandedCase.caseStatus === "WaitingForLawyer"){
+            buttonTakeLawyer = <Fab variant="extended" size="large" color="secondary" style={{ color: '#FFFFFF', height: '31px', width: '107px', fontSize: '13px', boxShadow: 'none', marginRight: '240px', marginTop: '6px', display: 'block', margin: '0 auto' }} aria-label="Delete" onClick={this.takeLawyer.bind(this,this.props.expandedCase._id)}>
+                {"Start Reviewing"}
+            </Fab>
+        }
+        if(this.props.expandedCase.caseStatus === "WaitingForReviewer"){
+            buttonTakeReviewer = <Fab variant="extended" size="large" color="secondary" style={{ color: '#FFFFFF', height: '31px', width: '107px', fontSize: '13px', boxShadow: 'none', marginRight: '240px', marginTop: '6px', display: 'block', margin: '0 auto' }} aria-label="Delete" onClick={this.takeReviewer.bind(this,this.props.expandedCase._id)}>
+                {"Start Reviewing"}
+            </Fab>
         }
 
 
@@ -329,7 +404,8 @@ class CaseContainer extends Component {
                             />
                             {
                                 canComment ?
-                                    <Fab color="primary" aria-label="Add" style={{ float: 'right' }} onClick={(ev) => {   
+                                    <Fab color="primary" aria-label="Add" style={{ float: 'right' }} onClick={(ev) => {  
+                                        console.log("BIND MANTA") 
                                         const body = {
                                             body : this.state.text
                                         }
@@ -350,9 +426,13 @@ class CaseContainer extends Component {
             <br />
             <br />
             <br />
-            <div style={{ align: 'center' }}>
+            <div style={{ align: 'center',display:"flex", marginTop: "-50px",marginBottom: "20px"}}>
                 {buttonAccept}
+                {buttoncontract}
+                {buttondownload}
                 {buttonReject}
+                {buttonTakeLawyer}
+                {buttonTakeReviewer}
             </div>
         </div>
 

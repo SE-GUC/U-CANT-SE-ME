@@ -47,7 +47,7 @@ export default class ReviewerViewCase extends Component {
         else
         return (
             this.state.cases.length===0?<h1> There are no unassigned cases</h1>:
-            <CasesContainerProps cases={this.state.cases}/>
+            <CasesContainerProps cases={this.state.cases} currentUserId={this.state.reviwerID}/>
         )
       }
       handleCaseFullDetails = (expandedCase) => {
