@@ -3,14 +3,30 @@ import "./NavBarBlue.css";
 import Fab from "@material-ui/core/Fab";
 import { Redirect } from "react-router-dom";
 import RegisterModal from "./RegisterModal";
+import Language from "@material-ui/icons/Language";
 export default class NavBarBlue extends Component {
+  async componentDidMount() {
+    if (localStorage.getItem("lang"))
+      this.setState({ lang: localStorage.getItem("lang") });
+    else this.setState({ lang: "eng" });
+  }
   state = {
     headerHeight: 0,
     screenHeight: 0,
     screenWidth: 0,
     login: false,
     register: false,
-    hero: false
+    hero: false,
+    lang: ""
+  };
+  handleChangeLanguage = () => {
+    if (this.state.lang === "eng") {
+      localStorage.setItem("lang", "ar");
+      this.setState(state => ({ lang: "ar" }));
+    } else {
+      localStorage.setItem("lang", "eng");
+      this.setState(state => ({ lang: "eng" }));
+    }
   };
   render() {
     const opacity = 1 - Math.min(10 / this.state.currentScrollHeight, 1);
@@ -111,6 +127,13 @@ export default class NavBarBlue extends Component {
                 ) : (
                   <RegisterModal buttonText="Register" />
                 )}
+                <Fab
+                  onClick={this.handleChangeLanguage}
+                  style={{ color: "default" }}
+                  size="small"
+                >
+                  <Language />
+                </Fab>
               </li>
             </ul>
           </div>
