@@ -27,6 +27,7 @@ export default class NavBarBlue extends Component {
       localStorage.setItem("lang", "eng");
       this.setState(state => ({ lang: "eng" }));
     }
+    window.location.reload();
   };
   render() {
     const opacity = 1 - Math.min(10 / this.state.currentScrollHeight, 1);

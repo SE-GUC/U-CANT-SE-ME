@@ -32,7 +32,7 @@ export default class NavBarDashboard extends Component {
       localStorage.setItem("lang", "eng");
       this.setState(state => ({ lang: "eng" }));
     }
-    // window.location.reload();
+    window.location.reload();
   };
   render() {
     try {
