@@ -212,7 +212,7 @@ export default class NavBarDashboard extends Component {
                   </span>
                 </button>
               </li>
-              {this.props.PROFILE ? (
+              {(this.props.PROFILE && !this.props.admin) ? (
                 <li className="nav-item mr-auto">
                   <button
                     // className="nav-link ml-auto"
