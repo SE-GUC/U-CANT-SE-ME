@@ -16,8 +16,14 @@ class Login extends Component {
     forgot: false,
     signUp: false,
     res: "",
-    loggedIn: false
+    loggedIn: false,
+    lang: ""
   };
+  async componentDidMount() {
+    if (localStorage.getItem("lang"))
+      this.setState({ lang: localStorage.getItem("lang") });
+    else this.setState({ lang: "eng" });
+  }
   handleSubmit = async () => {
     const req = {
       email: this.state.email,
@@ -63,7 +69,7 @@ class Login extends Component {
         width: "35%",
         margin: "auto"
       }
-    }; 
+    };
     return (
       <div>
         {/* <NavBarDashboard sumergiteColor= '#3480E3' boxShadow='0px 3px 20px rgba(0, 0, 0, 0.16)' dashboard='bold' profile='lighter' homepage='lighter' DASHBOARD={true} PROFILE={true} ProfileMargin='120px' HomePageMargin='0px'/>  */}
@@ -105,7 +111,9 @@ class Login extends Component {
                           color: "#223242"
                         }}
                       >
-                        Welcome Back!
+                        {this.state.lang === "eng"
+                          ? "Welcome Back!"
+                          : "مرحبا بعودتك"}
                       </h3>
                       <h5
                         style={{
@@ -118,7 +126,9 @@ class Login extends Component {
                           textAlign: "center"
                         }}
                       >
-                        Login back to your dashboard
+                        {this.state.lang === "eng"
+                          ? "Login back to your dashboard"
+                          : "تسجيل الدخول مرة أخرى إلى لوحة القيادة الخاصة بك"}
                       </h5>
                       <form class="login-form">
                         <input
@@ -126,7 +136,11 @@ class Login extends Component {
                           id="email"
                           onChange={this.handleChange}
                           class="form-control"
-                          placeholder="email or username"
+                          placeholder={
+                            this.state.lang === "eng"
+                              ? "email or username"
+                              : "البريد الإلكتروني أو اسم المستخدم"
+                          }
                           autocomplete="username"
                         />
                         <br />
@@ -135,7 +149,9 @@ class Login extends Component {
                           id="password"
                           onChange={this.handleChange}
                           class="form-control"
-                          placeholder="password"
+                          placeholder={
+                            this.state.lang === "eng" ? "password" : "كلمة السر"
+                          }
                           autocomplete="current-password"
                         />
                         <br />
@@ -145,7 +161,9 @@ class Login extends Component {
                           class="text-danger"
                         >
                           {" "}
-                          Wrong Email or Password
+                          {this.state.lang === "eng"
+                            ? "Wrong Email or Password"
+                            : "البريد الإلكتروني أو كلمة المرور خاطئة"}
                         </label>
                         <br />
                         <Fab
@@ -166,7 +184,7 @@ class Login extends Component {
                           aria-label="Delete"
                           onClick={this.handleSubmit}
                         >
-                          Login
+                          {this.state.lang === "eng" ? "Login" : "تسجيل الدخول"}
                         </Fab>
                       </form>
                       <br />
@@ -185,7 +203,9 @@ class Login extends Component {
                             this.setState({ forgot: true });
                           }}
                         >
-                          Forgot password?
+                          {this.state.lang === "eng"
+                            ? "Forgot password?"
+                            : "هل نسيت كلمة المرور؟"}{" "}
                         </Button>
                       </div>
                       <br />
@@ -199,7 +219,9 @@ class Login extends Component {
                           fontSize: "11px"
                         }}
                       >
-                        Don't have an account?
+                        {this.state.lang === "eng"
+                          ? "Don't have an account?"
+                          : ""}
                         <a
                           class="btn btn-link btn-info"
                           style={{
@@ -216,25 +238,36 @@ class Login extends Component {
                             this.setState({ register: true });
                           }}
                         >
-                          Create one.
+                          {this.state.lang === "eng"
+                            ? "Forgot password?"
+                            : "افتح حسابًا في سمرجايت"}
                         </a>
                       </div>
                     </div>
-                    {
-                        this.state.res.toString()==='investor'? <Redirect to={{pathname: "/profile"}}/>:
-                        this.state.res.toString()==='lawyer'? <Redirect to={{pathname: "/internalPortal/lawyer/profile"}}/>:
-                        this.state.res.toString()==='reviewer'? <Redirect to={{pathname: "/internalPortal/reviewer/profile"}}/>:
-                        this.state.res.toString()==='admin'? <Redirect to={{pathname: "/AdminDashBoard"}}/>:<label/>
-                    }
-                   </div>
-                   {this.state.forgot === true ? (
-                     <Redirect to={{ pathname: "/forgot" }} />
+                    {this.state.res.toString() === "investor" ? (
+                      <Redirect to={{ pathname: "/profile" }} />
+                    ) : this.state.res.toString() === "lawyer" ? (
+                      <Redirect
+                        to={{ pathname: "/internalPortal/lawyer/profile" }}
+                      />
+                    ) : this.state.res.toString() === "reviewer" ? (
+                      <Redirect
+                        to={{ pathname: "/internalPortal/reviewer/profile" }}
+                      />
+                    ) : this.state.res.toString() === "admin" ? (
+                      <Redirect to={{ pathname: "/AdminDashBoard" }} />
+                    ) : (
+                      <label />
+                    )}
+                  </div>
+                  {this.state.forgot === true ? (
+                    <Redirect to={{ pathname: "/forgot" }} />
                   ) : this.state.register === true ? (
                     <Redirect to={{ pathname: "/InvestorRegister" }} />
                   ) : (
                     <label />
                   ) //to be set to unified registration page
-                  } 
+                  }
                 </div>
               </div>
             </div>
