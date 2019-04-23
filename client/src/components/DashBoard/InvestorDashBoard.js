@@ -33,26 +33,20 @@ export default class InvestorDashBoard extends Component {
     document.getElementById("AwaitingPayment").style.display="none";
     document.getElementById("NeedUpdate").style.display="none";
 
-    document.getElementById("MyCompanies").style.display = "none";
-    document.getElementById("FillForm").style.display = "none";
-    document.getElementById("AllCompanies").style.display = "none";
-    document.getElementById("AwaitingPayment").style.display = "none";
-    document.getElementById("NeedUpdate").style.display = "none";
-
     if (selected === "viewmycompanies")
-      document.getElementById("MyCompanies").style.display = "flex";
+      document.getElementById("MyCompanies").style.display = null;
 
     if (selected === "createnewcompany")
-      document.getElementById("FillForm").style.display = "flex";
+      document.getElementById("FillForm").style.display = null;
 
     if (selected === "viewongoingcompanyrequests/all")
-      document.getElementById("AllCompanies").style.display = "flex";
+      document.getElementById("AllCompanies").style.display = null;
 
     if (selected === "viewongoingcompanyrequests/awaitingpayment")
-      document.getElementById("AwaitingPayment").style.display = "flex";
+      document.getElementById("AwaitingPayment").style.display = null;
 
     if (selected === "viewongoingcompanyrequests/needupdate")
-        document.getElementById("NeedUpdate").style.display="flex";
+        document.getElementById("NeedUpdate").style.display=null;
 
 
 

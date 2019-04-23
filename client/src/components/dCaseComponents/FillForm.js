@@ -71,11 +71,11 @@ class FillForm extends Component {
     investorObject:{}
   };
 
-  handleChange = event => {
-    this.setState({ [event.target.name]: event.target.value });
+  handleChange = async event => {
+    await this.setState({ [event.target.name]: event.target.value });
     for (let i = 0; i < this.state.formTemplates.length; i++) {
       if (this.state.formTemplates[i].formName === this.state.formName) {
-        this.setState({
+        await this.setState({
           formTemplate: this.state.formTemplates[i],
           fields: this.state.formTemplates[i].fields
         });
@@ -131,7 +131,7 @@ class FillForm extends Component {
     }
   };
 
-  handleAddManager = () => {
+  handleAddManager = async () => {
     let managers = [
       ...this.state.managers,
       {
@@ -146,7 +146,7 @@ class FillForm extends Component {
         managerPositionInBoardOfDirectors: ""
       }
     ];
-    this.setState({ managers: managers });
+    await this.setState({ managers: managers });
   };
 
   async componentDidMount() {
@@ -155,8 +155,10 @@ class FillForm extends Component {
       labelWidth: ReactDOM.findDOMNode(this.InputLabelRef).offsetWidth,
       creatorId:data.id
     });
+    console.log(this.state.creatorId)
     const formTemplates = await axios.get(`api/formTemplates/`);
-    this.setState({ formTemplates: formTemplates.data.data });
+    console.log(formTemplates.data.data)
+    await this.setState({ formTemplates: formTemplates.data.data });
     axios
         .get(`api/investors/${this.state.creatorId}`)
         .then(res =>{
@@ -167,23 +169,23 @@ class FillForm extends Component {
         })
   }
 
-  handleChangeItem = (key, value) => {
+  handleChangeItem = async (key, value) => {
     let form = this.state.formObject;
     form[key] = value;
-    this.setState({ formObject: form });
+    await this.setState({ formObject: form });
   };
 
-  handleChangeMangerItem = (managerIdx, key, value) => {
+  handleChangeMangerItem = async(managerIdx, key, value) => {
     let managers = [...this.state.managers];
     let manager = this.state.managers[managerIdx];
     manager[key] = value;
     managers[managerIdx] = manager;
-    this.setState({ managers: managers });
+    await this.setState({ managers: managers });
   };
-  handleChangeInvestorItem = (key, value) => {
+  handleChangeInvestorItem = async(key, value) => {
     let invObj = this.state.investorObject;
     invObj[key] =value;
-    this.setState({investorObject:invObj})
+    await this.setState({investorObject:invObj})
   }
 
   showManagers = () => {
