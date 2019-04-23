@@ -52,7 +52,7 @@ export default class HomePage extends Component {
               boxShadow="0px 3px 20px rgba(0, 0, 0, 0.16)"
               dashboard="lighter"
               profile="lighter"
-              homepage="lighter"
+              homepage="bold"
               DASHBOARD={true}
               PROFILE={true}
               ProfileMargin="120px"
