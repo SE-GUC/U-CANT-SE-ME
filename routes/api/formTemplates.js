@@ -6,9 +6,11 @@ const passport = require("passport")
 
 const formTemplateController = require("../../controllers/formTemplateController");
 const adminAuth = passport.authenticate('adminAuth',{session: false});
+const investorAuth = passport.authenticate('investorAuth',{session: false});
+const allAuth = passport.authenticate(['adminAuth','lawyerAuth','reviewerAuth','investorAuth'],{session: false});
 
 //get all formTemplates
-router.get("/",adminAuth, formTemplateController.getAllFormTemplates);
+router.get("/",allAuth, formTemplateController.getAllFormTemplates);
 
 //get certain formTemplate
 router.get("/:id", formTemplateController.getFormTemplate);
