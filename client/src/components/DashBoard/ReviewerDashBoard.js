@@ -16,6 +16,7 @@ export default class ReviewerDashBoard extends Component {
       lang: ""
     };
   }
+
   async componentDidMount() {
     if (localStorage.getItem("lang"))
       this.setState({ lang: localStorage.getItem("lang") });
@@ -26,7 +27,25 @@ export default class ReviewerDashBoard extends Component {
   handleSelect = selected => {
     document.getElementById("UnassignedCases").style.display = "none";
     document.getElementById("Tasks").style.display = "none";
-    document.getElementById("AllCases").style.display = "none";
+    document.getElementById("AllCases").style.display = "none";}
+
+  async handleToggle(){
+    console.log("dondo")
+    // await 5000
+    var width = document.getElementById("dashboard").clientWidth
+    if(width===64)
+      width=240
+    else
+      width=64
+    await this.setState({dashboardwidth:width});
+    document.getElementById("UnassignedCases").style.marginLeft=`${width}px`;
+    document.getElementById("Tasks").style.marginLeft=`${width}px`;
+    document.getElementById("AllCases").style.marginLeft=`${width}px`;
+    document.getElementById("logo").style.marginLeft=`${width}px`;
+  }
+
+    
+
 
     if (selected === "viewunasignedcases")
       document.getElementById("UnassignedCases").style.display = null;
@@ -78,6 +97,7 @@ export default class ReviewerDashBoard extends Component {
           onSelect={this.handleSelect}
           style={styles.navStyle}
         >
+
           <SideNav.Toggle />
           <SideNav.Nav defaultSelected="viewtasks">
             <NavItem eventKey="viewtasks">

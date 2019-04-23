@@ -9,7 +9,11 @@ import { BrowserRouter as Router, Route } from "react-router-dom";
 import CaseSwitch from "../caseComponents/CaseSwitch";
 import CasesContainer from "../dCaseComponents/CasesContainer";
 import { red } from "@material-ui/core/colors";
+
 import NavBarDashboard from "../NavBarDashboard";
+
+import Tooltip from '@material-ui/core/Tooltip';
+
 export default class LawyerDashBoard extends Component {
   constructor(props) {
     super(props);
@@ -18,6 +22,7 @@ export default class LawyerDashBoard extends Component {
       lang: ""
     };
   }
+
   async componentDidMount() {
     if (localStorage.getItem("lang"))
       this.setState({ lang: localStorage.getItem("lang") });
@@ -29,6 +34,22 @@ export default class LawyerDashBoard extends Component {
     document.getElementById("UnassignedCases").style.display = "none";
     document.getElementById("Tasks").style.display = "none";
     document.getElementById("AllCases").style.display = "none";
+  }
+  async handleToggle(){
+    console.log("dondo")
+    // await 5000
+    var width = document.getElementById("dashboard").clientWidth
+    if(width===64)
+      width=240
+    else
+      width=64
+    await this.setState({dashboardwidth:width});
+    document.getElementById("UnassignedCases").style.marginLeft=`${width}px`;
+    document.getElementById("Tasks").style.marginLeft=`${width}px`;
+    document.getElementById("AllCases").style.marginLeft=`${width}px`;
+    document.getElementById("logo").style.marginLeft=`${width}px`;
+  }
+
 
     if (selected === "viewunasignedcases")
       document.getElementById("UnassignedCases").style.display = null;
@@ -60,6 +81,7 @@ export default class LawyerDashBoard extends Component {
     };
     return (
       <div>
+
         <NavBarDashboard
           sumergiteColor="#3480E3"
           boxShadow="0px 3px 20px rgba(0, 0, 0, 0.16)"
@@ -81,6 +103,7 @@ export default class LawyerDashBoard extends Component {
           <SideNav.Toggle />
           <SideNav.Nav defaultSelected="viewtasks">
             <NavItem eventKey="viewtasks">
+
               <NavIcon>
                 <a className="fas fa-tasks" style={styles.iconStyle} />
               </NavIcon>
