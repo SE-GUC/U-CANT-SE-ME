@@ -24,7 +24,6 @@ export default class ReviewerDashBoard extends Component {
     await this.setState({ dashboardwidth: width });
   }
   handleSelect = selected => {
-    console.log(selected);
     document.getElementById("UnassignedCases").style.display = "none";
     document.getElementById("Tasks").style.display = "none";
     document.getElementById("AllCases").style.display = "none";
