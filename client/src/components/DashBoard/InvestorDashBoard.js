@@ -5,7 +5,7 @@ import SideNav, { NavItem, NavIcon, NavText } from "@trendmicro/react-sidenav";
 import { BrowserRouter as Router, Route } from "react-router-dom";
 import MyCompanies from "../GetMyCompanies/MyCompanies";
 import CaseSwitch from "../caseComponents/CaseSwitch";
-
+import InvestorFillForm from "../dCaseComponents/FillForm";
 import NavBarDashboard from '../NavBarDashboard'
 import AwaitingPayment from '../InvestorDashboardRoutes/AwaitingPayment'
 import NeedUpdate from '../InvestorDashboardRoutes/NeedUpdate'
@@ -156,7 +156,7 @@ export default class InvestorDashBoard extends Component {
           <MyCompanies/>
         </div>
         <div id="FillForm" style={styles.divStyleHide} >
-          {/* <InvestorFillForm/> */}
+          <InvestorFillForm/>
         </div>
         <div id="AllCompanies" style={styles.divStyleHide} >
         <AllCases/>

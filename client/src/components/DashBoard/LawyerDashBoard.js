@@ -10,7 +10,7 @@ import CaseSwitch from "../caseComponents/CaseSwitch";
 import CasesContainer from "../dCaseComponents/CasesContainer";
 import { red } from "@material-ui/core/colors";
 import NavBarDashboard from '../NavBarDashboard'
-// import LawyerFillForm from "../dCaseComponents/FillForm";
+import LawyerFillForm from "../dCaseComponents/FillForm";
 
 export default class LawyerDashBoard extends Component {
   constructor(props) {
@@ -125,7 +125,7 @@ async componentDidMount(){
           <CasesContainer/>
         </div>
         <div id="FillForm" style={styles.divStyleHide} >
-          {/* <LawyerFillForm/> */}
+          <LawyerFillForm/>
         </div>
 
       </div>
