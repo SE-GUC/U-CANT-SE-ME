@@ -89,13 +89,13 @@ export default class ReviewerDashBoard extends Component {
       divStyleShow: {
         marginLeft: this.state.dashboardwidth,
         justifyContent: "center",
-        marginTop: "20vh"
+        marginTop: "10vh"
       },
       divStyleHide: {
         display: "none",
         marginLeft: this.state.dashboardwidth,
         justifyContent: "center",
-        marginTop: "20vh"
+        marginTop: "10vh"
       }
     };
     if (this.state.pass === 2) return <Redirect to="/" />;
