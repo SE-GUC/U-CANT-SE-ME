@@ -64,14 +64,18 @@ class ExternalLogin extends Component {
                           color: "#223242"
                         }}
                       >
-                        {this.state.lang === "eng" ? "Forgot Password?": "هل نسيت كلمة المرور؟"}
+                        {this.state.lang === "eng"
+                          ? "Forgot Password?"
+                          : "هل نسيت كلمة المرور؟"}
                       </h3>
                       <form className="login-form" />
                       <br />
                       <FormControl>
                         <br />
                         <InputLabel htmlFor="adornment-password">
-                        {this.state.lang === "eng" ? "New Password": "كلمة المرور الجديدة"}
+                          {this.state.lang === "eng"
+                            ? "New Password"
+                            : "كلمة المرور الجديدة"}
                         </InputLabel>
                         <Input
                           id="password"
@@ -86,14 +90,18 @@ class ExternalLogin extends Component {
                         style={styles.error}
                         className="text-success"
                       >
-                        {this.state.lang === "eng" ? "Password successfully reset.": "إعادة تعيين كلمة المرور بنجاح"}
+                        {this.state.lang === "eng"
+                          ? "Password successfully reset."
+                          : "إعادة تعيين كلمة المرور بنجاح"}
                       </label>
                       <label
                         id="Token"
                         style={styles.error}
                         className="text-danger"
                       >
-                        {this.state.lang === "eng" ? "Link has expired.": "انتهت صلاحية الرابط"}
+                        {this.state.lang === "eng"
+                          ? "Link has expired."
+                          : "انتهت صلاحية الرابط"}
                       </label>
                       <br />
                       <br />

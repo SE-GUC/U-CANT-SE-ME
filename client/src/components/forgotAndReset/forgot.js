@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import NavBarBlue from "../NavBarBlue";
 import Fab from "@material-ui/core/Fab";
+import axios from "axios";
 
 class ExternalLogin extends Component {
   state = {
@@ -8,10 +9,14 @@ class ExternalLogin extends Component {
     type: ""
   };
   handleSubmit = async () => {
+    const req = {
+      email: this.state.email
+    };
     try {
       if (this.state.type.toString() === "")
         throw new Error("You Have To Select an Account Type");
-
+      let type = this.state.type.toString().toLowerCase() + "s";
+      await axios.post(`/api/${type}/forgot`, req);
       document.getElementById("Error").style.display = "none";
       document.getElementById("Error_Type").style.display = "none";
       document.getElementById("Success").style.display = "inline";
@@ -77,7 +82,9 @@ class ExternalLogin extends Component {
                           color: "#223242"
                         }}
                       >
-                        {this.state.lang === "eng" ? "Forgot Password?" : "هل نسيت كلمة المرور؟"}
+                        {this.state.lang === "eng"
+                          ? "Forgot Password?"
+                          : "هل نسيت كلمة المرور؟"}
                       </h3>
                       <form className="login-form">
                         <h5
@@ -91,7 +98,9 @@ class ExternalLogin extends Component {
                             textAlign: "center"
                           }}
                         >
-                          {this.state.lang === "eng" ? "Select Your Account Type" : "اختر نوع حسابك"}
+                          {this.state.lang === "eng"
+                            ? "Select Your Account Type"
+                            : "اختر نوع حسابك"}
                         </h5>
                         <br />
                         <select
@@ -100,10 +109,16 @@ class ExternalLogin extends Component {
                           style={styles.label}
                           onChange={this.handleChange}
                         >
-                          <option value=""/>
-                          <option value="Investor">{this.state.lang === "eng" ? "Investor" : "مستثمر"}</option>
-                          <option value="Reviewer">{this.state.lang === "eng" ? "Reviewer" : "مراجع"}</option>
-                          <option value="Lawyer">{this.state.lang === "eng" ? "Lawyer" : "محام"}</option>
+                          <option value="" />
+                          <option value="Investor">
+                            {this.state.lang === "eng" ? "Investor" : "مستثمر"}
+                          </option>
+                          <option value="Reviewer">
+                            {this.state.lang === "eng" ? "Reviewer" : "مراجع"}
+                          </option>
+                          <option value="Lawyer">
+                            {this.state.lang === "eng" ? "Lawyer" : "محام"}
+                          </option>
                         </select>
                         <br />
                         <label
@@ -111,8 +126,9 @@ class ExternalLogin extends Component {
                           style={styles.error}
                           className="text-danger"
                         >
-                          {this.state.lang === "eng" ? "You Have to Select an Account Type" : "يجب عليك تحديد نوع الحساب"}
-                          
+                          {this.state.lang === "eng"
+                            ? "You Have to Select an Account Type"
+                            : "يجب عليك تحديد نوع الحساب"}
                         </label>
                         <br />
                         <h4
@@ -126,7 +142,9 @@ class ExternalLogin extends Component {
                             textAlign: "center"
                           }}
                         >
-                          {this.state.lang === "eng" ? "Enter Your Email" : "أدخل بريدك الالكتروني"}
+                          {this.state.lang === "eng"
+                            ? "Enter Your Email"
+                            : "أدخل بريدك الالكتروني"}
                         </h4>
                         <input
                           type="text"
@@ -134,7 +152,11 @@ class ExternalLogin extends Component {
                           value={this.state.email}
                           onChange={this.handleChange}
                           className="form-control"
-                          placeholder={this.state.lang === "eng" ? "email" :"البريد الالكتروني"}
+                          placeholder={
+                            this.state.lang === "eng"
+                              ? "email"
+                              : "البريد الالكتروني"
+                          }
                           autoComplete="username"
                         />
 
@@ -144,14 +166,18 @@ class ExternalLogin extends Component {
                           style={styles.error}
                           className="text-success"
                         >
-                          {this.state.lang === "eng" ? "Email has been successfully sent." : "تم إرسال البريد الإلكتروني بنجاح"}
+                          {this.state.lang === "eng"
+                            ? "Email has been successfully sent."
+                            : "تم إرسال البريد الإلكتروني بنجاح"}
                         </label>
                         <label
                           id="Error"
                           style={styles.error}
                           className="text-danger"
                         >
-                          {this.state.lang === "eng" ? "Email does not exist" : "البريد الإلكتروني غير موجود"}
+                          {this.state.lang === "eng"
+                            ? "Email does not exist"
+                            : "البريد الإلكتروني غير موجود"}
                         </label>
                       </form>
                       <br />
@@ -176,7 +202,9 @@ class ExternalLogin extends Component {
                           aria-label="Delete"
                           onClick={this.handleSubmit}
                         >
-                           {this.state.lang === "eng" ? "SUBMIT" : "تقديم النموذج"}
+                          {this.state.lang === "eng"
+                            ? "SUBMIT"
+                            : "تقديم النموذج"}
                         </Fab>
                       </div>
                       <br />
