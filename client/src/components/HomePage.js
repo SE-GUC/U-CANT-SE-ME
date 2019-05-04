@@ -82,9 +82,10 @@ export default class HomePage extends Component {
               ProfileMargin="120px"
               HomePageMargin="0px"
               admin={this.state.admin ? true : false}
+              first={document.getElementById("arrow").getClientRects()[0].y}
             />
           )}
-          <div className="createCompany">
+          <div className="createCompany" id="first">
             <p className="createCompanySpan">
               {this.state.lang === "eng"
                 ? "Create your company"
@@ -106,11 +107,12 @@ export default class HomePage extends Component {
               <RegisterModal lang={this.state.lang} />
             </div>
           </div>
-          <div className="arrow">
+          <div className="arrow" >
             <button id="buttonArrow" onClick={this.handleClick}>
               <svg
                 className="Path_7_A1_Path_2"
                 viewBox="8.719 12.382 59.679 33.831"
+                id="arrow"
               >
                 <path
                   id="Path_7_A1_Path_2"
@@ -120,7 +122,7 @@ export default class HomePage extends Component {
             </button>
           </div>
         </div>
-        <div className="all">
+        <div className="all" id="second">
           <div id="cc" />
           <div className="homePage2">
             <div className="homePage2Div1">
