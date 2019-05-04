@@ -37,7 +37,8 @@ export default class NavBarBlue extends Component {
         color: this.props.sumergiteColor, //either #3480E3 or #FFFFFF
         fontSize: "28px",
         fontFamily: "-apple-system, BlinkMacSystemFont, sans-serif",
-        fontWeight: "bold"
+        fontWeight: "bold",
+        marginLeft:"13vw",
       },
       Header: {
         boxShadow: this.props.boxShadow //either none or '0px 3px 20px rgba(0, 0, 0, 0.16)'
