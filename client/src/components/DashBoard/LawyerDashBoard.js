@@ -3,6 +3,7 @@ import "@trendmicro/react-sidenav/dist/react-sidenav.css";
 import SideNav, { NavItem, NavIcon, NavText } from "@trendmicro/react-sidenav";
 import LawyerViewTasks from "../caseComponents/LawyerViewTasks";
 import LawyerViewCase from "../caseComponents/LawyerViewCase";
+import { Redirect } from "react-router-dom";
 import { BrowserRouter as Router } from "react-router-dom";
 import CasesContainer from "../dCaseComponents/CasesContainer";
 import NavBarDashboard from "../NavBarDashboard";
@@ -12,6 +13,7 @@ import { faTasks } from "@fortawesome/free-solid-svg-icons";
 import { faSuitcaseRolling } from "@fortawesome/free-solid-svg-icons";
 import { faBriefcase } from "@fortawesome/free-solid-svg-icons";
 import { faBuilding } from "@fortawesome/free-solid-svg-icons";
+import parseJwt from "../../helpers/decryptAuthToken";
 
 export default class LawyerDashBoard extends Component {
   _isMounted = false;
@@ -20,7 +22,8 @@ export default class LawyerDashBoard extends Component {
     super(props);
     this.state = {
       dashboardwidth: 0,
-      lang: ""
+      lang: "",
+      pass: 0
     };
   }
   async handleToggle() {
@@ -36,14 +39,23 @@ export default class LawyerDashBoard extends Component {
       "navbarSupportedContent"
     ).style.marginLeft = `${width}px`;
   }
+  async componentWillMount() {
+    this._isMounted = true;
+    const data = await parseJwt(localStorage.jwtToken);
+    if ((data === undefined || data.type !== "lawyer") && this._isMounted)
+      await this.setState({ pass: 2 });
+    if (this._isMounted) await this.setState({ pass: 1 });
+  }
   async componentDidMount() {
     this._isMounted = true;
     if (this._isMounted) {
       if (localStorage.getItem("lang"))
         this.setState({ lang: localStorage.getItem("lang") });
       else this.setState({ lang: "eng" });
-      const width = document.getElementById("dashboard").clientWidth;
-      await this.setState({ dashboardwidth: width });
+      var width = 64;
+      if (document.getElementById("dashboard") !== null)
+        width = document.getElementById("dashboard").clientWidth;
+      if (this._isMounted) await this.setState({ dashboardwidth: width });
     }
     document.getElementById("logo").style.marginLeft = `64px`;
     document.getElementById("navbarSupportedContent").style.marginLeft = `64px`;
@@ -88,91 +100,99 @@ export default class LawyerDashBoard extends Component {
         paddingTop: "10vh"
       }
     };
-    return (
-      <div>
-        <NavBarDashboard
-          sumergiteColor="#3480E3"
-          boxShadow="0px 3px 20px rgba(0, 0, 0, 0.16)"
-          dashboard="bold"
-          profile="lighter"
-          homepage="lighter"
-          DASHBOARDD={true}
-          PROFILEE={true}
-          ProfileMargin="120px"
-          HomePageMargin="0px"
-          dashboardRedirect="/LawyerDashBoard"
-          profileRedirect="/internalPortal/lawyer/profile"
-        />
-        <SideNav
-          onToggle={this.handleToggle}
-          id="dashboard"
-          onSelect={this.handleSelect}
-          style={styles.navStyle}
-        >
-          <SideNav.Toggle />
-          <SideNav.Nav defaultSelected="viewtasks">
-            <NavItem eventKey="viewtasks">
-              <NavIcon>
-                <FontAwesomeIcon icon={faTasks} style={styles.iconStyle} />
-              </NavIcon>
-              <NavText>
-                {this.state.lang === "eng" ? "View Tasks" : "أظهر مهماتي"}
-              </NavText>
-            </NavItem>
+    if (this.state.pass === 2) return <Redirect to="/" />;
+    else if (this.state.pass === 0) return <div />;
+    else
+      return (
+        <div>
+          <NavBarDashboard
+            sumergiteColor="#3480E3"
+            boxShadow="0px 3px 20px rgba(0, 0, 0, 0.16)"
+            dashboard="bold"
+            profile="lighter"
+            homepage="lighter"
+            DASHBOARDD={true}
+            PROFILEE={true}
+            ProfileMargin="120px"
+            HomePageMargin="0px"
+            dashboardRedirect="/LawyerDashBoard"
+            profileRedirect="/internalPortal/lawyer/profile"
+          />
+          <SideNav
+            onToggle={this.handleToggle}
+            id="dashboard"
+            onSelect={this.handleSelect}
+            style={styles.navStyle}
+          >
+            <SideNav.Toggle />
+            <SideNav.Nav defaultSelected="viewtasks">
+              <NavItem eventKey="viewtasks">
+                <NavIcon>
+                  <FontAwesomeIcon icon={faTasks} style={styles.iconStyle} />
+                </NavIcon>
+                <NavText>
+                  {this.state.lang === "eng" ? "View Tasks" : "أظهر مهماتي"}
+                </NavText>
+              </NavItem>
 
-            <NavItem eventKey="viewunasignedcases">
-              <NavIcon>
-                <FontAwesomeIcon
-                  icon={faSuitcaseRolling}
-                  style={styles.iconStyle}
-                />
-              </NavIcon>
-              <NavText>
-                {this.state.lang === "eng"
-                  ? "View Unassigned Cases"
-                  : "أظهر العمليات المتاحة"}
-              </NavText>
-            </NavItem>
+              <NavItem eventKey="viewunasignedcases">
+                <NavIcon>
+                  <FontAwesomeIcon
+                    icon={faSuitcaseRolling}
+                    style={styles.iconStyle}
+                  />
+                </NavIcon>
+                <NavText>
+                  {this.state.lang === "eng"
+                    ? "View Unassigned Cases"
+                    : "أظهر العمليات المتاحة"}
+                </NavText>
+              </NavItem>
 
-            <NavItem eventKey="viewallcases">
-              <NavIcon>
-                <FontAwesomeIcon icon={faBriefcase} style={styles.iconStyle} />
-              </NavIcon>
-              <NavText>
-                {this.state.lang === "eng"
-                  ? "View All Cases"
-                  : "أظهر جميع العمليات"}
-              </NavText>
-            </NavItem>
+              <NavItem eventKey="viewallcases">
+                <NavIcon>
+                  <FontAwesomeIcon
+                    icon={faBriefcase}
+                    style={styles.iconStyle}
+                  />
+                </NavIcon>
+                <NavText>
+                  {this.state.lang === "eng"
+                    ? "View All Cases"
+                    : "أظهر جميع العمليات"}
+                </NavText>
+              </NavItem>
 
-            <NavItem eventKey="createnewcompany">
-              <NavIcon>
-                <FontAwesomeIcon icon={faBuilding} style={styles.iconStyle} />
-              </NavIcon>
-              <NavText>
-                {this.state.lang === "eng" ? "Create a Company" : "انشىء شركة"}
-              </NavText>
-            </NavItem>
-          </SideNav.Nav>
-        </SideNav>
+              <NavItem eventKey="createnewcompany">
+                <NavIcon>
+                  <FontAwesomeIcon icon={faBuilding} style={styles.iconStyle} />
+                </NavIcon>
+                <NavText>
+                  {this.state.lang === "eng"
+                    ? "Create a Company"
+                    : "انشىء شركة"}
+                </NavText>
+              </NavItem>
+            </SideNav.Nav>
+          </SideNav>
 
-        <div id="UnassignedCases" style={styles.divStyleHide}>
-          <Router>
-            <LawyerViewCase />
-          </Router>
+          <div id="UnassignedCases" style={styles.divStyleHide}>
+            <Router>
+              <LawyerViewCase />
+            </Router>
+          </div>
+          <div id="Tasks" style={styles.divStyleShow}>
+            <Router>
+              <LawyerViewTasks />
+            </Router>
+          </div>
+          <div id="AllCases" style={styles.divStyleHide}>
+            <CasesContainer />
+          </div>
+          <div id="FillForm" style={styles.divStyleHide}>
+            <LawyerFillForm />
+          </div>
         </div>
-        <div id="Tasks" style={styles.divStyleShow}>
-          <Router>
-            <LawyerViewTasks />
-          </Router>
-        </div>
-        <div id="AllCases" style={styles.divStyleHide}>
-          <CasesContainer />
-        </div>
-        <div id="FillForm" style={styles.divStyleHide}>
-          <LawyerFillForm />
-        </div>
-      </div>
-    );
+      );
   }
 }

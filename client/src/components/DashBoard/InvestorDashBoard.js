@@ -12,6 +12,8 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBuilding } from "@fortawesome/free-solid-svg-icons";
 import { faFileAlt } from "@fortawesome/free-solid-svg-icons";
 import { faShippingFast } from "@fortawesome/free-solid-svg-icons";
+import { Redirect } from "react-router-dom";
+import parseJwt from "../../helpers/decryptAuthToken";
 
 export default class InvestorDashBoard extends Component {
   _isMounted = false;
@@ -20,7 +22,8 @@ export default class InvestorDashBoard extends Component {
     super(props);
     this.state = {
       dashboardwidth: 0,
-      lang: ""
+      lang: "",
+      pass: 0
     };
   }
   async handleToggle() {
@@ -38,14 +41,23 @@ export default class InvestorDashBoard extends Component {
       "navbarSupportedContent"
     ).style.marginLeft = `${width}px`;
   }
+  async componentWillMount() {
+    this._isMounted = true;
+    const data = await parseJwt(localStorage.jwtToken);
+    if ((data === undefined || data.type !== "investor") && this._isMounted)
+      await this.setState({ pass: 2 });
+    if (this._isMounted) await this.setState({ pass: 1 });
+  }
   async componentDidMount() {
     this._isMounted = true;
     if (this._isMounted) {
       if (localStorage.getItem("lang"))
         this.setState({ lang: localStorage.getItem("lang") });
       else this.setState({ lang: "eng" });
-      const width = document.getElementById("dashboard").clientWidth;
-      await this.setState({ dashboardwidth: width });
+      var width = 64;
+      if (document.getElementById("dashboard") !== null)
+        width = document.getElementById("dashboard").clientWidth;
+      if (this._isMounted) await this.setState({ dashboardwidth: width });
     }
     document.getElementById("logo").style.marginLeft = `64px`;
     document.getElementById("navbarSupportedContent").style.marginLeft = `64px`;
@@ -88,116 +100,127 @@ export default class InvestorDashBoard extends Component {
         marginLeft: this.state.dashboardwidth,
         display: "flex",
         justifyContent: "center",
-        paddingTop: "10vh"
+        // paddingTop: "10vh",
+        marginTop: "20vh"
       },
       divStyleHide: {
         display: "none",
         textAlign: "center",
         marginLeft: this.state.dashboardwidth,
         justifyContent: "center",
-        paddingTop: "10vh"
+        // paddingTop: "10vh",
+        marginTop: "20vh"
       }
     };
-    return (
-      <div>
-        <NavBarDashboard
-          sumergiteColor="#3480E3"
-          boxShadow="0px 3px 20px rgba(0, 0, 0, 0.16)"
-          dashboard="bold"
-          profile="lighter"
-          homepage="lighter"
-          DASHBOARDD={true}
-          PROFILEE={true}
-          ProfileMargin="120px"
-          HomePageMargin="0px"
-          dashboardRedirect="/InvestorDashBoard"
-          profileRedirect="/profile"
-        />
-        <Router>
-          <SideNav
-            id="dashboard"
-            onSelect={this.handleSelect}
-            style={styles.navStyle}
-            onToggle={this.handleToggle}
-          >
-            <SideNav.Toggle />
-            <SideNav.Nav defaultSelected="viewmycompanies">
-              <NavItem eventKey="viewmycompanies">
-                <NavIcon>
-                  <FontAwesomeIcon icon={faBuilding} style={styles.iconStyle} />
-                </NavIcon>
-                <NavText>
-                  {this.state.lang === "eng" ? "My Companies" : "شركاتي"}
-                </NavText>
-              </NavItem>
-
-              <NavItem eventKey="createnewcompany">
-                <NavIcon>
-                  <FontAwesomeIcon icon={faFileAlt} style={styles.iconStyle} />
-                </NavIcon>
-                <NavText>
-                  {this.state.lang === "eng"
-                    ? "Create Your Company"
-                    : "انشىء شركتك"}
-                </NavText>
-              </NavItem>
-
-              <NavItem eventKey="viewongoingcompanyrequests">
-                <NavIcon>
-                  <FontAwesomeIcon
-                    icon={faShippingFast}
-                    style={styles.iconStyle}
-                  />
-                </NavIcon>
-                <NavText>
-                  {this.state.lang === "eng"
-                    ? "View Ongoing Requests"
-                    : "أظهر العمليات الجارية"}
-                </NavText>
-
-                <NavItem eventKey="viewongoingcompanyrequests/all">
+    if (this.state.pass === 2) return <Redirect to="/" />;
+    else if (this.state.pass === 0) return <div />;
+    else
+      return (
+        <div>
+          <NavBarDashboard
+            sumergiteColor="#3480E3"
+            boxShadow="0px 3px 20px rgba(0, 0, 0, 0.16)"
+            dashboard="bold"
+            profile="lighter"
+            homepage="lighter"
+            DASHBOARDD={true}
+            PROFILEE={true}
+            ProfileMargin="120px"
+            HomePageMargin="0px"
+            dashboardRedirect="/InvestorDashBoard"
+            profileRedirect="/profile"
+          />
+          <Router>
+            <SideNav
+              id="dashboard"
+              onSelect={this.handleSelect}
+              style={styles.navStyle}
+              onToggle={this.handleToggle}
+            >
+              <SideNav.Toggle />
+              <SideNav.Nav defaultSelected="viewmycompanies">
+                <NavItem eventKey="viewmycompanies">
+                  <NavIcon>
+                    <FontAwesomeIcon
+                      icon={faBuilding}
+                      style={styles.iconStyle}
+                    />
+                  </NavIcon>
                   <NavText>
-                    {this.state.lang === "eng"
-                      ? "All Companies"
-                      : "اظهر شركاتي"}
+                    {this.state.lang === "eng" ? "My Companies" : "شركاتي"}
                   </NavText>
                 </NavItem>
 
-                <NavItem eventKey="viewongoingcompanyrequests/awaitingpayment">
+                <NavItem eventKey="createnewcompany">
+                  <NavIcon>
+                    <FontAwesomeIcon
+                      icon={faFileAlt}
+                      style={styles.iconStyle}
+                    />
+                  </NavIcon>
                   <NavText>
                     {this.state.lang === "eng"
-                      ? "Awaiting Payments"
-                      : "اظهر العمليات النقدية المطالبة"}
+                      ? "Create Your Company"
+                      : "انشىء شركتك"}
                   </NavText>
                 </NavItem>
 
-                <NavItem eventKey="viewongoingcompanyrequests/needupdate">
+                <NavItem eventKey="viewongoingcompanyrequests">
+                  <NavIcon>
+                    <FontAwesomeIcon
+                      icon={faShippingFast}
+                      style={styles.iconStyle}
+                    />
+                  </NavIcon>
                   <NavText>
                     {this.state.lang === "eng"
-                      ? "Cases Awaiting Update"
-                      : "العمليات التي بحاجة الى تعديل"}
+                      ? "View Ongoing Requests"
+                      : "أظهر العمليات الجارية"}
                   </NavText>
+
+                  <NavItem eventKey="viewongoingcompanyrequests/all">
+                    <NavText>
+                      {this.state.lang === "eng"
+                        ? "All Companies"
+                        : "اظهر شركاتي"}
+                    </NavText>
+                  </NavItem>
+
+                  <NavItem eventKey="viewongoingcompanyrequests/awaitingpayment">
+                    <NavText>
+                      {this.state.lang === "eng"
+                        ? "Awaiting Payments"
+                        : "اظهر العمليات النقدية المطالبة"}
+                    </NavText>
+                  </NavItem>
+
+                  <NavItem eventKey="viewongoingcompanyrequests/needupdate">
+                    <NavText>
+                      {this.state.lang === "eng"
+                        ? "Cases Awaiting Update"
+                        : "العمليات التي بحاجة الى تعديل"}
+                    </NavText>
+                  </NavItem>
                 </NavItem>
-              </NavItem>
-            </SideNav.Nav>
-          </SideNav>
-          <div id="MyCompanies" style={styles.divStyleShow}>
-            <MyCompanies />
-          </div>
-          <div id="FillForm" style={styles.divStyleHide}>
-            <InvestorFillForm />
-          </div>
-          <div id="AllCompanies" style={styles.divStyleHide}>
-            <AllCases />
-          </div>
-          <div id="AwaitingPayment" style={styles.divStyleHide}>
-            <AwaitingPayment />
-          </div>
-          <div id="NeedUpdate" style={styles.divStyleHide}>
-            <NeedUpdate />
-          </div>
-        </Router>
-      </div>
-    );
+              </SideNav.Nav>
+            </SideNav>
+            <div id="MyCompanies" style={styles.divStyleShow}>
+              <MyCompanies />
+            </div>
+            <div id="FillForm" style={styles.divStyleHide}>
+              <InvestorFillForm />
+            </div>
+            <div id="AllCompanies" style={styles.divStyleHide}>
+              <AllCases />
+            </div>
+            <div id="AwaitingPayment" style={styles.divStyleHide}>
+              <AwaitingPayment />
+            </div>
+            <div id="NeedUpdate" style={styles.divStyleHide}>
+              <NeedUpdate />
+            </div>
+          </Router>
+        </div>
+      );
   }
 }

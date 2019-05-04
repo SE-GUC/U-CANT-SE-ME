@@ -11,6 +11,8 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBriefcase } from "@fortawesome/free-solid-svg-icons";
 import { faUserTie } from "@fortawesome/free-solid-svg-icons";
 import { faFileInvoice } from "@fortawesome/free-solid-svg-icons";
+import parseJwt from "../../helpers/decryptAuthToken";
+import { Redirect } from "react-router-dom";
 
 export default class AdminDashBoard extends Component {
   _isMounted = false;
@@ -18,7 +20,8 @@ export default class AdminDashBoard extends Component {
     super(props);
     this.state = {
       dashboardwidth: 0,
-      lang: ""
+      lang: "",
+      pass: 0
     };
   }
   async handleToggle() {
@@ -38,14 +41,23 @@ export default class AdminDashBoard extends Component {
       "navbarSupportedContent"
     ).style.marginLeft = `${width}px`;
   }
+  async componentWillMount() {
+    this._isMounted = true;
+    const data = await parseJwt(localStorage.jwtToken);
+    if ((data === undefined || data.type !== "admin") && this._isMounted)
+      await this.setState({ pass: 2 });
+    if (this._isMounted) await this.setState({ pass: 1 });
+  }
   async componentDidMount() {
     this._isMounted = true;
     if (this._isMounted) {
       if (localStorage.getItem("lang"))
         this.setState({ lang: localStorage.getItem("lang") });
       else this.setState({ lang: "eng" });
-      const width = document.getElementById("dashboard").clientWidth;
-      await this.setState({ dashboardwidth: width });
+      var width = 64;
+      if (document.getElementById("dashboard") !== null)
+        width = document.getElementById("dashboard").clientWidth;
+      if (this._isMounted) await this.setState({ dashboardwidth: width });
     }
     document.getElementById("logo").style.marginLeft = `64px`;
     document.getElementById("navbarSupportedContent").style.marginLeft = `64px`;
@@ -103,106 +115,112 @@ export default class AdminDashBoard extends Component {
         justifyContent: "center"
       }
     };
-    return (
-      <div>
-        <NavBarDashboard
-          sumergiteColor="#3480E3"
-          boxShadow="0px 3px 20px rgba(0, 0, 0, 0.16)"
-          dashboard="bold"
-          profile="lighter"
-          homepage="lighter"
-          DASHBOARDD={true}
-          PROFILEE={true}
-          ProfileMargin="120px"
-          HomePageMargin="0px"
-          admin={true}
-        />
-        <SideNav
-          id="dashboard"
-          onSelect={this.handleSelect}
-          style={styles.navStyle}
-          onToggle={this.handleToggle}
-        >
-          <SideNav.Toggle />
-          <SideNav.Nav defaultSelected="viewallcases">
-            <NavItem eventKey="viewallcases">
-              <NavIcon>
-                <FontAwesomeIcon icon={faBriefcase} style={styles.iconStyle} />
-              </NavIcon>
-              <NavText>
-                {this.state.lang === "eng"
-                  ? "View All Cases"
-                  : "أظهر جميع العمليات"}
-              </NavText>
-            </NavItem>
-
-            <NavItem eventKey="register">
-              <NavIcon>
-                <FontAwesomeIcon icon={faUserTie} style={styles.iconStyle} />{" "}
-              </NavIcon>
-              <NavText>
-                {this.state.lang === "eng" ? "Register" : "سجل موظف"}
-              </NavText>
-              <NavItem eventKey="register/lawyer">
-                <NavText>
-                  {this.state.lang === "eng" ? "Register Lawyer" : "سجل محام"}
-                </NavText>
-              </NavItem>
-              <NavItem eventKey="register/reviewer">
+    if (this.state.pass === 2) return <Redirect to="/" />;
+    else if (this.state.pass === 0) return <div />;
+    else
+      return (
+        <div>
+          <NavBarDashboard
+            sumergiteColor="#3480E3"
+            boxShadow="0px 3px 20px rgba(0, 0, 0, 0.16)"
+            dashboard="bold"
+            profile="lighter"
+            homepage="lighter"
+            DASHBOARDD={true}
+            PROFILEE={true}
+            ProfileMargin="120px"
+            HomePageMargin="0px"
+            admin={true}
+          />
+          <SideNav
+            id="dashboard"
+            onSelect={this.handleSelect}
+            style={styles.navStyle}
+            onToggle={this.handleToggle}
+          >
+            <SideNav.Toggle />
+            <SideNav.Nav defaultSelected="viewallcases">
+              <NavItem eventKey="viewallcases">
+                <NavIcon>
+                  <FontAwesomeIcon
+                    icon={faBriefcase}
+                    style={styles.iconStyle}
+                  />
+                </NavIcon>
                 <NavText>
                   {this.state.lang === "eng"
-                    ? "Register Reviewer"
-                    : "سجل مراجع"}
+                    ? "View All Cases"
+                    : "أظهر جميع العمليات"}
                 </NavText>
               </NavItem>
-            </NavItem>
 
-            <NavItem eventKey="createformtemplate">
-              <NavIcon>
-                <FontAwesomeIcon
-                  icon={faFileInvoice}
-                  style={styles.iconStyle}
-                />{" "}
-              </NavIcon>
-              <NavText>
-                {this.state.lang === "eng"
-                  ? "Create Form Template"
-                  : "إنشاء نموذج"}
-              </NavText>
-              <NavItem eventKey="createformtemplate/code">
+              <NavItem eventKey="register">
+                <NavIcon>
+                  <FontAwesomeIcon icon={faUserTie} style={styles.iconStyle} />{" "}
+                </NavIcon>
                 <NavText>
-                  {this.state.lang === "eng"
-                    ? "Upload JSON File"
-                    : "إرفع ملف جايسون"}
+                  {this.state.lang === "eng" ? "Register" : "سجل موظف"}
                 </NavText>
+                <NavItem eventKey="register/lawyer">
+                  <NavText>
+                    {this.state.lang === "eng" ? "Register Lawyer" : "سجل محام"}
+                  </NavText>
+                </NavItem>
+                <NavItem eventKey="register/reviewer">
+                  <NavText>
+                    {this.state.lang === "eng"
+                      ? "Register Reviewer"
+                      : "سجل مراجع"}
+                  </NavText>
+                </NavItem>
               </NavItem>
-              <NavItem eventKey="createformtemplate/interactive">
+
+              <NavItem eventKey="createformtemplate">
+                <NavIcon>
+                  <FontAwesomeIcon
+                    icon={faFileInvoice}
+                    style={styles.iconStyle}
+                  />{" "}
+                </NavIcon>
                 <NavText>
                   {this.state.lang === "eng"
                     ? "Create Form Template"
                     : "إنشاء نموذج"}
                 </NavText>
+                <NavItem eventKey="createformtemplate/code">
+                  <NavText>
+                    {this.state.lang === "eng"
+                      ? "Upload JSON File"
+                      : "إرفع ملف جايسون"}
+                  </NavText>
+                </NavItem>
+                <NavItem eventKey="createformtemplate/interactive">
+                  <NavText>
+                    {this.state.lang === "eng"
+                      ? "Create Form Template"
+                      : "إنشاء نموذج"}
+                  </NavText>
+                </NavItem>
               </NavItem>
-            </NavItem>
-          </SideNav.Nav>
-        </SideNav>
+            </SideNav.Nav>
+          </SideNav>
 
-        <div id="CreateFormJSON" style={styles.divStyleHide}>
-          <CreateFormTemplate />
+          <div id="CreateFormJSON" style={styles.divStyleHide}>
+            <CreateFormTemplate />
+          </div>
+          <div id="CreateFormInteractive" style={styles.divStyleHide}>
+            <FormTemplate />
+          </div>
+          <div id="RegisterLawyer" style={styles.divStyleHideRegister}>
+            <RegisterLawyer />
+          </div>
+          <div id="RegisterReviewer" style={styles.divStyleHideRegister}>
+            <RegisterReviewer />
+          </div>
+          <div id="AllCases" style={styles.divStyleShow}>
+            <CasesContainer />
+          </div>
         </div>
-        <div id="CreateFormInteractive" style={styles.divStyleHide}>
-          <FormTemplate />
-        </div>
-        <div id="RegisterLawyer" style={styles.divStyleHideRegister}>
-          <RegisterLawyer />
-        </div>
-        <div id="RegisterReviewer" style={styles.divStyleHideRegister}>
-          <RegisterReviewer />
-        </div>
-        <div id="AllCases" style={styles.divStyleShow}>
-          <CasesContainer />
-        </div>
-      </div>
-    );
+      );
   }
 }
