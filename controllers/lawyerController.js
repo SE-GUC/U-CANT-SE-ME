@@ -64,11 +64,10 @@ exports.createLawyer = async function(req, res) {
       return res
         .status(400)
         .send({ error: `email ${req.body.email} is already taken!` });
-
+    req.body.password = bcrypt.hashPassword(req.body.password);
     const newLawyer = await Lawyer.create(req.body);
     res.send({ msg: "Lawyer was created successfully", data: newLawyer });
   } catch (error) {
-    console.log(error);
     res.status(400).send({ error: "Something went wrong" });
   }
 };
@@ -129,10 +128,8 @@ exports.deleteLawyer = async function(req, res) {
 
 //as a lawyer i should be able to fill a company creation form
 exports.fillForm = async function(req, res) {
-  const lawyerId = req.params.id;
-  req.body.creatorLawyerId = lawyerId;
+  req.body.creatorLawyerId = req.params.id
   req.body.caseStatus = "WaitingForReviewer";
-  req.body.assignedLawyerId = req.params.id;
   await caseController.createCase(req, res);
 };
 
@@ -369,7 +366,7 @@ exports.forgot = function(req, res, next) {
             ",\n\n" +
             "You are receiving this because you (or someone else) have requested the reset of the password for your account.\n\n" +
             "Please click on the following link, or paste this into your browser to complete the process:\n\n" +
-            "http://localhost:3000/lawyers/reset/" +
+            "http://sumergite.herokuapp.com/lawyers/reset/" +
             token +
             "\n\n" +
             "If you did not request this, please ignore this email and your password will remain unchanged.\n\n" +

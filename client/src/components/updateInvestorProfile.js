@@ -237,30 +237,6 @@ export default class updateInvestorProfile extends React.Component {
   };
 
   render() {
-    const styles = {
-      formControl: {
-        margin: 0,
-        width: 200
-        // backgroundColor:'red',
-      },
-      myDiv: {
-        backgroundColor: "rgba(52,128,227,0.2)"
-        // backgroundColor:'rgba(229,49,103)',
-      },
-      myButton: {
-        color: "red"
-      },
-      paper: {
-        backgroundColor: "rgb(228, 111, 146)",
-        margin: "auto",
-        width: "50%",
-        fontFamily: "SF Pro Display",
-        paddingTop: "10px",
-        paddingBottom: "10px",
-        boxShadow: "0 0 0 0.2rem rgba(229,49,103,.50)"
-      }
-    };
-
     if (this.state.home === 0) return <div> </div>;
     if (this.state.home === 1) return <Redirect to={{ pathname: "/" }} />;
     return (
@@ -271,36 +247,27 @@ export default class updateInvestorProfile extends React.Component {
           dashboard="lighter"
           profile="bold"
           homepage="lighter"
-          DASHBOARD={true}
-          PROFILE={true}
+          DASHBOARDD={true}
+          PROFILEE={true}
           ProfileMargin="120px"
           HomePageMargin="0px"
         />
-        {/* <NavBarDashboard sumergiteColor= '#3480E3' boxShadow='0px 3px 20px rgba(0, 0, 0, 0.16)' dashboard='bold' profile='lighter' homepage='lighter' DASHBOARD={false} PROFILE={false} HomePageMargin='120px'/>  */}
-        {/* <NavBarDashboard sumergiteColor= '#3480E3' boxShadow='0px 3px 20px rgba(0, 0, 0, 0.16)' dashboard='bold' profile='lighter' homepage='lighter' DASHBOARD={false} PROFILE={false} HomePageMargin='120px' LeftButton={true}/>  */}
-        {/* <NavBarBlue sumergiteColor= '#FFFFFF' backgroundColor='#3480E3' loginColor='#FFFFFF'/> */}
-        {/* <NavBarBlue sumergiteColor= '#3480E3' backgroundColor='#FFFFFF' boxShadow='0px 3px 20px rgba(0, 0, 0, 0.16)'/> */}
         <div style={{ paddingTop: "10vh" }}>
-          <div class="wrapper">
-            <div
-              class="page-header"
-              style={{
-                backgroundImage: "url('../assets/img/login-image.jpg')"
-              }}
-            >
-              <div class="filter" />
-              <div class="container">
-                <div class="row">
-                  <div class="col-lg-4 col-sm-6 mr-auto ml-auto">
+          <div className="wrapper">
+            <div className="page-header" style={{}}>
+              <div className="filter" />
+              <div className="container">
+                <div className="row">
+                  <div className="col-lg-4 col-sm-6 mr-auto ml-auto">
                     <div
-                      class="card card-register"
+                      className="card card-register"
                       style={{
                         backgroundColor: "#FFFFFF",
                         boxShadow: "0px 3px 20px rgba(0, 0, 0, 0.16)"
                       }}
                     >
                       <h3
-                        class="title"
+                        className="title"
                         style={{
                           fontFamily:
                             "-apple-system, BlinkMacSystemFont, sans-serif",
@@ -314,8 +281,7 @@ export default class updateInvestorProfile extends React.Component {
                           : "!حدث ملفك الشخصي"}
                       </h3>
                       <br />
-                      {/* <h5 style={{marginTop: '5px',fontFamily: '-apple-system, BlinkMacSystemFont, sans-serif', fontSize: '14px', fontWeight: 'lighter', color: '#222529', textAlign: 'center'}}>Profile</h5> */}
-                      <form class="login-form" id="Investorupdate">
+                      <form className="login-form" id="Investorupdate">
                         <input
                           type="text"
                           name="fullName"
@@ -324,10 +290,10 @@ export default class updateInvestorProfile extends React.Component {
                               ? "Full name"
                               : "اسمك الكامل"
                           }
-                          class="form-control"
+                          className="form-control"
                         />
                         <br />
-                        <label id="Error" class="text-danger">
+                        <label id="Error" className="text-danger">
                           {" "}
                           {this.state.fullNameError === ""
                             ? ""
@@ -339,7 +305,7 @@ export default class updateInvestorProfile extends React.Component {
                           type="text"
                           id="email"
                           name="email"
-                          class="form-control"
+                          className="form-control"
                           placeholder={
                             this.state.lang === "eng"
                               ? "Email"
@@ -347,7 +313,7 @@ export default class updateInvestorProfile extends React.Component {
                           }
                         />
                         <br />
-                        <label id="Error" class="text-danger">
+                        <label id="Error" className="text-danger">
                           {" "}
                           {this.state.emailError === ""
                             ? ""
@@ -359,13 +325,13 @@ export default class updateInvestorProfile extends React.Component {
                           type="password"
                           id="password"
                           name="password"
-                          class="form-control"
+                          className="form-control"
                           placeholder={
                             this.state.lang === "en" ? "password" : "كلمه السر"
                           }
                         />
                         <br />
-                        <label id="Error" class="text-danger">
+                        <label id="Error" className="text-danger">
                           {" "}
                           {this.state.passwordError === ""
                             ? ""
@@ -378,7 +344,7 @@ export default class updateInvestorProfile extends React.Component {
                         <Select
                           id="gender"
                           name="gender"
-                          value={this.state.gender}
+                          value={this.state.gender===undefined?'':this.state.gender}
                           onChange={this.handleChange}
                           style={{ width: "100%" }}
                         >
@@ -394,7 +360,7 @@ export default class updateInvestorProfile extends React.Component {
                         <br />
                         <input
                           name="nationality"
-                          class="form-control"
+                          className="form-control"
                           placeholder={
                             this.state.lang === "eng"
                               ? "nationality"
@@ -402,7 +368,7 @@ export default class updateInvestorProfile extends React.Component {
                           }
                         />
                         <br />
-                        <label id="Error" class="text-danger">
+                        <label id="Error" className="text-danger">
                           {" "}
                           {this.state.nationalityError === ""
                             ? ""
@@ -414,7 +380,7 @@ export default class updateInvestorProfile extends React.Component {
                         <Select
                           id="methodOfIdentification"
                           name="methodOfIdentification"
-                          value={this.state.methodOfIdentification}
+                          value={this.state.methodOfIdentification===undefined?'':this.state.methodOfIdentification}
                           onChange={this.handleChange}
                           style={{ width: "100%" }}
                         >
@@ -434,7 +400,7 @@ export default class updateInvestorProfile extends React.Component {
                         <br />
                         <input
                           name="identificationNumber"
-                          class="form-control"
+                          className="form-control"
                           placeholder={
                             this.state.lang === "eng"
                               ? "Identification number"
@@ -442,7 +408,7 @@ export default class updateInvestorProfile extends React.Component {
                           }
                         />
                         <br />
-                        <label id="Error" class="text-danger">
+                        <label id="Error" className="text-danger">
                           {" "}
                           {this.state.identificationNumberError === ""
                             ? ""
@@ -453,7 +419,7 @@ export default class updateInvestorProfile extends React.Component {
                         <br />
                         <input
                           name="dateOfBirth"
-                          class="form-control"
+                          className="form-control"
                           placeholder={
                             this.state.lang === "eng"
                               ? "Date of birth"
@@ -461,7 +427,7 @@ export default class updateInvestorProfile extends React.Component {
                           }
                         />
                         <br />
-                        <label id="Error" class="text-danger">
+                        <label id="Error" className="text-danger">
                           {" "}
                           {this.state.dateOfBirthError === ""
                             ? ""
@@ -472,7 +438,7 @@ export default class updateInvestorProfile extends React.Component {
                         <br />
                         <input
                           name="residenceAddress"
-                          class="form-control"
+                          className="form-control"
                           placeholder={
                             this.state.lang === "eng"
                               ? "Current address"
@@ -480,7 +446,7 @@ export default class updateInvestorProfile extends React.Component {
                           }
                         />
                         <br />
-                        <label id="Error" class="text-danger">
+                        <label id="Error" className="text-danger">
                           {" "}
                           {this.state.residenceAddressError === ""
                             ? ""
@@ -491,13 +457,13 @@ export default class updateInvestorProfile extends React.Component {
                         <br />
                         <input
                           name="telephoneNumber"
-                          class="form-control"
+                          className="form-control"
                           placeholder={
                             this.state.lang === "eng" ? "telephone" : "الهاتف"
                           }
                         />
                         <br />
-                        <label id="Error" class="text-danger">
+                        <label id="Error" className="text-danger">
                           {" "}
                           {this.state.telephoneNumberError === ""
                             ? ""
@@ -508,13 +474,13 @@ export default class updateInvestorProfile extends React.Component {
                         <br />
                         <input
                           name="fax"
-                          class="form-control"
+                          className="form-control"
                           placeholder={
                             this.state.lang === "eng" ? "fax" : "الفاكس"
                           }
                         />
                         <br />
-                        <label id="Error" class="text-danger">
+                        <label id="Error" className="text-danger">
                           {" "}
                           {this.state.faxError === ""
                             ? ""
@@ -555,17 +521,6 @@ export default class updateInvestorProfile extends React.Component {
           </div>
         </div>
       </div>
-
-      //   </form>
-
-      //   <Button style={styles.myButton} size="small" color="primary">
-      //   Save <EditIcon/>
-      // </Button>
-      //   {this.state.valid}
-      //   <br/>
-      //   <br/>
-      //   </div>
-      // </div>
     );
   }
 }

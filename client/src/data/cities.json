@@ -1,17 +1,5 @@
 [
     {
-        "govNameInArabic": "القاهرة",
-        "govNameInEnglish": "Cairo",
-        "nameInArabic": "القاهرة",
-        "nameInEnglish": "Cairo"
-    },
-    {
-        "govNameInArabic": "الجيزة",
-        "govNameInEnglish": "Giza",
-        "nameInArabic": "الجيزة",
-        "nameInEnglish": "Giza"
-    },
-    {
         "govNameInArabic": "الجيزة",
         "govNameInEnglish": "Giza",
         "nameInArabic": "السادس من أكتوبر",
@@ -453,7 +441,7 @@
         "govNameInArabic": "الدقهلية",
         "govNameInEnglish": "Dakahlia",
         "nameInArabic": "تمي الأمديد",
-        "nameInEnglish": "  "
+        "nameInEnglish": "Temy Al Amdeed"
     },
     {
         "govNameInArabic": "الدقهلية",
@@ -1281,7 +1269,7 @@
         "govNameInArabic": "سوهاج",
         "govNameInEnglish": "Sohag",
         "nameInArabic": "المنشأة",
-        "nameInEnglish": "  "
+        "nameInEnglish": "Al Monshaa"
     },
     {
         "govNameInArabic": "سوهاج",
@@ -1492,12 +1480,6 @@
         "govNameInEnglish": "Aswan",
         "nameInArabic": "السباعية",
         "nameInEnglish": "Al Sibaeia"
-    },
-    {
-        "govNameInArabic": "اسوان",
-        "govNameInEnglish": "Aswan",
-        "nameInArabic": "ابوسمبل السياحية",
-        "nameInEnglish": "Abo Simbl Al Siyahia"
     },
     {
         "govNameInArabic": "اسوان",

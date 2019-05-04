@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import { withStyles } from "@material-ui/core/styles";
 import Card from "@material-ui/core/Card";
 import CardActionArea from "@material-ui/core/CardActionArea";
-import CardActions from "@material-ui/core/CardActions";
 import CardContent from "@material-ui/core/CardContent";
 import Typography from "@material-ui/core/Typography";
 import List from "@material-ui/core/List";
@@ -76,77 +75,88 @@ class ElectronicJournal extends Component {
         <CardActionArea>
           <CardContent>
             <Typography gutterBottom variant="h4" component="h2" />
-            <Typography component="p">
-              <List style={classes.root}>
-                <ListItem>
-                  <Avatar style={classes.avatar}>
-                    <InvestorIcon />
-                  </Avatar>
-                  <ListItemText
-                    primary={
-                      this.state.lang === "eng"
-                        ? "Investor Name"
-                        : "اسم المستثمر"
-                    }
-                    secondary={this.props.electronicJournal.fullName}
-                  />
-                  <EstablishedIcon />
-                </ListItem>
-                <ListItem>
-                  <Avatar style={classes.avatar}>
-                    <Public />
-                  </Avatar>
-                  <ListItemText
-                    primary={
-                      this.state.lang === "eng" ? "Nationality" : "الجنسية"
-                    }
-                    secondary={this.props.electronicJournal.nationality}
-                  />
-                </ListItem>
-                <ListItem>
-                  <Avatar style={classes.avatar}>
-                    <Email />
-                  </Avatar>
-                  <ListItemText
-                    primary={
-                      this.state.lang === "eng" ? "Email" : "البريد الإلكتروني"
-                    }
-                    secondary={this.props.electronicJournal.email}
-                  />
-                </ListItem>
-                <ListItem>
-                  <Avatar style={classes.avatar}>
-                    <LocalPhone />
-                  </Avatar>
-                  <ListItemText
-                    primary={this.state.lang === "eng" ? "Telephone" : "الهاتف"}
-                    secondary={this.props.electronicJournal.telephoneNumber}
-                  />
-                </ListItem>
-                <ListItem>
-                  <Avatar style={classes.avatar}>
-                    <LocalPhone />
-                  </Avatar>
-                  <ListItemText
-                    primary={this.state.lang === "eng" ? "Fax" : "الفاكس"}
-                    secondary={this.props.electronicJournal.fax}
-                  />
-                </ListItem>
-                <ListItem>
-                  <Avatar style={classes.avatar}>
-                    <CreationDateIcon />
-                  </Avatar>
-                  <ListItemText
-                    primary={
-                      this.state.lang === "eng"
-                        ? "Date of Birth"
-                        : "تاريخ الميلاد"
-                    }
-                    secondary={this.formatTime(
-                      this.props.electronicJournal.dateOfBirth
-                    )}
-                  />
-                </ListItem>
+            <List style={classes.root}>
+              <ListItem>
+                <Avatar style={classes.avatar}>
+                  <InvestorIcon />
+                </Avatar>
+                <ListItemText
+                  primary={
+                    this.state.lang === "eng" ? "Investor Name" : "اسم المستثمر"
+                  }
+                  secondary={this.props.electronicJournal.fullName}
+                />
+                <EstablishedIcon />
+              </ListItem>
+              <ListItem>
+                <Avatar style={classes.avatar}>
+                  <Public />
+                </Avatar>
+                <ListItemText
+                  primary={
+                    this.state.lang === "eng" ? "Nationality" : "الجنسية"
+                  }
+                  secondary={this.props.electronicJournal.nationality}
+                />
+              </ListItem>
+              <ListItem>
+                <Avatar style={classes.avatar}>
+                  <Email />
+                </Avatar>
+                <ListItemText
+                  primary={
+                    this.state.lang === "eng" ? "Email" : "البريد الإلكتروني"
+                  }
+                  secondary={this.props.electronicJournal.email}
+                />
+              </ListItem>
+              <ListItem>
+                <Avatar style={classes.avatar}>
+                  <LocalPhone />
+                </Avatar>
+                <ListItemText
+                  primary={this.state.lang === "eng" ? "Telephone" : "الهاتف"}
+                  secondary={this.props.electronicJournal.telephoneNumber}
+                />
+              </ListItem>
+              <ListItem>
+                <Avatar style={classes.avatar}>
+                  <LocalPhone />
+                </Avatar>
+                <ListItemText
+                  primary={this.state.lang === "eng" ? "Fax" : "الفاكس"}
+                  secondary={this.props.electronicJournal.fax}
+                />
+              </ListItem>
+              <ListItem>
+                <Avatar style={classes.avatar}>
+                  <CreationDateIcon />
+                </Avatar>
+                <ListItemText
+                  primary={
+                    this.state.lang === "eng"
+                      ? "Date of Birth"
+                      : "تاريخ الميلاد"
+                  }
+                  secondary={this.formatTime(
+                    this.props.electronicJournal.dateOfBirth
+                  )}
+                />
+              </ListItem>
+              <ListItem>
+                <Avatar style={classes.avatar}>
+                  <Language />
+                </Avatar>
+                <ListItemText
+                  primary={
+                    this.state.lang === "eng"
+                      ? "Arabic Company Name"
+                      : "اسم الشركة العربي"
+                  }
+                  secondary={this.props.electronicJournal.companyNameArabic}
+                />
+              </ListItem>
+              {this.props.electronicJournal.companyNameEnglish ? (
                 <ListItem>
                   <Avatar style={classes.avatar}>
                     <Language />
@@ -154,62 +164,44 @@ class ElectronicJournal extends Component {
                   <ListItemText
                     primary={
                       this.state.lang === "eng"
-                        ? "Arabic Company Name"
-                        : "اسم الشركة العربي"
+                        ? "English Company Name"
+                        : "اسم الشركة الإنجليزي"
                     }
-                    secondary={this.props.electronicJournal.companyNameArabic}
+                    secondary={this.props.electronicJournal.companyNameEnglish}
                   />
                 </ListItem>
-                {this.props.electronicJournal.companyNameEnglish ? (
-                  <ListItem>
-                    <Avatar style={classes.avatar}>
-                      <Language />
-                    </Avatar>
-                    <ListItemText
-                      primary={
-                        this.state.lang === "eng"
-                          ? "English Company Name"
-                          : "اسم الشركة الإنجليزي"
-                      }
-                      secondary={
-                        this.props.electronicJournal.companyNameEnglish
-                      }
-                    />
-                  </ListItem>
-                ) : (
-                  <label />
-                )}
-                <ListItem>
-                  <Avatar style={classes.avatar}>
-                    <WorkIcon />
-                  </Avatar>
-                  <ListItemText
-                    primary={
-                      this.state.lang === "eng" ? "Company Type" : "نوع الشركة"
-                    }
-                    secondary={this.props.electronicJournal.companyType}
-                  />
-                </ListItem>
-                <ListItem>
-                  <Avatar style={classes.avatar}>
-                    <CreationDateIcon />
-                  </Avatar>
-                  <ListItemText
-                    primary={
-                      this.state.lang === "eng"
-                        ? "Creation Date"
-                        : "تاريخ الإنشاء"
-                    }
-                    secondary={this.formatTime(
-                      this.props.electronicJournal.dateOfCreation
-                    )}
-                  />
-                </ListItem>
-              </List>
-            </Typography>
+              ) : (
+                <label />
+              )}
+              <ListItem>
+                <Avatar style={classes.avatar}>
+                  <WorkIcon />
+                </Avatar>
+                <ListItemText
+                  primary={
+                    this.state.lang === "eng" ? "Company Type" : "نوع الشركة"
+                  }
+                  secondary={this.props.electronicJournal.companyType}
+                />
+              </ListItem>
+              <ListItem>
+                <Avatar style={classes.avatar}>
+                  <CreationDateIcon />
+                </Avatar>
+                <ListItemText
+                  primary={
+                    this.state.lang === "eng"
+                      ? "Creation Date"
+                      : "تاريخ الإنشاء"
+                  }
+                  secondary={this.formatTime(
+                    this.props.electronicJournal.dateOfCreation
+                  )}
+                />
+              </ListItem>
+            </List>
           </CardContent>
         </CardActionArea>
-        <CardActions style={classes.cardActions} />
       </Card>
     );
   }

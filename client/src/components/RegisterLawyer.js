@@ -1,16 +1,13 @@
 import React from "react";
 import axios from "axios";
-import Button from "@material-ui/core/Button";
-import Input from "@material-ui/core/Input";
-import InputLabel from "@material-ui/core/InputLabel";
-import FormControl from "@material-ui/core/FormControl";
-import Visibility from "@material-ui/icons/Visibility";
-import VisibilityOff from "@material-ui/icons/VisibilityOff";
-import IconButton from "@material-ui/core/IconButton";
-import InputAdornment from "@material-ui/core/InputAdornment";
-import { Redirect } from "react-router-dom";
 import "../components/register.scss";
 import Fab from "@material-ui/core/Fab";
+import CircularProgress from "@material-ui/core/CircularProgress";
+import CheckIcon from "@material-ui/icons/Check";
+import CrossIcon from "@material-ui/icons/Close";
+import green from "@material-ui/core/colors/green";
+import red from "@material-ui/core/colors/red";
+import Typography from "@material-ui/core/Typography";
 const Joi = require("joi");
 
 export default class RegisterLawyer extends React.Component {
@@ -24,11 +21,13 @@ export default class RegisterLawyer extends React.Component {
       val: "",
       showPassword: false,
       passed: false,
-      lang: ""
+      lang: "",
+      success: false,
+      loading: false,
+      clicked: false
     };
   }
   componentDidMount = async () => {
-    //Rount for authorization
     if (localStorage.getItem("lang"))
       this.setState({ lang: localStorage.getItem("lang") });
     else this.setState({ lang: "eng" });
@@ -40,6 +39,13 @@ export default class RegisterLawyer extends React.Component {
     }
   };
   submit = async () => {
+    if (!this.state.loading) {
+      await this.setState({
+        success: false,
+        loading: true,
+        clicked: true
+      });
+    }
     var valid = true;
     const me = this;
     var username = document.getElementById("username");
@@ -119,51 +125,41 @@ export default class RegisterLawyer extends React.Component {
     if (valid) {
       try {
         await axios.post("api/admins/registerLawyer", body);
+        await this.setState({ success: true, loading: false });
         this.setState({ val: "Successfully Created!" });
       } catch {
+        await this.setState({ success: false, loading: false });
         this.state.usernameError = "make sure the username is unique";
         this.state.emailError = "make sure the email is unique";
         this.setState({ val: "Username or Email are not unique" });
       }
     } else {
+      await this.setState({ success: false, loading: false });
       this.setState({ val: "" });
     }
   };
 
   render() {
-    const styles = {
-      error: {
-        display: "none"
-      },
-      label: {
-        width: "35%",
-        margin: "auto"
-      }
-    };
+    const { loading, success, clicked } = this.state;
     if (!this.state.passed) return <h1>Unauthorized</h1>;
     else
       return (
         <div style={{ paddingTop: "0vh" }}>
-          <div class="wrapper">
-            <div
-              class="page-header"
-              style={{
-                backgroundImage: "url('../assets/img/login-image.jpg')"
-              }}
-            >
-              <div class="filter" />
-              <div class="container">
-                <div class="row">
-                  <div class="col-lg-4 col-sm-6 mr-auto ml-auto">
+          <div className="wrapper">
+            <div className="page-header" style={{}}>
+              <div className="filter" />
+              <div className="container">
+                <div className="row">
+                  <div className="col-lg-4 col-sm-6 mr-auto ml-auto">
                     <div
-                      class="card card-register"
+                      className="card card-register"
                       style={{
                         backgroundColor: "#FFFFFF",
                         boxShadow: "0px 3px 20px rgba(0, 0, 0, 0.16)"
                       }}
                     >
                       <h3
-                        class="title"
+                        className="title"
                         style={{
                           fontFamily:
                             "-apple-system, BlinkMacSystemFont, sans-serif",
@@ -174,7 +170,7 @@ export default class RegisterLawyer extends React.Component {
                       >
                         {this.state.lang === "eng"
                           ? "Register Lawyer"
-                          : "سجل محامي"}
+                          : "سجل محام"}
                       </h3>
                       <form id="RegisterLawyer">
                         <input
@@ -185,10 +181,10 @@ export default class RegisterLawyer extends React.Component {
                               ? "Username"
                               : "اسم المستخدم"
                           }
-                          class="form-control"
+                          className="form-control"
                         />
                         <br />
-                        <label id="Error" class="text-danger">
+                        <label id="Error" className="text-danger">
                           {" "}
                           {this.state.usernameError}
                         </label>
@@ -196,7 +192,7 @@ export default class RegisterLawyer extends React.Component {
                         <input
                           id="email"
                           type="text"
-                          class="form-control"
+                          className="form-control"
                           placeholder={
                             this.state.lang === "eng"
                               ? "Email"
@@ -204,7 +200,7 @@ export default class RegisterLawyer extends React.Component {
                           }
                         />
                         <br />
-                        <label id="Error" class="text-danger">
+                        <label id="Error" className="text-danger">
                           {" "}
                           {this.state.emailError}
                         </label>
@@ -217,10 +213,10 @@ export default class RegisterLawyer extends React.Component {
                               ? "Full Name"
                               : "الاسم الكامل"
                           }
-                          class="form-control"
+                          className="form-control"
                         />
                         <br />
-                        <label id="Error" class="text-danger">
+                        <label id="Error" className="text-danger">
                           {" "}
                           {this.state.fullNameError}
                         </label>
@@ -231,15 +227,81 @@ export default class RegisterLawyer extends React.Component {
                           placeholder={
                             this.state.lang === "eng" ? "Password" : "كلمة السر"
                           }
-                          class="form-control"
+                          className="form-control"
                         />
                         <br />
-                        <label id="Error" class="text-danger">
+                        <label id="Error" className="text-danger">
                           {" "}
                           {this.state.passwordError}
                         </label>
                       </form>
-                      <div align="center">
+                      <div
+                        key="divv"
+                        className="CircularIntegration-root-241"
+                        style={{ display: "flex", alignItems: "center" }}
+                      >
+                        <div
+                          key="divvvv"
+                          className="CircularIntegration-wrapper-242"
+                          style={{
+                            marginRight: "240px",
+                            marginTop: "12px",
+                            display: "block",
+                            margin: "0 auto",
+                            position: "relative"
+                          }}
+                        >
+                          <Fab
+                            color="primary"
+                            className=""
+                            style={
+                              success && clicked && !loading
+                                ? {
+                                    backgroundColor: green[500],
+                                    "&:hover": {
+                                      backgroundColor: green[700]
+                                    }
+                                  }
+                                : !success && clicked && !loading
+                                ? {
+                                    backgroundColor: red[500],
+                                    "&:hover": {
+                                      backgroundColor: red[700]
+                                    }
+                                  }
+                                : {}
+                            }
+                            onClick={this.submit}
+                          >
+                            {success && clicked ? (
+                              <CheckIcon />
+                            ) : !success && clicked && !loading ? (
+                              <CrossIcon />
+                            ) : (
+                              <Typography
+                                variant="body1"
+                                style={{ color: "#ffffff", fontSize: "10px" }}
+                              >
+                                {this.state.lang === "eng" ? "Register" : "سجل"}
+                              </Typography>
+                            )}
+                          </Fab>
+                          {loading && (
+                            <CircularProgress
+                              size={68}
+                              className="CircularIntegration-fabProgress-909"
+                              style={{
+                                color: green[500],
+                                position: "absolute",
+                                top: -6,
+                                left: -6,
+                                zIndex: 1
+                              }}
+                            />
+                          )}
+                        </div>
+                      </div>
+                      {/* <div align="center">
                         <Fab
                           variant="extended"
                           size="medium"
@@ -255,10 +317,10 @@ export default class RegisterLawyer extends React.Component {
                         >
                           {this.state.lang === "eng" ? "Register" : "سجل"}
                         </Fab>
-                      </div>
+                      </div> */}
                       <br />
                       <br />
-                      <label id="Success" class="text-danger">
+                      <label id="Success" className="text-danger">
                         {this.state.val}
                       </label>
                       <br />

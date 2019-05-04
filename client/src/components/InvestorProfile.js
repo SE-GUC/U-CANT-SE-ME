@@ -19,6 +19,8 @@ import moment from "moment";
 import parseJwt from "../helpers/decryptAuthToken";
 import { Redirect } from "react-router-dom";
 import NavBarDashboard from "./NavBarDashboard";
+import CircularProgress from "@material-ui/core/CircularProgress";
+
 const styles = {
   card: {
     width: 345,
@@ -43,7 +45,8 @@ class InvestorProfile extends Component {
     gender: "",
     showPassword: false,
     edit: false,
-    lang: ""
+    lang: "",
+    finished: false
   };
 
   async componentDidMount() {
@@ -63,7 +66,6 @@ class InvestorProfile extends Component {
       return;
     }
     this.setState({ home: 2 });
-    const data = parseJwt(localStorage.jwtToken);
     try {
       await this.setState({ investorId: parseJwt(localStorage.jwtToken).id });
     } catch {
@@ -81,6 +83,7 @@ class InvestorProfile extends Component {
     if (res.data.data.fax) this.setState({ fax: res.data.data.fax });
     if (res.data.data.telephoneNumber)
       this.setState({ telephoneNumber: res.data.data.telephoneNumber });
+    await this.setState({ finished: true });
   }
 
   formatTime(t) {
@@ -95,7 +98,6 @@ class InvestorProfile extends Component {
   };
 
   render() {
-    const classes = { ...styles };
     const styles = {
       avatar: {
         margin: 10
@@ -128,29 +130,51 @@ class InvestorProfile extends Component {
         width: 345
       }
     };
+    const classes = { ...styles };
     if (this.state.home === 0) return <div> </div>;
     if (this.state.home === 1) return <Redirect to={{ pathname: "/" }} />;
-    return (
-      <div style={{ paddingTop: "10vh" }}>
-        <NavBarDashboard
-          dashboardRedirect="/InvestorDashBoard"
-          sumergiteColor="#3480E3"
-          boxShadow="0px 3px 20px rgba(0, 0, 0, 0.16)"
-          dashboard="lighter"
-          profile="bold"
-          homepage="lighter"
-          DASHBOARD={true}
-          PROFILE={true}
-          ProfileMargin="120px"
-          HomePageMargin="0px"
-        />
-        <Card style={{ pointerEvents: "none" }}>
-          <CardActionArea>
-            <CardContent>
-              <Typography gutterBottom variant="h5" component="h2">
-                {/* {this.props.case.form.companyNameArabic} */}
-              </Typography>
-              <Typography component="p">
+    if (!this.state.finished) {
+      return (
+        <div>
+          <div style={{ paddingTop: "10vh" }}>
+            <NavBarDashboard
+              dashboardRedirect="/InvestorDashBoard"
+              sumergiteColor="#3480E3"
+              boxShadow="0px 3px 20px rgba(0, 0, 0, 0.16)"
+              dashboard="lighter"
+              profile="bold"
+              homepage="lighter"
+              DASHBOARDD={true}
+              PROFILEE={true}
+              ProfileMargin="120px"
+              HomePageMargin="0px"
+            />
+          </div>
+          <div>
+            <CircularProgress style={{ marginTop: "100px" }} />
+            <h3>Fetching Data</h3>
+          </div>
+        </div>
+      );
+    } else {
+      return (
+        <div style={{ paddingTop: "10vh" }}>
+          <NavBarDashboard
+            dashboardRedirect="/InvestorDashBoard"
+            sumergiteColor="#3480E3"
+            boxShadow="0px 3px 20px rgba(0, 0, 0, 0.16)"
+            dashboard="lighter"
+            profile="bold"
+            homepage="lighter"
+            DASHBOARDD={true}
+            PROFILEE={true}
+            ProfileMargin="120px"
+            HomePageMargin="0px"
+          />
+          <Card style={{ pointerEvents: "none" }}>
+            <CardActionArea>
+              <CardContent>
+                <Typography gutterBottom variant="h5" component="h2" />
                 <List style={classes.root}>
                   <ListItem>
                     <ListItemText
@@ -187,19 +211,15 @@ class InvestorProfile extends Component {
                     />
                   </ListItem>
                 </List>
-              </Typography>
-            </CardContent>
-          </CardActionArea>
-          <CardActions />
-        </Card>
-        <br />
-        <Card style={{ pointerEvents: "none" }}>
-          <CardActionArea>
-            <CardContent>
-              <Typography gutterBottom variant="h5" component="h2">
-                {/* {this.props.case.form.companyNameArabic} */}
-              </Typography>
-              <Typography component="p">
+              </CardContent>
+            </CardActionArea>
+            <CardActions />
+          </Card>
+          <br />
+          <Card style={{ pointerEvents: "none" }}>
+            <CardActionArea>
+              <CardContent>
+                <Typography gutterBottom variant="h5" component="h2" />
                 <List style={classes.root}>
                   <ListItem>
                     <ListItemText
@@ -238,33 +258,33 @@ class InvestorProfile extends Component {
                     />
                   </ListItem>
                 </List>
-              </Typography>
-            </CardContent>
-          </CardActionArea>
-          <CardActions />
-        </Card>
-        <br />
-        {this.state.investorId === null ? (
-          <Redirect to={{ pathname: "/Login" }} />
-        ) : this.state.edit === true ? (
-          <Redirect to={{ pathname: "/updateInvestorProfile" }} />
-        ) : (
-          <label />
-        )}
-        <Button
-          size="small"
-          color="primary"
-          onClick={() => {
-            this.setState({ edit: true });
-          }}
-        >
-          {this.state.lang === "eng" ? "Edit Profile" : "تعديل الملف الشخصي"}{" "}
-          <EditIcon />
-        </Button>
-        <br />
-        <br />
-      </div>
-    );
+              </CardContent>
+            </CardActionArea>
+            <CardActions />
+          </Card>
+          <br />
+          {this.state.investorId === null ? (
+            <Redirect to={{ pathname: "/Login" }} />
+          ) : this.state.edit === true ? (
+            <Redirect to={{ pathname: "/updateInvestorProfile" }} />
+          ) : (
+            <label />
+          )}
+          <Button
+            size="small"
+            color="primary"
+            onClick={() => {
+              this.setState({ edit: true });
+            }}
+          >
+            {this.state.lang === "eng" ? "Edit Profile" : "تعديل الملف الشخصي"}{" "}
+            <EditIcon />
+          </Button>
+          <br />
+          <br />
+        </div>
+      );
+    }
   }
 }
 

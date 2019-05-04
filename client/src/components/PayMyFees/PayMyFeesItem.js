@@ -36,8 +36,7 @@ class PayMyFeesItem extends Component {
         </React.Fragment>
       );
     } else {
-      if (failed)
-        alert("Payment Failed! Please check your card information!");
+      if (failed) alert("Payment Failed! Please check your card information!");
       if (completed) alert("Payment has been received successfully");
       return (
         <button onClick={this.onClick} style={payBtnStyle}>

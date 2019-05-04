@@ -1,19 +1,15 @@
 import React, { Component } from "react";
-// Be sure to include styles at some point, probably during your bootstraping
 import "@trendmicro/react-sidenav/dist/react-sidenav.css";
-import SideNav, {NavItem,NavIcon,NavText} from "@trendmicro/react-sidenav";
+import SideNav, { NavItem, NavIcon, NavText } from "@trendmicro/react-sidenav";
 
 export default class DashBoard extends Component {
   handleSelect = selected => {
-    console.log(selected);
-    if(selected === "home")
-    {
-      document.getElementById("Companies").style.display="none";
-      document.getElementById("Home").style.display="inline";
-    }else
-    if (selected === "case/all") {
-      document.getElementById("Companies").style.display="inline";
-      document.getElementById("Home").style.display="none";
+    if (selected === "home") {
+      document.getElementById("Companies").style.display = "none";
+      document.getElementById("Home").style.display = "inline";
+    } else if (selected === "case/all") {
+      document.getElementById("Companies").style.display = "inline";
+      document.getElementById("Home").style.display = "none";
     }
   };
   render() {
@@ -23,16 +19,14 @@ export default class DashBoard extends Component {
       },
       navStyle: {
         background: "#3d58db",
-        zindex:"0"
+        zindex: "0"
       },
-      divStyleShow:{
-        display: ' inline',
+      divStyleShow: {
+        display: " inline",
         textAlign: "center"
-        // marginLeft:"64px",
-        // backgroundColor:"black"
       },
-      divStyleHide:{
-        display: 'none'
+      divStyleHide: {
+        display: "none"
       }
     };
     return (

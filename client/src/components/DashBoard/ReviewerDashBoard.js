@@ -1,52 +1,69 @@
 import React, { Component } from "react";
-// Be sure to include styles at some point, probably during your bootstraping
 import "@trendmicro/react-sidenav/dist/react-sidenav.css";
-import SideNav, {NavItem,NavIcon,NavText} from "@trendmicro/react-sidenav";
-import { Redirect } from 'react-router-dom'
+import SideNav, { NavItem, NavIcon, NavText } from "@trendmicro/react-sidenav";
 import ReviewerViewTasks from "../caseComponents/ReviewerViewTasks";
 import ReviewerViewCase from "../caseComponents/ReviewerViewCase";
-import { BrowserRouter as Router, Route } from 'react-router-dom';
+import { BrowserRouter as Router } from "react-router-dom";
 import CasesContainer from "../dCaseComponents/CasesContainer";
-import NavBarDashboard from '../NavBarDashboard'
+import NavBarDashboard from "../NavBarDashboard";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faTasks } from "@fortawesome/free-solid-svg-icons";
+import { faSuitcaseRolling } from "@fortawesome/free-solid-svg-icons";
+import { faBriefcase } from "@fortawesome/free-solid-svg-icons";
+
 export default class ReviewerDashBoard extends Component {
+  _isMounted = false;
+
   constructor(props) {
-    super(props)
+    super(props);
     this.state = {
-        dashboardwidth:0
+      dashboardwidth: 0,
+      lang: ""
+    };
+  }
+  async handleToggle() {
+    var width = document.getElementById("dashboard").clientWidth;
+    if (width === 64) width = 240;
+    else width = 64;
+    if (this._isMounted) {
+      await this.setState({ dashboardwidth: width });
     }
+    document.getElementById("UnassignedCases").style.marginLeft = `${width}px`;
+    document.getElementById("Tasks").style.marginLeft = `${width}px`;
+    document.getElementById("AllCases").style.marginLeft = `${width}px`;
+    document.getElementById("logo").style.marginLeft = `${width}px`;
+    document.getElementById(
+      "navbarSupportedContent"
+    ).style.marginLeft = `${width}px`;
   }
-  async handleToggle(){
-    console.log("dondo")
-    // await 5000
-    var width = document.getElementById("dashboard").clientWidth
-    if(width===64)
-      width=240
-    else
-      width=64
-    await this.setState({dashboardwidth:width});
-    document.getElementById("UnassignedCases").style.marginLeft=`${width}px`;
-    document.getElementById("Tasks").style.marginLeft=`${width}px`;
-    document.getElementById("AllCases").style.marginLeft=`${width}px`;
-    document.getElementById("logo").style.marginLeft=`${width}px`;
+  async componentDidMount() {
+    this._isMounted = true;
+    if (this._isMounted) {
+      if (localStorage.getItem("lang"))
+        this.setState({ lang: localStorage.getItem("lang") });
+      else this.setState({ lang: "eng" });
+      const width = document.getElementById("dashboard").clientWidth;
+      await this.setState({ dashboardwidth: width });
+    }
+    document.getElementById("logo").style.marginLeft = `64px`;
+    document.getElementById("navbarSupportedContent").style.marginLeft = `64px`;
   }
-async componentDidMount(){
-  const width = document.getElementById("dashboard").clientWidth
-  await this.setState({dashboardwidth:width});
-}
-    handleSelect = selected => {
-    console.log(selected);
-    document.getElementById("UnassignedCases").style.display="none";
-    document.getElementById("Tasks").style.display="none";
-    document.getElementById("AllCases").style.display="none";
+  componentWillUnmount() {
+    this._isMounted = false;
+  }
+  handleSelect = selected => {
+    document.getElementById("UnassignedCases").style.display = "none";
+    document.getElementById("Tasks").style.display = "none";
+    document.getElementById("AllCases").style.display = "none";
 
     if (selected === "viewunasignedcases")
-        document.getElementById("UnassignedCases").style.display=null;
+      document.getElementById("UnassignedCases").style.display = null;
 
     if (selected === "viewtasks")
-        document.getElementById("Tasks").style.display=null;
+      document.getElementById("Tasks").style.display = null;
 
     if (selected === "viewallcases")
-        document.getElementById("AllCases").style.display=null;
+      document.getElementById("AllCases").style.display = null;
   };
   render() {
     const styles = {
@@ -55,67 +72,94 @@ async componentDidMount(){
       },
       navStyle: {
         background: "#3480E3",
-        position:"fixed"
+        position: "fixed"
       },
-      divStyleShow:{
-        marginLeft:this.state.dashboardwidth,
-        justifyContent: 'center',
-        paddingTop:'10vh'
+      divStyleShow: {
+        marginLeft: this.state.dashboardwidth,
+        justifyContent: "center",
+        paddingTop: "10vh"
       },
-      divStyleHide:{
-        display: 'none',
-        marginLeft:this.state.dashboardwidth,
-        justifyContent: 'center',
-        paddingTop:'10vh'
+      divStyleHide: {
+        display: "none",
+        marginLeft: this.state.dashboardwidth,
+        justifyContent: "center",
+        paddingTop: "10vh"
       }
     };
     return (
       <div>
-        <NavBarDashboard sumergiteColor= '#3480E3' boxShadow='0px 3px 20px rgba(0, 0, 0, 0.16)' dashboard='bold' profile='lighter' homepage='lighter' DASHBOARD={true} PROFILE={true} ProfileMargin='120px' HomePageMargin='0px' dashboardRedirect='/ReviewerDashBoard' profileRedirect="/internalPortal/reviewer/profile"/> 
-        <SideNav onToggle={this.handleToggle} id="dashboard" onSelect={this.handleSelect} style={styles.navStyle}>
+        <NavBarDashboard
+          sumergiteColor="#3480E3"
+          boxShadow="0px 3px 20px rgba(0, 0, 0, 0.16)"
+          dashboard="bold"
+          profile="lighter"
+          homepage="lighter"
+          DASHBOARDD={true}
+          PROFILEE={true}
+          ProfileMargin="120px"
+          HomePageMargin="0px"
+          dashboardRedirect="/ReviewerDashBoard"
+          profileRedirect="/internalPortal/reviewer/profile"
+        />
+        <SideNav
+          onToggle={this.handleToggle}
+          id="dashboard"
+          onSelect={this.handleSelect}
+          style={styles.navStyle}
+        >
           <SideNav.Toggle />
           <SideNav.Nav defaultSelected="viewtasks">
-            
-          <NavItem eventKey="viewtasks">
+            <NavItem eventKey="viewtasks">
               <NavIcon>
-                <a className="fas fa-tasks"  style={styles.iconStyle} />
+                <FontAwesomeIcon icon={faTasks} style={styles.iconStyle} />
               </NavIcon>
-              <NavText>View Tasks</NavText>
+              <NavText>
+                {this.state.lang === "eng" ? "View Tasks" : "أظهر مهماتي"}
+              </NavText>
             </NavItem>
 
             <NavItem eventKey="viewunasignedcases">
               <NavIcon>
-                <a className="fas fa-suitcase-rolling" style={styles.iconStyle} />
+                <FontAwesomeIcon
+                  icon={faSuitcaseRolling}
+                  style={styles.iconStyle}
+                />
               </NavIcon>
-              <NavText>View Unasigned Cases</NavText>
+              <NavText>
+                {this.state.lang === "eng"
+                  ? "View Unassigned Cases"
+                  : "أظهر العمليات المتاحة"}
+              </NavText>
             </NavItem>
 
             <NavItem eventKey="viewallcases">
               <NavIcon>
-                <a className="fas fa-briefcase" style={styles.iconStyle} />
+                <FontAwesomeIcon icon={faBriefcase} style={styles.iconStyle} />
               </NavIcon>
-              <NavText>View All Cases</NavText>
-            </NavItem>  
-
+              <NavText>
+                {this.state.lang === "eng"
+                  ? "View All Cases"
+                  : "أظهر جميع العمليات"}
+              </NavText>
+            </NavItem>
           </SideNav.Nav>
         </SideNav>
 
-        <div id="UnassignedCases" style={styles.divStyleHide} >
-        <Router>
-          <ReviewerViewCase/>
+        <div id="UnassignedCases" style={styles.divStyleHide}>
+          <Router>
+            <ReviewerViewCase />
           </Router>
         </div>
-        <div id="Tasks" style={styles.divStyleShow} >
-        <Router>
-          <ReviewerViewTasks/>
+        <div id="Tasks" style={styles.divStyleShow}>
+          <Router>
+            <ReviewerViewTasks />
           </Router>
         </div>
-        <div id="AllCases" style={styles.divStyleHide} >
-        <Router>
-          <CasesContainer/>
+        <div id="AllCases" style={styles.divStyleHide}>
+          <Router>
+            <CasesContainer />
           </Router>
         </div>
-
       </div>
     );
   }

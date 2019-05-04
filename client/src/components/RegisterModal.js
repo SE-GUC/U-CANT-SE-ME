@@ -1,19 +1,12 @@
 import React from "react";
-import ReactDOM from "react-dom";
 import Modal from "react-modal";
 import axios from "axios";
-import Button from "@material-ui/core/Button";
-import Input from "@material-ui/core/Input";
-import InputLabel from "@material-ui/core/InputLabel";
-import FormControl from "@material-ui/core/FormControl";
-import Visibility from "@material-ui/icons/Visibility";
-import VisibilityOff from "@material-ui/icons/VisibilityOff";
-import IconButton from "@material-ui/core/IconButton";
-import InputAdornment from "@material-ui/core/InputAdornment";
 import { Redirect } from "react-router-dom";
 import Fab from "@material-ui/core/Fab";
 import "../components/register.scss";
+import CircularProgress from "@material-ui/core/CircularProgress";
 import { login } from "../globalState/actions/authActions.js";
+
 const Joi = require("joi");
 
 const customStyles = {
@@ -43,7 +36,6 @@ class RegisterModal extends React.Component {
       telephoneNumberError: "",
       faxError: "",
       valid: "",
-      showPassword: false,
       stage: 0,
       name: "",
       email: "",
@@ -51,14 +43,15 @@ class RegisterModal extends React.Component {
       type: "Full Time Investor",
       gender: "Male",
       nationality: "",
-      methodOfIdentification: "",
+      methodOfIdentification: "passport",
       idNum: "",
       dateOfBirth: "",
       address: "",
       phone: "",
-      fax: ""
+      fax: "",
+      lang: "",
+      clicked: false
     };
-
     this.openModal = this.openModal.bind(this);
     this.afterOpenModal = this.afterOpenModal.bind(this);
     this.closeModal = this.closeModal.bind(this);
@@ -78,15 +71,20 @@ class RegisterModal extends React.Component {
     this.changeFax = this.changeFax.bind(this);
     this.handleClickShowPassword = this.handleClickShowPassword.bind(this);
   }
+  async componentDidMount() {
+    if (this.props.fromLoginPage) {
+      await this.setState({ modalIsOpen: true });
+    }
+  }
 
   submit = async () => {
+    await this.setState({ clicked: true });
     var valid = true;
     var body;
     const me = this;
     const now = Date.now();
     const earliestBirthDate = new Date(now - 21 * 365 * 24 * 60 * 60 * 1000); //21 years earlier
     const latestBirthDate = new Date(now - 120 * 365 * 24 * 60 * 60 * 1000); //can not be older than 120 years
-    var form = document.getElementById("InvestorRegister");
 
     if (me.state.fax === "" && me.state.phone === "") {
       body = {
@@ -201,7 +199,8 @@ class RegisterModal extends React.Component {
       function(error, value) {
         if (
           body.nationality === "Egyptian" &&
-          body.identificationNumber.length !== 14
+          body.identificationNumber.length !== 14 &&
+          body.methodOfIdentification === "NID"
         ) {
           valid = false;
           me.setState({
@@ -275,20 +274,20 @@ class RegisterModal extends React.Component {
     if (valid) {
       try {
         await axios.post("api/investors/register", body);
-        //this.setState({ modalIsOpen: false });
         const req = {
           email: this.state.email,
           username: this.state.email,
           password: this.state.password
         };
-        const res = await login(req);
+        await login(req);
         this.setState({ valid: "Successfully Created!" });
       } catch {
         this.setState({ stage: 0 });
-        this.state.emailError = "This email is already in use";
+        await this.setState({ emailError: "This email is already in use" });
         this.setState({ valid: "Oops something went wrong!" });
       }
     }
+    await this.setState({ clicked: false });
   };
 
   openModal() {
@@ -320,13 +319,16 @@ class RegisterModal extends React.Component {
       type: "Full Time Investor",
       gender: "Male",
       nationality: "",
-      methodOfIdentification: "",
+      methodOfIdentification: "passport",
       idNum: "",
       dateOfBirth: "",
       address: "",
       phone: "",
       fax: ""
     });
+    if (this.props.fromLoginPage) {
+      window.location.href = "/";
+    }
   }
 
   nextStep() {
@@ -432,22 +434,24 @@ class RegisterModal extends React.Component {
   render() {
     return (
       <div>
-        <Fab
-          variant="extended"
-          size="medium"
-          color="secondary"
-          style={{
-            boxShadow: "none",
-            marginRight: "240px",
-            marginTop: "6px",
-            backgroundColor: "#E53167",
-            color: "#FFFFFF"
-          }}
-          aria-label="Delete"
-          onClick={this.openModal}
-        >
-          {this.props.buttonText}
-        </Fab>
+        {this.props.fromLoginPage ? (
+          <div />
+        ) : (
+          <Fab
+            variant="extended"
+            size="medium"
+            color="secondary"
+            style={{
+              boxShadow: "none",
+              backgroundColor: "#E53167",
+              color: "#FFFFFF"
+            }}
+            aria-label="Delete"
+            onClick={this.openModal}
+          >
+            {this.props.lang === "eng" ? "Register" : "افتح حسابًا"}
+          </Fab>
+        )}
 
         {this.state.stage === 0 ? (
           <Modal
@@ -458,21 +462,29 @@ class RegisterModal extends React.Component {
             contentLabel="Registration"
           >
             <h2 ref={subtitle => (this.subtitle = subtitle)} align="center">
-              Create an account
+              {this.props.lang === "eng" ? "Create an account" : "انشئ حساب"}
             </h2>
-            <form id="InvestorRegister" class="login-form">
+            <form id="InvestorRegister" className="login-form">
               <input
                 id="fullName"
                 type="text"
                 onChange={this.changeName}
                 value={this.state.name}
-                class="form-control"
-                placeholder="Full Name"
+                className="form-control"
+                placeholder={
+                  this.props.lang === "eng" ? "Full Name" : "الاسم الكامل"
+                }
               />
               <br />
-              <label id="Error" class="text-danger">
+              <label id="Error" className="text-danger">
                 {" "}
-                {this.state.fullNameError}
+                {this.state.fullNameError === ""
+                  ? ""
+                  : this.props.lang === "eng"
+                  ? this.state.fullNameError
+                  : this.state.fullNameError === "Full name is required"
+                  ? "الإسم الكامل مطلوب"
+                  : "اسم غير صالح"}
               </label>
               <br />
               <input
@@ -480,13 +492,23 @@ class RegisterModal extends React.Component {
                 type="text"
                 onChange={this.changeEmail}
                 value={this.state.email}
-                class="form-control"
-                placeholder="Email"
+                className="form-control"
+                placeholder={
+                  this.props.lang === "eng" ? "Email" : "البريد الإلكتروني"
+                }
               />
               <br />
-              <label id="Error" class="text-danger">
+              <label id="Error" className="text-danger">
                 {" "}
-                {this.state.emailError}
+                {this.state.emailError === ""
+                  ? ""
+                  : this.props.lang === "eng"
+                  ? this.state.emailError
+                  : this.state.emailError === "Invalid Email"
+                  ? "بريد إلكتروني خاطئ"
+                  : this.state.emailError === "Email is required"
+                  ? "البريد الالكتروني مطلوب"
+                  : "هذا البريد استخدم من قبل"}
               </label>
               <br />
               <input
@@ -494,13 +516,21 @@ class RegisterModal extends React.Component {
                 id="password"
                 value={this.state.password}
                 onChange={this.changePassword}
-                placeholder="Password"
-                class="form-control"
+                placeholder={
+                  this.props.lang === "eng" ? "Password" : "كلمه السر"
+                }
+                className="form-control"
               />
               <br />
-              <label id="Error" class="text-danger">
+              <label id="Error" className="text-danger">
                 {" "}
-                {this.state.passwordError}
+                {this.state.passwordError === ""
+                  ? ""
+                  : this.props.lang === "eng"
+                  ? this.state.passwordError
+                  : this.state.passwordError === "Password is required"
+                  ? "كلمة المرور مطلوبة"
+                  : "كلمة المرور ضعيفة"}
               </label>
               <br />
               <Fab
@@ -517,7 +547,7 @@ class RegisterModal extends React.Component {
                 aria-label="Delete"
                 onClick={this.closeModal}
               >
-                Cancel
+                {this.props.lang === "eng" ? "Cancel" : "إلغاء"}
               </Fab>
               <Fab
                 variant="extended"
@@ -533,7 +563,7 @@ class RegisterModal extends React.Component {
                 aria-label="Delete"
                 onClick={this.nextStep}
               >
-                Next
+                {this.props.lang === "eng" ? "Next" : "التالى"}
               </Fab>
             </form>
           </Modal>
@@ -546,54 +576,74 @@ class RegisterModal extends React.Component {
             contentLabel="Registration"
           >
             <h2 ref={subtitle => (this.subtitle = subtitle)} align="center">
-              Create an account
+              {this.props.lang === "eng" ? "Create an account" : "انشئ حساب"}
             </h2>
-            <form class="login-form">
-              Type{" "}
+            <form className="login-form">
+              {this.props.lang === "eng" ? "Type " : "نوع "}
               <select
                 id="type"
                 onChange={this.changeType}
                 value={this.state.type}
                 style={{ width: "100%" }}
               >
-                <option value="fullTimeInvestor">Full Time Investor</option>
+                <option value="fullTimeInvestor">
+                  {this.props.lang === "eng"
+                    ? "Full Time Investor"
+                    : "مستثمر بدوام كامل"}
+                </option>
               </select>
               <br />
               <br />
-              Gender{" "}
+              {this.props.lang === "eng" ? "Gender " : "جنس "}
               <select
                 id="gender"
                 onChange={this.changeGender}
                 value={this.state.gender}
                 style={{ width: "100%" }}
               >
-                <option value="Male">Male</option>
-                <option value="Female">Female</option>
+                <option value="Male">
+                  {this.props.lang === "eng" ? "Male" : "ذكر"}
+                </option>
+                <option value="Female">
+                  {this.props.lang === "eng" ? "Female" : "أنثى"}
+                </option>
               </select>
               <br />
               <br />
               <input
-                placeholder="Nationality"
+                placeholder={
+                  this.props.lang === "eng" ? "Nationality" : "جنسية"
+                }
                 id="nationality"
                 type="text"
                 onChange={this.changeNat}
                 value={this.state.nationality}
-                class="form-control"
+                className="form-control"
               />
-              <label id="Error" class="text-danger">
+              <label id="Error" className="text-danger">
                 {" "}
-                {this.state.nationalityError}
+                {this.state.nationalityError === ""
+                  ? ""
+                  : this.props.lang === "eng"
+                  ? this.state.nationalityError
+                  : "الجنسية مطلوبة"}
               </label>
               <br />
-              Method Of Identification{" "}
+              {this.props.lang === "eng"
+                ? "Method Of Identification "
+                : "طريقة تحديد الهوية "}
               <select
                 id="methodOfIdentification"
                 onChange={this.changeMetID}
                 value={this.state.methodOfIdentification}
                 style={{ width: "100%" }}
               >
-                <option value="passport">Passport</option>
-                <option value="NID">National ID</option>
+                <option value="passport">
+                  {this.props.lang === "eng" ? "Passport" : "جواز سفر"}
+                </option>
+                <option value="NID">
+                  {this.props.lang === "eng" ? "National ID" : "الهوية الوطنية"}
+                </option>
               </select>
               <br />
               <br />
@@ -602,26 +652,43 @@ class RegisterModal extends React.Component {
                 type="text"
                 onChange={this.changeID}
                 value={this.state.idNum}
-                class="form-control"
-                placeholder="Identification Number"
+                className="form-control"
+                placeholder={
+                  this.props.lang === "eng"
+                    ? "Identification Number"
+                    : "رقم الهوية"
+                }
               />
-              <label id="Error" class="text-danger">
+              <label id="Error" className="text-danger">
                 {" "}
-                {this.state.identificationNumberError}
+                {this.state.identificationNumberError === ""
+                  ? ""
+                  : this.props.lang === "eng"
+                  ? this.state.identificationNumberError
+                  : this.state.identificationNumberError ===
+                    "Identification number is required"
+                  ? "رقم الهوية مطلوب"
+                  : "يجب أن يكون رقم التعريف 14 رقمًا"}
               </label>
               <br />
-              Date Of Birth{" "}
+              {this.props.lang === "eng" ? "Date Of Birth " : "تاريخ الولادة"}
               <input
                 type="date"
                 name="dateOfBirth"
-                class="form-control"
+                className="form-control"
                 onChange={this.changeDate}
                 value={this.state.dateOfBirth}
               />
               <br />
-              <label id="Error" class="text-danger">
+              <label id="Error" className="text-danger">
                 {" "}
-                {this.state.dateOfBirthError}
+                {this.state.dateOfBirthError === ""
+                  ? ""
+                  : this.props.lang === "eng"
+                  ? this.state.dateOfBirthError
+                  : this.state.dateOfBirthError === "Invalid date of birth"
+                  ? "تاريخ ميلاد غير صالح"
+                  : "تاريخ الميلاد مطلوب"}
               </label>
               <br />
               <input
@@ -629,12 +696,20 @@ class RegisterModal extends React.Component {
                 type="text"
                 onChange={this.changeAdd}
                 value={this.state.address}
-                class="form-control"
-                placeholder="Residence Address"
+                className="form-control"
+                placeholder={
+                  this.props.lang === "eng"
+                    ? "Residence Address"
+                    : "عنوان السكن"
+                }
               />
-              <label id="Error" class="text-danger">
+              <label id="Error" className="text-danger">
                 {" "}
-                {this.state.residenceAddressError}
+                {this.state.residenceAddressError === ""
+                  ? ""
+                  : this.props.lang === "eng"
+                  ? this.state.residenceAddressError
+                  : "عنوان الإقامة مطلوب"}
               </label>
               <br />
               <input
@@ -642,12 +717,18 @@ class RegisterModal extends React.Component {
                 type="text"
                 onChange={this.changePhone}
                 value={this.state.phone}
-                placeholder="Telephone Number"
-                class="form-control"
+                placeholder={
+                  this.props.lang === "eng" ? "Telephone Number" : "رقم هاتف"
+                }
+                className="form-control"
               />
-              <label id="Error" class="text-danger">
+              <label id="Error" className="text-danger">
                 {" "}
-                {this.state.telephoneNumberError}
+                {this.state.telephoneNumberError === ""
+                  ? ""
+                  : this.props.lang === "eng"
+                  ? this.state.telephoneNumberError
+                  : "رقم الهاتف غير صحيح"}
               </label>
               <br />
               <input
@@ -655,12 +736,16 @@ class RegisterModal extends React.Component {
                 type="text"
                 onChange={this.changeFax}
                 value={this.state.fax}
-                placeholder="Fax"
-                class="form-control"
+                placeholder={this.props.lang === "eng" ? "Fax" : "فاكس"}
+                className="form-control"
               />
-              <label id="Error" class="text-danger">
+              <label id="Error" className="text-danger">
                 {" "}
-                {this.state.faxError}
+                {this.state.faxError === ""
+                  ? ""
+                  : this.props.lang === "eng"
+                  ? this.state.faxError
+                  : "فاكس غير صالح"}
               </label>
               <br />
               <Fab
@@ -677,7 +762,7 @@ class RegisterModal extends React.Component {
                 aria-label="Delete"
                 onClick={this.previousStep}
               >
-                Back
+                {this.props.lang === "eng" ? "Back" : "الرجوع"}
               </Fab>
               <Fab
                 variant="extended"
@@ -693,29 +778,36 @@ class RegisterModal extends React.Component {
                 aria-label="Delete"
                 onClick={this.closeModal}
               >
-                Cancel
+                {this.props.lang === "eng" ? "Cancel" : "إلغاء"}
               </Fab>
-              <Fab
-                variant="extended"
-                size="medium"
-                style={{
-                  boxShadow: "none",
-                  marginTop: "6px",
-                  backgroundColor: "#1ace98",
-                  color: "#FFFFFF",
-                  float: "right",
-                  width: 150
-                }}
-                aria-label="Delete"
-                onClick={this.submit}
-              >
-                Register
-              </Fab>
+              {!this.state.clicked ? (
+                <Fab
+                  variant="extended"
+                  size="medium"
+                  style={{
+                    boxShadow: "none",
+                    marginTop: "6px",
+                    backgroundColor: "#1ace98",
+                    color: "#FFFFFF",
+                    float: "right",
+                    width: 150
+                  }}
+                  aria-label="Delete"
+                  onClick={this.submit}
+                >
+                  {this.props.lang === "eng" ? "Register" : "تسجيل"}
+                </Fab>
+              ) : (
+                <CircularProgress
+                  style={{ marginTop: "6px", float: "right" }}
+                />
+              )}
             </form>
-            <label id="Success" class="text-danger">
+            <label id="Success" className="text-danger">
               {this.state.valid === "Successfully Created!" ? (
                 <Redirect to={{ pathname: "/profile" }} />
               ) : (
+                // <Redirect to={{ pathname: "/profile" }} />
                 <div />
               )}
             </label>
@@ -726,6 +818,5 @@ class RegisterModal extends React.Component {
     );
   }
 }
-
-//ReactDOM.render(<RegisterModal />,);
+Modal.setAppElement(document.getElementById("root"));
 export default RegisterModal;

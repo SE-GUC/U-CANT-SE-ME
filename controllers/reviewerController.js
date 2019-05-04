@@ -63,7 +63,7 @@ exports.createReviewer = async function(req, res) {
       return res
         .status(400)
         .send({ error: `email ${req.body.email} is already taken!` });
-
+    req.body.password = bcrypt.hashPassword(req.body.password)
     const newReviewer = await Reviewer.create(req.body);
     res.send({ msg: "Reviewer was created successfully", data: newReviewer });
   } catch (error) {
@@ -360,7 +360,7 @@ exports.forgot = function(req, res, next) {
             ",\n\n" +
             "You are receiving this because you (or someone else) have requested the reset of the password for your account.\n\n" +
             "Please click on the following link, or paste this into your browser to complete the process:\n\n" +
-            "http://localhost:3000/reviewers/reset/" +
+            "http://sumergite.herokuapp.com/reviewers/reset/" +
             token +
             "\n\n" +
             "If you did not request this, please ignore this email and your password will remain unchanged.\n\n" +

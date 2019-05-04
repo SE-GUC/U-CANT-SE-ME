@@ -14,6 +14,8 @@ import deepPurple from "@material-ui/core/colors/deepPurple";
 import parseJwt from "../helpers/decryptAuthToken";
 import { Redirect } from "react-router-dom";
 import NavBarDashboard from "./NavBarDashboard";
+import CircularProgress from "@material-ui/core/CircularProgress";
+
 const styles = {
   card: {
     width: 345,
@@ -36,7 +38,8 @@ class LawyerProfile extends Component {
     username: "",
     fullName: "",
     email: "",
-    lang: ""
+    lang: "",
+    finished: false
   };
 
   async componentDidMount() {
@@ -68,10 +71,10 @@ class LawyerProfile extends Component {
     if (res.data.data.username)
       this.setState({ username: res.data.data.username });
     if (res.data.data.email) this.setState({ email: res.data.data.email });
+    await this.setState({ finished: true });
   }
 
   render() {
-    const classes = { ...styles };
     const styles = {
       avatar: {
         margin: 10
@@ -104,24 +107,43 @@ class LawyerProfile extends Component {
         width: 345
       }
     };
+    const classes = { ...styles };
     if (this.state.home === 0) return <div> </div>;
     if (this.state.home === 1) return <Redirect to={{ pathname: "/" }} />;
-    return (
-      <div style={{ paddingTop: "10vh" }}>
-        <NavBarDashboard
-          sumergiteColor="#3480E3"
-          boxShadow="0px 3px 20px rgba(0, 0, 0, 0.16)"
-          dashboard="lighter"
-          profile="bold"
-          homepage="lighter"
-          DASHBOARD={true}
-          PROFILE={true}
-          ProfileMargin="120px"
-          HomePageMargin="0px"
-        />
-        <Card style={classes.card}>
-          <Typography gutterBottom variant="h5" component="h2" />
-          <Typography component="p">
+    if (!this.state.finished) {
+      return (
+        <div>
+          <NavBarDashboard
+            sumergiteColor="#3480E3"
+            boxShadow="0px 3px 20px rgba(0, 0, 0, 0.16)"
+            dashboard="lighter"
+            profile="bold"
+            homepage="lighter"
+            DASHBOARDD={true}
+            PROFILEE={true}
+            ProfileMargin="120px"
+            HomePageMargin="0px"
+          />
+          <CircularProgress style={{ marginTop: "100px" }} />
+          <h3>Fetching Data</h3>
+        </div>
+      );
+    } else {
+      return (
+        <div style={{ paddingTop: "10vh" }}>
+          <NavBarDashboard
+            sumergiteColor="#3480E3"
+            boxShadow="0px 3px 20px rgba(0, 0, 0, 0.16)"
+            dashboard="lighter"
+            profile="bold"
+            homepage="lighter"
+            DASHBOARDD={true}
+            PROFILEE={true}
+            ProfileMargin="120px"
+            HomePageMargin="0px"
+          />
+          <Card style={classes.card}>
+            <Typography gutterBottom variant="h5" component="h2" />
             <List style={classes.root}>
               <ListItem>
                 <ListItemText
@@ -151,13 +173,11 @@ class LawyerProfile extends Component {
                 />
               </ListItem>
             </List>
-          </Typography>
-          <CardActions />
-        </Card>
-        <br />
-        <Card style={classes.card}>
-          <Typography gutterBottom variant="h5" component="h2" />
-          <Typography component="p">
+            <CardActions />
+          </Card>
+          <br />
+          <Card style={classes.card}>
+            <Typography gutterBottom variant="h5" component="h2" />
             <List style={classes.root}>
               <ListItem>
                 <ListItemText
@@ -178,19 +198,19 @@ class LawyerProfile extends Component {
                 />
               </ListItem>
             </List>
-          </Typography>
-          <CardActions />
-        </Card>
-        <br />
-        {this.state.lawyerId === null ? (
-          <Redirect to={{ pathname: "/LoginInternalPortal" }} />
-        ) : (
-          <label />
-        )}
-        <br />
-        <br />
-      </div>
-    );
+            <CardActions />
+          </Card>
+          <br />
+          {this.state.lawyerId === null ? (
+            <Redirect to={{ pathname: "/LoginInternalPortal" }} />
+          ) : (
+            <label />
+          )}
+          <br />
+          <br />
+        </div>
+      );
+    }
   }
 }
 

@@ -14,7 +14,8 @@ export default class HomePage extends Component {
     loginColor: "#0F80ED",
     journals: false,
     loggedIn: false,
-    admin: false
+    admin: false,
+    lang: ""
   };
   handleClick = () => {
     var devID =
@@ -35,11 +36,14 @@ export default class HomePage extends Component {
     }
     try {
       const type = await parseJwt(localStorage.jwtToken).type;
-      if (type.toString() === 'admin') this.setState({ admin: true });
+      if (type.toString() === "admin") this.setState({ admin: true });
       else this.setState({ admin: false });
     } catch {
       this.setState({ admin: false });
     }
+    if (localStorage.getItem("lang"))
+      this.setState({ lang: localStorage.getItem("lang") });
+    else this.setState({ lang: "eng" });
   }
   render() {
     if (this.state.journals) {
@@ -61,45 +65,39 @@ export default class HomePage extends Component {
               dashboard="lighter"
               profile="lighter"
               homepage="bold"
-              DASHBOARD={true}
-              PROFILE={true}
+              DASHBOARDD={true}
+              PROFILEE={true}
               ProfileMargin="120px"
               HomePageMargin="0px"
-              admin={this.state.admin? true: false}
+              admin={this.state.admin ? true : false}
             />
           )}
           <div className="createCompany">
             <p className="createCompanySpan">
-              {" "}
-              Create your company
+              {this.state.lang === "eng"
+                ? "Create your company"
+                : "إنشىء شركتك في أقل من يوم"}
               <br />
-              in less than a day
+              {this.state.lang === "eng" ? "in less than a day" : ""}
             </p>
 
             <p className="createComp">
-              Create your company in less than a day
+              {this.state.lang === "eng"
+                ? "Create your company in less than a day"
+                : "إنشىء شركتك في أقل من يوم"}
               <br />
             </p>
 
-            <label
-              style={{
-                alignSelf: "center",
-                boxShadow: "none",
-                marginTop: "15px",
-                backgroundColor: "#0F80ED",
-                color: "#FFFFFF",
-                fontFamily: "SF Pro Display",
-                marginBottom: "10px ",
-                marginLeft: "14vw"
-              }}
+            <div
+              style={{ width: "100px", alignSelf: "left", marginLeft: "15vw" }}
             >
-              <RegisterModal buttonText=" Start Now" />
-            </label>
+              <RegisterModal lang={this.state.lang} />
+            </div>
           </div>
           <div className="arrow">
             <button id="buttonArrow" onClick={this.handleClick}>
               <svg
-                class="Path_7_A1_Path_2"
+                className="Path_7_A1_Path_2"
                 viewBox="8.719 12.382 59.679 33.831"
               >
                 <path
@@ -110,51 +108,62 @@ export default class HomePage extends Component {
             </button>
           </div>
         </div>
-        <div classNameid="all">
-          <div id="cc">
-            {/* <NavBarBlue sumergiteColor= '#FFF' backgroundColor='#3480E3' boxShadow='0px 3px 20px rgba(0, 0, 0, 0.16)'/> */}
-            {/* <NavBarBlue sumergiteColor= '#3480E3' backgroundColor='#FFFFFF' boxShadow='0px 3px 20px rgba(0, 0, 0, 0.16)'/> */}
-          </div>
+        <div className="all">
+          <div id="cc" />
           <div className="homePage2">
             <div className="homePage2Div1">
               <div className="homePageContainers">
                 <h1 className="homePageHeader">
-                  Forget about waiting in lines
+                  {this.state.lang === "eng"
+                    ? "Forget about waiting in lines"
+                    : "انسى الانتظار في طوابير"}
                 </h1>
                 <p className="homePagePar">
-                  >Lorem ipsum dolor sit amet, consectetur adipiscing elit,
+                  {this.state.lang === "eng"
+                    ? "No more wasting days to create a company. Create your comapny with ease from home"
+                    : "لا مزيد من إضاعة الأيام لإنشاء شركة. أنشئ شركتك بسهولة من المنزل"}
                   <br />
-                  sed do eiusmod tempor incididunt ut labore et dolore magna
-                  aliqua.Ut enim ad minim veniam,
-                  <br />
-                  quis nostrud exercitation ullamco laboris nisi ut aliquip ex
-                  ea commodo.
+                  {this.state.lang === "eng"
+                    ? "using our remote company establishment system."
+                    : ".باستخدام نظامنا لتأسيس الشركات عن بعد"}
                 </p>
+                {/* <img className="rightImage"src="https://solink.com/img/blog/people-waiting-in-line.jpg" alt="Smiley face" ></img> */}
               </div>
             </div>
             <div className="homePage2Div2">
               <div className="homePageContainers">
-                <h1 className="homePageHeader">Track your company progress</h1>
+                <h1 className="homePageHeader">
+                  {this.state.lang === "eng"
+                    ? "Track your company progress"
+                    : "تابع تقدم شركتك"}
+                </h1>
                 <p className="homePagePar">
-                  >Lorem ipsum dolor sit amet, consectetur adipiscing elit,{" "}
+                  {this.state.lang === "eng"
+                    ? "Why ask about the progress daily? Now you can view the state of your new company"
+                    : "لماذا السؤال اليومي عن تقدم شركتك؟"}
                   <br />
-                  sed do eiusmod tempor incididunt ut labore et dolore magna
-                  aliqua.Ut enim ad minim veniam, <br />
-                  quis nostrud exercitation ullamco laboris nisi ut aliquip ex
-                  ea commodo.
+                  {this.state.lang === "eng"
+                    ? "from the comfort of your home."
+                    : "!الآن يمكنك عرض حالة شركتك الجديدة من منزلك"}
                 </p>
               </div>
             </div>
             <div className="homePage2Div1">
               <div className="homePageContainers">
-                <h1 className="homePageHeader">View the latest companies</h1>
+                <h1 className="homePageHeader">
+                  {this.state.lang === "eng"
+                    ? "View the latest companies"
+                    : "عرض أحدث الشركات"}
+                </h1>
                 <p className="homePagePar">
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit,{" "}
+                  {this.state.lang === "eng"
+                    ? "Want to know about your competitors? Check out all the latest companies established"
+                    : "هل تريد أن تعرف عن منافسيك؟ تحقق من جميع الشركات المنشأة حديثآ"}
                   <br />
-                  sed do eiusmod tempor incididunt ut labore et dolore magna
-                  aliqua.Ut enim ad minim veniam, <br />
-                  quis nostrud exercitation ullamco laboris nisi ut aliquip ex
-                  ea commodo.
+                  {this.state.lang === "eng"
+                    ? "using our remote company establishment system."
+                    : ".باستخدام نظامنا لتأسيس الشركات عن بعد"}
+                  <br />
                 </p>
                 <Fab
                   variant="extended"
@@ -172,39 +181,30 @@ export default class HomePage extends Component {
                     this.setState({ journals: true });
                   }}
                 >
-                  View Journals
+                  {this.state.lang === "eng" ? "View Journals" : "عرض المجلات"}
                 </Fab>
               </div>
             </div>
             <div className="homePage2Div3">
               <div className="homePageContainers">
-                <h1 className="homePageHeader2">Start your next big thing</h1>
+                <h1 className="homePageHeader2">
+                  {this.state.lang === "eng"
+                    ? "Start your next big thing"
+                    : "ابدأ مشروعك الكبير القادم"}
+                </h1>
                 <p className="homePagePar2">
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit,{" "}
-                  <br />
-                  sed do eiusmod tempor incididunt ut labore et dolore magna
-                  aliqua.Ut enim ad minim veniam, <br />
-                  quis nostrud exercitation ullamco laboris nisi ut aliquip ex
-                  ea commodo.
+                  {this.state.lang === "eng"
+                    ? "You are a click away from establishing your own company!"
+                    : "أنت على بعد ضغطة واحدة من تأسيس شركتك الخاصة!"}
                 </p>
-                <label
-                  style={{
-                    alignSelf: "center",
-                    boxShadow: "none",
-                    marginTop: "15px",
-                    backgroundColor: "#F5F6F7",
-                    color: "#FFFFFF",
-                    fontFamily: "SF Pro Display",
-                    marginBottom: "10px ",
-                    marginLeft: "14vw"
-                  }}
-                >
-                  <RegisterModal buttonText=" Get Started" />
-                </label>
+
+                <RegisterModal lang={this.state.lang} />
               </div>
             </div>
             <div className="SumergiteCopyRight_A0_Text_16">
-              <p className="sumergiteCopyRight">Sumergite &copy;</p>
+              <p className="sumergiteCopyRight">
+                {this.state.lang === "eng" ? "Sumergite" : "سمرجايت"} &copy;
+              </p>
             </div>
           </div>
         </div>

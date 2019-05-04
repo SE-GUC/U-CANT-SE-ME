@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-// Be sure to include styles at some point, probably during your bootstraping
 import "@trendmicro/react-sidenav/dist/react-sidenav.css";
 import SideNav, { NavItem, NavIcon, NavText } from "@trendmicro/react-sidenav";
 import RegisterLawyer from "../RegisterLawyer";
@@ -7,60 +6,74 @@ import RegisterReviewer from "../RegisterReviewer";
 import CasesContainer from "../dCaseComponents/CasesContainer";
 import CreateFormTemplate from "../CreateFormTemplate/CreateFormTemplate";
 import NavBarDashboard from "../NavBarDashboard";
-import FormTemplate from "../CreateFormTemplate/FormTemplate"
-import Tooltip from '@material-ui/core/Tooltip';
-export default class InvestorDashBoard extends Component {
+import FormTemplate from "../CreateFormTemplate/FormTemplate";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faBriefcase } from "@fortawesome/free-solid-svg-icons";
+import { faUserTie } from "@fortawesome/free-solid-svg-icons";
+import { faFileInvoice } from "@fortawesome/free-solid-svg-icons";
+
+export default class AdminDashBoard extends Component {
+  _isMounted = false;
   constructor(props) {
     super(props);
     this.state = {
-      dashboardwidth: 0
+      dashboardwidth: 0,
+      lang: ""
     };
   }
-  async handleToggle(){
-    console.log("dondo")
-    // await 5000
-    var width = document.getElementById("dashboard").clientWidth
-    if(width===64)
-      width=240
-    else
-      width=64
-    await this.setState({dashboardwidth:width});
-    document.getElementById("CreateFormJSON").style.marginLeft=`${width}px`;
-    document.getElementById("CreateFormInteractive").style.marginLeft=`${width}px`;
-    document.getElementById("RegisterLawyer").style.marginLeft=`${width}px`;
-    document.getElementById("RegisterReviewer").style.marginLeft=`${width}px`;
-    document.getElementById("AllCases").style.marginLeft=`${width}px`;
-    document.getElementById("logo").style.marginLeft=`${width}px`;
+  async handleToggle() {
+    var width = document.getElementById("dashboard").clientWidth;
+    if (width === 64) width = 240;
+    else width = 64;
+    if (this._isMounted) await this.setState({ dashboardwidth: width });
+    document.getElementById("CreateFormJSON").style.marginLeft = `${width}px`;
+    document.getElementById(
+      "CreateFormInteractive"
+    ).style.marginLeft = `${width}px`;
+    document.getElementById("RegisterLawyer").style.marginLeft = `${width}px`;
+    document.getElementById("RegisterReviewer").style.marginLeft = `${width}px`;
+    document.getElementById("AllCases").style.marginLeft = `${width}px`;
+    document.getElementById("logo").style.marginLeft = `${width}px`;
+    document.getElementById(
+      "navbarSupportedContent"
+    ).style.marginLeft = `${width}px`;
   }
   async componentDidMount() {
-    const width = document.getElementById("dashboard").clientWidth;
-    await this.setState({ dashboardwidth: width });
+    this._isMounted = true;
+    if (this._isMounted) {
+      if (localStorage.getItem("lang"))
+        this.setState({ lang: localStorage.getItem("lang") });
+      else this.setState({ lang: "eng" });
+      const width = document.getElementById("dashboard").clientWidth;
+      await this.setState({ dashboardwidth: width });
+    }
+    document.getElementById("logo").style.marginLeft = `64px`;
+    document.getElementById("navbarSupportedContent").style.marginLeft = `64px`;
+  }
+  componentWillUnmount() {
+    this._isMounted = false;
   }
   handleSelect = selected => {
-    console.log(selected);
     document.getElementById("CreateFormJSON").style.display = "none";
     document.getElementById("CreateFormInteractive").style.display = "none";
     document.getElementById("RegisterLawyer").style.display = "none";
     document.getElementById("RegisterReviewer").style.display = "none";
     document.getElementById("AllCases").style.display = "none";
 
+    if (selected === "createformtemplate/code")
+      document.getElementById("CreateFormJSON").style.display = null;
 
-    if(selected === "createformtemplate/code")
-        document.getElementById("CreateFormJSON").style.display=null;
-    
-        if(selected === "createformtemplate/interactive")
-        document.getElementById("CreateFormInteractive").style.display=null;
+    if (selected === "createformtemplate/interactive")
+      document.getElementById("CreateFormInteractive").style.display = null;
 
     if (selected === "register/lawyer")
-        document.getElementById("RegisterLawyer").style.display=null;
+      document.getElementById("RegisterLawyer").style.display = null;
 
     if (selected === "register/reviewer")
-        document.getElementById("RegisterReviewer").style.display=null;
+      document.getElementById("RegisterReviewer").style.display = null;
 
     if (selected === "viewallcases")
-        document.getElementById("AllCases").style.display=null;
-
-    
+      document.getElementById("AllCases").style.display = null;
   };
   render() {
     const styles = {
@@ -73,10 +86,7 @@ export default class InvestorDashBoard extends Component {
         boxShadow: "5px 0px 20px rgba(0, 0, 0, 0.16)"
       },
       divStyleShow: {
-        display: " inline",
         marginLeft: this.state.dashboardwidth,
-        // background:"red",
-        display: "flex",
         justifyContent: "center",
         paddingTop: "10vh"
       },
@@ -84,19 +94,13 @@ export default class InvestorDashBoard extends Component {
         display: "none",
         textAlign: "center",
         marginLeft: this.state.dashboardwidth,
-        // background:"red",
-        justifyContent: 'center',
-        paddingTop:'10vh'
-      },
-      divStyleHideRegister:{
-        display: 'none',
-        // textAlign: "center",
-        marginLeft:this.state.dashboardwidth,
-        // background:"red",
-        justifyContent: 'center',
-        // paddingTop:'-10px',
         justifyContent: "center",
-        // paddingTop: "10vh"
+        paddingTop: "10vh"
+      },
+      divStyleHideRegister: {
+        display: "none",
+        marginLeft: this.state.dashboardwidth,
+        justifyContent: "center"
       }
     };
     return (
@@ -107,8 +111,8 @@ export default class InvestorDashBoard extends Component {
           dashboard="bold"
           profile="lighter"
           homepage="lighter"
-          DASHBOARD={true}
-          PROFILE={true}
+          DASHBOARDD={true}
+          PROFILEE={true}
           ProfileMargin="120px"
           HomePageMargin="0px"
           admin={true}
@@ -121,37 +125,63 @@ export default class InvestorDashBoard extends Component {
         >
           <SideNav.Toggle />
           <SideNav.Nav defaultSelected="viewallcases">
-            
             <NavItem eventKey="viewallcases">
               <NavIcon>
-                <a className="fas fa-briefcase" style={styles.iconStyle} />
+                <FontAwesomeIcon icon={faBriefcase} style={styles.iconStyle} />
               </NavIcon>
-              <NavText>View All Cases</NavText>
+              <NavText>
+                {this.state.lang === "eng"
+                  ? "View All Cases"
+                  : "أظهر جميع العمليات"}
+              </NavText>
             </NavItem>
-            
+
             <NavItem eventKey="register">
               <NavIcon>
-                <a className="fas fa-user-tie" style={styles.iconStyle} />
+                <FontAwesomeIcon icon={faUserTie} style={styles.iconStyle} />{" "}
               </NavIcon>
-              <NavText>Register</NavText>
+              <NavText>
+                {this.state.lang === "eng" ? "Register" : "سجل موظف"}
+              </NavText>
               <NavItem eventKey="register/lawyer">
-                <NavText>Register Lawyer</NavText>
+                <NavText>
+                  {this.state.lang === "eng" ? "Register Lawyer" : "سجل محام"}
+                </NavText>
               </NavItem>
               <NavItem eventKey="register/reviewer">
-                <NavText>Register Reviewer</NavText>
+                <NavText>
+                  {this.state.lang === "eng"
+                    ? "Register Reviewer"
+                    : "سجل مراجع"}
+                </NavText>
               </NavItem>
             </NavItem>
 
             <NavItem eventKey="createformtemplate">
               <NavIcon>
-                <a className="fab fa-wpforms" style={styles.iconStyle} />
+                <FontAwesomeIcon
+                  icon={faFileInvoice}
+                  style={styles.iconStyle}
+                />{" "}
               </NavIcon>
-              <NavText>Create Form Template</NavText>
-            <NavItem eventKey="createformtemplate/code">
-                <NavText>Upload JSON File</NavText>
+              <NavText>
+                {this.state.lang === "eng"
+                  ? "Create Form Template"
+                  : "إنشاء نموذج"}
+              </NavText>
+              <NavItem eventKey="createformtemplate/code">
+                <NavText>
+                  {this.state.lang === "eng"
+                    ? "Upload JSON File"
+                    : "إرفع ملف جايسون"}
+                </NavText>
               </NavItem>
               <NavItem eventKey="createformtemplate/interactive">
-                <NavText>Create Form Template</NavText>
+                <NavText>
+                  {this.state.lang === "eng"
+                    ? "Create Form Template"
+                    : "إنشاء نموذج"}
+                </NavText>
               </NavItem>
             </NavItem>
           </SideNav.Nav>
@@ -163,11 +193,11 @@ export default class InvestorDashBoard extends Component {
         <div id="CreateFormInteractive" style={styles.divStyleHide}>
           <FormTemplate />
         </div>
-        <div id="RegisterLawyer" style={styles.divStyleHideRegister} >
-          <RegisterLawyer/>
+        <div id="RegisterLawyer" style={styles.divStyleHideRegister}>
+          <RegisterLawyer />
         </div>
-        <div id="RegisterReviewer" style={styles.divStyleHideRegister} >
-          <RegisterReviewer/>
+        <div id="RegisterReviewer" style={styles.divStyleHideRegister}>
+          <RegisterReviewer />
         </div>
         <div id="AllCases" style={styles.divStyleShow}>
           <CasesContainer />
