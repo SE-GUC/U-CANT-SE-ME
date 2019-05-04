@@ -6,6 +6,7 @@ import Select from "@material-ui/core/Select";
 import MenuItem from "@material-ui/core/MenuItem";
 import Fab from "@material-ui/core/Fab";
 import NavBarDashboard from "./NavBarDashboard";
+import moment from "moment";
 const Joi = require("joi");
 
 export default class updateInvestorProfile extends React.Component {
@@ -82,20 +83,20 @@ export default class updateInvestorProfile extends React.Component {
         }
       );
     }
-    if (!(form.email.value === "")) {
-      body.email = form.email.value;
+    // if (!(form.email.value === "")) {
+    //   body.email = form.email.value;
 
-      Joi.validate(
-        { email: body.email },
-        { email: Joi.string().email() },
-        function(error) {
-          if (error) {
-            valid = false;
-            me.setState({ emailError: "Invalid Email" });
-          }
-        }
-      );
-    }
+    //   Joi.validate(
+    //     { email: body.email },
+    //     { email: Joi.string().email() },
+    //     function(error) {
+    //       if (error) {
+    //         valid = false;
+    //         me.setState({ emailError: "Invalid Email" });
+    //       }
+    //     }
+    //   );
+    // }
     if (!(form.password.value === "")) {
       body.password = form.password.value;
 
@@ -111,21 +112,21 @@ export default class updateInvestorProfile extends React.Component {
       );
     }
 
-    if (!(form.nationality.value === "")) {
-      body.nationality = form.nationality.value;
+    // if (!(form.nationality.value === "")) {
+    //   body.nationality = form.nationality.value;
 
-      Joi.validate(
-        { nationality: body.nationality },
-        { nationality: Joi.string() },
-        function(error) {
-          if (error) {
-            valid = false;
-            me.setState({ nationalityError: "Invalid Nationality" });
-          }
-        }
-      );
-    }
-    if (!(form.gender.value === "")) body.gender = form.gender.value;
+    //   Joi.validate(
+    //     { nationality: body.nationality },
+    //     { nationality: Joi.string() },
+    //     function(error) {
+    //       if (error) {
+    //         valid = false;
+    //         me.setState({ nationalityError: "Invalid Nationality" });
+    //       }
+    //     }
+    //   );
+    // }
+    // if (!(form.gender.value === "")) body.gender = form.gender.value;
     if (!(form.identificationNumber.value === "")) {
       body.identificationNumber = form.identificationNumber.value;
 
@@ -222,20 +223,25 @@ export default class updateInvestorProfile extends React.Component {
       const investorId = this.state.investorId;
       try {
         await axios.put(`api/investors/${investorId}`, body);
-        this.setState({ valid: "Successfully Updated!" });
+        await me.setState({ valid: "Successfully Updated!" });
       } catch {
-        this.state.emailError = "Make sure this email is not already in use";
-        this.setState({ valid: "Oops something went wrong!" });
+        // this.state.emailError = "Make sure this email is not already in use";
+        await me.setState({ valid: "Oops something went wrong!" });
       }
     } else {
-      this.setState({ valid: "Oops something went wrong!" });
+      await me.setState({ valid: "" });
     }
   };
 
   handleChange = event => {
     this.setState({ [event.target.name]: event.target.value });
   };
-
+  formatTime(t) {
+    return moment
+      .utc(t.substring(0, 23))
+      .format("YYYY-MM-DD")
+      .toUpperCase();
+  }
   render() {
     if (this.state.home === 0) return <div> </div>;
     if (this.state.home === 1) return <Redirect to={{ pathname: "/" }} />;
@@ -253,7 +259,7 @@ export default class updateInvestorProfile extends React.Component {
           ProfileMargin="120px"
           HomePageMargin="0px"
         />
-        <div style={{ paddingTop: "10vh" }}>
+        <div>
           <div className="wrapper">
             <div className="page-header" style={{}}>
               <div className="filter" />
@@ -286,6 +292,7 @@ export default class updateInvestorProfile extends React.Component {
                         <input
                           type="text"
                           name="fullName"
+                          defaultValue={this.props.location.state.fullName}
                           placeholder={
                             this.state.lang === "eng"
                               ? "Full name"
@@ -303,32 +310,13 @@ export default class updateInvestorProfile extends React.Component {
                             : "الاسم الكامل غير صحيح"}{" "}
                         </label>
                         <input
-                          type="text"
-                          id="email"
-                          name="email"
-                          className="form-control"
-                          placeholder={
-                            this.state.lang === "eng"
-                              ? "Email"
-                              : "البريد الإلكتروني"
-                          }
-                        />
-                        <br />
-                        <label id="Error" className="text-danger">
-                          {" "}
-                          {this.state.emailError === ""
-                            ? ""
-                            : this.state.lang === "eng"
-                            ? "Invalid Email"
-                            : "البريد الالكتروني غير صحيح"}
-                        </label>
-                        <input
                           type="password"
                           id="password"
                           name="password"
+                          defaultValue=""
                           className="form-control"
                           placeholder={
-                            this.state.lang === "en" ? "password" : "كلمه السر"
+                            this.state.lang === "eng" ? "password" : "كلمه السر"
                           }
                         />
                         <br />
@@ -342,46 +330,12 @@ export default class updateInvestorProfile extends React.Component {
                         </label>
                         <br />
                         {/* */}
-                        <Select
-                          id="gender"
-                          name="gender"
-                          value={this.state.gender===undefined?'':this.state.gender}
-                          onChange={this.handleChange}
-                          style={{ width: "100%" }}
-                        >
-                          <MenuItem value={"Male"}>
-                            {this.state.lang === "eng" ? "Male" : "ذكر"}
-                          </MenuItem>
-                          <MenuItem value={"Female"}>
-                            {this.state.lang === "eng" ? "Female" : "أنثى"}
-                          </MenuItem>
-                        </Select>
-                        <br />
-                        <br />
-                        <br />
-                        <input
-                          name="nationality"
-                          className="form-control"
-                          placeholder={
-                            this.state.lang === "eng"
-                              ? "nationality"
-                              : "الجنسية"
-                          }
-                        />
-                        <br />
-                        <label id="Error" className="text-danger">
-                          {" "}
-                          {this.state.nationalityError === ""
-                            ? ""
-                            : this.state.lang === "eng"
-                            ? "Invalid Nationality"
-                            : "الجنسية مخالفة"}
-                        </label>
                         <br />
                         <Select
                           id="methodOfIdentification"
                           name="methodOfIdentification"
-                          value={this.state.methodOfIdentification===undefined?'':this.state.methodOfIdentification}
+                          // value={this.state.methodOfIdentification==="NID"?"NI":"passport"}
+                          value = {this.props.location.state.methodOfIdentification}
                           onChange={this.handleChange}
                           style={{ width: "100%" }}
                         >
@@ -402,6 +356,7 @@ export default class updateInvestorProfile extends React.Component {
                         <input
                           name="identificationNumber"
                           className="form-control"
+                          defaultValue={this.props.location.state.identificationNumber}
                           placeholder={
                             this.state.lang === "eng"
                               ? "Identification number"
@@ -421,6 +376,8 @@ export default class updateInvestorProfile extends React.Component {
                         <input
                           name="dateOfBirth"
                           className="form-control"
+                          type="date"
+                          defaultValue={this.formatTime(this.props.location.state.dateOfBirth)}
                           placeholder={
                             this.state.lang === "eng"
                               ? "Date of birth"
@@ -439,6 +396,7 @@ export default class updateInvestorProfile extends React.Component {
                         <br />
                         <input
                           name="residenceAddress"
+                          defaultValue={this.props.location.state.residenceAddress}
                           className="form-control"
                           placeholder={
                             this.state.lang === "eng"
@@ -459,6 +417,7 @@ export default class updateInvestorProfile extends React.Component {
                         <input
                           name="telephoneNumber"
                           className="form-control"
+                          defaultValue={this.props.location.state.telephoneNumber}
                           placeholder={
                             this.state.lang === "eng" ? "telephone" : "الهاتف"
                           }
@@ -476,6 +435,7 @@ export default class updateInvestorProfile extends React.Component {
                         <input
                           name="fax"
                           className="form-control"
+                          defaultValue={this.props.location.state.fax}
                           placeholder={
                             this.state.lang === "eng" ? "fax" : "الفاكس"
                           }
@@ -511,8 +471,10 @@ export default class updateInvestorProfile extends React.Component {
                       >
                         {this.state.lang === "eng" ? "Update" : "حدث"}
                       </Fab>
-                      {this.state.valid}
                       <br />
+                        <h6 style={{color:"black"}}>
+                          {this.state.valid}
+                        </h6>
                       <br />
                     </div>
                   </div>

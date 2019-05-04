@@ -45,7 +45,12 @@ class InvestorProfile extends Component {
     showPassword: false,
     edit: false,
     lang: "",
-    finished: false
+    finished: false,
+    identificationNumber:"",
+    methodOfIdentification:"",
+    residenceAddress:"",
+    telephoneNumber:"",
+    fax:""
   };
 
   async componentDidMount() {
@@ -82,6 +87,17 @@ class InvestorProfile extends Component {
     if (res.data.data.fax) this.setState({ fax: res.data.data.fax });
     if (res.data.data.telephoneNumber)
       this.setState({ telephoneNumber: res.data.data.telephoneNumber });
+    if(res.data.data.methodOfIdentification)
+      this.setState({ methodOfIdentification: res.data.data.methodOfIdentification });
+    if(res.data.data.identificationNumber)
+      this.setState({ identificationNumber: res.data.data.identificationNumber });
+    if(res.data.data.residenceAddress)
+      this.setState({ residenceAddress: res.data.data.residenceAddress });
+    if(res.data.data.telephoneNumber)
+      this.setState({ telephoneNumber: res.data.data.telephoneNumber });
+    if(res.data.data.fax)
+      this.setState({ fax: res.data.data.fax });
+
     await this.setState({ finished: true });
   }
 
@@ -116,11 +132,13 @@ class InvestorProfile extends Component {
         padding: "0px"
       },
       card: {
+        
         width: 345,
         borderRadius: 12,
         fontFamily: "Helvetica Neue",
         boxShadow: "0px 3px 20px rgba(0, 0, 0, 0.16)",
-        margin: "1%"
+        margin: "1%",
+        display:"flex"
       },
       media: {
         height: 140
@@ -173,6 +191,8 @@ class InvestorProfile extends Component {
             ProfileMargin="120px"
             HomePageMargin="0px"
           />
+          <div style={{display:"inline-grid"}}>
+
           <Card style={classes.card}>
             <CardActionArea>
               <CardContent>
@@ -188,7 +208,7 @@ class InvestorProfile extends Component {
                       {this.state.fullName.toString().charAt(0)}
                     </Avatar>
                   </ListItem>
-                  <Divider light />
+                  <Divider />
                   <Divider />
                   <ListItem>
                     <ListItemText
@@ -216,7 +236,6 @@ class InvestorProfile extends Component {
               </CardContent>
             </CardActionArea>
           </Card>
-          <br />
           <Card style={classes.card}>
             <CardActionArea>
               <CardContent>
@@ -262,11 +281,14 @@ class InvestorProfile extends Component {
               </CardContent>
             </CardActionArea>
           </Card>
+          </div>
           <br />
           {this.state.investorId === null ? (
             <Redirect to={{ pathname: "/Login" }} />
           ) : this.state.edit === true ? (
-            <Redirect to={{ pathname: "/updateInvestorProfile" }} />
+            <Redirect 
+            
+            to={{ pathname: "/updateInvestorProfile",state:this.state }} />
           ) : (
             <label />
           )}
@@ -276,6 +298,7 @@ class InvestorProfile extends Component {
             onClick={() => {
               this.setState({ edit: true });
             }}
+            style={{display:"-webkit-inline-box"}}
           >
             {this.state.lang === "eng" ? "Edit Profile" : "تعديل الملف الشخصي"}{" "}
             <EditIcon />
