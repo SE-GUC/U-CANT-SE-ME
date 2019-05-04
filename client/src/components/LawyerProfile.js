@@ -144,6 +144,7 @@ class LawyerProfile extends Component {
             ProfileMargin="120px"
             HomePageMargin="0px"
           />
+          <div style={{display:"inline-grid"}}>
           <Card style={classes.card}>
             <Typography gutterBottom variant="h5" component="h2" />
             <List style={classes.root}>
@@ -202,6 +203,7 @@ class LawyerProfile extends Component {
             </List>
             <CardActions />
           </Card>
+          </div>
           <br />
           {this.state.lawyerId === null ? (
             <Redirect to={{ pathname: "/LoginInternalPortal" }} />
