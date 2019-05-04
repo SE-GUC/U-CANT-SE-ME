@@ -3,14 +3,25 @@ import Input from "@material-ui/core/Input";
 import InputLabel from "@material-ui/core/InputLabel";
 import FormControl from "@material-ui/core/FormControl";
 import Fab from "@material-ui/core/Fab";
+import axios from "axios";
+
 class ExternalLogin extends Component {
   state = {
     password: "",
     showPassword: false
   };
   handleSubmit = async () => {
+    const req = {
+      password: this.state.password
+    };
     document.getElementById("Token").style.display = "none";
     try {
+      await axios.post(
+        `/api/${this.props.match.params.type}/reset/${
+          this.props.match.params.token
+        }`,
+        req
+      );
       document.getElementById("Success").style.display = "inline";
     } catch (error) {
       if (error.message === "Network Error")
