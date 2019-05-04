@@ -44,6 +44,17 @@ export default class HomePage extends Component {
     if (localStorage.getItem("lang"))
       this.setState({ lang: localStorage.getItem("lang") });
     else this.setState({ lang: "eng" });
+    this.effect = window.VANTA.NET({
+      el: "#hero",
+      color: "#ffffff",
+      backgroundColor: "#3480e3",
+      points: 19.00,
+      maxDistance: 27.00,
+      spacing: 20.00
+    });
+  }
+  componentWillUnmount() {
+    if (this.effect) this.effect.destroy();
   }
   render() {
     if (this.state.journals) {
@@ -51,7 +62,7 @@ export default class HomePage extends Component {
     }
     return (
       <div className="HeroAndHome">
-        <div className="hero">
+        <div id="hero" style={{ height: "100vh" }}>
           {this.state.loggedIn === false ? (
             <NavBarBlue
               sumergiteColor={this.state.sumergiteColor}
