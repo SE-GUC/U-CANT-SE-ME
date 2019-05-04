@@ -11,7 +11,7 @@ const Joi = require("joi");
 
 const customStyles = {
   content: {
-    top: "55%",
+    top: "45%",
     left: "50%",
     right: "auto",
     bottom: "auto",
@@ -443,10 +443,9 @@ class RegisterModal extends React.Component {
           <Fab
             variant="extended"
             size="medium"
-            color="secondary"
+            color="primary"
             style={{
               boxShadow: "none",
-              backgroundColor: "#E53167",
               color: "#FFFFFF"
             }}
             aria-label="Delete"
@@ -536,10 +535,10 @@ class RegisterModal extends React.Component {
               <Fab
                 variant="extended"
                 size="medium"
+                color="secondary"
                 style={{
                   boxShadow: "none",
                   marginTop: "6px",
-                  backgroundColor: "#E53167",
                   color: "#FFFFFF",
                   float: "left",
                   width: 150
@@ -552,10 +551,10 @@ class RegisterModal extends React.Component {
               <Fab
                 variant="extended"
                 size="medium"
+                color="primary"
                 style={{
                   boxShadow: "none",
                   marginTop: "6px",
-                  backgroundColor: "#1ace98",
                   color: "#FFFFFF",
                   float: "right",
                   width: 150
@@ -748,8 +747,7 @@ class RegisterModal extends React.Component {
                 style={{
                   boxShadow: "none",
                   marginTop: "6px",
-                  backgroundColor: "#525051",
-                  color: "#FFFFFF",
+                  color: "#000000",
                   float: "left",
                   width: 150
                 }}
@@ -761,10 +759,10 @@ class RegisterModal extends React.Component {
               <Fab
                 variant="extended"
                 size="medium"
+                color="secondary"
                 style={{
                   boxShadow: "none",
                   marginTop: "6px",
-                  backgroundColor: "#E53167",
                   color: "#FFFFFF",
                   float: "center",
                   width: 150
@@ -778,10 +776,10 @@ class RegisterModal extends React.Component {
                 <Fab
                   variant="extended"
                   size="medium"
+                  color = "primary"
                   style={{
                     boxShadow: "none",
                     marginTop: "6px",
-                    backgroundColor: "#1ace98",
                     color: "#FFFFFF",
                     float: "right",
                     width: 150
