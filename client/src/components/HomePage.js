@@ -47,7 +47,7 @@ export default class HomePage extends Component {
     this.effect = window.VANTA.NET({
       el: "#hero",
       color: "#ffffff",
-      backgroundColor: "#3480e3",
+      backgroundColor: "#0F80ED",
       points: 19.0,
       maxDistance: 27.0,
       spacing: 20.0
