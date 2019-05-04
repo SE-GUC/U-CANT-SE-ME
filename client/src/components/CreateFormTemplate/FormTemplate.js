@@ -128,7 +128,7 @@ class FormTemplate extends Component {
     } else if (flag === "advanced") {
       this.setState({ advanced: !this.state.advanced });
     }
-    // this.setState({ clicked: false, success: false, loading: false });
+    this.setState({ clicked: false, success: false, loading: false });
   }
 
   handleFieldChange = (fieldIdx, key, eventTarget) => {
@@ -165,7 +165,7 @@ class FormTemplate extends Component {
     this.setState({
       specifyMinAndMaxFields: [...this.state.specifyMinAndMaxFields, false]
     });
-    // this.setState({ clicked: false, success: false, loading: false });
+    this.setState({ clicked: false, success: false, loading: false });
   };
 
   handleRemoveField = () => {
@@ -177,7 +177,7 @@ class FormTemplate extends Component {
     );
     this.setState({ fields: fields });
     this.setState({ specifyMinAndMaxFields: specifyMinAndMaxFields });
-    // this.setState({ clicked: false, success: false, loading: false });
+    this.setState({ clicked: false, success: false, loading: false });
   };
 
   handleHelp = () => {
