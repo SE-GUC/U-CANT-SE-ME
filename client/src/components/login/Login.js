@@ -6,6 +6,7 @@ import { login } from "../../globalState/actions/authActions";
 import "./login.scss";
 import NavBarBlue from "../NavBarBlue";
 import parseJwt from "../../helpers/decryptAuthToken";
+import CircularProgress from "@material-ui/core/CircularProgress";
 
 class Login extends Component {
   state = {
@@ -17,9 +18,11 @@ class Login extends Component {
     signUp: false,
     res: "",
     loggedIn: false,
-    lang: ""
+    lang: "",
+    clicked: false
   };
   handleSubmit = async () => {
+    await this.setState({ clicked: true });
     const req = {
       email: this.state.email,
       username: this.state.email,
@@ -31,6 +34,7 @@ class Login extends Component {
     } catch (error) {
       document.getElementById("Error").style.display = "inline";
     }
+    await this.setState({ clicked: false });
   };
   handleChange = event => {
     this.setState({
@@ -155,26 +159,39 @@ class Login extends Component {
                             : "البريد الإلكتروني أو كلمة المرور خاطئة"}
                         </label>
                         <br />
-                        <Fab
-                          variant="extended"
-                          size="large"
-                          color="secondary"
-                          style={{
-                            color: "#FFFFFF",
-                            height: "31px",
-                            width: "107px",
-                            fontSize: "13px",
-                            boxShadow: "none",
-                            marginRight: "240px",
-                            marginTop: "6px",
-                            display: "block",
-                            margin: "0 auto"
-                          }}
-                          aria-label="Delete"
-                          onClick={this.handleSubmit}
-                        >
-                          {this.state.lang === "eng" ? "Login" : "تسجيل الدخول"}
-                        </Fab>
+                        {!this.state.clicked ? (
+                          <Fab
+                            variant="extended"
+                            size="large"
+                            color="secondary"
+                            style={{
+                              color: "#FFFFFF",
+                              height: "31px",
+                              width: "107px",
+                              fontSize: "13px",
+                              boxShadow: "none",
+                              marginRight: "240px",
+                              marginTop: "6px",
+                              display: "block",
+                              margin: "0 auto"
+                            }}
+                            aria-label="Delete"
+                            onClick={this.handleSubmit}
+                          >
+                            {this.state.lang === "eng"
+                              ? "Login"
+                              : "تسجيل الدخول"}
+                          </Fab>
+                        ) : (
+                          <CircularProgress
+                            style={{
+                              marginTop: "6px",
+                              marginRight: "240px",
+                              display: "block",
+                              margin: "0 auto"
+                            }}
+                          />
+                        )}
                       </form>
                       <br />
                       <div className="forgot">
