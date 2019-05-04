@@ -454,11 +454,11 @@ class FormTemplate extends Component {
           ])}
         </React.Fragment>
         <div key="div4" style={{ float: "right" }}>
-          <Fab key="fab1" color="secondary" aria-label="RemoveIcon">
-            <RemoveIcon onClick={ev => this.handleRemoveField()} />
+          <Fab key="fab1" color="secondary" aria-label="RemoveIcon" onClick={ev => this.handleRemoveField()}>
+            <RemoveIcon/>
           </Fab>{" "}
-          <Fab key="fab0" color="primary" aria-label="Add">
-            <AddIcon onClick={ev => this.handleAddField()} />
+          <Fab key="fab0" color="primary" aria-label="Add" onClick={ev => this.handleAddField()}>
+            <AddIcon  />
           </Fab>
         </div>
       </Card>
@@ -491,8 +491,9 @@ class FormTemplate extends Component {
         color="secondary"
         aria-label="Add"
         style={{ float: "right", marginRight: "7%" }}
+        onClick={ev => this.handleHelp()}
       >
-        <HelpIcon onClick={ev => this.handleHelp()} />
+        <HelpIcon />
       </Fab>
     ];
     return (
