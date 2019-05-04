@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import { withStyles } from "@material-ui/core/styles";
 import Card from "@material-ui/core/Card";
 import CardActionArea from "@material-ui/core/CardActionArea";
-import CardActions from "@material-ui/core/CardActions";
 import CardContent from "@material-ui/core/CardContent";
 import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
@@ -19,6 +18,8 @@ import moment from "moment";
 import parseJwt from "../helpers/decryptAuthToken";
 import { Redirect } from "react-router-dom";
 import NavBarDashboard from "./NavBarDashboard";
+import CircularProgress from "@material-ui/core/CircularProgress";
+
 const styles = {
   card: {
     width: 345,
@@ -43,7 +44,13 @@ class InvestorProfile extends Component {
     gender: "",
     showPassword: false,
     edit: false,
-    lang: ""
+    lang: "",
+    finished: false,
+    identificationNumber:"",
+    methodOfIdentification:"",
+    residenceAddress:"",
+    telephoneNumber:"",
+    fax:""
   };
 
   async componentDidMount() {
@@ -63,7 +70,6 @@ class InvestorProfile extends Component {
       return;
     }
     this.setState({ home: 2 });
-    const data = parseJwt(localStorage.jwtToken);
     try {
       await this.setState({ investorId: parseJwt(localStorage.jwtToken).id });
     } catch {
@@ -81,6 +87,18 @@ class InvestorProfile extends Component {
     if (res.data.data.fax) this.setState({ fax: res.data.data.fax });
     if (res.data.data.telephoneNumber)
       this.setState({ telephoneNumber: res.data.data.telephoneNumber });
+    if(res.data.data.methodOfIdentification)
+      this.setState({ methodOfIdentification: res.data.data.methodOfIdentification });
+    if(res.data.data.identificationNumber)
+      this.setState({ identificationNumber: res.data.data.identificationNumber });
+    if(res.data.data.residenceAddress)
+      this.setState({ residenceAddress: res.data.data.residenceAddress });
+    if(res.data.data.telephoneNumber)
+      this.setState({ telephoneNumber: res.data.data.telephoneNumber });
+    if(res.data.data.fax)
+      this.setState({ fax: res.data.data.fax });
+
+    await this.setState({ finished: true });
   }
 
   formatTime(t) {
@@ -95,7 +113,6 @@ class InvestorProfile extends Component {
   };
 
   render() {
-    const classes = { ...styles };
     const styles = {
       avatar: {
         margin: 10
@@ -115,42 +132,71 @@ class InvestorProfile extends Component {
         padding: "0px"
       },
       card: {
+        
         width: 345,
         borderRadius: 12,
         fontFamily: "Helvetica Neue",
         boxShadow: "0px 3px 20px rgba(0, 0, 0, 0.16)",
-        margin: "1%"
+        margin: "1%",
+        display:"flex"
       },
       media: {
         height: 140
       },
       root: {
-        width: 345
+        width: 345,
+        marginLeft:"-20px"
       }
     };
+    const classes = { ...styles };
     if (this.state.home === 0) return <div> </div>;
     if (this.state.home === 1) return <Redirect to={{ pathname: "/" }} />;
-    return (
-      <div style={{ paddingTop: "10vh" }}>
-        <NavBarDashboard
-          dashboardRedirect="/InvestorDashBoard"
-          sumergiteColor="#3480E3"
-          boxShadow="0px 3px 20px rgba(0, 0, 0, 0.16)"
-          dashboard="lighter"
-          profile="bold"
-          homepage="lighter"
-          DASHBOARD={true}
-          PROFILE={true}
-          ProfileMargin="120px"
-          HomePageMargin="0px"
-        />
-        <Card style={{ pointerEvents: "none" }}>
-          <CardActionArea>
-            <CardContent>
-              <Typography gutterBottom variant="h5" component="h2">
-                {/* {this.props.case.form.companyNameArabic} */}
-              </Typography>
-              <Typography component="p">
+    if (!this.state.finished) {
+      return (
+        <div>
+          <div style={{ paddingTop: "10vh" }}>
+            <NavBarDashboard
+              dashboardRedirect="/InvestorDashBoard"
+              sumergiteColor="#3480E3"
+              boxShadow="0px 3px 20px rgba(0, 0, 0, 0.16)"
+              dashboard="lighter"
+              profile="bold"
+              homepage="lighter"
+              electronicJournals="lighter"
+              DASHBOARDD={true}
+              PROFILEE={true}
+              ProfileMargin="120px"
+              HomePageMargin="0px"
+            />
+          </div>
+          <div>
+            <CircularProgress style={{ marginTop: "100px" }} />
+            <h3>Fetching Data</h3>
+          </div>
+        </div>
+      );
+    } else {
+      return (
+        <div style={{ paddingTop: "10vh" }}>
+          <NavBarDashboard
+            dashboardRedirect="/InvestorDashBoard"
+            sumergiteColor="#3480E3"
+            boxShadow="0px 3px 20px rgba(0, 0, 0, 0.16)"
+            dashboard="lighter"
+            profile="bold"
+            homepage="lighter"
+            electronicJournals="lighter"
+            DASHBOARDD={true}
+            PROFILEE={true}
+            ProfileMargin="120px"
+            HomePageMargin="0px"
+          />
+          <div style={{display:"inline-grid"}}>
+
+          <Card style={classes.card}>
+            <CardActionArea>
+              <CardContent>
+                <Typography gutterBottom variant="h5" component="h2" />
                 <List style={classes.root}>
                   <ListItem>
                     <ListItemText
@@ -162,7 +208,7 @@ class InvestorProfile extends Component {
                       {this.state.fullName.toString().charAt(0)}
                     </Avatar>
                   </ListItem>
-                  <Divider light />
+                  <Divider />
                   <Divider />
                   <ListItem>
                     <ListItemText
@@ -187,19 +233,13 @@ class InvestorProfile extends Component {
                     />
                   </ListItem>
                 </List>
-              </Typography>
-            </CardContent>
-          </CardActionArea>
-          <CardActions />
-        </Card>
-        <br />
-        <Card style={{ pointerEvents: "none" }}>
-          <CardActionArea>
-            <CardContent>
-              <Typography gutterBottom variant="h5" component="h2">
-                {/* {this.props.case.form.companyNameArabic} */}
-              </Typography>
-              <Typography component="p">
+              </CardContent>
+            </CardActionArea>
+          </Card>
+          <Card style={classes.card}>
+            <CardActionArea>
+              <CardContent>
+                <Typography gutterBottom variant="h5" component="h2" />
                 <List style={classes.root}>
                   <ListItem>
                     <ListItemText
@@ -238,33 +278,36 @@ class InvestorProfile extends Component {
                     />
                   </ListItem>
                 </List>
-              </Typography>
-            </CardContent>
-          </CardActionArea>
-          <CardActions />
-        </Card>
-        <br />
-        {this.state.investorId === null ? (
-          <Redirect to={{ pathname: "/Login" }} />
-        ) : this.state.edit === true ? (
-          <Redirect to={{ pathname: "/updateInvestorProfile" }} />
-        ) : (
-          <label />
-        )}
-        <Button
-          size="small"
-          color="primary"
-          onClick={() => {
-            this.setState({ edit: true });
-          }}
-        >
-          {this.state.lang === "eng" ? "Edit Profile" : "تعديل الملف الشخصي"}{" "}
-          <EditIcon />
-        </Button>
-        <br />
-        <br />
-      </div>
-    );
+              </CardContent>
+            </CardActionArea>
+          </Card>
+          </div>
+          <br />
+          {this.state.investorId === null ? (
+            <Redirect to={{ pathname: "/Login" }} />
+          ) : this.state.edit === true ? (
+            <Redirect 
+            
+            to={{ pathname: "/updateInvestorProfile",state:this.state }} />
+          ) : (
+            <label />
+          )}
+          <Button
+            size="small"
+            color="primary"
+            onClick={() => {
+              this.setState({ edit: true });
+            }}
+            style={{display:"-webkit-inline-box"}}
+          >
+            {this.state.lang === "eng" ? "Edit Profile" : "تعديل الملف الشخصي"}{" "}
+            <EditIcon />
+          </Button>
+          <br />
+          <br />
+        </div>
+      );
+    }
   }
 }
 

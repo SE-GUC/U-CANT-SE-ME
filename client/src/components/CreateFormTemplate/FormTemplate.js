@@ -6,6 +6,12 @@ import "prismjs/components/prism-clike";
 import "prismjs/components/prism-javascript";
 import "prismjs/components/prism-markup";
 import axios from "axios";
+import CircularProgress from "@material-ui/core/CircularProgress";
+import CheckIcon from "@material-ui/icons/Check";
+import CrossIcon from "@material-ui/icons/Close";
+import green from "@material-ui/core/colors/green";
+import red from "@material-ui/core/colors/red";
+
 import {
   Typography,
   Card,
@@ -21,7 +27,7 @@ import {
   MenuItem,
   OutlinedInput,
   Divider,
-  Button,
+  // Button,
   List,
   ListItemText,
   ListItem
@@ -64,37 +70,40 @@ class FormTemplate extends Component {
     helpModal: false,
     optionsModal: false,
     optionsIdx: -1,
-    addedOption: ""
+    addedOption: "",
+    success: false,
+    loading: false,
+    clicked: false
   };
 
   handleSubmit = () => {
-    const {
-      formName,
-      fields,
-      hasManagers,
-      managersMinNumber,
-      managersMaxNumber,
-      code
-    } = this.state;
+    if (!this.state.loading) {
+      this.setState({
+        success: false,
+        loading: true,
+        clicked: true
+      });
+    }
+    const { formName, fields, hasManagers, code } = this.state;
     let formTemplate = {
       formName,
       fields,
       hasManagers
-      // managersMinNumber,
-      // managersMaxNumber
     };
     for (let i = 0; i < formTemplate.fields.length; i++)
       formTemplate.fields[i].fieldName = textToCamelCase(
         formTemplate.fields[i].fieldName
       );
     if (code.length > 0) formTemplate.rulesFunction = code;
-    console.log(formTemplate);
     axios
       .post(`api/admins/createFormTemplate/`, formTemplate)
-      .then(res => {
+      .then(async res => {
+        await this.setState({ success: true, loading: false });
         alert(`Form Template Created!`);
+        await this.setState({ success: true, loading: false });
       })
-      .catch(error => {
+      .catch(async error => {
+        await this.setState({ success: false, loading: false });
         alert(
           `The Form Template doesn't match required conditions! \nError: ${
             typeof error.response.data === "string"
@@ -119,6 +128,7 @@ class FormTemplate extends Component {
     } else if (flag === "advanced") {
       this.setState({ advanced: !this.state.advanced });
     }
+    this.setState({ clicked: false, success: false, loading: false });
   }
 
   handleFieldChange = (fieldIdx, key, eventTarget) => {
@@ -134,6 +144,7 @@ class FormTemplate extends Component {
     if (eventTarget.value === "DROPLIST") {
       this.setState({ optionsModal: true, optionsIdx: fieldIdx });
     }
+    this.setState({ clicked: false, success: false, loading: false });
   };
 
   handleAddField = () => {
@@ -154,6 +165,7 @@ class FormTemplate extends Component {
     this.setState({
       specifyMinAndMaxFields: [...this.state.specifyMinAndMaxFields, false]
     });
+    this.setState({ clicked: false, success: false, loading: false });
   };
 
   handleRemoveField = () => {
@@ -165,6 +177,7 @@ class FormTemplate extends Component {
     );
     this.setState({ fields: fields });
     this.setState({ specifyMinAndMaxFields: specifyMinAndMaxFields });
+    this.setState({ clicked: false, success: false, loading: false });
   };
 
   handleHelp = () => {
@@ -176,6 +189,7 @@ class FormTemplate extends Component {
     if (this.state.hasManagers && this.state.specifyMinAndMax) {
       managersDetails = [
         <TextField
+          key="w"
           label="Min number of managers"
           value={this.state.managersMinNumber}
           onChange={ev => this.handleChange("managersMinNumber", ev.target)}
@@ -187,6 +201,7 @@ class FormTemplate extends Component {
           variant="outlined"
         />,
         <TextField
+          key="e"
           label="Max number of managers"
           value={this.state.managersMaxNumber}
           onChange={ev => this.handleChange("managersMaxNumber", ev.target)}
@@ -200,7 +215,7 @@ class FormTemplate extends Component {
       ];
     }
     return (
-      <Card style={styles.card}>
+      <Card key="card0" style={styles.card}>
         <Typography style={styles.headerText} component="h1">
           {" "}
           General Form Info{" "}
@@ -230,6 +245,7 @@ class FormTemplate extends Component {
             ? [
                 "Specify min and max managers\t",
                 <FormControlLabel
+                  key="q"
                   control={
                     <Switch
                       checked={this.state.specifyMinAndMax}
@@ -243,6 +259,7 @@ class FormTemplate extends Component {
             : [
                 "Specify min and max managers\t",
                 <FormControlLabel
+                  key="formcontrollabel"
                   control={
                     <Switch
                       disabled
@@ -264,6 +281,7 @@ class FormTemplate extends Component {
     let minAndMax = [
       <br />,
       <TextField
+        key={`${fieldIdx}1`}
         label="Min length or min value"
         value={this.state.fields[fieldIdx].minVal}
         onChange={ev => this.handleFieldChange(fieldIdx, "minVal", ev.target)}
@@ -275,6 +293,7 @@ class FormTemplate extends Component {
         variant="outlined"
       />,
       <TextField
+        key={`${fieldIdx}2`}
         label="Max length or max value"
         value={this.state.fields[fieldIdx].maxVal}
         onChange={ev => this.handleFieldChange(fieldIdx, "maxVal", ev.target)}
@@ -288,6 +307,7 @@ class FormTemplate extends Component {
     ];
     return (
       <div
+        key={`${fieldIdx}3`}
         style={{
           paddingLeft: "5%",
           paddingRight: "5%",
@@ -295,8 +315,12 @@ class FormTemplate extends Component {
           paddingTop: "2%"
         }}
       >
-        <div style={{ display: "grid", gridRowGap: "10%" }}>
+        <div
+          key={`${fieldIdx}4`}
+          style={{ display: "grid", gridRowGap: "10%" }}
+        >
           <TextField
+            key={`${fieldIdx}5`}
             required
             label="Field name"
             value={this.state.fields[fieldIdx].fieldName}
@@ -306,8 +330,14 @@ class FormTemplate extends Component {
             margin="normal"
             variant="outlined"
           />
-          <FormControl required variant="outlined" style={{ minWidth: 120 }}>
+          <FormControl
+            key={`${fieldIdx}6`}
+            required
+            variant="outlined"
+            style={{ minWidth: 120 }}
+          >
             <InputLabel
+              key={`${fieldIdx}7`}
               ref={ref => {
                 this.InputLabelRef = ref;
               }}
@@ -316,23 +346,40 @@ class FormTemplate extends Component {
               Field type
             </InputLabel>
             <Select
+              key={`${fieldIdx}8`}
               value={this.state.fields[fieldIdx].fieldType}
               onChange={ev =>
                 this.handleFieldChange(fieldIdx, "fieldType", ev.target)
               }
               input={<OutlinedInput labelWidth={70} name="fieldType" />}
             >
-              <MenuItem value="">
+              <MenuItem key={`${fieldIdx}9`} value="">
                 <em>Choose a field type</em>
               </MenuItem>
-              <MenuItem value={"TEXT"}>Text</MenuItem>
-              <MenuItem value={"NUMBER"}>Number</MenuItem>
-              <MenuItem value={"TEXT_NUMBER"}>Text Number</MenuItem>
-              <MenuItem value={"DATE"}>Date</MenuItem>
-              <MenuItem value={"GOVERNATE"}>Governate</MenuItem>
-              <MenuItem value={"CITY"}>City</MenuItem>
-              <MenuItem value={"CURRENCY"}>Currency</MenuItem>
-              <MenuItem value={"DROPLIST"}>Droplist</MenuItem>
+              <MenuItem key={`${fieldIdx}10`} value={"TEXT"}>
+                Text
+              </MenuItem>
+              <MenuItem key={`${fieldIdx}11`} value={"NUMBER"}>
+                Number
+              </MenuItem>
+              <MenuItem key={`${fieldIdx}12`} value={"TEXT_NUMBER"}>
+                Text Number
+              </MenuItem>
+              <MenuItem key={`${fieldIdx}13`} value={"DATE"}>
+                Date
+              </MenuItem>
+              <MenuItem key={`${fieldIdx}14`} value={"GOVERNATE"}>
+                Governate
+              </MenuItem>
+              <MenuItem key={`${fieldIdx}15`} value={"CITY"}>
+                City
+              </MenuItem>
+              <MenuItem key={`${fieldIdx}16`} value={"CURRENCY"}>
+                Currency
+              </MenuItem>
+              <MenuItem key={`${fieldIdx}17`} value={"DROPLIST"}>
+                Droplist
+              </MenuItem>
             </Select>
           </FormControl>
         </div>
@@ -341,6 +388,7 @@ class FormTemplate extends Component {
         <FormControlLabel
           control={
             <Switch
+              key={`${fieldIdx}18`}
               checked={this.state.fields[fieldIdx].isRequired}
               onChange={ev =>
                 this.handleFieldChange(fieldIdx, "isRequired", ev.target)
@@ -354,6 +402,7 @@ class FormTemplate extends Component {
         <FormControlLabel
           control={
             <Switch
+              key={`${fieldIdx}19`}
               checked={this.state.fields[fieldIdx].isUnique}
               onChange={ev =>
                 this.handleFieldChange(fieldIdx, "isUnique", ev.target)
@@ -367,7 +416,12 @@ class FormTemplate extends Component {
         <FormControlLabel
           control={
             <Switch
-              checked={this.state.specifyMinAndMaxFields[fieldIdx]}
+              key={`${fieldIdx}20`}
+              checked={
+                this.state.specifyMinAndMaxFields[fieldIdx] === undefined
+                  ? ""
+                  : this.state.specifyMinAndMaxFields[fieldIdx]
+              }
               onChange={ev =>
                 this.handleFieldChange(
                   fieldIdx,
@@ -388,23 +442,23 @@ class FormTemplate extends Component {
   showFields = () => {
     let i = 0;
     return (
-      <Card style={styles.card}>
-        <Typography style={styles.headerText} component="h1">
+      <Card key="card1" style={styles.card}>
+        <Typography key="typo3" style={styles.headerText} component="h1">
           {" "}
           Form{" "}
         </Typography>
-        <React.Fragment>
+        <React.Fragment key="frag0">
           {this.state.fields.map(field => [
             this.showField(i++),
-            i < this.state.fields.length ? <Divider /> : ""
+            i < this.state.fields.length ? <Divider key={i} /> : ""
           ])}
         </React.Fragment>
-        <div style={{ float: "right" }}>
-          <Fab color="secondry" aria-label="RemoveIcon">
-            <RemoveIcon onClick={ev => this.handleRemoveField()} />
+        <div key="div4" style={{ float: "right" }}>
+          <Fab key="fab1" color="secondary" aria-label="RemoveIcon" onClick={ev => this.handleRemoveField()}>
+            <RemoveIcon/>
           </Fab>{" "}
-          <Fab color="primary" aria-label="Add">
-            <AddIcon onClick={ev => this.handleAddField()} />
+          <Fab key="fab0" color="primary" aria-label="Add" onClick={ev => this.handleAddField()}>
+            <AddIcon  />
           </Fab>
         </div>
       </Card>
@@ -414,6 +468,7 @@ class FormTemplate extends Component {
   showEditor = () => {
     let editor = [
       <Editor
+        key={this.state.code}
         placeholder="Type company rules function… "
         value={this.state.code}
         onValueChange={code => this.setState({ code })}
@@ -432,18 +487,19 @@ class FormTemplate extends Component {
       />,
 
       <Fab
-        color="secondry"
+        key="t"
+        color="secondary"
         aria-label="Add"
         style={{ float: "right", marginRight: "7%" }}
+        onClick={ev => this.handleHelp()}
       >
-        <HelpIcon onClick={ev => this.handleHelp()} />
+        <HelpIcon />
       </Fab>
     ];
     return (
-      <div style={{ paddingBottom: "5%" }}>
+      <div key="div0" style={{ paddingBottom: "5%" }}>
         <div
           style={{
-            // fontFamily: "Helvetica Neue",
             fontSize: "17px",
             color: "#707070"
           }}
@@ -491,6 +547,7 @@ class FormTemplate extends Component {
    `;
     return (
       <Modal
+        key="modal0"
         isOpen={this.state.helpModal}
         onRequestClose={() => this.setState({ helpModal: false })}
         style={styles.modalStyle}
@@ -514,6 +571,7 @@ class FormTemplate extends Component {
     let fields = this.state.fields;
     fields[fieldIdx].options.push(option);
     this.setState({ fields: fields });
+    this.setState({ clicked: false, success: false, loading: false });
   };
 
   handleRemoveOption = fieldIdx => {
@@ -523,6 +581,7 @@ class FormTemplate extends Component {
     let fields = this.state.fields;
     fields[fieldIdx].options = options;
     this.setState({ fields: fields });
+    this.setState({ clicked: false, success: false, loading: false });
   };
 
   showOptionsModal = fieldIdx => {
@@ -574,19 +633,88 @@ class FormTemplate extends Component {
   };
 
   render() {
+    const { loading, success, clicked } = this.state;
     let submitButton = (
-      <div style={{ paddingBottom: "2%", marginBottom: "2%" }}>
-        <Button
-          variant="contained"
-          color="primary"
-          onClick={() => this.handleSubmit()}
+      <div
+        key="divvvv0"
+        className="CircularIntegration-root-241"
+        style={{
+          display: "flex",
+          alignItems: "center",
+          paddingBottom: "2%",
+          marginBottom: "2%"
+        }}
+      >
+        <div
+          key="divvvv1"
+          className="CircularIntegration-wrapper-242"
+          style={{
+            marginRight: "240px",
+            marginTop: "12px",
+            display: "block",
+            margin: "0 auto",
+            position: "relative"
+          }}
         >
-          Create Form Template
-        </Button>
+          <Fab
+            color="primary"
+            className=""
+            style={
+              success && clicked && !loading
+                ? {
+                    backgroundColor: green[500],
+                    "&:hover": {
+                      backgroundColor: green[700]
+                    }
+                  }
+                : !success && clicked && !loading
+                ? {
+                    backgroundColor: red[500],
+                    "&:hover": {
+                      backgroundColor: red[700]
+                    }
+                  }
+                : {}
+            }
+            onClick={this.handleSubmit}
+          >
+            {success && clicked ? (
+              <CheckIcon />
+            ) : !success && clicked && !loading ? (
+              <CrossIcon />
+            ) : (
+              <Typography variant="body1" style={{ color: "#ffffff" }}>
+                Create
+              </Typography>
+            )}
+          </Fab>
+          {loading && (
+            <CircularProgress
+              size={68}
+              className="CircularIntegration-fabProgress-909"
+              style={{
+                color: green[500],
+                position: "absolute",
+                top: -6,
+                left: -6,
+                zIndex: 1
+              }}
+            />
+          )}
+        </div>
       </div>
+      // <div key="div1" style={{ paddingBottom: "2%", marginBottom: "2%" }}>
+      //   <Button
+      //     variant="contained"
+      //     color="primary"
+      //     onClick={() => this.handleSubmit()}
+      //   >
+      //     Create Form Template
+      //   </Button>
+      // </div>
     );
     return (
-      <div style={styles.container}>
+      <div key="div2" style={styles.container}>
         {" "}
         {[
           this.showGeneralFormInfo(),
@@ -603,7 +731,6 @@ class FormTemplate extends Component {
 
 function textToCamelCase(inpStr) {
   let str = String(inpStr);
-  console.log(str);
   let tokens = str
     .toLowerCase()
     .split(" ")
@@ -622,7 +749,6 @@ const styles = {
 
   card: {
     borderRadius: 12,
-    // fontFamily: "Helvetica Neue",
     boxShadow: "0px 3px 20px rgba(0, 0, 0, 0.16)",
     marginLeft: "7%",
     marginRight: "7%",
@@ -636,19 +762,16 @@ const styles = {
   },
 
   bodyText: {
-    // fontFamily: "Helvetica Neue",
     fontSize: "17px",
     float: "left"
   },
 
   headerText: {
-    // fontFamily: "Helvetica Neue",
     fontStyle: "Bold",
     fontSize: "24px"
   },
 
   label: {
-    // fontFamily: "Helvetica Neue",
     fontSize: "17px",
     float: "left"
   },

@@ -1,5 +1,10 @@
 [
     {
+        "cc": "EGP",
+        "symbol": "\u00a3",
+        "name": "Egyptian pound"
+    },
+    {
         "cc": "AED",
         "symbol": "\u062f.\u0625;",
         "name": "UAE dirham"
@@ -198,11 +203,6 @@
         "cc": "EEK",
         "symbol": "KR",
         "name": "Estonian kroon"
-    },
-    {
-        "cc": "EGP",
-        "symbol": "\u00a3",
-        "name": "Egyptian pound"
     },
     {
         "cc": "ERN",
@@ -733,11 +733,6 @@
         "cc": "WST",
         "symbol": "WS$",
         "name": "Samoan tala"
-    },
-    {
-        "cc": "XAF",
-        "symbol": "CFA",
-        "name": "Central African CFA franc"
     },
     {
         "cc": "XCD",

@@ -1,9 +1,10 @@
 import React, { Component } from "react";
 import "./NavBarBlue.css";
 import Fab from "@material-ui/core/Fab";
-import { Redirect } from "react-router-dom";
 import RegisterModal from "./RegisterModal";
 import Language from "@material-ui/icons/Language";
+// import { Link } from "react-router-dom";
+
 export default class NavBarBlue extends Component {
   async componentDidMount() {
     if (localStorage.getItem("lang"))
@@ -14,9 +15,6 @@ export default class NavBarBlue extends Component {
     headerHeight: 0,
     screenHeight: 0,
     screenWidth: 0,
-    login: false,
-    register: false,
-    hero: false,
     lang: ""
   };
   handleChangeLanguage = () => {
@@ -30,7 +28,6 @@ export default class NavBarBlue extends Component {
     window.location.reload();
   };
   render() {
-    const opacity = 1 - Math.min(10 / this.state.currentScrollHeight, 1);
     const styles = {
       content: {
         backgroundColor: this.props.backgroundColor //either #3480E3 or #FFFFFF
@@ -39,67 +36,64 @@ export default class NavBarBlue extends Component {
       SumergiteLabel: {
         color: this.props.sumergiteColor, //either #3480E3 or #FFFFFF
         fontSize: "28px",
-        marginLeft: "200px",
         fontFamily: "-apple-system, BlinkMacSystemFont, sans-serif",
         fontWeight: "bold",
-        marginTop: "11px"
+        marginLeft:"13vw",
       },
       Header: {
         boxShadow: this.props.boxShadow //either none or '0px 3px 20px rgba(0, 0, 0, 0.16)'
       },
       Login: {
-        color: this.props.loginColor //either don't pass or #FFFFFF
+        color: this.props.loginColor, //either don't pass or #FFFFFF
+        fontSize: "18px"
       }
     };
-    if (this.state.login) {
-      this.setState({ login: false });
-      this.setState({ register: false });
-      this.setState({ hero: false });
-      return <Redirect to="/Login" />;
-    }
-    if (this.state.register) {
-      this.setState({ login: false });
-      this.setState({ register: false });
-      this.setState({ hero: false });
-      return <Redirect to="/InvestorRegister" />;
-    }
-    if (this.state.hero) {
-      this.setState({ login: false });
-      this.setState({ register: false });
-      this.setState({ hero: false });
-      return <Redirect to="/" />;
-    }
+
     return (
-      //navbar navbar-default navbar-alt
-      //navbar navbar-expand-lg navbar-dark bg-dark
       <div className="Header" id="Header" style={styles.Header} ref="Header">
         <nav
           className="navbar navbar-expand-lg navbar-light bg-"
           id="navbarmob"
           style={styles.content}
         >
-          <label>
-            <button
-              style={styles.SumergiteLabel}
-              onClick={() => {
-                this.setState({ hero: true });
-              }}
-            >
-              {this.state.lang === "eng" ? "Sumergite" : "سمرجايت"}
-            </button>
-          </label>
+          {/* <Link id="logo" style={styles.SumergiteLabel} to={{ pathname: "/" }}>
+            {this.state.lang === "eng" ? "Sumergite" : "سمرجايت"}
+          </Link> */}
+          <button
+            id="logo"
+            style={styles.SumergiteLabel}
+            onClick={() => {
+              window.location.href = "/";
+            }}
+          >
+            {this.state.lang === "eng" ? "Sumergite" : "سمرجايت"}
+          </button>
+          <button
+            className="navbar-toggler"
+            type="button"
+            data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent"
+            aria-expanded="false"
+            aria-label="Toggle navigation"
+          >
+            <span className="navbar-toggler-icon" />
+          </button>
           <div className="collapse navbar-collapse" id="navbarSupportedContent">
             <ul className="navbar-nav ml-auto">
               <li className="nav-item mr-auto">
+                {/* <Link to={{ pathname: "/Login" }}>
+                  <span id="buttonHome" style={styles.Login}>
+                    {this.state.lang === "eng" ? "Login" : "تسجيل الدخول"}
+                  </span>
+                </Link> */}
                 <button
-                  // className="nav-link ml-auto"
                   className="button"
                   data-toggle="collapse"
                   data-target=".navbar-collapse.show"
                   onClick={() => {
-                    this.setState({ login: true });
+                    window.location.href = "/Login";
                   }}
-                  // disableRipple = {true}
                 >
                   <span id="buttonHome" style={styles.Login}>
                     {this.state.lang === "eng" ? "Login" : "تسجيل الدخول"}
@@ -108,29 +102,51 @@ export default class NavBarBlue extends Component {
               </li>
               <li className="nav-item mr-auto">
                 {this.props.popUpRegister ? (
+                  // <Link
+                  //   style={{
+                  //     boxShadow: "none",
+                  //     backgroundColor: "#E53167",
+                  //     color: "#FFFFFF",
+                  //     marginTop: "7px"
+                  //   }}
+                  //   to={{ pathname: "/InvestorRegister" }}
+                  // >
+                  //   Register
+                  // </Link>
                   <Fab
                     variant="extended"
                     size="medium"
                     style={{
                       boxShadow: "none",
-                      marginRight: "240px",
-                      marginTop: "6px",
                       backgroundColor: "#E53167",
-                      color: "#FFFFFF"
+                      color: "#FFFFFF",
+                      marginTop: "7px"
                     }}
                     aria-label="Delete"
                     onClick={() => {
-                      this.setState({ register: true });
+                      window.location.href = "/InvestorRegister";
                     }}
                   >
-                    {this.state.lang === "eng" ? "Register" : "افتح حسابًا"}
+                    {this.state.lang === "eng" ? "Register" : "تسجيل"}
                   </Fab>
                 ) : (
-                  <RegisterModal buttonText="Register" />
+                  <div
+                    style={{
+                      marginTop: "7px"
+                    }}
+                  >
+                    <RegisterModal lang={this.state.lang} />
+                  </div>
                 )}
+              </li>
+              <li className="nav-item mr-auto">
                 <Fab
                   onClick={this.handleChangeLanguage}
-                  style={{ color: "default" }}
+                  style={{
+                    marginLeft: "1vw",
+                    color: "default",
+                    marginTop: "7px"
+                  }}
                   size="small"
                 >
                   <Language />

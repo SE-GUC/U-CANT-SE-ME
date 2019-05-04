@@ -1,7 +1,7 @@
 @media screen and (min-width:600px){
     .createCompany{
         padding-top:35vh;
-        float:left;
+        /* float:left; */
        
      }
      .hero{
@@ -28,8 +28,8 @@
          color:white;
      }
      .arrow{
-         padding-top: 90vh;
-         
+         padding-top: 27vh;
+         width: '100px';
      }
      #Path_7_A1_Path_2 {
          
@@ -94,11 +94,13 @@
             color: rgba(101,119,131,1);
     
     }
-     .homePageContainers{
+     .homePageContainers{ 
     height: 85vh;
     width: 100%;
     } 
     .homePageHeader{
+        max-width:50vw;
+        width:50vw;
         padding-top: 8%;
         text-align: left;
         padding-left:10vw;
@@ -111,6 +113,8 @@
     
     }
     .homePagePar{
+        max-width:50vw;
+        width:50vw;
         padding-top: 1%;
         text-align: left;
         padding-left:10vw;
@@ -124,7 +128,7 @@
     }
     .SumergiteCopyRight_A0_Text_16{
         overflow: visible;
-        height: 20vh;
+        height: 13vh;
         background-color: black;
         
     }
@@ -134,16 +138,21 @@
         font-family: 'SF Pro Display';
         font-style: normal;
         font-weight: bold;
-        font-size: 28px;
+        font-size: 13px;
         margin-left:10vw;
         padding-top:2%;
         
+    }
+    .rightImage{
+        max-width:50vw;
+        width:50vw;
+        float:right;
     }
 }
 @media screen and (max-width:599px){
     .createCompany{
         padding-top:35vh;
-        float:left;
+        /* float:left; */
        
      }
      .hero{
@@ -171,10 +180,9 @@
          color:white;
      }
      .arrow{
-         padding-top: 90vh;
-         align-self: right; 
-         
-     }
+        padding-top: 27vh;
+        width: '100px';
+    }
      #Path_7_A1_Path_2 {
          
          float:bottom;
@@ -183,7 +191,6 @@
         padding-top:95vh;
         margin-top: 95vh;
         bottom:10px;
-         
      }
      .Path_7_A1_Path_2 {
          transform: matrix(1,0,0,1,0,0);

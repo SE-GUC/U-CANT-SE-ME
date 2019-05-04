@@ -1,109 +1,223 @@
-import React, { Component } from 'react'
-import axios from 'axios'
-import NavBarBlue from '../NavBarBlue'
-import Fab from '@material-ui/core/Fab'
+import React, { Component } from "react";
+import NavBarBlue from "../NavBarBlue";
+import Fab from "@material-ui/core/Fab";
+import axios from "axios";
+
 class ExternalLogin extends Component {
-    state = {
-        email: '',
-        type: ''
+  state = {
+    email: "",
+    type: ""
+  };
+  handleSubmit = async () => {
+    const req = {
+      email: this.state.email
+    };
+    try {
+      if (this.state.type.toString() === "")
+        throw new Error("You Have To Select an Account Type");
+      let type = this.state.type.toString().toLowerCase() + "s";
+      await axios.post(`/api/${type}/forgot`, req);
+      document.getElementById("Error").style.display = "none";
+      document.getElementById("Error_Type").style.display = "none";
+      document.getElementById("Success").style.display = "inline";
+    } catch (error) {
+      if (error.message === "You Have To Select an Account Type") {
+        document.getElementById("Error_Type").style.display = "inline";
+        document.getElementById("Error").style.display = "none";
+      } else {
+        document.getElementById("Error").style.display = "inline";
+        document.getElementById("Error_Type").style.display = "none";
+      }
     }
-    handleSubmit = async () => {
-        const req = {
-            email: this.state.email
-        }
-        
-        try{
-            if(this.state.type.toString()==="")
-                throw new Error('You Have To Select an Account Type')
-            let type = this.state.type.toString().toLowerCase()+'s'
+  };
+  async componentDidMount() {
+    if (localStorage.getItem("lang"))
+      this.setState({ lang: localStorage.getItem("lang") });
+    else this.setState({ lang: "eng" });
+  }
+  handleChange = event => {
+    this.setState({
+      [event.target.id]: event.target.value
+    });
+  };
 
-            let email = this.state.email.toString()
-            let res = await axios.post(`/api/${type}/forgot`, req)
-            document.getElementById('Error').style.display = 'none'
-            document.getElementById('Error_Type').style.display = 'none'
-            document.getElementById('Success').style.display = 'inline'
- 
-        }
-        catch(error){
-
-            if(error.message === 'You Have To Select an Account Type'){
-                document.getElementById('Error_Type').style.display = 'inline'
-                document.getElementById('Error').style.display = 'none'
-            }
-            else{
-                document.getElementById('Error').style.display = 'inline'
-                document.getElementById('Error_Type').style.display = 'none'
-            }
-        }
-    }
-    handleChange = event => {
-        this.setState({
-            [event.target.id]: event.target.value
-        })
-    }
-    
-
-render(){
+  render() {
     const styles = {
-        error: {
-            display: 'none'
-        },
-        label: {
-            width: '100%',
-            margin: 'auto',
-        }
-    }
-    return(
-        <div>
-           <NavBarBlue sumergiteColor= '#3480E3' backgroundColor='#FFFFFF' boxShadow='0px 3px 20px rgba(0, 0, 0, 0.16)'/>
-           <div style={{paddingTop: '10vh'}}>
-               <div class="wrapper">
-                   <div class="page-header" style={{backgroundImage: "url('../assets/img/login-image.jpg')"}}>
-                       <div class="filter"></div>
-                           <div class="container">
-                               <div class="row">
-                                   <div class="col-lg-4 col-sm-6 mr-auto ml-auto">
-                                       <div class="card card-register" style={{backgroundColor: '#FFFFFF', boxShadow: "0px 3px 20px rgba(0, 0, 0, 0.16)"}}>
-                                           <h3 class="title" style={{fontFamily: '-apple-system, BlinkMacSystemFont, sans-serif', fontSize: '30px', fontWeight: 'bold', color: '#223242'}}>Forget Password</h3>
-                                           <form class="login-form">
-                                              
-                                           <h5 style={{marginTop: '5px',fontFamily: '-apple-system, BlinkMacSystemFont, sans-serif', fontSize: '14px', fontWeight: 'lighter', color: '#222529', textAlign: 'center'}}>Select Your Account Type</h5>
-                                            <br />
-                                            <select className="form-control" id="type" style={styles.label} onChange={this.handleChange} >
-                                              <option value="" />
-                                              <option value="Investor">Investor</option>
-                                              <option value="Reviewer">Reviewer</option>
-                                              <option value="Lawyer">Lawyer</option>
-                                             </select>
-                                             <br/>
-                                             <label id="Error_Type" style={styles.error} class="text-danger"> You Have to Select an Account Type</label>
-                                             <br/>
-                                           <h4 style={{marginTop: '5px',fontFamily: '-apple-system, BlinkMacSystemFont, sans-serif', fontSize: '14px', fontWeight: 'lighter', color: '#222529', textAlign: 'center'}}>Enter Your Email</h4>
-                                              <input type="text" id="email" value={this.state.email} onChange={this.handleChange} class="form-control" placeholder="email" autocomplete="username"/>
-                                              
-                                           <br />
-                                            <label id="Success" style={styles.error} class="text-success">Email has been successfully sent.</label>
-                                            <label id="Error" style={styles.error} class="text-danger"> Email does not exist </label>
-                                           </form>
-                                           <br/>
+      error: {
+        display: "none"
+      },
+      label: {
+        width: "100%",
+        margin: "auto"
+      }
+    };
+    return (
+      <div>
+        <NavBarBlue
+          sumergiteColor="#3480E3"
+          backgroundColor="#FFFFFF"
+          boxShadow="0px 3px 20px rgba(0, 0, 0, 0.16)"
+        />
+        <div style={{ paddingTop: "10vh" }}>
+          <div className="wrapper">
+            <div className="page-header" style={{}}>
+              <div className="filter" />
+              <div className="container">
+                <div className="row">
+                  <div className="col-lg-4 col-sm-6 mr-auto ml-auto">
+                    <div
+                      className="card card-register"
+                      style={{
+                        backgroundColor: "#FFFFFF",
+                        boxShadow: "0px 3px 20px rgba(0, 0, 0, 0.16)"
+                      }}
+                    >
+                      <h3
+                        className="title"
+                        style={{
+                          fontFamily:
+                            "-apple-system, BlinkMacSystemFont, sans-serif",
+                          fontSize: "30px",
+                          fontWeight: "bold",
+                          color: "#223242"
+                        }}
+                      >
+                        {this.state.lang === "eng"
+                          ? "Forgot Password?"
+                          : "هل نسيت كلمة المرور؟"}
+                      </h3>
+                      <form className="login-form">
+                        <h5
+                          style={{
+                            marginTop: "5px",
+                            fontFamily:
+                              "-apple-system, BlinkMacSystemFont, sans-serif",
+                            fontSize: "14px",
+                            fontWeight: "lighter",
+                            color: "#222529",
+                            textAlign: "center"
+                          }}
+                        >
+                          {this.state.lang === "eng"
+                            ? "Select Your Account Type"
+                            : "اختر نوع حسابك"}
+                        </h5>
+                        <br />
+                        <select
+                          className="form-control"
+                          id="type"
+                          style={styles.label}
+                          onChange={this.handleChange}
+                        >
+                          <option value="" />
+                          <option value="Investor">
+                            {this.state.lang === "eng" ? "Investor" : "مستثمر"}
+                          </option>
+                          <option value="Reviewer">
+                            {this.state.lang === "eng" ? "Reviewer" : "مراجع"}
+                          </option>
+                          <option value="Lawyer">
+                            {this.state.lang === "eng" ? "Lawyer" : "محام"}
+                          </option>
+                        </select>
+                        <br />
+                        <label
+                          id="Error_Type"
+                          style={styles.error}
+                          className="text-danger"
+                        >
+                          {this.state.lang === "eng"
+                            ? "You Have to Select an Account Type"
+                            : "يجب عليك تحديد نوع الحساب"}
+                        </label>
+                        <br />
+                        <h4
+                          style={{
+                            marginTop: "5px",
+                            fontFamily:
+                              "-apple-system, BlinkMacSystemFont, sans-serif",
+                            fontSize: "14px",
+                            fontWeight: "lighter",
+                            color: "#222529",
+                            textAlign: "center"
+                          }}
+                        >
+                          {this.state.lang === "eng"
+                            ? "Enter Your Email"
+                            : "أدخل بريدك الالكتروني"}
+                        </h4>
+                        <input
+                          type="text"
+                          id="email"
+                          value={this.state.email}
+                          onChange={this.handleChange}
+                          className="form-control"
+                          placeholder={
+                            this.state.lang === "eng"
+                              ? "email"
+                              : "البريد الالكتروني"
+                          }
+                          autoComplete="username"
+                        />
 
-                                           <div class="forgot">
-                                           <br/>
-                                            <Fab variant="extended" size="large" color = "secondary" style = {{color: '#FFFFFF', height: '31px', width: '107px',fontSize: '13px', boxShadow: 'none', marginRight: '240px', marginTop: '6px', display: 'block', margin: '0 auto'}} aria-label="Delete" onClick={this.handleSubmit}>
-                                                SUBMIT
-                                            </Fab>
-                                           </div>
-                                           <br/>
-                             </div>
-                                   </div>      
-                               </div>
-                           </div>
-                       </div>
-                      
-                   </div>
-               </div>
-           </div>
-       )}
+                        <br />
+                        <label
+                          id="Success"
+                          style={styles.error}
+                          className="text-success"
+                        >
+                          {this.state.lang === "eng"
+                            ? "Email has been successfully sent."
+                            : "تم إرسال البريد الإلكتروني بنجاح"}
+                        </label>
+                        <label
+                          id="Error"
+                          style={styles.error}
+                          className="text-danger"
+                        >
+                          {this.state.lang === "eng"
+                            ? "Email does not exist"
+                            : "البريد الإلكتروني غير موجود"}
+                        </label>
+                      </form>
+                      <br />
+
+                      <div className="forgot">
+                        <br />
+                        <Fab
+                          variant="extended"
+                          size="large"
+                          color="secondary"
+                          style={{
+                            color: "#FFFFFF",
+                            height: "31px",
+                            width: "107px",
+                            fontSize: "13px",
+                            boxShadow: "none",
+                            marginRight: "240px",
+                            marginTop: "6px",
+                            display: "block",
+                            margin: "0 auto"
+                          }}
+                          aria-label="Delete"
+                          onClick={this.handleSubmit}
+                        >
+                          {this.state.lang === "eng"
+                            ? "SUBMIT"
+                            : "تقديم النموذج"}
+                        </Fab>
+                      </div>
+                      <br />
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
 }
 
 export default ExternalLogin;

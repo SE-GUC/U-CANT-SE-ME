@@ -100,12 +100,10 @@ exports.getAllCases = async function(req, res) {
 
 //as admin i should be able to register lawyer
 exports.registerLawyer = async function(req, res) {
-  req.body.password = bcrypt.hashPassword(req.body.password);
   return res.send({ data: await lawyerController.createLawyer(req, res) });
 };
 //as admin i should be able to register reviwer
 exports.registerReviewer = async function(req, res){
-  req.body.password = bcrypt.hashPassword(req.body.password)
   return res.send({data: await reviewerController.createReviewer(req, res)})
 }
 
