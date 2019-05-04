@@ -126,9 +126,10 @@ export default class AdminDashBoard extends Component {
             dashboard="bold"
             profile="lighter"
             homepage="lighter"
+            electronicJournals="lighter"
             DASHBOARDD={true}
             PROFILEE={true}
-            ProfileMargin="120px"
+            ProfileMargin="0px"
             HomePageMargin="0px"
             admin={true}
           />

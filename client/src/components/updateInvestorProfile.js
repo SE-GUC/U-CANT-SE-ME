@@ -247,6 +247,7 @@ export default class updateInvestorProfile extends React.Component {
           dashboard="lighter"
           profile="bold"
           homepage="lighter"
+          electronicJournals="lighter"
           DASHBOARDD={true}
           PROFILEE={true}
           ProfileMargin="120px"
@@ -352,7 +353,7 @@ export default class updateInvestorProfile extends React.Component {
                             {this.state.lang === "eng" ? "Male" : "ذكر"}
                           </MenuItem>
                           <MenuItem value={"Female"}>
-                            {this.state.lang === "end" ? "Female" : "أنثى"}
+                            {this.state.lang === "eng" ? "Female" : "أنثى"}
                           </MenuItem>
                         </Select>
                         <br />

@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import { withStyles } from "@material-ui/core/styles";
 import Card from "@material-ui/core/Card";
 import CardActionArea from "@material-ui/core/CardActionArea";
-import CardActions from "@material-ui/core/CardActions";
 import CardContent from "@material-ui/core/CardContent";
 import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
@@ -127,7 +126,8 @@ class InvestorProfile extends Component {
         height: 140
       },
       root: {
-        width: 345
+        width: 345,
+        marginLeft:"-20px"
       }
     };
     const classes = { ...styles };
@@ -144,6 +144,7 @@ class InvestorProfile extends Component {
               dashboard="lighter"
               profile="bold"
               homepage="lighter"
+              electronicJournals="lighter"
               DASHBOARDD={true}
               PROFILEE={true}
               ProfileMargin="120px"
@@ -166,12 +167,13 @@ class InvestorProfile extends Component {
             dashboard="lighter"
             profile="bold"
             homepage="lighter"
+            electronicJournals="lighter"
             DASHBOARDD={true}
             PROFILEE={true}
             ProfileMargin="120px"
             HomePageMargin="0px"
           />
-          <Card style={{ pointerEvents: "none" }}>
+          <Card style={classes.card}>
             <CardActionArea>
               <CardContent>
                 <Typography gutterBottom variant="h5" component="h2" />
@@ -213,10 +215,9 @@ class InvestorProfile extends Component {
                 </List>
               </CardContent>
             </CardActionArea>
-            <CardActions />
           </Card>
           <br />
-          <Card style={{ pointerEvents: "none" }}>
+          <Card style={classes.card}>
             <CardActionArea>
               <CardContent>
                 <Typography gutterBottom variant="h5" component="h2" />
@@ -260,7 +261,6 @@ class InvestorProfile extends Component {
                 </List>
               </CardContent>
             </CardActionArea>
-            <CardActions />
           </Card>
           <br />
           {this.state.investorId === null ? (

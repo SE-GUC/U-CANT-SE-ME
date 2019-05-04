@@ -75,12 +75,13 @@ class ElectronicJournals extends Component {
           <NavBarDashboard
             sumergiteColor="#3480E3"
             boxShadow="0px 3px 20px rgba(0, 0, 0, 0.16)"
-            dashboard="bold"
+            dashboard="lighter"
             profile="lighter"
             homepage="lighter"
+            electronicJournals="bold"
             DASHBOARDD={false}
             PROFILEE={false}
-            HomePageMargin="120px"
+            HomePageMargin="0px"
           />
           <CircularProgress style={{ marginTop: "100px" }} />
           <h3>Fetching Data</h3>
@@ -92,12 +93,13 @@ class ElectronicJournals extends Component {
           <NavBarDashboard
             sumergiteColor="#3480E3"
             boxShadow="0px 3px 20px rgba(0, 0, 0, 0.16)"
-            dashboard="bold"
+            dashboard="lighter"
             profile="lighter"
             homepage="lighter"
+            electronicJournals="bold"
             DASHBOARDD={false}
             PROFILEE={false}
-            HomePageMargin="120px"
+            HomePageMargin="0px"
           />
           <ul style={{ display: "flex", flexWrap: "wrap", paddingTop: "10vh" }}>
             {this.state.electronicJournals.map(electronicJournal => (

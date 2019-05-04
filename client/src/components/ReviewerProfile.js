@@ -120,6 +120,7 @@ class ReviewerProfile extends Component {
             dashboard="lighter"
             profile="bold"
             homepage="lighter"
+            electronicJournals="lighter"
             DASHBOARDD={true}
             PROFILEE={true}
             ProfileMargin="120px"
@@ -138,6 +139,7 @@ class ReviewerProfile extends Component {
             dashboard="lighter"
             profile="bold"
             homepage="lighter"
+            electronicJournals="lighter"
             DASHBOARDD={true}
             PROFILEE={true}
             ProfileMargin="120px"

@@ -65,6 +65,7 @@ export default class HomePage extends Component {
               dashboard="lighter"
               profile="lighter"
               homepage="bold"
+              electronicJournals="lighter"
               DASHBOARDD={true}
               PROFILEE={true}
               ProfileMargin="120px"

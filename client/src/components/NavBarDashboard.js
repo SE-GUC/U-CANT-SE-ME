@@ -12,13 +12,15 @@ export default class NavBarDashboard extends Component {
     screenHeight: 0,
     screenWidth: 0,
     type: "",
-    lang: ""
+    lang: "",
+    loggedin:false
   };
 
   async componentDidMount() {
     try {
       const type = parseJwt(localStorage.jwtToken).type;
       this.state.type = type;
+      await this.setState({loggedin:true})
     } catch {}
     if (localStorage.getItem("lang"))
       this.setState({ lang: localStorage.getItem("lang") });
@@ -59,31 +61,33 @@ export default class NavBarDashboard extends Component {
       },
       Dashboard: {
         fontWeight: this.props.dashboard, //either lighter or bold
-        fontSize: "18px"
+        fontSize: "14px",
+        marginRight: "-20px" //either 120px or 0px
         // marginTop: "10px"
       },
       HomePage: {
         fontWeight: this.props.homepage, //either lighter or bold
-        fontSize: "18px",
-        marginRight: this.props.HomePageMargin //either 120px or 0px
+        fontSize: "14px",
+        marginRight: this.state.loggedin && !this.props.admin ?"-20px":"0px"  //either 120px or 0px
         // marginTop: "10px"
       },
       logout: {
+        marginRight: "-20px", //either 120px or 0px
         fontWeight: "lighter", //either lighter or bold
-        fontSize: "18px",
-        marginRight: this.props.HomePageMargin //either 120px or 0px
+        fontSize: "14px",
         // marginTop: "10px"
       },
       Profile: {
         fontWeight: this.props.profile, //either lighter or bold
-        fontSize: "18px",
+        fontSize: "14px",
         // marginTop: "10px",
-        marginRight: this.props.ProfileMargin //either 120px or 0px
+        // marginRight: this.props.ProfileMargin //either 120px or 0px
       },
       ElectronicJournals: {
         fontWeight: this.props.electronicJournals,
-        fontSize: "18px"
-        // marginTop: "10px"
+        fontSize: "14px",
+        marginRight: "-20px" //either 120px or 0px
+        // marginTop: "50px"
       }
     };
     return (
@@ -92,9 +96,6 @@ export default class NavBarDashboard extends Component {
           className="navbar navbar-expand-lg navbar-light bg-"
           id="navbarmob"
         >
-          {/* <Link id="logo" style={styles.SumergiteLabel} to={{ pathname: "/" }}>
-            {this.state.lang === "eng" ? "Sumergite" : "سمرجايت"}
-          </Link> */}
           <button
             id="logo"
             style={styles.SumergiteLabel}
@@ -117,15 +118,8 @@ export default class NavBarDashboard extends Component {
           </button>
           <div className="collapse navbar-collapse" id="navbarSupportedContent">
             <ul className="navbar-nav ml-auto">
-              {this.props.DASHBOARDD ? (
+                {this.state.loggedin?(
                 <li className="nav-item mr-auto">
-                  {/* <Link
-                    to={{ pathname: `/${this.state.type.toString()}Dashboard` }}
-                  >
-                    <span id="buttonHome" style={styles.Dashboard}>
-                      {this.state.lang === "eng" ? "Dashboard" : "لوحة القيادة"}
-                    </span>
-                  </Link> */}
                   <button
                     className="button"
                     data-toggle="collapse"
@@ -141,15 +135,8 @@ export default class NavBarDashboard extends Component {
                     </span>
                   </button>
                 </li>
-              ) : (
+                ):(<label/>)}
                 <li className="nav-item mr-auto">
-                  {/* <Link to={{ pathname: "/ElectronicJournals" }}>
-                    <span id="buttonHome" style={styles.ElectronicJournals}>
-                      {this.state.lang === "eng"
-                        ? "Electronic Journals"
-                        : "المجلات الإلكترونية"}
-                    </span>
-                  </Link> */}
                   <button
                     className="button"
                     data-toggle="collapse"
@@ -165,13 +152,7 @@ export default class NavBarDashboard extends Component {
                     </span>
                   </button>
                 </li>
-              )}
               <li className="nav-item mr-auto">
-                {/* <Link to={{ pathname: "/" }}>
-                  <span id="buttonHome" style={styles.HomePage}>
-                    {this.state.lang === "eng" ? "Homepage" : "الصفحة الرئيسية"}
-                  </span>
-                </Link> */}
                 <button
                   className="button"
                   data-toggle="collapse"
@@ -185,25 +166,8 @@ export default class NavBarDashboard extends Component {
                   </span>
                 </button>
               </li>
-              {this.props.PROFILEE && !this.props.admin ? (
+              {this.state.loggedin && !this.props.admin ? (
                 <li className="nav-item mr-auto">
-                  {/* <Link
-                    to={{
-                      pathname: `${
-                        this.state.type.toString() === "investor"
-                          ? "/profile"
-                          : this.state.type.toString() === "reviewer"
-                          ? "/internalPortal/reviewer/profile"
-                          : this.state.type.toString() === "lawyer"
-                          ? "/internalPortal/lawyer/profile"
-                          : "/internalPortal/admin/profile"
-                      }`
-                    }}
-                  >
-                    <span id="buttonHome" style={styles.Profile}>
-                      {this.state.lang === "eng" ? "Profile" : "الملف الشخصي"}
-                    </span>
-                  </Link> */}
                   <button
                     className="button"
                     data-toggle="collapse"

@@ -111,10 +111,11 @@ export default class LawyerDashBoard extends Component {
             dashboard="bold"
             profile="lighter"
             homepage="lighter"
+            electronicJournals="lighter"
             DASHBOARDD={true}
             PROFILEE={true}
-            ProfileMargin="120px"
-            HomePageMargin="0px"
+            ProfileMargin="0px"
+            HomePageMargin="-20px"
             dashboardRedirect="/LawyerDashBoard"
             profileRedirect="/internalPortal/lawyer/profile"
           />

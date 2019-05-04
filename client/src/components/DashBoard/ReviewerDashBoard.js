@@ -109,10 +109,11 @@ export default class ReviewerDashBoard extends Component {
             dashboard="bold"
             profile="lighter"
             homepage="lighter"
+            electronicJournals="lighter"
             DASHBOARDD={true}
             PROFILEE={true}
-            ProfileMargin="120px"
-            HomePageMargin="0px"
+            ProfileMargin="0px"
+            HomePageMargin="-20px"
             dashboardRedirect="/ReviewerDashBoard"
             profileRedirect="/internalPortal/reviewer/profile"
           />
