@@ -1,3 +1,3 @@
-# U-CANT-SE-ME
+# Sumergite Clone
 
-Deployment Link: https://sumergite.herokuapp.com/
+Deployment Link: https://u-cant-se-me-or-my-project.herokuapp.com/

@@ -187,7 +187,7 @@ exports.notifyInvestorByFees = async function(case1, req) {
     caseId: case1._id
   };
   const notification = await axios.post(
-    "http://localhost:3000/api/notifications/",
+    "http://sumergite.herokuapp.com/api/notifications/",
     req
   );
   const reviewer = await Reviewer.findById(case1.assignedReviewerId);

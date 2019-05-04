@@ -1,68 +1,77 @@
-import React, { Component } from 'react'
-import Case from './Case';
-import axios from 'axios';
-import parseJwt from '../../helpers/decryptAuthToken';
-import {Redirect} from 'react-router-dom'
-import CasesContainerProps from '../dCaseComponents/CasesContainerProps';
+import React, { Component } from "react";
+import axios from "axios";
+import parseJwt from "../../helpers/decryptAuthToken";
+import { Redirect } from "react-router-dom";
+import CasesContainerProps from "../dCaseComponents/CasesContainerProps";
+import CircularProgress from "@material-ui/core/CircularProgress";
+
 export default class ReviewerViewTasks extends Component {
-    state ={
-        cases :[],
-        caseid:"",
-        reviwerID:"",
-        home:0
-    };
+  state = {
+    cases: [],
+    caseid: "",
+    reviwerID: "",
+    home: 0,
+    finished: false
+  };
 
-    async componentDidMount(){
-
-        if (!localStorage.jwtToken) {
-            alert("You must login!");
-            this.setState({ home: 1 });
-            return;
-        }
-        try{
-              await axios.get('api/reviewers/auth')
-        }catch(err){
-            alert("You are not allowed to access this page");
-            this.setState({ home: 1 });
-            return;
-        }
-        this.setState({home:2})
-        const data = parseJwt(localStorage.jwtToken)
-        await this.setState({reviwerID:data.id})
-        const id =this.state.reviwerID;
-        const getCases = await axios.get(`api/reviewers/reviewerTasks/${id}`);
-        this.setState({cases: getCases.data.Tasks})
-    };
-    accept=async (caseId)=>
-    {
-        try
-        {
-            await axios.put(`api/reviewers/updateCaseStatus/${caseId}/Accepted`);
-            const newArr=this.state.cases.filter(function(value, index, arr){
-                return caseId === value._id;
-            });
-            if(this.state.cases.length===1)
-                this.setState({cases:[]})
-            else
-                this.setState({cases:newArr})
-        }
-        catch(error)
-        {
-            throw error;
-        }
+  async componentDidMount() {
+    if (!localStorage.jwtToken) {
+      alert("You must login!");
+      await this.setState({ home: 1 });
+      return;
     }
-    render() {
-        if (this.state.home===0) return <div></div>;
-        if (this.state.home===1) return <Redirect to={{ pathname: "/" }} />;
-        else
-        return this.state.cases.length==0? <h1>You don't have any cases.</h1>:(this.state.cases.map((x) => (
-            // <div>
-            //     <Case key={x._id} case={x} />
-            //     <button onClick={() => this.accept(x._id)}>Accept</button>
-            // </div>
-            <CasesContainerProps cases={this.state.cases} currentUserId={this.state.reviwerID}/>
-        ))
-        )
+    try {
+      await axios.get("api/reviewers/auth");
+    } catch (err) {
+      alert("You are not allowed to access this page");
+      await this.setState({ home: 1 });
+      return;
+    }
+    this.setState({ home: 2 });
+    const data = parseJwt(localStorage.jwtToken);
+    await this.setState({ reviwerID: data.id });
+    const id = this.state.reviwerID;
+    const getCases = await axios.get(`api/reviewers/reviewerTasks/${id}`);
+    await this.setState({ cases: getCases.data.Tasks });
+    await this.setState({ finished: true });
+  }
+  accept = async caseId => {
+    try {
+      await axios.put(`api/reviewers/updateCaseStatus/${caseId}/Accepted`);
+      const newArr = this.state.cases.filter(function(value, index, arr) {
+        return caseId === value._id;
+      });
+      if (this.state.cases.length === 1) this.setState({ cases: [] });
+      else this.setState({ cases: newArr });
+    } catch (error) {
+      throw error;
+    }
+  };
+  render() {
+    if (this.state.home === 0) return <div />;
+    if (this.state.home === 1) return <Redirect to={{ pathname: "/" }} />;
+    else {
+      if (!this.state.finished) {
+        return (
+          <div>
+            <CircularProgress style={{ marginTop: "50px" }} />
+            <h3>Fetching Data</h3>
+          </div>
+        );
+      } else {
+        return this.state.cases.length === 0 ? (
+          <h1>You don't have any cases.</h1>
+        ) : (
+          <header className="ReviewerViewTasks">
+            <div>
+              <CasesContainerProps
+                cases={this.state.cases}
+                currentUserId={this.state.reviwerID}
+              />
+            </div>
+          </header>
+        );
       }
-
-};
+    }
+  }
+}

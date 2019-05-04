@@ -6,6 +6,14 @@ import Select from "@material-ui/core/Select";
 import MenuItem from "@material-ui/core/MenuItem";
 import Fab from "@material-ui/core/Fab";
 import NavBarDashboard from "./NavBarDashboard";
+import moment from "moment";
+import {Typography} from "@material-ui/core";
+import CircularProgress from "@material-ui/core/CircularProgress";
+import CheckIcon from "@material-ui/icons/Check";
+import CrossIcon from "@material-ui/icons/Close";
+import green from "@material-ui/core/colors/green";
+import red from "@material-ui/core/colors/red";
+
 const Joi = require("joi");
 
 export default class updateInvestorProfile extends React.Component {
@@ -24,7 +32,10 @@ export default class updateInvestorProfile extends React.Component {
       valid: "",
       investorId: "",
       home: 0,
-      lang: ""
+      lang: "",
+      success: false,
+      loading: false,
+      clicked: false
     };
   }
 
@@ -50,6 +61,13 @@ export default class updateInvestorProfile extends React.Component {
   }
 
   submit = async () => {
+    if (!this.state.loading) {
+      this.setState({
+        success: false,
+        loading: true,
+        clicked: true
+      });
+    }
     let valid = true;
     const me = this;
     me.setState({ fullNameError: "" });
@@ -82,20 +100,6 @@ export default class updateInvestorProfile extends React.Component {
         }
       );
     }
-    if (!(form.email.value === "")) {
-      body.email = form.email.value;
-
-      Joi.validate(
-        { email: body.email },
-        { email: Joi.string().email() },
-        function(error) {
-          if (error) {
-            valid = false;
-            me.setState({ emailError: "Invalid Email" });
-          }
-        }
-      );
-    }
     if (!(form.password.value === "")) {
       body.password = form.password.value;
 
@@ -110,22 +114,6 @@ export default class updateInvestorProfile extends React.Component {
         }
       );
     }
-
-    if (!(form.nationality.value === "")) {
-      body.nationality = form.nationality.value;
-
-      Joi.validate(
-        { nationality: body.nationality },
-        { nationality: Joi.string() },
-        function(error) {
-          if (error) {
-            valid = false;
-            me.setState({ nationalityError: "Invalid Nationality" });
-          }
-        }
-      );
-    }
-    if (!(form.gender.value === "")) body.gender = form.gender.value;
     if (!(form.identificationNumber.value === "")) {
       body.identificationNumber = form.identificationNumber.value;
 
@@ -222,45 +210,30 @@ export default class updateInvestorProfile extends React.Component {
       const investorId = this.state.investorId;
       try {
         await axios.put(`api/investors/${investorId}`, body);
-        this.setState({ valid: "Successfully Updated!" });
+        await this.setState({ success: true, loading: false });
+        await me.setState({ valid: "Successfully Updated!" });
       } catch {
-        this.state.emailError = "Make sure this email is not already in use";
-        this.setState({ valid: "Oops something went wrong!" });
+        await this.setState({ success: false, loading: false });
+        await me.setState({ valid: "Oops something went wrong!" });
       }
     } else {
-      this.setState({ valid: "Oops something went wrong!" });
+      await this.setState({ success: false, loading: false });
+      await me.setState({ valid: "" });
     }
   };
 
-  handleChange = event => {
-    this.setState({ [event.target.name]: event.target.value });
+  handleChange = async event => {
+    await this.setState({ [event.target.name]: event.target.value });
+    await this.setState({ clicked: false, success: false, loading: false });
   };
-
+  formatTime(t) {
+    return moment
+      .utc(t.substring(0, 23))
+      .format("YYYY-MM-DD")
+      .toUpperCase();
+  }
   render() {
-    const styles = {
-      formControl: {
-        margin: 0,
-        width: 200
-        // backgroundColor:'red',
-      },
-      myDiv: {
-        backgroundColor: "rgba(52,128,227,0.2)"
-        // backgroundColor:'rgba(229,49,103)',
-      },
-      myButton: {
-        color: "red"
-      },
-      paper: {
-        backgroundColor: "rgb(228, 111, 146)",
-        margin: "auto",
-        width: "50%",
-        fontFamily: "SF Pro Display",
-        paddingTop: "10px",
-        paddingBottom: "10px",
-        boxShadow: "0 0 0 0.2rem rgba(229,49,103,.50)"
-      }
-    };
-
+    const { loading, success, clicked } = this.state;
     if (this.state.home === 0) return <div> </div>;
     if (this.state.home === 1) return <Redirect to={{ pathname: "/" }} />;
     return (
@@ -271,36 +244,28 @@ export default class updateInvestorProfile extends React.Component {
           dashboard="lighter"
           profile="bold"
           homepage="lighter"
-          DASHBOARD={true}
-          PROFILE={true}
+          electronicJournals="lighter"
+          DASHBOARDD={true}
+          PROFILEE={true}
           ProfileMargin="120px"
           HomePageMargin="0px"
         />
-        {/* <NavBarDashboard sumergiteColor= '#3480E3' boxShadow='0px 3px 20px rgba(0, 0, 0, 0.16)' dashboard='bold' profile='lighter' homepage='lighter' DASHBOARD={false} PROFILE={false} HomePageMargin='120px'/>  */}
-        {/* <NavBarDashboard sumergiteColor= '#3480E3' boxShadow='0px 3px 20px rgba(0, 0, 0, 0.16)' dashboard='bold' profile='lighter' homepage='lighter' DASHBOARD={false} PROFILE={false} HomePageMargin='120px' LeftButton={true}/>  */}
-        {/* <NavBarBlue sumergiteColor= '#FFFFFF' backgroundColor='#3480E3' loginColor='#FFFFFF'/> */}
-        {/* <NavBarBlue sumergiteColor= '#3480E3' backgroundColor='#FFFFFF' boxShadow='0px 3px 20px rgba(0, 0, 0, 0.16)'/> */}
-        <div style={{ paddingTop: "10vh" }}>
-          <div class="wrapper">
-            <div
-              class="page-header"
-              style={{
-                backgroundImage: "url('../assets/img/login-image.jpg')"
-              }}
-            >
-              <div class="filter" />
-              <div class="container">
-                <div class="row">
-                  <div class="col-lg-4 col-sm-6 mr-auto ml-auto">
+        <div>
+          <div className="wrapper">
+            <div className="page-header" style={{}}>
+              <div className="filter" />
+              <div className="container">
+                <div className="row">
+                  <div className="col-lg-4 col-sm-6 mr-auto ml-auto">
                     <div
-                      class="card card-register"
+                      className="card card-register"
                       style={{
                         backgroundColor: "#FFFFFF",
                         boxShadow: "0px 3px 20px rgba(0, 0, 0, 0.16)"
                       }}
                     >
                       <h3
-                        class="title"
+                        className="title"
                         style={{
                           fontFamily:
                             "-apple-system, BlinkMacSystemFont, sans-serif",
@@ -314,20 +279,21 @@ export default class updateInvestorProfile extends React.Component {
                           : "!حدث ملفك الشخصي"}
                       </h3>
                       <br />
-                      {/* <h5 style={{marginTop: '5px',fontFamily: '-apple-system, BlinkMacSystemFont, sans-serif', fontSize: '14px', fontWeight: 'lighter', color: '#222529', textAlign: 'center'}}>Profile</h5> */}
-                      <form class="login-form" id="Investorupdate">
+                      <form className="login-form" id="Investorupdate">
                         <input
                           type="text"
                           name="fullName"
+                          defaultValue={this.props.location.state.fullName}
+                          onChange={this.handleChange}
                           placeholder={
                             this.state.lang === "eng"
                               ? "Full name"
                               : "اسمك الكامل"
                           }
-                          class="form-control"
+                          className="form-control"
                         />
                         <br />
-                        <label id="Error" class="text-danger">
+                        <label id="Error" className="text-danger">
                           {" "}
                           {this.state.fullNameError === ""
                             ? ""
@@ -336,36 +302,18 @@ export default class updateInvestorProfile extends React.Component {
                             : "الاسم الكامل غير صحيح"}{" "}
                         </label>
                         <input
-                          type="text"
-                          id="email"
-                          name="email"
-                          class="form-control"
-                          placeholder={
-                            this.state.lang === "eng"
-                              ? "Email"
-                              : "البريد الإلكتروني"
-                          }
-                        />
-                        <br />
-                        <label id="Error" class="text-danger">
-                          {" "}
-                          {this.state.emailError === ""
-                            ? ""
-                            : this.state.lang === "eng"
-                            ? "Invalid Email"
-                            : "البريد الالكتروني غير صحيح"}
-                        </label>
-                        <input
                           type="password"
                           id="password"
                           name="password"
-                          class="form-control"
+                          defaultValue=""
+                          className="form-control"
+                          onChange={this.handleChange}
                           placeholder={
-                            this.state.lang === "en" ? "password" : "كلمه السر"
+                            this.state.lang === "eng" ? "password" : "كلمه السر"
                           }
                         />
                         <br />
-                        <label id="Error" class="text-danger">
+                        <label id="Error" className="text-danger">
                           {" "}
                           {this.state.passwordError === ""
                             ? ""
@@ -375,46 +323,14 @@ export default class updateInvestorProfile extends React.Component {
                         </label>
                         <br />
                         {/* */}
-                        <Select
-                          id="gender"
-                          name="gender"
-                          value={this.state.gender}
-                          onChange={this.handleChange}
-                          style={{ width: "100%" }}
-                        >
-                          <MenuItem value={"Male"}>
-                            {this.state.lang === "eng" ? "Male" : "ذكر"}
-                          </MenuItem>
-                          <MenuItem value={"Female"}>
-                            {this.state.lang === "end" ? "Female" : "أنثى"}
-                          </MenuItem>
-                        </Select>
-                        <br />
-                        <br />
-                        <br />
-                        <input
-                          name="nationality"
-                          class="form-control"
-                          placeholder={
-                            this.state.lang === "eng"
-                              ? "nationality"
-                              : "الجنسية"
-                          }
-                        />
-                        <br />
-                        <label id="Error" class="text-danger">
-                          {" "}
-                          {this.state.nationalityError === ""
-                            ? ""
-                            : this.state.lang === "eng"
-                            ? "Invalid Nationality"
-                            : "الجنسية مخالفة"}
-                        </label>
                         <br />
                         <Select
                           id="methodOfIdentification"
                           name="methodOfIdentification"
-                          value={this.state.methodOfIdentification}
+                          // value={this.state.methodOfIdentification==="NID"?"NI":"passport"}
+                          value={
+                            this.props.location.state.methodOfIdentification
+                          }
                           onChange={this.handleChange}
                           style={{ width: "100%" }}
                         >
@@ -434,7 +350,11 @@ export default class updateInvestorProfile extends React.Component {
                         <br />
                         <input
                           name="identificationNumber"
-                          class="form-control"
+                          className="form-control"
+                          defaultValue={
+                            this.props.location.state.identificationNumber
+                          }
+                          onChange={this.handleChange}
                           placeholder={
                             this.state.lang === "eng"
                               ? "Identification number"
@@ -442,7 +362,7 @@ export default class updateInvestorProfile extends React.Component {
                           }
                         />
                         <br />
-                        <label id="Error" class="text-danger">
+                        <label id="Error" className="text-danger">
                           {" "}
                           {this.state.identificationNumberError === ""
                             ? ""
@@ -453,7 +373,12 @@ export default class updateInvestorProfile extends React.Component {
                         <br />
                         <input
                           name="dateOfBirth"
-                          class="form-control"
+                          className="form-control"
+                          type="date"
+                          defaultValue={this.formatTime(
+                            this.props.location.state.dateOfBirth
+                          )}
+                          onChange={this.handleChange}
                           placeholder={
                             this.state.lang === "eng"
                               ? "Date of birth"
@@ -461,7 +386,7 @@ export default class updateInvestorProfile extends React.Component {
                           }
                         />
                         <br />
-                        <label id="Error" class="text-danger">
+                        <label id="Error" className="text-danger">
                           {" "}
                           {this.state.dateOfBirthError === ""
                             ? ""
@@ -472,7 +397,11 @@ export default class updateInvestorProfile extends React.Component {
                         <br />
                         <input
                           name="residenceAddress"
-                          class="form-control"
+                          defaultValue={
+                            this.props.location.state.residenceAddress
+                          }
+                          onChange={this.handleChange}
+                          className="form-control"
                           placeholder={
                             this.state.lang === "eng"
                               ? "Current address"
@@ -480,7 +409,7 @@ export default class updateInvestorProfile extends React.Component {
                           }
                         />
                         <br />
-                        <label id="Error" class="text-danger">
+                        <label id="Error" className="text-danger">
                           {" "}
                           {this.state.residenceAddressError === ""
                             ? ""
@@ -491,13 +420,17 @@ export default class updateInvestorProfile extends React.Component {
                         <br />
                         <input
                           name="telephoneNumber"
-                          class="form-control"
+                          className="form-control"
+                          defaultValue={
+                            this.props.location.state.telephoneNumber
+                          }
+                          onChange={this.handleChange}
                           placeholder={
                             this.state.lang === "eng" ? "telephone" : "الهاتف"
                           }
                         />
                         <br />
-                        <label id="Error" class="text-danger">
+                        <label id="Error" className="text-danger">
                           {" "}
                           {this.state.telephoneNumberError === ""
                             ? ""
@@ -508,13 +441,15 @@ export default class updateInvestorProfile extends React.Component {
                         <br />
                         <input
                           name="fax"
-                          class="form-control"
+                          className="form-control"
+                          defaultValue={this.props.location.state.fax}
                           placeholder={
                             this.state.lang === "eng" ? "fax" : "الفاكس"
                           }
+                          onChange={this.handleChange}
                         />
                         <br />
-                        <label id="Error" class="text-danger">
+                        <label id="Error" className="text-danger">
                           {" "}
                           {this.state.faxError === ""
                             ? ""
@@ -524,7 +459,7 @@ export default class updateInvestorProfile extends React.Component {
                         </label>
                         <br />
                       </form>
-                      <Fab
+                      {/* <Fab
                         variant="extended"
                         size="large"
                         color="secondary"
@@ -543,9 +478,80 @@ export default class updateInvestorProfile extends React.Component {
                         onClick={this.submit}
                       >
                         {this.state.lang === "eng" ? "Update" : "حدث"}
-                      </Fab>
-                      {this.state.valid}
+                      </Fab> */}
+                      <div
+                        key="divvvv0"
+                        className="CircularIntegration-root-241"
+                        style={{
+                          display: "flex",
+                          alignItems: "center",
+                          paddingBottom: "2%",
+                          marginBottom: "2%"
+                        }}
+                      >
+                        <div
+                          key="divvvv1"
+                          className="CircularIntegration-wrapper-242"
+                          style={{
+                            marginRight: "240px",
+                            display: "block",
+                            margin: "0 auto",
+                            position: "relative",
+                            marginTop: "6px"
+                          }}
+                        >
+                          <Fab
+                            color="primary"
+                            className=""
+                            style={
+                              success && clicked && !loading
+                                ? {
+                                    backgroundColor: green[500],
+                                    "&:hover": {
+                                      backgroundColor: green[700]
+                                    }
+                                  }
+                                : !success && clicked && !loading
+                                ? {
+                                    backgroundColor: red[500],
+                                    "&:hover": {
+                                      backgroundColor: red[700]
+                                    }
+                                  }
+                                : {}
+                            }
+                            onClick={this.submit}
+                          >
+                            {success && clicked ? (
+                              <CheckIcon />
+                            ) : !success && clicked && !loading ? (
+                              <CrossIcon />
+                            ) : (
+                              <Typography
+                                variant="body1"
+                                style={{ color: "#ffffff" }}
+                              >
+                                {this.state.lang === "eng" ? "Update" : "حدث"}
+                              </Typography>
+                            )}
+                          </Fab>
+                          {loading && (
+                            <CircularProgress
+                              size={68}
+                              className="CircularIntegration-fabProgress-909"
+                              style={{
+                                color: green[500],
+                                position: "absolute",
+                                top: -6,
+                                left: -6,
+                                zIndex: 1
+                              }}
+                            />
+                          )}
+                        </div>
+                      </div>
                       <br />
+                      <h6 style={{ color: "black" }}>{this.state.valid}</h6>
                       <br />
                     </div>
                   </div>
@@ -555,17 +561,6 @@ export default class updateInvestorProfile extends React.Component {
           </div>
         </div>
       </div>
-
-      //   </form>
-
-      //   <Button style={styles.myButton} size="small" color="primary">
-      //   Save <EditIcon/>
-      // </Button>
-      //   {this.state.valid}
-      //   <br/>
-      //   <br/>
-      //   </div>
-      // </div>
     );
   }
 }

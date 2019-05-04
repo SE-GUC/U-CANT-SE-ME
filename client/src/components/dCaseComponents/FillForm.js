@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import ReactDOM from "react-dom";
 import axios from "axios";
 import { withStyles } from "@material-ui/core/styles";
 import OutlinedInput from "@material-ui/core/OutlinedInput";
@@ -13,9 +12,15 @@ import TextField from "@material-ui/core/TextField";
 import { Fab } from "@material-ui/core";
 import AddIcon from "@material-ui/icons/Add";
 import currencies from "../../data/currencies";
-import cities from "../../data/cities"
+import cities from "../../data/cities";
 import governates from "../../data/governorates";
-import parseJwt from '../../helpers/decryptAuthToken';
+import parseJwt from "../../helpers/decryptAuthToken";
+import CircularProgress from "@material-ui/core/CircularProgress";
+import CheckIcon from "@material-ui/icons/Check";
+import CrossIcon from "@material-ui/icons/Close";
+import green from "@material-ui/core/colors/green";
+import red from "@material-ui/core/colors/red";
+import Typography from "@material-ui/core/Typography";
 
 const styles = {
   root: {
@@ -45,19 +50,7 @@ class FillForm extends Component {
   state = {
     formTemplate: {},
     fields: [],
-    managers: [
-      {
-        managerName: "",
-        managerType: "",
-        managerGender: "",
-        managerNationality: "",
-        managerIdType: "",
-        managerIdNumber: "",
-        managerDateOfBirth: "",
-        managerResidenceAddress: "",
-        managerPositionInBoardOfDirectors: ""
-      }
-    ],
+    managers: [],
     formTemplates: [],
     formName: "None",
     labelWidth: 0,
@@ -68,7 +61,26 @@ class FillForm extends Component {
     currency: "EGP",
     creatorId: "",
     creatorType: "",
-    investorObject:{}
+    investorObject: {
+      email: "",
+      password: "",
+      fullName: "",
+      type: "",
+      gender: "",
+      nationality: "",
+      methodOfIdentification: "",
+      identificationNumber: "",
+      dateOfBirth: "",
+      residenceAddress: "",
+      telephoneNumber: "",
+      fax: ""
+    },
+    investorCreated: false,
+    investorCreatedId: "",
+    finished: false,
+    success: false,
+    loading: false,
+    clicked: false
   };
 
   handleChange = async event => {
@@ -79,14 +91,38 @@ class FillForm extends Component {
           formTemplate: this.state.formTemplates[i],
           fields: this.state.formTemplates[i].fields
         });
+        if (this.state.formTemplate.hasManagers) {
+          if (this.state.managers.length === 0) {
+            let managers = [
+              ...this.state.managers,
+              {
+                managerName: "",
+                managerType: "",
+                managerGender: "",
+                managerNationality: "",
+                managerIdType: "",
+                managerIdNumber: "",
+                managerDateOfBirth: "",
+                managerResidenceAddress: "",
+                managerPositionInBoardOfDirectors: ""
+              }
+            ];
+            await this.setState({ managers: managers });
+          }
+        }
         break;
       }
     }
-    //console.log(this.state.formTemplate)
   };
-  handleSubmit = () => {
-    if(this.state.creatorType==='investor')
-    {
+  handleSubmit = async () => {
+    if (!this.state.loading) {
+      await this.setState({
+        success: false,
+        loading: true,
+        clicked: true
+      });
+    }
+    if (this.state.creatorType === "investor") {
       const caseBody = {
         caseStatus: "WaitingForLawyer",
         creatorInvestorId: this.state.creatorId,
@@ -95,39 +131,73 @@ class FillForm extends Component {
         managers: this.state.managers
       };
       axios
-      .post(`api/cases/`, caseBody)
-      .then(res => {
-        console.log(res.data.msg);
-      })
-      .catch(err => {
-        console.log(err);
-      });
-    }
-    else{
-      console.log(this.state.investorObject)
-      axios
-        .post(`api/investors/`,this.state.investorObject)
-        .then(res => {
-          const caseBody = {
-            caseStatus: "WaitingForReviewer",
-            creatorInvestorId: res.data.data._id,
-            creatorLawyerId: this.state.creatorId,
-            companyType: this.state.formName,
-            form: this.state.formObject,
-            managers: this.state.managers
-          };
-          axios
-          .post(`api/cases/`, caseBody)
+        .post(`api/investors/fillForm/${this.state.creatorId}`, caseBody)
+        .then(async res => {
+          await this.setState({ success: true, loading: false });
+          alert(res.data.msg);
+          await this.setState({ success: true, loading: false });
+          window.location.reload();
+        })
+        .catch(async err => {
+          await this.setState({ success: false, loading: false });
+          alert(err.response.data.error);
+        });
+    } else {
+      if (!this.state.investorCreated) {
+        axios
+          .post(`api/investors/register`, this.state.investorObject)
           .then(res => {
-            console.log(res.data.msg);
+            this.setState({
+              investorCreated: true,
+              investorCreatedId: res.data.data._id
+            });
+            const caseBody = {
+              caseStatus: "WaitingForReviewer",
+              creatorInvestorId: res.data.data._id,
+              creatorLawyerId: this.state.creatorId,
+              companyType: this.state.formName,
+              form: this.state.formObject,
+              managers: this.state.managers
+            };
+            axios
+              .post(`api/lawyers/fillForm/${this.state.creatorId}`, caseBody)
+              .then(async res => {
+                await this.setState({ success: true, loading: false });
+                alert(res.data.msg);
+                await this.setState({ success: true, loading: false });
+                window.location.reload();
+              })
+              .catch(async err => {
+                await this.setState({ success: false, loading: false });
+                alert(err.response.data.error);
+              });
           })
-          .catch(err => {
-            console.log(err.response.data.error);
+          .catch(async err => {
+            await this.setState({ success: false, loading: false });
+            alert(err.response.data.error);
           });
-        })
-        .catch(err =>{
-          console.log(err.response.data.error)
-        })
+      } else {
+        const caseBody = {
+          caseStatus: "WaitingForReviewer",
+          creatorInvestorId: this.state.investorCreatedId,
+          creatorLawyerId: this.state.creatorId,
+          companyType: this.state.formName,
+          form: this.state.formObject,
+          managers: this.state.managers
+        };
+        axios
+          .post(`api/lawyers/fillForm/${this.state.creatorId}`, caseBody)
+          .then(async res => {
+            await this.setState({ success: true, loading: false });
+            alert(res.data.msg);
+            await this.setState({ success: true, loading: false });
+            window.location.reload();
+          })
+          .catch(async err => {
+            await this.setState({ success: false, loading: false });
+            alert(err.response.data.error);
+          });
+      }
     }
   };
 
@@ -150,43 +220,49 @@ class FillForm extends Component {
   };
 
   async componentDidMount() {
-    const data = parseJwt(localStorage.jwtToken)
+    const data = parseJwt(localStorage.jwtToken);
     await this.setState({
-      labelWidth: ReactDOM.findDOMNode(this.InputLabelRef).offsetWidth,
-      creatorId:data.id
+      creatorId: data.id,
+      creatorType: data.type
     });
-    console.log(this.state.creatorId)
     const formTemplates = await axios.get(`api/formTemplates/`);
-    console.log(formTemplates.data.data)
     await this.setState({ formTemplates: formTemplates.data.data });
-    axios
-        .get(`api/investors/${this.state.creatorId}`)
-        .then(res =>{
-          this.setState({ creatorType: "investor" });
-        })
-        .catch(err => {
-          this.setState({ creatorType: "lawyer" });
-        })
+    await this.setState({ finished: true });
   }
 
   handleChangeItem = async (key, value) => {
     let form = this.state.formObject;
     form[key] = value;
-    await this.setState({ formObject: form });
+    await this.setState({
+      formObject: form,
+      clicked: false,
+      success: false,
+      loading: false
+    });
   };
 
-  handleChangeMangerItem = async(managerIdx, key, value) => {
+  handleChangeMangerItem = async (managerIdx, key, value) => {
     let managers = [...this.state.managers];
     let manager = this.state.managers[managerIdx];
     manager[key] = value;
     managers[managerIdx] = manager;
-    await this.setState({ managers: managers });
+    await this.setState({
+      managers: managers,
+      clicked: false,
+      success: false,
+      loading: false
+    });
   };
-  handleChangeInvestorItem = async(key, value) => {
+  handleChangeInvestorItem = async (key, value) => {
     let invObj = this.state.investorObject;
-    invObj[key] =value;
-    await this.setState({investorObject:invObj})
-  }
+    invObj[key] = value;
+    await this.setState({
+      investorObject: invObj,
+      clicked: false,
+      success: false,
+      loading: false
+    });
+  };
 
   showManagers = () => {
     let i = 0;
@@ -196,14 +272,15 @@ class FillForm extends Component {
   showManager = managerIdx => {
     const classes = { ...styles };
     return (
-      <Card style={classes.card}>
-        <CardContent>
-          <h1>Manager</h1>
-          <div>
-            <ul style={{ display: "flex", flexWrap: "wrap" }}>
+      <Card key={managerIdx} style={classes.card}>
+        <CardContent key="mc">
+          <h1 key="mang">Manager</h1>
+          <div key="managers">
+            <ul key="fff" style={{ display: "flex", flexWrap: "wrap" }}>
               <TextField
                 fullWidth
-                id="outlined-email-input"
+                key="managerName*"
+                id="outlined-email-input1"
                 label="managerName*"
                 style={classes.textField}
                 value={this.state.managers[managerIdx].managerName}
@@ -219,7 +296,8 @@ class FillForm extends Component {
               />
               <TextField
                 fullWidth
-                id="outlined-email-input"
+                key="managerType*"
+                id="outlined-email-input4"
                 label="managerType*"
                 style={classes.textField}
                 value={this.state.managers[managerIdx].managerType}
@@ -235,7 +313,8 @@ class FillForm extends Component {
               />
               <TextField
                 fullWidth
-                id="outlined-email-input"
+                key="managerGender*"
+                id="outlined-email-input2"
                 label="managerGender*"
                 style={classes.textField}
                 value={this.state.managers[managerIdx].managerGender}
@@ -246,12 +325,21 @@ class FillForm extends Component {
                     ev.target.value
                   )
                 }
+                select
                 margin="normal"
                 variant="outlined"
-              />
+              >
+                <MenuItem key="gender1" value="Male">
+                  Male
+                </MenuItem>
+                <MenuItem key="gender2" value="Female">
+                  Female
+                </MenuItem>
+              </TextField>
               <TextField
                 fullWidth
-                id="outlined-email-input"
+                key="managerNationality*"
+                id="outlined-email-input5"
                 label="managerNationality*"
                 style={classes.textField}
                 value={this.state.managers[managerIdx].managerNationality}
@@ -267,7 +355,8 @@ class FillForm extends Component {
               />
               <TextField
                 fullWidth
-                id="outlined-email-input"
+                key="managerIdType*"
+                id="outlined-email-input6"
                 label="managerIdType*"
                 style={classes.textField}
                 value={this.state.managers[managerIdx].managerIdType}
@@ -280,10 +369,19 @@ class FillForm extends Component {
                 }
                 margin="normal"
                 variant="outlined"
-              />
+                select
+              >
+                <MenuItem key="idTyp1" value="NID">
+                  NID
+                </MenuItem>
+                <MenuItem key="idTyp2" value="passport">
+                  passport
+                </MenuItem>
+              </TextField>
               <TextField
                 fullWidth
-                id="outlined-email-input"
+                key="managerIdNumber*"
+                id="outlined-email-input7"
                 label="managerIdNumber*"
                 style={classes.textField}
                 value={this.state.managers[managerIdx].managerIdNumber}
@@ -299,8 +397,10 @@ class FillForm extends Component {
               />
               <TextField
                 fullWidth
-                id="outlined-email-input"
-                label="managerDateOfBirth*"
+                key="managerDateOfBirth*"
+                id="outlined-email-input8"
+                helperText="Manager Date of Birth"
+                type="date"
                 style={classes.textField}
                 value={this.state.managers[managerIdx].managerDateOfBirth}
                 onChange={ev =>
@@ -315,7 +415,8 @@ class FillForm extends Component {
               />
               <TextField
                 fullWidth
-                id="outlined-email-input"
+                key="managerResidenceAddress*"
+                id="outlined-email-input9"
                 label="managerResidenceAddress*"
                 style={classes.textField}
                 value={this.state.managers[managerIdx].managerResidenceAddress}
@@ -331,7 +432,8 @@ class FillForm extends Component {
               />
               <TextField
                 fullWidth
-                id="outlined-email-input"
+                key="managerPositionInBoardOfDirectors*"
+                id="outlined-email-input10"
                 label="managerPositionInBoardOfDirectors*"
                 style={classes.textField}
                 value={
@@ -356,148 +458,173 @@ class FillForm extends Component {
   };
 
   render() {
-    const classes = { ...styles };
-    let formCard;
-    let managersCard = "";
-    let submitButton;
-    let addMangerButton;
-    let investorCard;
-    if (this.state.formName !== "None") {
-      formCard = (
-        <Card style={classes.card}>
-          <CardContent>
-            <h1>Form</h1>
-            <div>
-              <ul style={{ display: "flex", flexWrap: "wrap" }}>
-                {this.state.fields.map(field => {
-                  return field.fieldType === "DROPLIST" ||
-                    field.fieldType === "CURRENCY" ||
-                    field.fieldType === "CITY" ||
-                    field.fieldType === "GOVERNATE" ? (
-                    <TextField
-                      fullWidth
-                      type={
-                        field.fieldType === "NUMBER"
-                          ? "number"
-                          : field.fieldType === "DROPLIST" ||
-                            field.fieldType === "CURRENCY" ||
-                            field.fieldType === "CITY" ||
-                            field.fieldType === "GOVERNATE"
-                          ? ""
-                          : "email"
-                      }
-                      label={
-                        field.isRequired === true
-                          ? field.fieldName + "*"
-                          : field.fieldName
-                      }
-                      select
-                      value={this.state.formObject[field.fieldName]}
-                      style={classes.textField}
-                      onChange={ev =>
-                        this.handleChangeItem(field.fieldName, ev.target.value)
-                      }
-                      margin="normal"
-                      variant="outlined"
-                    >
-                      {field.fieldType === "DROPLIST"
-                        ? field.options.map(option => {
-                            return (
-                              <MenuItem key={option.value} value={option}>
-                                {option}
-                              </MenuItem>
-                            );
-                          })
-                        : field.fieldType === "CURRENCY"
-                        ? currencies.map(currency => {
-                            return (
-                              <MenuItem
-                                key={currency.symbol}
-                                value={currency.symbol}
-                              >
-                                {currency.symbol}
-                              </MenuItem>
-                            );
-                          })
-                        : field.fieldType === "CITY"
-                        ? cities.map(city => {
-                            return (
-                              <MenuItem
-                                key={city.nameInEnglish}
-                                value={city.nameInEnglish}
-                              >
-                                {city.nameInEnglish}
-                              </MenuItem>
-                            );
-                          })
-                        : governates.map(gov => {
-                            return (
-                              <MenuItem
-                                key={gov.nameInEnglish}
-                                value={gov.nameInEnglish}
-                              >
-                                {gov.nameInEnglish}
-                              </MenuItem>
-                            );
-                          })}
-                    </TextField>
-                  ) : field.fieldType === "DATE" ? (
-                    <TextField
-                      fullWidth
-                      type="date"
-                      label={
-                        field.isRequired === true
-                          ? field.fieldName + "*"
-                          : field.fieldName
-                      }
-                      style={classes.textField}
-                      onChange={ev =>
-                        this.handleChangeItem(field.fieldName, ev.target.value)
-                      }
-                      margin="normal"
-                      variant="outlined"
-                    />
-                  ) : (
-                    <TextField
-                      fullWidth
-                      type={
-                        field.fieldType === "NUMBER"
-                          ? "number"
-                          : field.fieldType === "DROPLIST" ||
-                            field.fieldType === "CURRENCY" ||
-                            field.fieldType === "CITY" ||
-                            field.fieldType === "GOVERNATE"
-                          ? "select"
-                          : "email"
-                      }
-                      label={
-                        field.isRequired === true
-                          ? field.fieldName + "*"
-                          : field.fieldName
-                      }
-                      style={classes.textField}
-                      onChange={ev =>
-                        this.handleChangeItem(field.fieldName, ev.target.value)
-                      }
-                      margin="normal"
-                      variant="outlined"
-                    />
-                  );
-                })}
-              </ul>
-            </div>
-          </CardContent>
-        </Card>
+    if (!this.state.finished) {
+      return (
+        <div>
+          <CircularProgress style={{ marginTop: "50px" }} />
+          <h3>Fetching Data</h3>
+        </div>
       );
-      if (this.state.creatorType === "lawyer") {
-        investorCard = (
+    } else {
+      const classes = { ...styles };
+      let formCard;
+      let managersCard = "";
+      let submitButton;
+      let addMangerButton;
+      let investorCard;
+      if (this.state.formName !== "None") {
+        formCard = (
           <Card style={classes.card}>
             <CardContent>
-              <h1>Investor</h1>
+              <h1>Form</h1>
               <div>
-                <ul style={{ display: "flex", flexWrap: "wrap" }} >
-                <TextField
+                <ul style={{ display: "flex", flexWrap: "wrap" }}>
+                  {this.state.fields.map(field => {
+                    return field.fieldType === "DROPLIST" ||
+                      field.fieldType === "CURRENCY" ||
+                      field.fieldType === "CITY" ||
+                      field.fieldType === "GOVERNATE" ? (
+                      <TextField
+                        key={field.fieldName}
+                        fullWidth
+                        type={
+                          field.fieldType === "NUMBER"
+                            ? "number"
+                            : field.fieldType === "DROPLIST" ||
+                              field.fieldType === "CURRENCY" ||
+                              field.fieldType === "CITY" ||
+                              field.fieldType === "GOVERNATE"
+                            ? ""
+                            : "email"
+                        }
+                        label={
+                          field.isRequired === true
+                            ? field.fieldName + "*"
+                            : field.fieldName
+                        }
+                        select
+                        value={
+                          this.state.formObject[field.fieldName] === undefined
+                            ? ""
+                            : this.state.formObject[field.fieldName]
+                        }
+                        style={classes.textField}
+                        onChange={ev =>
+                          this.handleChangeItem(
+                            field.fieldName,
+                            ev.target.value
+                          )
+                        }
+                        margin="normal"
+                        variant="outlined"
+                      >
+                        {field.fieldType === "DROPLIST"
+                          ? field.options.map(option => {
+                              return (
+                                <MenuItem key={option} value={option}>
+                                  {option}
+                                </MenuItem>
+                              );
+                            })
+                          : field.fieldType === "CURRENCY"
+                          ? currencies.map(currency => {
+                              return (
+                                <MenuItem key={currency.cc} value={currency.cc}>
+                                  {currency.cc}
+                                </MenuItem>
+                              );
+                            })
+                          : field.fieldType === "CITY"
+                          ? cities.map(city => {
+                              return (
+                                <MenuItem
+                                  key={city.nameInEnglish}
+                                  value={city.nameInEnglish}
+                                >
+                                  {city.nameInEnglish}
+                                </MenuItem>
+                              );
+                            })
+                          : governates.map(gov => {
+                              return (
+                                <MenuItem
+                                  key={gov.nameInEnglish}
+                                  value={gov.nameInEnglish}
+                                >
+                                  {gov.nameInEnglish}
+                                </MenuItem>
+                              );
+                            })}
+                      </TextField>
+                    ) : field.fieldType === "DATE" ? (
+                      <TextField
+                        key={field.fieldName}
+                        fullWidth
+                        type="date"
+                        helperText={
+                          field.isRequired === true
+                            ? field.fieldName + "*"
+                            : field.fieldName
+                        }
+                        style={classes.textField}
+                        onChange={ev =>
+                          this.handleChangeItem(
+                            field.fieldName,
+                            ev.target.value
+                          )
+                        }
+                        margin="normal"
+                        variant="outlined"
+                      />
+                    ) : (
+                      <TextField
+                        key={field.fieldName}
+                        fullWidth
+                        type={
+                          field.fieldType === "NUMBER"
+                            ? "number"
+                            : field.fieldType === "DROPLIST" ||
+                              field.fieldType === "CURRENCY" ||
+                              field.fieldType === "CITY" ||
+                              field.fieldType === "GOVERNATE"
+                            ? "select"
+                            : "email"
+                        }
+                        label={
+                          field.isRequired === true
+                            ? field.fieldName + "*"
+                            : field.fieldName
+                        }
+                        style={classes.textField}
+                        onChange={ev =>
+                          this.handleChangeItem(
+                            field.fieldName,
+                            ev.target.value
+                          )
+                        }
+                        margin="normal"
+                        variant="outlined"
+                      />
+                    );
+                  })}
+                </ul>
+              </div>
+            </CardContent>
+          </Card>
+        );
+        if (
+          this.state.creatorType === "lawyer" &&
+          !this.state.investorCreated
+        ) {
+          investorCard = (
+            <Card style={classes.card}>
+              <CardContent>
+                <h1>Investor</h1>
+                <div>
+                  <ul style={{ display: "flex", flexWrap: "wrap" }}>
+                    <TextField
                       fullWidth
+                      key="investoremail"
                       type="email"
                       label="email*"
                       style={classes.textField}
@@ -506,31 +633,40 @@ class FillForm extends Component {
                       }
                       margin="normal"
                       variant="outlined"
-                  />
-                  <TextField
+                    />
+                    <TextField
                       fullWidth
+                      key="investorpassword"
                       type="password"
                       label="password*"
                       style={classes.textField}
                       onChange={ev =>
-                        this.handleChangeInvestorItem("password", ev.target.value)
+                        this.handleChangeInvestorItem(
+                          "password",
+                          ev.target.value
+                        )
                       }
                       margin="normal"
                       variant="outlined"
-                  />
-                  <TextField
+                    />
+                    <TextField
                       fullWidth
+                      key="investorfullname"
                       type="email"
                       label="fullName*"
                       style={classes.textField}
                       onChange={ev =>
-                        this.handleChangeInvestorItem("fullName", ev.target.value)
+                        this.handleChangeInvestorItem(
+                          "fullName",
+                          ev.target.value
+                        )
                       }
                       margin="normal"
                       variant="outlined"
-                  />
-                  <TextField
+                    />
+                    <TextField
                       fullWidth
+                      key="investortype"
                       type="email"
                       label="type*"
                       value={this.state.investorObject.type}
@@ -541,16 +677,14 @@ class FillForm extends Component {
                       select
                       margin="normal"
                       variant="outlined"
-                  >
-                    <MenuItem
-                      key="type"
-                      value="type"
-                      >
-                      single
-                    </MenuItem>
-                  </TextField>
-                  <TextField
+                    >
+                      <MenuItem key="type" value="single">
+                        single
+                      </MenuItem>
+                    </TextField>
+                    <TextField
                       fullWidth
+                      key="investorgender"
                       type="email"
                       label="gender*"
                       value={this.state.investorObject.gender}
@@ -561,103 +695,116 @@ class FillForm extends Component {
                       select
                       margin="normal"
                       variant="outlined"
-                  >
-                  <MenuItem
-                      key="gender"
-                      value="Male"
-                      >
-                      Male
-                    </MenuItem>
-                    <MenuItem
-                      key="gender"
-                      value="Female"
-                      >
-                      Female
-                    </MenuItem>
-                  </TextField>
-                  <TextField
+                    >
+                      <MenuItem key="gender1" value="Male">
+                        Male
+                      </MenuItem>
+                      <MenuItem key="gender2" value="Female">
+                        Female
+                      </MenuItem>
+                    </TextField>
+                    <TextField
                       fullWidth
+                      key="investornationality"
                       type="email"
                       label="nationality*"
                       style={classes.textField}
                       onChange={ev =>
-                        this.handleChangeInvestorItem("nationality", ev.target.value)
+                        this.handleChangeInvestorItem(
+                          "nationality",
+                          ev.target.value
+                        )
                       }
                       margin="normal"
                       variant="outlined"
-                  />
-                  <TextField
+                    />
+                    <TextField
                       fullWidth
+                      key="investormethodofidentification"
                       type="email"
                       label="methodOfIdentification*"
                       style={classes.textField}
                       value={this.state.investorObject.methodOfIdentification}
                       onChange={ev =>
-                        this.handleChangeInvestorItem("methodOfIdentification", ev.target.value)
+                        this.handleChangeInvestorItem(
+                          "methodOfIdentification",
+                          ev.target.value
+                        )
                       }
                       select
                       margin="normal"
                       variant="outlined"
-                  >
-                  <MenuItem
-                      key="methodOfIdentification"
-                      value="passport"
-                      >
-                      passport
-                    </MenuItem>
-                    <MenuItem
-                      key="methodOfIdentification"
-                      value="NID"
-                      >
-                      NID
-                    </MenuItem>
-                  </TextField>
-                  <TextField
+                    >
+                      <MenuItem key="methodOfIdentification1" value="passport">
+                        passport
+                      </MenuItem>
+                      <MenuItem key="methodOfIdentification2" value="NID">
+                        NID
+                      </MenuItem>
+                    </TextField>
+                    <TextField
                       fullWidth
+                      key="investoridentificationnumber"
                       type="number"
                       label="identificationNumber*"
                       style={classes.textField}
                       onChange={ev =>
-                        this.handleChangeInvestorItem("identificationNumber", ev.target.value)
+                        this.handleChangeInvestorItem(
+                          "identificationNumber",
+                          ev.target.value
+                        )
                       }
                       margin="normal"
                       variant="outlined"
-                  />
-                  <TextField
+                    />
+                    <TextField
                       fullWidth
+                      key="investordateofbirth"
                       type="date"
-                      label="dateOfBirth*"
+                      helperText="Investor Date of Birth"
                       style={classes.textField}
                       onChange={ev =>
-                        this.handleChangeInvestorItem("dateOfBirth", ev.target.value)
+                        this.handleChangeInvestorItem(
+                          "dateOfBirth",
+                          ev.target.value
+                        )
                       }
                       margin="normal"
                       variant="filled"
-                  />
-                  <TextField
+                    />
+                    <TextField
                       fullWidth
+                      key="investorresidenceaddress"
                       type="email"
                       label="residenceAddress*"
                       style={classes.textField}
                       onChange={ev =>
-                        this.handleChangeInvestorItem("residenceAddress", ev.target.value)
+                        this.handleChangeInvestorItem(
+                          "residenceAddress",
+                          ev.target.value
+                        )
                       }
                       margin="normal"
                       variant="outlined"
-                  />
-                  <TextField
+                    />
+                    <TextField
                       fullWidth
+                      key="investortelephone"
                       type="number"
                       label="telephoneNumber*"
                       style={classes.textField}
                       onChange={ev =>
-                        this.handleChangeInvestorItem("telephoneNumber", ev.target.value)
+                        this.handleChangeInvestorItem(
+                          "telephoneNumber",
+                          ev.target.value
+                        )
                       }
                       margin="normal"
                       variant="outlined"
-                  />
-                  <TextField
+                    />
+                    <TextField
                       fullWidth
+                      key="investorfax"
                       type="number"
                       label="fax*"
                       style={classes.textField}
@@ -666,95 +813,175 @@ class FillForm extends Component {
                       }
                       margin="normal"
                       variant="outlined"
-                  />
-                </ul>
-              </div>
-            </CardContent>
-          </Card>
-        );
-      }
-      if (this.state.formTemplate.hasManagers) {
-        managersCard = this.showManagers();
-        addMangerButton = (
-          <Fab
-            color="primary"
-            style={{ float: "right" }}
-            onClick={ev => this.handleAddManager()}
+                    />
+                  </ul>
+                </div>
+              </CardContent>
+            </Card>
+          );
+        }
+        if (this.state.formTemplate.hasManagers) {
+          managersCard = this.showManagers();
+          addMangerButton = (
+            <Fab
+              color="primary"
+              style={{ float: "right" }}
+              onClick={async () => {
+                let managers = [
+                  ...this.state.managers,
+                  {
+                    managerName: "",
+                    managerType: "",
+                    managerGender: "",
+                    managerNationality: "",
+                    managerIdType: "",
+                    managerIdNumber: "",
+                    managerDateOfBirth: "",
+                    managerResidenceAddress: "",
+                    managerPositionInBoardOfDirectors: ""
+                  }
+                ];
+                await this.setState({ managers: managers });
+              }}
+            >
+              <AddIcon />
+            </Fab>
+          );
+        }
+        const { loading, success, clicked } = this.state;
+        submitButton = (
+          <div
+            className="CircularIntegration-root-241"
+            style={{ display: "flex", alignItems: "center" }}
           >
-            <AddIcon />
-          </Fab>
+            <div
+              className="CircularIntegration-wrapper-242"
+              style={{
+                marginRight: "240px",
+                marginTop: "12px",
+                display: "block",
+                margin: "0 auto",
+                position: "relative"
+              }}
+            >
+              <Fab
+                color="primary"
+                className=""
+                style={
+                  success && clicked && !loading
+                    ? {
+                        backgroundColor: green[500],
+                        "&:hover": {
+                          backgroundColor: green[700]
+                        }
+                      }
+                    : !success && clicked && !loading
+                    ? {
+                        backgroundColor: red[500],
+                        "&:hover": {
+                          backgroundColor: red[700]
+                        }
+                      }
+                    : {}
+                }
+                onClick={this.handleSubmit}
+              >
+                {success && clicked ? (
+                  <CheckIcon />
+                ) : !success && clicked && !loading ? (
+                  <CrossIcon />
+                ) : (
+                  <Typography variant="body1" style={{ color: "#ffffff" }}>
+                    Submit
+                  </Typography>
+                )}
+              </Fab>
+              {loading && (
+                <CircularProgress
+                  size={68}
+                  className="CircularIntegration-fabProgress-909"
+                  style={{
+                    color: green[500],
+                    position: "absolute",
+                    top: -6,
+                    left: -6,
+                    zIndex: 1
+                  }}
+                />
+              )}
+            </div>
+          </div>
+          // <Fab
+          //   variant="extended"
+          //   size="large"
+          //   color="secondary"
+          //   style={{
+          //     color: "#FFFFFF",
+          //     height: "31px",
+          //     width: "107px",
+          //     fontSize: "13px",
+          //     boxShadow: "none",
+          // marginRight: "240px",
+          // marginTop: "6px",
+          // display: "block",
+          // margin: "0 auto"
+          //   }}
+          //   onClick={this.handleSubmit}
+          // >
+          //   Submit
+          // </Fab>
         );
       }
-
-      submitButton = (
-        <Fab
-          variant="extended"
-          size="large"
-          color="secondary"
-          style={{
-            color: "#FFFFFF",
-            height: "31px",
-            width: "107px",
-            fontSize: "13px",
-            boxShadow: "none",
-            marginRight: "240px",
-            marginTop: "6px",
-            display: "block",
-            margin: "0 auto"
-          }}
-          onClick={this.handleSubmit}
-        >
-          Submit
-        </Fab>
+      return (
+        <Card key="card00" style={classes.card}>
+          <CardContent key="card11">
+            <div>
+              <FormControl
+                fullWidth
+                variant="outlined"
+                style={classes.formControl}
+              >
+                <InputLabel
+                  ref={ref => {
+                    this.InputLabelRef = ref;
+                  }}
+                  htmlFor="outlined-age-simple"
+                >
+                  Form
+                </InputLabel>
+                <Select
+                  value={this.state.formName}
+                  onChange={this.handleChange}
+                  input={
+                    <OutlinedInput
+                      labelWidth={this.state.labelWidth}
+                      name="formName"
+                      id="outlined-age-simple"
+                    />
+                  }
+                >
+                  <MenuItem value="None">
+                    <em>None</em>
+                  </MenuItem>
+                  {this.state.formTemplates.map(form => {
+                    return (
+                      <MenuItem key={form.formName} value={form.formName}>
+                        {form.formName}
+                      </MenuItem>
+                    );
+                  })}
+                </Select>
+              </FormControl>
+              <div>{formCard}</div>
+            </div>
+            {managersCard}
+            {investorCard}
+            {addMangerButton}
+            {submitButton}
+          </CardContent>
+        </Card>
       );
     }
-    return (
-      <Card style={classes.card}>
-        <CardContent>
-          <div>
-            <FormControl
-              fullWidth
-              variant="outlined"
-              style={classes.formControl}
-            >
-              <InputLabel
-                ref={ref => {
-                  this.InputLabelRef = ref;
-                }}
-                htmlFor="outlined-age-simple"
-              >
-                Form
-              </InputLabel>
-              <Select
-                value={this.state.formName}
-                onChange={this.handleChange}
-                input={
-                  <OutlinedInput
-                    labelWidth={this.state.labelWidth}
-                    name="formName"
-                    id="outlined-age-simple"
-                  />
-                }
-              >
-                <MenuItem value="None">
-                  <em>None</em>
-                </MenuItem>
-                {this.state.formTemplates.map(form => {
-                  return (
-                    <MenuItem value={form.formName}>{form.formName}</MenuItem>
-                  );
-                })}
-              </Select>
-            </FormControl>
-            <div>{formCard}</div>
-          </div>
-          {managersCard}
-          {investorCard}
-          {addMangerButton}
-          {submitButton}
-        </CardContent>
-      </Card>
-    );
   }
 }
 export default withStyles(styles)(FillForm);

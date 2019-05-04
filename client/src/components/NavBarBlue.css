@@ -1,91 +1,91 @@
 .Header{
-    z-index: 10;
-    position : fixed;
-    top : 0;
-    min-width: 100%;
-    min-height: 60px;
-    overflow: auto;
-    margin: 0 auto;
-  }
-  i {
-    border: double #3480E3;
-    border-width:0px 6px 6px 0;
-    display: inline-block;
-    padding: 5px;
-    margin-top: 5px;
-    margin-left: 50px;
-  }
-  
-  .left {
-    transform: rotate(135deg);
-    -webkit-transform: rotate(135deg);
-  }
-  .Logo /* for the logo button which holds the logo image */
-  {
-    width: 14vh;
-    min-height: 40px;
-    top:0;
-    padding-right:60px;
-    background-repeat: no-repeat;
-    background-size: contain;
-  }
-  button {
-    background: none;
-    cursor:unset;
-    transition: all 0.5s;
-    border: none;
-    font-size: 16px;
-    outline: none;
-    cursor: pointer;
-    color: #222529;
-    font-weight: bold;
-    margin-top: 15px;
-    margin-right: 25px;
-  }
-  button:focus 
-  {
-    outline:0;
-  }
-  .navbar {
-    background-color:rgb(255, 255, 255);
-    padding-top: 0px;
-  }
-  .navbar-toggler-icon
-  {
-    height: 35px;
-  }
-  
-  button.navbar-toggler /* for the hamburger button */
-  {
-    outline:0;border-width:0;
-    width: 6vh;
-    height: 6vh;
-    background-size: cover;
-  } 
-  
-  .button span {
-    cursor: pointer;
-    display: inline-block;
-    position: relative;
-    transition: 0.5s;
-  }
-  
-  .button span:after {
-    content: '\00bb';
-    position: absolute;
-    opacity: 0;
-    top: 0;
-    right: -10px;
-    transition: 0.5s;
-    color: #E53167
-  }
-  
-  .button:hover span {
-    padding-right: 15px;
-    color: #E53167
-  }
-  
-  .button:hover span:after {
-    opacity: 1;
-    right: 0;
-  }
+  z-index: 10;
+  position : fixed;
+  top : 0;
+  min-width: 100%;
+  min-height: 60px;
+  overflow: auto;
+  margin: 0 auto;
+}
+i {
+  border: double #3480E3;
+  border-width:0px 6px 6px 0;
+  display: inline-block;
+  padding: 5px;
+  margin-top: 5px;
+  margin-left: 50px;
+}
+
+.left {
+  transform: rotate(135deg);
+  -webkit-transform: rotate(135deg);
+}
+.Logo /* for the logo button which holds the logo image */
+{
+  width: 14vh;
+  min-height: 40px;
+  top:0;
+  padding-right:60px;
+  background-repeat: no-repeat;
+  background-size: contain;
+}
+button {
+  background: none;
+  cursor:unset;
+  transition: all 0.5s;
+  border: none;
+  font-size: 16px;
+  outline: none;
+  cursor: pointer;
+  color: #222529;
+  font-weight: bold;
+  margin-top: 15px;
+  margin-right: 25px;
+}
+button:focus 
+{
+  outline:0;
+}
+.navbar {
+  background-color:rgb(255, 255, 255);
+  padding-top: 0px;
+}
+.navbar-toggler-icon
+{
+  height: 35px;
+}
+
+button.navbar-toggler /* for the hamburger button */
+{
+  outline:0;border-width:0;
+  width: 6vh;
+  height: 6vh;
+  background-size: cover;
+} 
+
+.button span {
+  cursor: pointer;
+  display: inline-block;
+  position: relative;
+  transition: 0.5s;
+}
+
+.button span:after {
+  content: '\00bb';
+  position: absolute;
+  opacity: 0;
+  top: 0;
+  right: -10px;
+  transition: 0.5s;
+  color: #E53167
+}
+
+.button:hover span {
+  padding-right: 15px;
+  color: #E53167
+}
+
+.button:hover span:after {
+  opacity: 1;
+  right: 0;
+}

@@ -1,19 +1,19 @@
-const mongoose = require("mongoose")
-const mongoValidator = require("validator")
-const passport = require("passport")
-const nodemailer = require('nodemailer')
-const async = require('async')
-const stripeSecretKey = require("../config/keys").stripeSecretKey
-const stripe = require("stripe")(stripeSecretKey)
-const crypto = require('crypto')
-const Investor = require('../models/Investor')
-const validator = require('../validations/investorValidations')
-const Case = require('../models/Case')
-const encryption = require('../routes/api/utils/encryption')
-const jwt = require('jsonwebtoken')
-const tokenKey = require('../config/keys_dev').secretOrKey
-const caseController = require('./caseController')
-const bcrypt = require('../routes/api/utils/encryption.js')
+const mongoose = require("mongoose");
+const mongoValidator = require("validator");
+const passport = require("passport");
+const nodemailer = require("nodemailer");
+const async = require("async");
+const stripeSecretKey = require("../config/keys").stripeSecretKey;
+const stripe = require("stripe")(stripeSecretKey);
+const crypto = require("crypto");
+const Investor = require("../models/Investor");
+const validator = require("../validations/investorValidations");
+const Case = require("../models/Case");
+const encryption = require("../routes/api/utils/encryption");
+const jwt = require("jsonwebtoken");
+const tokenKey = require("../config/keys_dev").secretOrKey;
+const caseController = require("./caseController");
+const bcrypt = require("../routes/api/utils/encryption.js");
 const Lawyer = require("../models/Lawyer");
 const Reviewer = require("../models/Reviewer");
 //READ
@@ -61,8 +61,8 @@ exports.createInvestor = async function(req, res) {
 };
 
 exports.register = async function(req, res) {
-  req.body.password = encryption.hashPassword(req.body.password);
   const { error } = validator.createValidation(req.body);
+  req.body.password = encryption.hashPassword(req.body.password);
   if (error) return res.status(400).send({ error: error.details[0].message });
   try {
     const investor = await Investor.create(req.body);
@@ -133,15 +133,15 @@ exports.deleteInvestor = async function(req, res) {
 exports.viewLawyerComments = async function(req, res) {
   try {
     //if the user is authenticated give them access to the function otherwise return a Forbidden error
-      //querying to find a Case where _id=caseID && creatorInvestorId=investorID
-      let caseForForm = await Case.find({
-        _id: req.params.caseId,
-        creatorInvestorId: req.params.investorId
-      });
-      //if the query brings back a valid result set return its comments otherwise return an error
-      if (caseForForm !== undefined && caseForForm.length > 0)
-        res.send({ comments: caseForForm[0].comments });
-      else res.status(404).send({ error: "Data Not Found" });
+    //querying to find a Case where _id=caseID && creatorInvestorId=investorID
+    let caseForForm = await Case.find({
+      _id: req.params.caseId,
+      creatorInvestorId: req.params.investorId
+    });
+    //if the query brings back a valid result set return its comments otherwise return an error
+    if (caseForForm !== undefined && caseForForm.length > 0)
+      res.send({ comments: caseForForm[0].comments });
+    else res.status(404).send({ error: "Data Not Found" });
   } catch (error) {
     res.send({ error: "An error has occured." });
   }
@@ -183,12 +183,12 @@ exports.getMyCompanies = async function(req, res) {
     const checkInvestor = await Investor.find({ _id: req.params.investorId });
     if (checkInvestor.length === 0)
       return res.status(404).send({ error: "Investor not Found" });
-      const companies = await Company.find({
-        investorId: req.params.investorId
-      });
-      if (companies.length === 0)
-        res.send({ msg: "You don't have any Companies yet." });
-      else res.send({ data: companies });
+    const companies = await Company.find({
+      investorId: req.params.investorId
+    });
+    if (companies.length === 0)
+      res.send({ msg: "You don't have any Companies yet." });
+    else res.send({ data: companies });
   } catch {
     res.status(400).send({ error: "An error has occured." });
   }
@@ -321,44 +321,40 @@ exports.payFees = async function(req, res) {
 };
 
 exports.fillForm = async function(req, res) {
-  try {
-      req.body.creatorInvestorId = req.params.investorId;
-      caseController.createCase(req, res); //Fadi's create-case
-      // res.send({msg : "Form Submitted Successfully"});
-      req.body.caseStatus = "WaitingForLawyer";
-      await caseController.createCase(req, res);
-     
-  }catch (error) {
-    res.send({ error: "An error has occured." });
-  }
+  req.body.creatorInvestorId = req.params.investorId;
+  req.body.caseStatus = "WaitingForLawyer";
+  await caseController.createCase(req, res);
 };
 
-exports.login = async function(req, res, next){
-  passport.authenticate('investors',
-  async function(err,investor){
-    if (err) { return next(err) }
-    if (!investor) { return res.send({error:"Investor not found"}) }
-    req.login(investor,  async function(err) {
-      try{
-      if (err) { return next(err) }
-      let investor = await Investor.where("email" , req.body.email)
-      const payload = {
-        id : investor[0]._id,
-        email : investor[0].email,
-        type: 'investor'
-      }
-      
-      const token = jwt.sign(payload, tokenKey,{expiresIn:'1h'})
-      res.json({data : `Bearer ${token}`})
-      return res.json({data:'Token'})
+exports.login = async function(req, res, next) {
+  passport.authenticate("investors", async function(err, investor) {
+    if (err) {
+      return next(err);
+    }
+    if (!investor) {
+      return res.send({ error: "Investor not found" });
+    }
+    req.login(investor, async function(err) {
+      try {
+        if (err) {
+          return next(err);
+        }
+        let investor = await Investor.where("email", req.body.email);
+        const payload = {
+          id: investor[0]._id,
+          email: investor[0].email,
+          type: "investor"
+        };
 
-      }
-      catch(err){
+        const token = jwt.sign(payload, tokenKey, { expiresIn: "1h" });
+        res.json({ data: `Bearer ${token}` });
+        return res.json({ data: "Token" });
+      } catch (err) {
         return err;
       }
-    })
-  })(req, res, next)
-}
+    });
+  })(req, res, next);
+};
 
 exports.forgot = function(req, res, next) {
   async.waterfall(
@@ -405,7 +401,7 @@ exports.forgot = function(req, res, next) {
             ",\n\n" +
             "You are receiving this because you (or someone else) have requested the reset of the password for your account.\n\n" +
             "Please click on the following link, or paste this into your browser to complete the process:\n\n" +
-            "http://localhost:3000/investors/reset/" +
+            "http://sumergite.herokuapp.com/investors/reset/" +
             token +
             "\n\n" +
             "If you did not request this, please ignore this email and your password will remain unchanged.\n\n" +
@@ -500,40 +496,40 @@ exports.reset = function(req, res) {
 };
 
 exports.resumeWorkOnCase = async function(req, res) {
-    if (!mongoValidator.isMongoId(req.params.caseId))
-      return res.status(400).send({ error: "Invalid case id" });
+  if (!mongoValidator.isMongoId(req.params.caseId))
+    return res.status(400).send({ error: "Invalid case id" });
 
-    let myCase = await Case.findById(req.params.caseId);
+  let myCase = await Case.findById(req.params.caseId);
 
-    if (myCase === null)
-      return res.status(400).send({ error: "Invalid case id" });
+  if (myCase === null)
+    return res.status(400).send({ error: "Invalid case id" });
 
-    if (myCase.assignedReviewerId !== null)
-      return res
-        .status(400)
-        .send({ error: "You are not the one required to update" });
+  if (myCase.assignedReviewerId !== null)
+    return res
+      .status(400)
+      .send({ error: "You are not the one required to update" });
 
-    if (
-      toString(myCase.creatorInvestorId) !==
-      toString(req.params.creatorInvestorId)
-    )
-      return res.status(400).send({ error: "This is not your case" });
+  if (
+    toString(myCase.creatorInvestorId) !==
+    toString(req.params.creatorInvestorId)
+  )
+    return res.status(400).send({ error: "This is not your case" });
 
-    if (myCase.caseStatus !== "OnUpdate")
-      return res
-        .status(400)
-        .send({ error: "This case is not in the update state" });
+  if (myCase.caseStatus !== "OnUpdate")
+    return res
+      .status(400)
+      .send({ error: "This case is not in the update state" });
 
-    try {
-      await Case.findByIdAndUpdate(req.params.caseId, {
-        caseStatus: "WaitingForLawyer"
-      });
-      res.send(await Case.findById(req.params.caseId));
-    } catch (error) {
-      res.send({
-        error: "A fatal error has occured, could not update the case status."
-      });
-    }
+  try {
+    await Case.findByIdAndUpdate(req.params.caseId, {
+      caseStatus: "WaitingForLawyer"
+    });
+    res.send(await Case.findById(req.params.caseId));
+  } catch (error) {
+    res.send({
+      error: "A fatal error has occured, could not update the case status."
+    });
+  }
 };
 
 exports.getMyCases = async function(req, res) {
@@ -543,7 +539,6 @@ exports.getMyCases = async function(req, res) {
   if (!investor) return res.status(400).send({ error: "investor not found" });
 
   res.send({
-    
     data: await Case.find({ creatorInvestorId: req.params.creatorInvestorId })
   });
 };
@@ -555,8 +550,10 @@ exports.getMyAccCases = async function(req, res) {
   if (!investor) return res.status(400).send({ error: "investor not found" });
 
   res.send({
-    
-    data: await Case.find({ creatorInvestorId: req.params.creatorInvestorId , caseStatus: "Accepted" })
+    data: await Case.find({
+      creatorInvestorId: req.params.creatorInvestorId,
+      caseStatus: "Accepted"
+    })
   });
 };
 
@@ -567,6 +564,10 @@ exports.getMyOnUpdateCases = async function(req, res) {
   if (!investor) return res.status(400).send({ error: "investor not found" });
 
   res.send({
-    data: await Case.find({ creatorInvestorId: req.params.creatorInvestorId , caseStatus: "OnUpdate" , assignedReviewerId: null})
+    data: await Case.find({
+      creatorInvestorId: req.params.creatorInvestorId,
+      caseStatus: "OnUpdate",
+      assignedReviewerId: null
+    })
   });
 };
