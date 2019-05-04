@@ -48,9 +48,9 @@ export default class HomePage extends Component {
       el: "#hero",
       color: "#ffffff",
       backgroundColor: "#3480e3",
-      points: 19.00,
-      maxDistance: 27.00,
-      spacing: 20.00
+      points: 19.0,
+      maxDistance: 27.0,
+      spacing: 20.0
     });
   }
   componentWillUnmount() {
@@ -95,8 +95,8 @@ export default class HomePage extends Component {
 
             <p className="createComp">
               {this.state.lang === "eng"
-                ? "Create your company in less than a day"
-                : "إنشىء شركتك في أقل من يوم"}
+                ? "You're just one click away from establishing your own company!"
+                : "أنت على بعد مجرد نقرة واحدة فقط عن تأسيس شركتك الخاصة"}
               <br />
             </p>
 
@@ -207,7 +207,7 @@ export default class HomePage extends Component {
                 <p className="homePagePar2">
                   {this.state.lang === "eng"
                     ? "You are a click away from establishing your own company!"
-                    : "أنت على بعد ضغطة واحدة من تأسيس شركتك الخاصة!"}
+                    : "أنت على بعد ضغطة واحدة من تأسيس شركتك الخاصة"}
                 </p>
 
                 <RegisterModal lang={this.state.lang} />
