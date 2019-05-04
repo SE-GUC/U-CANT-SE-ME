@@ -100,16 +100,14 @@ export default class InvestorDashBoard extends Component {
         marginLeft: this.state.dashboardwidth,
         display: "flex",
         justifyContent: "center",
-        // paddingTop: "10vh",
-        marginTop: "20vh"
+        marginTop: "10vh"
       },
       divStyleHide: {
         display: "none",
         textAlign: "center",
         marginLeft: this.state.dashboardwidth,
         justifyContent: "center",
-        // paddingTop: "10vh",
-        marginTop: "20vh"
+        marginTop: "10vh"
       }
     };
     if (this.state.pass === 2) return <Redirect to="/" />;
