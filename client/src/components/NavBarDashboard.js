@@ -5,6 +5,7 @@ import parseJwt from "../helpers/decryptAuthToken";
 import Language from "@material-ui/icons/Language";
 import Fab from "@material-ui/core/Fab";
 // import { Link } from "react-router-dom";
+import { Redirect } from "react-router-dom";
 
 export default class NavBarDashboard extends Component {
   state = {
@@ -13,18 +14,19 @@ export default class NavBarDashboard extends Component {
     screenWidth: 0,
     type: "",
     lang: "",
-    loggedin:false
+    loggedin: false
   };
 
   async componentDidMount() {
     try {
       const type = parseJwt(localStorage.jwtToken).type;
       this.state.type = type;
-      await this.setState({loggedin:true})
+      await this.setState({ loggedin: true });
     } catch {}
     if (localStorage.getItem("lang"))
       this.setState({ lang: localStorage.getItem("lang") });
     else this.setState({ lang: "eng" });
+    await this.setState({dashboard:false,homepage:false,profile:false,electronicJournals:false,hero:false,logout:false})
   }
 
   handleChangeLanguage = () => {
@@ -68,18 +70,18 @@ export default class NavBarDashboard extends Component {
       HomePage: {
         fontWeight: this.props.homepage, //either lighter or bold
         fontSize: "14px",
-        marginRight: this.state.loggedin && !this.props.admin ?"-20px":"0px"  //either 120px or 0px
+        marginRight: this.state.loggedin && !this.props.admin ? "-20px" : "0px" //either 120px or 0px
         // marginTop: "10px"
       },
       logout: {
         marginRight: "-20px", //either 120px or 0px
         fontWeight: "lighter", //either lighter or bold
-        fontSize: "14px",
+        fontSize: "14px"
         // marginTop: "10px"
       },
       Profile: {
         fontWeight: this.props.profile, //either lighter or bold
-        fontSize: "14px",
+        fontSize: "14px"
         // marginTop: "10px",
         // marginRight: this.props.ProfileMargin //either 120px or 0px
       },
@@ -92,6 +94,7 @@ export default class NavBarDashboard extends Component {
     };
     return (
       <div className="Header" id="Header" style={styles.Header} ref="Header">
+      {this.state.homepage?<Redirect to ="/"/>:<div/>}
         <nav
           className="navbar navbar-expand-lg navbar-light bg-"
           id="navbarmob"
@@ -99,8 +102,10 @@ export default class NavBarDashboard extends Component {
           <button
             id="logo"
             style={styles.SumergiteLabel}
-            onClick={() => {
-              window.location.href = "/";
+            onClick={async () => {
+              await this.setState({homepage:true});
+              // return <Redirect to="/" />;
+              // window.location.href = "/";
             }}
           >
             {this.state.lang === "eng" ? "Sumergite" : "سمرجايت"}
@@ -118,7 +123,7 @@ export default class NavBarDashboard extends Component {
           </button>
           <div className="collapse navbar-collapse" id="navbarSupportedContent">
             <ul className="navbar-nav ml-auto">
-                {this.state.loggedin?(
+              {this.state.loggedin ? (
                 <li className="nav-item mr-auto">
                   <button
                     className="button"
@@ -135,23 +140,25 @@ export default class NavBarDashboard extends Component {
                     </span>
                   </button>
                 </li>
-                ):(<label/>)}
-                <li className="nav-item mr-auto">
-                  <button
-                    className="button"
-                    data-toggle="collapse"
-                    data-target=".navbar-collapse.show"
-                    onClick={() => {
-                      window.location.href = "/ElectronicJournals";
-                    }}
-                  >
-                    <span id="buttonHome" style={styles.ElectronicJournals}>
-                      {this.state.lang === "eng"
-                        ? "Electronic Journals"
-                        : "المجلات الإلكترونية"}
-                    </span>
-                  </button>
-                </li>
+              ) : (
+                <label />
+              )}
+              <li className="nav-item mr-auto">
+                <button
+                  className="button"
+                  data-toggle="collapse"
+                  data-target=".navbar-collapse.show"
+                  onClick={() => {
+                    window.location.href = "/ElectronicJournals";
+                  }}
+                >
+                  <span id="buttonHome" style={styles.ElectronicJournals}>
+                    {this.state.lang === "eng"
+                      ? "Electronic Journals"
+                      : "المجلات الإلكترونية"}
+                  </span>
+                </button>
+              </li>
               <li className="nav-item mr-auto">
                 <button
                   className="button"
