@@ -38,7 +38,7 @@ export default class NavBarBlue extends Component {
         fontSize: "28px",
         fontFamily: "-apple-system, BlinkMacSystemFont, sans-serif",
         fontWeight: "bold",
-        marginLeft:"13vw",
+        marginLeft: "13vw"
       },
       Header: {
         boxShadow: this.props.boxShadow //either none or '0px 3px 20px rgba(0, 0, 0, 0.16)'
@@ -101,43 +101,22 @@ export default class NavBarBlue extends Component {
                 </button>
               </li>
               <li className="nav-item mr-auto">
-                {this.props.popUpRegister ? (
-                  // <Link
-                  //   style={{
-                  //     boxShadow: "none",
-                  //     backgroundColor: "#E53167",
-                  //     color: "#FFFFFF",
-                  //     marginTop: "7px"
-                  //   }}
-                  //   to={{ pathname: "/InvestorRegister" }}
-                  // >
-                  //   Register
-                  // </Link>
-                  <Fab
-                    variant="extended"
-                    size="medium"
-                    style={{
-                      boxShadow: "none",
-                      backgroundColor: "#E53167",
-                      color: "#FFFFFF",
-                      marginTop: "7px"
-                    }}
-                    aria-label="Delete"
-                    onClick={() => {
-                      window.location.href = "/InvestorRegister";
-                    }}
-                  >
-                    {this.state.lang === "eng" ? "Register" : "تسجيل"}
-                  </Fab>
-                ) : (
-                  <div
-                    style={{
-                      marginTop: "7px"
-                    }}
-                  >
-                    <RegisterModal lang={this.state.lang} />
-                  </div>
-                )}
+                <Fab
+                  variant="extended"
+                  size="medium"
+                  style={{
+                    boxShadow: "none",
+                    backgroundColor: "#E53167",
+                    color: "#FFFFFF",
+                    marginTop: "7px"
+                  }}
+                  aria-label="Delete"
+                  onClick={() => {
+                    window.location.href = "/InvestorRegister";
+                  }}
+                >
+                  {this.state.lang === "eng" ? "Register" : "تسجيل"}
+                </Fab>
               </li>
               <li className="nav-item mr-auto">
                 <Fab

@@ -103,7 +103,22 @@ export default class HomePage extends Component {
             <div
               style={{ width: "100px", alignSelf: "left", marginLeft: "15vw" }}
             >
-              <RegisterModal lang={this.state.lang} />
+              <Fab
+                variant="extended"
+                size="medium"
+                style={{
+                  boxShadow: "none",
+                  backgroundColor: "#E53167",
+                  color: "#FFFFFF",
+                  marginTop: "7px"
+                }}
+                aria-label="Delete"
+                onClick={() => {
+                  window.location.href = "/InvestorRegister";
+                }}
+              >
+                {this.props.lang === "eng" ? "Register" : "افتح حسابًا"}
+              </Fab>
             </div>
           </div>
           <div className="arrow">
