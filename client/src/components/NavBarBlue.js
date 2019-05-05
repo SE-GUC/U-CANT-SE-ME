@@ -73,7 +73,7 @@ export default class NavBarBlue extends Component {
         // marginTop: "11px"
       },
       Header: {
-        // boxShadow: this.props.boxShadow,
+        boxShadow: window.scrollY>=this.state.targetHeight || this.props.loginPage? "0px 3px  20px rgba(0, 0, 0, 0.16)":"none",
         position: "fixed",
         backgroundColor:
           window.scrollY >= this.state.targetHeight
