@@ -79,6 +79,7 @@ class Login extends Component {
           backgroundColor="#FFFFFF"
           boxShadow="0px 3px 20px rgba(0, 0, 0, 0.16)"
           popUpRegister={true}
+          loginPage={true}
         />
         <div style={{ paddingTop: "10vh" }}>
           <div className="wrapper">

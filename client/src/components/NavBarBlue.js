@@ -58,7 +58,7 @@ export default class NavBarBlue extends Component {
       },
       buttonColor: "red",
       SumergiteLabel: {
-        color: window.scrollY>=this.state.targetHeight? "#3480e3":"#FFF" ,
+        color: window.scrollY>=this.state.targetHeight || this.props.loginPage? "#3480e3":"#FFF" ,
         float: "left",
         al: "left",
         fontSize: "28px",
@@ -75,7 +75,7 @@ export default class NavBarBlue extends Component {
         
       },
       Login: {
-        color: window.scrollY>=this.state.targetHeight? "#3480e3":"#FFF" ,
+        color: window.scrollY>=this.state.targetHeight || this.props.loginPage? "#3480e3":"#FFF" ,
         fontSize: "18px"
       }
     };
