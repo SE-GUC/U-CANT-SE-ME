@@ -118,7 +118,7 @@ export default class HomePage extends Component {
                   window.location.href = "/InvestorRegister";
                 }}
               >
-                {this.props.lang === "eng" ? "Register" : "افتح حسابًا"}
+                {this.state.lang === "eng" ? "Register" : "افتح حسابًا"}
               </Fab>
             </div>
           </div>
