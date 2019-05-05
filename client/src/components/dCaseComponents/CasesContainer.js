@@ -19,10 +19,14 @@ class CasesContainer extends Component {
     loggedInType: "",
     choosenSort: "id",
     choosenOrder: "asc",
-    finished: false
+    finished: false,
+    lang: ""
   };
 
   async componentDidMount() {
+    if (localStorage.getItem("lang"))
+      this.setState({ lang: localStorage.getItem("lang") });
+    else this.setState({ lang: "eng" });
     const data = await parseJwt(localStorage.jwtToken);
     axios
       .get("api/cases/")
@@ -91,7 +95,9 @@ class CasesContainer extends Component {
       return (
         <div>
           <CircularProgress style={{ marginTop: "50px" }} />
-          <h3>Fetching Data</h3>
+          <h3>
+            {this.state.lang === "eng" ? "Fetching Data" : "جاري جلب البيانات"}
+          </h3>
         </div>
       );
     } else {
@@ -112,10 +118,14 @@ class CasesContainer extends Component {
               variant="outlined"
             >
               <MenuItem key="choosenSort1" value="id">
-                Sort by ID
+                {this.state.lang === "eng"
+                  ? "Sort by ID"
+                  : "رتب على رقم التعريف"}
               </MenuItem>
               <MenuItem key="choosenSort2" value="date">
-                Sort by Creation Date
+                {this.state.lang === "eng"
+                  ? "Sort by Creation Date"
+                  : "رتب حسب تاريخ الإنشاء"}
               </MenuItem>
             </TextField>
             <TextField
@@ -129,10 +139,10 @@ class CasesContainer extends Component {
               variant="outlined"
             >
               <MenuItem key="choosenOrder1" value="asc">
-                Ascending
+                {this.state.lang === "eng" ? "Ascending" : "تصاعدي"}
               </MenuItem>
               <MenuItem key="choosenOrder2" value="desc">
-                Descending
+                {this.state.lang === "eng" ? "Descending" : "تنازلي"}
               </MenuItem>
             </TextField>
             <Fab
