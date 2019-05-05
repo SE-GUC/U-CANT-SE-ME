@@ -13,7 +13,9 @@ export default class NavBarDashboard extends Component {
     screenWidth: 0,
     type: "",
     lang: "",
-    loggedin:false
+    loggedin:false,
+    currentScrollHeight:0,
+    targetHeight:0
   };
 
   async componentDidMount() {
@@ -25,6 +27,14 @@ export default class NavBarDashboard extends Component {
     if (localStorage.getItem("lang"))
       this.setState({ lang: localStorage.getItem("lang") });
     else this.setState({ lang: "eng" });
+
+    window.onscroll =()=>{
+      const newScrollHeight = Math.ceil(window.scrollY / 50) *50;
+      if (this.state.currentScrollHeight !== newScrollHeight){
+          this.setState({currentScrollHeight: newScrollHeight})
+      }
+    }
+    await this.setState({targetHeight:this.props.first-document.getElementById("Header").getClientRects()[0].y})
   }
 
   handleChangeLanguage = () => {
@@ -37,27 +47,32 @@ export default class NavBarDashboard extends Component {
     }
     window.location.reload();
   };
-
+  
   render() {
-    const opacity = 1 - Math.min(10 / this.state.currentScrollHeight, 1);
+    const opacity1 = 0;
+    const opacity2 = 1;
     const styles = {
       content: {
-        backgroundColor: "rgba(255, 0, 0," + opacity + ")"
+        backgroundColor: window.scrollY>=this.state.targetHeight || this.props.homepage!=="bold" ? "rgba(255, 255, 255," + opacity2 + ")" : "rgba(255, 255, 255," + opacity1 + ")",
+        background:"transparent"
       },
       buttonColor: "red",
       SumergiteLabel: {
-        color: this.props.sumergiteColor,
+        color: window.scrollY>=this.state.targetHeight || this.props.homepage!=="bold" ? "#3480e3":"#FFF" ,
         float: "left",
         al: "left",
         fontSize: "28px",
-        marginLeft: "1px",
+        marginLeft: this.props.homepage==="bold"?"13vw":"1px",
         fontFamily: "-apple-system, BlinkMacSystemFont, sans-serif",
         fontWeight: "bold"
         // marginTop: "11px"
       },
       Header: {
-        boxShadow: this.props.boxShadow,
-        position: "fixed"
+        // boxShadow: this.props.boxShadow,
+        position: "fixed",
+        backgroundColor: window.scrollY>=this.state.targetHeight || this.props.homepage!=="bold"? "rgba(255, 255, 255," + opacity2 + ")" : "rgba(255, 255, 255," + opacity1 + ")",
+        // backgroundColor: "rgba(255, 255, 255," + opacity + ")",
+        
       },
       Dashboard: {
         fontWeight: this.props.dashboard, //either lighter or bold
@@ -95,6 +110,7 @@ export default class NavBarDashboard extends Component {
         <nav
           className="navbar navbar-expand-lg navbar-light bg-"
           id="navbarmob"
+          style={styles.content}
         >
           <button
             id="logo"
@@ -166,7 +182,7 @@ export default class NavBarDashboard extends Component {
                   </span>
                 </button>
               </li>
-              {this.state.loggedin && !this.props.admin ? (
+              {this.state.loggedin && this.state.type.toString()!=="admin" ? (
                 <li className="nav-item mr-auto">
                   <button
                     className="button"
