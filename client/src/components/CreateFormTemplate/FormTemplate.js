@@ -47,12 +47,12 @@ class FormTemplate extends Component {
     managersMaxNumber: 1000,
     fields: [
       {
-        fieldName: "",
-        fieldType: "",
-        isRequired: false,
-        isUnique: false,
-        minVal: 0,
-        maxVal: 1000000,
+        fieldName: "Company Name Arabic",
+        fieldType: "TEXT",
+        isRequired: true,
+        isUnique: true,
+        minVal: 3,
+        maxVal: 100,
         options: []
       },
       {
@@ -65,7 +65,7 @@ class FormTemplate extends Component {
         options: []
       }
     ],
-    specifyMinAndMaxFields: [],
+    specifyMinAndMaxFields: [true, false],
     advanced: false,
     helpModal: false,
     optionsModal: false,
@@ -84,7 +84,10 @@ class FormTemplate extends Component {
         clicked: true
       });
     }
-    const { formName, fields, hasManagers, code } = this.state;
+    const { formName, hasManagers, code } = this.state;
+    var fields = [];
+    for(let i = 0; i < this.state.fields.length; i++) 
+      fields.push({...this.state.fields[i]});
     let formTemplate = {
       formName,
       fields,

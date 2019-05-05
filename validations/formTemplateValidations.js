@@ -1,6 +1,12 @@
 const formTemplateController = require("../controllers/formTemplateController");
 const Joi = require("joi");
 
+function errorMessage(msg) {
+  return {
+    error: { details: [{ message: msg }] }
+  };
+}
+
 module.exports = {
   formTemplateCreateValidation: formTemplate => {
     const formTemplateCreateSchema = {
@@ -12,12 +18,10 @@ module.exports = {
       rulesFunction: Joi.string()
     };
     if (formTemplate.rulesFunction)
-    try {
+      try {
         formTemplateController.makeRuleFunction(formTemplate.rulesFunction);
       } catch (error) {
-        return {
-          error: { details: [{ message: "Error Parsing the Rules Function" }] }
-        };
+        return errorMessage("Error Parsing the Rules Function");
       }
 
     const fieldCreateSchema = {
@@ -41,6 +45,7 @@ module.exports = {
       options: Joi.array()
     };
 
+    let companyNameArabic = false;
     for (
       let i = 0;
       formTemplate.fields && i < formTemplate.fields.length;
@@ -48,7 +53,32 @@ module.exports = {
     ) {
       let validation = Joi.validate(formTemplate.fields[i], fieldCreateSchema);
       if (validation.error) return validation;
+      if (formTemplate.fields[i].fieldName === "companyNameArabic") {
+        if (formTemplate.fields[i].fieldType !== "TEXT")
+          return errorMessage(
+            '"Company Name Arabic" field must be of type TEXT'
+          );
+        if (!formTemplate.fields[i].isRequired)
+          return errorMessage(
+            '"Company Name Arabic" field must be marked as Required'
+          );
+        if (!formTemplate.fields[i].isUnique)
+          return errorMessage(
+            '"Company Name Arabic" field must be marked as Unique'
+          );
+        if (!formTemplate.fields[i].minVal || formTemplate.fields[i].minVal < 3)
+          return errorMessage(
+            '"Company Name Arabic" field must have a minumum of three characters'
+          );
+
+        companyNameArabic = true;
+      }
     }
+
+    if (!companyNameArabic)
+      return errorMessage(
+        'Form Template must contain "Company Name Arabic" as a field'
+      );
 
     return Joi.validate(formTemplate, formTemplateCreateSchema);
   },
@@ -64,9 +94,7 @@ module.exports = {
     try {
       formTemplateController.makeRuleFunction(formTemplate.rulesFunction);
     } catch (error) {
-      return {
-        error: { details: [{ message: "Error Parsing the Rules Function" }] }
-      };
+      return errorMessage("Error Parsing the Rules Function");
     }
 
     const fieldUpdateSchema = {
@@ -90,6 +118,7 @@ module.exports = {
       options: Joi.array()
     };
 
+    let companyNameArabic = false;
     for (
       let i = 0;
       formTemplate.fields && i < formTemplate.fields.length;
@@ -97,8 +126,32 @@ module.exports = {
     ) {
       let validation = Joi.validate(formTemplate.fields[i], fieldUpdateSchema);
       if (validation.error) return validation;
+      if (formTemplate.fields[i].fieldName === "companyNameArabic") {
+        if (formTemplate.fields[i].fieldType !== "TEXT")
+          return errorMessage(
+            '"Company Name Arabic" field must be of type TEXT'
+          );
+        if (!formTemplate.fields[i].isRequired)
+          return errorMessage(
+            '"Company Name Arabic" field must be marked as Required'
+          );
+        if (!formTemplate.fields[i].isUnique)
+          return errorMessage(
+            '"Company Name Arabic" field must be marked as Unique'
+          );
+        if (!formTemplate.fields[i].minVal || formTemplate.fields[i].minVal < 3)
+          return errorMessage(
+            '"Company Name Arabic" field must have a minumum of three characters'
+          );
+
+        companyNameArabic = true;
+      }
     }
 
+    if (!companyNameArabic)
+      return errorMessage(
+        'Form Template must contain "Company Name Arabic" as a field'
+      );
     return Joi.validate(formTemplate, formTemplateUpdateSchema);
   }
 };
