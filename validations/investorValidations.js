@@ -2,6 +2,10 @@ const Joi = require("joi");
 
 module.exports = {
   createValidation: request => {
+    let nationalities = [];
+    const allNationalities = require("../data/nationalities.json");
+    for(let atr in allNationalities)
+      nationalities.push(atr);
     const now = Date.now();
     const earliestBirthDate = new Date(now - 21 * 365 * 24 * 60 * 60 * 1000); //21 years earlier
     const latestBirthDate = new Date(now - 120 * 365 * 24 * 60 * 60 * 1000); //can not be older than 120 years
@@ -20,7 +24,7 @@ module.exports = {
       gender: Joi.any()
         .valid(["Male", "Female"])
         .required(), //Input will come from a list. No need for: Joi.any().valid(['M', 'F']).required()
-      nationality: Joi.string().required(), //Input will come from a list
+      nationality: Joi.string().valid(nationalities).required(), //Input will come from a list
       methodOfIdentification: Joi.string()
         .valid(["NID", "passport"])
         .required(), //Input will come from a list
@@ -57,6 +61,10 @@ module.exports = {
   },
 
   updateValidation: request => {
+    let nationalities = [];
+    const allNationalities = require("../data/nationalities.json");
+    for(let atr in allNationalities)
+      nationalities.push(atr);
     const now = Date.now();
     const earliestBirthDate = new Date(now - 21 * 365 * 24 * 60 * 60 * 1000); //21 years earlier
     const latestBirthDate = new Date(now - 120 * 365 * 24 * 60 * 60 * 1000); //can not be older than 120 years
@@ -68,7 +76,7 @@ module.exports = {
       fullName: Joi.string().min(3),
       type: Joi.string(), //Input will come from a list. No need for: Joi.any().valid(['a', 'b', 'c']).required()
       gender: Joi.any().valid(["Male", "Female"]), //Input will come from a list. No need for: Joi.any().valid(['M', 'F']).required()
-      nationality: Joi.string(), //Input will come from a list
+      nationality: Joi.string().valid(nationalities), //Input will come from a list
       methodOfIdentification: Joi.string().valid(["NID", "passport"]), //Input will come from a list
       identificationNumber: Joi.string(),
       dateOfBirth: Joi.date()
