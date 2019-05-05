@@ -84,7 +84,10 @@ class FormTemplate extends Component {
         clicked: true
       });
     }
-    const { formName, fields, hasManagers, code } = this.state;
+    const { formName, hasManagers, code } = this.state;
+    var fields = [];
+    for(let i = 0; i < this.state.fields.length; i++) 
+      fields.push({...this.state.fields[i]});
     let formTemplate = {
       formName,
       fields,
