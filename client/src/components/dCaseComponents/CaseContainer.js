@@ -592,10 +592,12 @@ class CaseContainer extends Component {
         this.props.expandedCase.caseStatus === "Accepted"
       ) {
         buttonPaying = (
-          <PayMyFees
-            investorId={this.state.investor._id}
-            caseId={this.props.expandedCase._id}
-          />
+          <div style = {{marginLeft: "2.5%", marginTop: "1%"}}>
+            <PayMyFees
+              investorId={this.state.investor._id}
+              caseId={this.props.expandedCase._id}
+            />
+          </div>
         );
       }
 
@@ -753,23 +755,31 @@ class CaseContainer extends Component {
             </Card>
 
             <Card style={classes.card}>
-              <CardActionArea>
-                <CardContent>
-                  <div variant="h5" component="h2">
-                    <h3> {"Case Fees"} </h3>
+              <CardContent>
+                <div variant="h5" component="h2">
+                  <h3> {"Case Fees"} </h3>
 
-                    <div style={classes.root}>
-                      <Typography component="h4">
-                        {isNaN(calcFees(this.props.expandedCase))
-                          ? "Unkown, Please contact us for help"
-                          : calcFees(this.props.expandedCase)}
-                      </Typography>
-                    </div>
+                  <div style={classes.root}>
+                    <Typography component="h4">
+                      {isNaN(calcFees(this.props.expandedCase)) ? (
+                        "Unkown, Please contact us for help"
+                      ) : (
+                        <div
+                          style={{
+                            fontSize: "36px",
+                            marginLeft: "10%",
+                            marginTop: "7%"
+                          }}
+                        >
+                          {calcFees(this.props.expandedCase) + " EGP"}
+                        </div>
+                      )}
+                    </Typography>
                   </div>
+                </div>
 
-                  {buttonPaying}
-                </CardContent>
-              </CardActionArea>
+                {buttonPaying}
+              </CardContent>
             </Card>
             <br />
             <br />
