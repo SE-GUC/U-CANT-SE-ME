@@ -26,7 +26,7 @@ export default class NavBarBlue extends Component {
     screenWidth: 0,
     lang: "",
     currentScrollHeight:0,
-    targetHeight:0
+    targetHeight:0,
     login: false,
     register: false,
     hero: false
