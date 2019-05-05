@@ -16,7 +16,8 @@ export default class HomePage extends Component {
     loggedIn: false,
     admin: false,
     lang: "",
-    first:0
+    first: 0,
+    register: false
   };
   handleClick = () => {
     var devID =
@@ -53,8 +54,9 @@ export default class HomePage extends Component {
       maxDistance: 27.0,
       spacing: 20.0
     });
-    await this.setState({first:document.getElementById("arrow").getClientRects()[0].y})
-    console.log(this.state.first)
+    await this.setState({
+      first: document.getElementById("arrow").getClientRects()[0].y
+    });
   }
   componentWillUnmount() {
     if (this.effect) this.effect.destroy();
@@ -64,38 +66,37 @@ export default class HomePage extends Component {
       return <Redirect to="/ElectronicJournals" />;
     }
     let navbar;
-    if(this.loaded)
-    {
-      navbar=(  this.state.loggedIn === true ? (
-        <NavBarDashboard
-         sumergiteColor="#3480E3"
-         boxShadow="0px 3px 20px rgba(0, 0, 0, 0.16)"
-         dashboard="lighter"
-         profile="lighter"
-         homepage="bold"
-         electronicJournals="lighter"
-         DASHBOARDD={true}
-         PROFILEE={true}
-         ProfileMargin="120px"
-         HomePageMargin="0px"
-         admin={this.state.admin ? true : false}
-         first={document.getElementById("arrow").getClientRects()[0].y}
-       /> 
-      ) : (
-       <NavBarBlue
-         sumergiteColor={this.state.sumergiteColor}
-         backgroundColor={this.state.navColor}
-         loginColor={this.state.loginColor}
-          first={document.getElementById("arrow").getClientRects()[0].y}
-       />
-     ))
-
-    }  
+    if (this.loaded) {
+      navbar =
+        this.state.loggedIn === true ? (
+          <NavBarDashboard
+            sumergiteColor="#3480E3"
+            boxShadow="0px 3px 20px rgba(0, 0, 0, 0.16)"
+            dashboard="lighter"
+            profile="lighter"
+            homepage="bold"
+            electronicJournals="lighter"
+            DASHBOARDD={true}
+            PROFILEE={true}
+            ProfileMargin="120px"
+            HomePageMargin="0px"
+            admin={this.state.admin ? true : false}
+            first={document.getElementById("arrow").getClientRects()[0].y}
+          />
+        ) : (
+          <NavBarBlue
+            sumergiteColor={this.state.sumergiteColor}
+            backgroundColor={this.state.navColor}
+            loginColor={this.state.loginColor}
+            first={document.getElementById("arrow").getClientRects()[0].y}
+          />
+        );
+    }
     return (
       <div className="HeroAndHome">
+        {this.state.register ? <Redirect to="/InvestorRegister" /> : <div />}
         <div id="hero" style={{ height: "100vh" }}>
-        {navbar}
-           
+          {navbar}
           <div className="createCompany" id="first">
             <p className="createCompanySpan">
               {this.state.lang === "eng"
@@ -133,7 +134,7 @@ export default class HomePage extends Component {
               </Fab>
             </div>
           </div>
-          <div className="arrow" >
+          <div className="arrow">
             <button id="buttonArrow" onClick={this.handleClick}>
               <svg
                 className="Path_7_A1_Path_2"
@@ -147,7 +148,7 @@ export default class HomePage extends Component {
               </svg>
             </button>
           </div>
-          {this.loaded=true}
+          {(this.loaded = true)}
         </div>
         <div className="all" id="second">
           <div id="cc" />
@@ -238,8 +239,24 @@ export default class HomePage extends Component {
                     ? "You are a click away from establishing your own company!"
                     : "أنت على بعد ضغطة واحدة من تأسيس شركتك الخاصة!"}
                 </p>
-
-                <RegisterModal lang={this.state.lang} />
+                <Fab
+                  variant="extended"
+                  size="medium"
+                  color="primary"
+                  style={{
+                    boxShadow: "none",
+                    color: "#FFFFFF",
+                    marginTop: "7px"
+                  }}
+                  aria-label="Delete"
+                  onClick={() => {
+                    this.setState({ register: true });
+                    // <Redirect to="/InvestorRegister" />;
+                    // window.location.href = "/InvestorRegister";
+                  }}
+                >
+                  {this.state.lang === "eng" ? "Register" : "تسجيل"}
+                </Fab>
               </div>
             </div>
             <div className="SumergiteCopyRight_A0_Text_16">
