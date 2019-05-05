@@ -15,7 +15,8 @@ export default class HomePage extends Component {
     journals: false,
     loggedIn: false,
     admin: false,
-    lang: ""
+    lang: "",
+    first:0
   };
   handleClick = () => {
     var devID =
@@ -52,6 +53,8 @@ export default class HomePage extends Component {
       maxDistance: 27.00,
       spacing: 20.00
     });
+    await this.setState({first:document.getElementById("arrow").getClientRects()[0].y})
+    console.log(this.state.first)
   }
   componentWillUnmount() {
     if (this.effect) this.effect.destroy();
@@ -60,31 +63,39 @@ export default class HomePage extends Component {
     if (this.state.journals) {
       return <Redirect to="/ElectronicJournals" />;
     }
+    let navbar;
+    if(this.loaded)
+    {
+      navbar=(  this.state.loggedIn === true ? (
+        <NavBarDashboard
+         sumergiteColor="#3480E3"
+         boxShadow="0px 3px 20px rgba(0, 0, 0, 0.16)"
+         dashboard="lighter"
+         profile="lighter"
+         homepage="bold"
+         electronicJournals="lighter"
+         DASHBOARDD={true}
+         PROFILEE={true}
+         ProfileMargin="120px"
+         HomePageMargin="0px"
+         admin={this.state.admin ? true : false}
+         first={document.getElementById("arrow").getClientRects()[0].y}
+       /> 
+      ) : (
+       <NavBarBlue
+         sumergiteColor={this.state.sumergiteColor}
+         backgroundColor={this.state.navColor}
+         loginColor={this.state.loginColor}
+          first={document.getElementById("arrow").getClientRects()[0].y}
+       />
+     ))
+
+    }  
     return (
       <div className="HeroAndHome">
         <div id="hero" style={{ height: "100vh" }}>
-          {this.state.loggedIn === false ? (
-            <NavBarBlue
-              sumergiteColor={this.state.sumergiteColor}
-              backgroundColor={this.state.navColor}
-              loginColor={this.state.loginColor}
-            />
-          ) : (
-            <NavBarDashboard
-              sumergiteColor="#3480E3"
-              boxShadow="0px 3px 20px rgba(0, 0, 0, 0.16)"
-              dashboard="lighter"
-              profile="lighter"
-              homepage="bold"
-              electronicJournals="lighter"
-              DASHBOARDD={true}
-              PROFILEE={true}
-              ProfileMargin="120px"
-              HomePageMargin="0px"
-              admin={this.state.admin ? true : false}
-              first={document.getElementById("arrow").getClientRects()[0].y}
-            />
-          )}
+        {navbar}
+           
           <div className="createCompany" id="first">
             <p className="createCompanySpan">
               {this.state.lang === "eng"
@@ -121,6 +132,7 @@ export default class HomePage extends Component {
               </svg>
             </button>
           </div>
+          {this.loaded=true}
         </div>
         <div className="all" id="second">
           <div id="cc" />

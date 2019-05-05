@@ -10,12 +10,22 @@ export default class NavBarBlue extends Component {
     if (localStorage.getItem("lang"))
       this.setState({ lang: localStorage.getItem("lang") });
     else this.setState({ lang: "eng" });
+    window.onscroll =()=>{
+      const newScrollHeight = Math.ceil(window.scrollY / 50) *50;
+      if (this.state.currentScrollHeight !== newScrollHeight){
+          this.setState({currentScrollHeight: newScrollHeight})
+      }
+    }
+    await this.setState({targetHeight:this.props.first-document.getElementById("Header").getClientRects()[0].y})
+    console.log("target "+this.state.targetHeight)
   }
   state = {
     headerHeight: 0,
     screenHeight: 0,
     screenWidth: 0,
-    lang: ""
+    lang: "",
+    currentScrollHeight:0,
+    targetHeight:0
   };
   handleChangeLanguage = () => {
     if (this.state.lang === "eng") {
@@ -28,23 +38,33 @@ export default class NavBarBlue extends Component {
     window.location.reload();
   };
   render() {
+    const opacity1 = 0;
+    const opacity2 = 1;
     const styles = {
       content: {
-        backgroundColor: this.props.backgroundColor //either #3480E3 or #FFFFFF
+        backgroundColor: window.scrollY>=this.state.targetHeight? "rgba(255, 255, 255," + opacity2 + ")" : "rgba(255, 255, 255," + opacity1 + ")",
+        background:"transparent"
       },
       buttonColor: "red",
       SumergiteLabel: {
-        color: this.props.sumergiteColor, //either #3480E3 or #FFFFFF
+        color: window.scrollY>=this.state.targetHeight? "#3480e3":"#FFF" ,
+        float: "left",
+        al: "left",
         fontSize: "28px",
+        marginLeft: "13vw",
         fontFamily: "-apple-system, BlinkMacSystemFont, sans-serif",
-        fontWeight: "bold",
-        marginLeft:"13vw",
+        fontWeight: "bold"
+        // marginTop: "11px"
       },
       Header: {
-        boxShadow: this.props.boxShadow //either none or '0px 3px 20px rgba(0, 0, 0, 0.16)'
+        // boxShadow: this.props.boxShadow,
+        position: "fixed",
+        backgroundColor: window.scrollY>=this.state.targetHeight ? "rgba(255, 255, 255," + opacity2 + ")" : "rgba(255, 255, 255," + opacity1 + ")",
+        // backgroundColor: "rgba(255, 255, 255," + opacity + ")",
+        
       },
       Login: {
-        color: this.props.loginColor, //either don't pass or #FFFFFF
+        color: window.scrollY>=this.state.targetHeight? "#3480e3":"#FFF" ,
         fontSize: "18px"
       }
     };

@@ -75,30 +75,35 @@ export default class NavBarDashboard extends Component {
         
       },
       Dashboard: {
+        color: window.scrollY>=this.state.targetHeight || this.props.homepage!=="bold" ? "#000":"#FFF" ,
         fontWeight: this.props.dashboard, //either lighter or bold
         fontSize: "14px",
         marginRight: "-20px" //either 120px or 0px
         // marginTop: "10px"
       },
       HomePage: {
+        color: window.scrollY>=this.state.targetHeight || this.props.homepage!=="bold" ? "#000":"#FFF" ,
         fontWeight: this.props.homepage, //either lighter or bold
         fontSize: "14px",
         marginRight: this.state.loggedin && !this.props.admin ?"-20px":"0px"  //either 120px or 0px
         // marginTop: "10px"
       },
       logout: {
+        color: window.scrollY>=this.state.targetHeight || this.props.homepage!=="bold" ? "#000":"#FFF" ,
         marginRight: "-20px", //either 120px or 0px
         fontWeight: "lighter", //either lighter or bold
         fontSize: "14px",
         // marginTop: "10px"
       },
       Profile: {
+        color: window.scrollY>=this.state.targetHeight || this.props.homepage!=="bold" ? "#000":"#FFF" ,
         fontWeight: this.props.profile, //either lighter or bold
         fontSize: "14px",
         // marginTop: "10px",
         // marginRight: this.props.ProfileMargin //either 120px or 0px
       },
       ElectronicJournals: {
+        color: window.scrollY>=this.state.targetHeight || this.props.homepage!=="bold" ? "#000":"#FFF" ,
         fontWeight: this.props.electronicJournals,
         fontSize: "14px",
         marginRight: "-20px" //either 120px or 0px
