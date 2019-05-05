@@ -108,7 +108,7 @@ class CaseContainer extends Component {
       await axios.put(`api/lawyers/updateCaseStatus/${caseId}/OnUpdate`);
       await this.setState({
         alerted: true,
-        alertType: "success",
+        alertType: "error",
         alertMsg: "You Have Rejected This Case"
       });
       window.location.reload();
@@ -168,7 +168,7 @@ class CaseContainer extends Component {
       await axios.put(`api/reviewers/updateCaseStatus/${caseId}/OnUpdate`);
       await this.setState({
         alerted: true,
-        alertType: "success",
+        alertType: "error",
         alertMsg: "You Have Rejected This Case"
       });
       window.location.reload();
