@@ -113,6 +113,8 @@ class FillForm extends Component {
             ];
             await this.setState({ managers: managers });
           }
+        } else {
+          await this.setState({ managers: [] });
         }
         break;
       }
@@ -140,7 +142,11 @@ class FillForm extends Component {
         .then(async res => {
           await this.setState({ success: true, loading: false });
           // alert(res.data.msg);
-          await this.setState({ alerted: true, alertType:'success', alertMsg:res.data.msg });
+          await this.setState({
+            alerted: true,
+            alertType: "success",
+            alertMsg: res.data.msg
+          });
           window.location.reload();
         })
         .catch(async err => {
@@ -173,20 +179,32 @@ class FillForm extends Component {
               .post(`api/lawyers/fillForm/${this.state.creatorId}`, caseBody)
               .then(async res => {
                 await this.setState({ success: true, loading: false });
-                await this.setState({ alerted: true, alertType:'success', alertMsg:res.data.msg });
+                await this.setState({
+                  alerted: true,
+                  alertType: "success",
+                  alertMsg: res.data.msg
+                });
                 // alert(res.data.msg);
                 // await this.setState({ success: true, loading: false });
                 window.location.reload();
               })
               .catch(async err => {
                 await this.setState({ success: false, loading: false });
-                await this.setState({ alerted: true, alertType:'error', alertMsg:err.response.data.error });
+                await this.setState({
+                  alerted: true,
+                  alertType: "error",
+                  alertMsg: err.response.data.error
+                });
                 // alert(err.response.data.error);
               });
           })
           .catch(async err => {
             await this.setState({ success: false, loading: false });
-            await this.setState({ alerted: true, alertType:'error', alertMsg:err.response.data.error });
+            await this.setState({
+              alerted: true,
+              alertType: "error",
+              alertMsg: err.response.data.error
+            });
             // alert(err.response.data.error);
           });
       } else {
@@ -202,14 +220,22 @@ class FillForm extends Component {
           .post(`api/lawyers/fillForm/${this.state.creatorId}`, caseBody)
           .then(async res => {
             await this.setState({ success: true, loading: false });
-            await this.setState({ alerted: true, alertType:'success', alertMsg:res.data.msg });
+            await this.setState({
+              alerted: true,
+              alertType: "success",
+              alertMsg: res.data.msg
+            });
             // alert(res.data.msg);
             // await this.setState({ success: true, loading: false });
             window.location.reload();
           })
           .catch(async err => {
             await this.setState({ success: false, loading: false });
-            await this.setState({ alerted: true, alertType:'error', alertMsg:err.response.data.error });
+            await this.setState({
+              alerted: true,
+              alertType: "error",
+              alertMsg: err.response.data.error
+            });
             // alert(err.response.data.error);
           });
       }

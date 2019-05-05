@@ -148,7 +148,7 @@ class UpdateForm extends Component {
     await this.setState({
       case: this.props.case,
       entries: Object.entries(this.props.case.form),
-      formObject: JSON.parse(JSON.stringify(this.props.case.form)),
+      //formObject: JSON.parse(JSON.stringify(this.props.case.form)),
       originalFormObj: JSON.parse(JSON.stringify(this.props.case.form))
     });
     const formTemplates = await axios.get(`api/formTemplates/`);
