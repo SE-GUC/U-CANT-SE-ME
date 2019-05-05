@@ -11,12 +11,15 @@ const Joi = require("joi");
 
 const customStyles = {
   content: {
-    top: "55%",
+    top: "45%",
     left: "50%",
     right: "auto",
     bottom: "auto",
     marginRight: "-50%",
-    transform: "translate(-50%, -50%)"
+    transform: "translate(-50%, -50%)",
+    fontFamily: "-apple-system, BlinkMacSystemFont, sans-serif",
+    backgroundColor: "#FFFFFF",
+    boxShadow: "0px 3px 20px rgba(0, 0, 0, 0.16)"
   }
 };
 
@@ -50,7 +53,8 @@ class RegisterModal extends React.Component {
       phone: "",
       fax: "",
       lang: "",
-      clicked: false
+      clicked: false,
+      canceled: false
     };
     this.openModal = this.openModal.bind(this);
     this.afterOpenModal = this.afterOpenModal.bind(this);
@@ -327,7 +331,7 @@ class RegisterModal extends React.Component {
       fax: ""
     });
     if (this.props.fromLoginPage) {
-      window.location.href = "/";
+      this.setState({ canceled: true });
     }
   }
 
@@ -432,7 +436,9 @@ class RegisterModal extends React.Component {
   };
 
   render() {
-    return (
+    return this.state.canceled ? (
+      <Redirect to="/" />
+    ) : (
       <div>
         {this.props.fromLoginPage ? (
           <div />
@@ -443,7 +449,6 @@ class RegisterModal extends React.Component {
             color="secondary"
             style={{
               boxShadow: "none",
-              backgroundColor: "#E53167",
               color: "#FFFFFF"
             }}
             aria-label="Delete"
@@ -461,9 +466,9 @@ class RegisterModal extends React.Component {
             style={customStyles}
             contentLabel="Registration"
           >
-            <h2 ref={subtitle => (this.subtitle = subtitle)} align="center">
+            <h1 ref={subtitle => (this.subtitle = subtitle)} align="center">
               {this.props.lang === "eng" ? "Create an account" : "انشئ حساب"}
-            </h2>
+            </h1>
             <form id="InvestorRegister" className="login-form">
               <input
                 id="fullName"
@@ -477,7 +482,6 @@ class RegisterModal extends React.Component {
               />
               <br />
               <label id="Error" className="text-danger">
-                {" "}
                 {this.state.fullNameError === ""
                   ? ""
                   : this.props.lang === "eng"
@@ -499,7 +503,6 @@ class RegisterModal extends React.Component {
               />
               <br />
               <label id="Error" className="text-danger">
-                {" "}
                 {this.state.emailError === ""
                   ? ""
                   : this.props.lang === "eng"
@@ -523,7 +526,6 @@ class RegisterModal extends React.Component {
               />
               <br />
               <label id="Error" className="text-danger">
-                {" "}
                 {this.state.passwordError === ""
                   ? ""
                   : this.props.lang === "eng"
@@ -536,10 +538,10 @@ class RegisterModal extends React.Component {
               <Fab
                 variant="extended"
                 size="medium"
+                color="secondary"
                 style={{
                   boxShadow: "none",
                   marginTop: "6px",
-                  backgroundColor: "#E53167",
                   color: "#FFFFFF",
                   float: "left",
                   width: 150
@@ -552,10 +554,10 @@ class RegisterModal extends React.Component {
               <Fab
                 variant="extended"
                 size="medium"
+                color="primary"
                 style={{
                   boxShadow: "none",
                   marginTop: "6px",
-                  backgroundColor: "#1ace98",
                   color: "#FFFFFF",
                   float: "right",
                   width: 150
@@ -621,7 +623,6 @@ class RegisterModal extends React.Component {
                 className="form-control"
               />
               <label id="Error" className="text-danger">
-                {" "}
                 {this.state.nationalityError === ""
                   ? ""
                   : this.props.lang === "eng"
@@ -660,7 +661,6 @@ class RegisterModal extends React.Component {
                 }
               />
               <label id="Error" className="text-danger">
-                {" "}
                 {this.state.identificationNumberError === ""
                   ? ""
                   : this.props.lang === "eng"
@@ -681,7 +681,6 @@ class RegisterModal extends React.Component {
               />
               <br />
               <label id="Error" className="text-danger">
-                {" "}
                 {this.state.dateOfBirthError === ""
                   ? ""
                   : this.props.lang === "eng"
@@ -704,7 +703,6 @@ class RegisterModal extends React.Component {
                 }
               />
               <label id="Error" className="text-danger">
-                {" "}
                 {this.state.residenceAddressError === ""
                   ? ""
                   : this.props.lang === "eng"
@@ -723,7 +721,6 @@ class RegisterModal extends React.Component {
                 className="form-control"
               />
               <label id="Error" className="text-danger">
-                {" "}
                 {this.state.telephoneNumberError === ""
                   ? ""
                   : this.props.lang === "eng"
@@ -740,7 +737,6 @@ class RegisterModal extends React.Component {
                 className="form-control"
               />
               <label id="Error" className="text-danger">
-                {" "}
                 {this.state.faxError === ""
                   ? ""
                   : this.props.lang === "eng"
@@ -754,8 +750,7 @@ class RegisterModal extends React.Component {
                 style={{
                   boxShadow: "none",
                   marginTop: "6px",
-                  backgroundColor: "#525051",
-                  color: "#FFFFFF",
+                  color: "#000000",
                   float: "left",
                   width: 150
                 }}
@@ -767,10 +762,10 @@ class RegisterModal extends React.Component {
               <Fab
                 variant="extended"
                 size="medium"
+                color="secondary"
                 style={{
                   boxShadow: "none",
                   marginTop: "6px",
-                  backgroundColor: "#E53167",
                   color: "#FFFFFF",
                   float: "center",
                   width: 150
@@ -784,10 +779,10 @@ class RegisterModal extends React.Component {
                 <Fab
                   variant="extended"
                   size="medium"
+                  color="primary"
                   style={{
                     boxShadow: "none",
                     marginTop: "6px",
-                    backgroundColor: "#1ace98",
                     color: "#FFFFFF",
                     float: "right",
                     width: 150

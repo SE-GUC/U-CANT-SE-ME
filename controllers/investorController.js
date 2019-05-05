@@ -13,6 +13,7 @@ const encryption = require("../routes/api/utils/encryption");
 const jwt = require("jsonwebtoken");
 const tokenKey = require("../config/keys_dev").secretOrKey;
 const caseController = require("./caseController");
+const companyController = require("./companyController");
 const bcrypt = require("../routes/api/utils/encryption.js");
 const Lawyer = require("../models/Lawyer");
 const Reviewer = require("../models/Reviewer");
@@ -168,9 +169,11 @@ exports.updateForm = async function(req, res) {
     //   ? oldCase.assignedReviewerId.toString()
     //   : null;
     req.params.id = req.params.caseId;
-    if (oldCase.caseStatus === "OnUpdate" && oldCase.creatorLawyerId === null)
+    if (oldCase.caseStatus === "OnUpdate" && oldCase.creatorLawyerId === null) {
+      req.body.caseStatus = "WaitingForLawyer";
       await caseController.updateCase(req, res);
-    else return res.status(403).send({ error: "Case is not in update status" });
+    } else
+      return res.status(403).send({ error: "Case is not in update status" });
   } catch (err) {
     res.status(400).send({ error: "Something went wrong" });
   }
@@ -183,8 +186,9 @@ exports.getMyCompanies = async function(req, res) {
     const checkInvestor = await Investor.find({ _id: req.params.investorId });
     if (checkInvestor.length === 0)
       return res.status(404).send({ error: "Investor not Found" });
-    const companies = await Company.find({
-      investorId: req.params.investorId
+    const companies = await Case.find({
+      creatorInvestorId: req.params.investorId,
+      caseStatus: "Established"
     });
     if (companies.length === 0)
       res.send({ msg: "You don't have any Companies yet." });
@@ -310,7 +314,27 @@ exports.payFees = async function(req, res) {
       description: "Company Esatblishment Fees",
       source: req.body.tokenId
     })
-    .then(charge => {
+    .then(async charge => {
+      let newCompany = {
+        socialInsuranceNumber: "888888888",
+        investorId: investorId,
+        companyType: selectedCase.companyType,
+        companyNameArabic: selectedCase.form.companyNameArabic,
+        caseId: caseId
+      };
+      if (selectedCase.companyNameEnglish)
+        newCompany.companyNameEnglish = selectedCase.form.companyNameEnglish;
+      await companyController.createCompany(
+        { body: newCompany },
+        { send: function(foo) {} }
+      );
+      await caseController.updateCase(
+        {
+          params: { id: caseId },
+          body: { caseStatus: "Established" }
+        },
+        { send: function(foo) {} }
+      );
       return res.send({ msg: "The Fees are payed successfully" });
     })
     .catch(err => {
