@@ -261,6 +261,7 @@ class CaseContainer extends Component {
     });
   };
   async componentDidMount() {
+    await this.setState({ finished: false });
     const data = await parseJwt(localStorage.jwtToken);
     await this.setState({ loggedInType: data.type });
 
@@ -848,9 +849,9 @@ class CaseContainer extends Component {
                       ) : (
                         <div
                           style={{
-                            fontSize: "36px",
-                            marginLeft: "10%",
-                            marginTop: "7%"
+                            fontSize: "17px",
+                            marginLeft: "5%",
+                            marginTop: "5%"
                           }}
                         >
                           {calcFees(this.props.expandedCase) + " EGP"}

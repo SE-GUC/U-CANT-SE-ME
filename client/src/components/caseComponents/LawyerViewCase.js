@@ -18,6 +18,7 @@ export default class LawyerViewCase extends Component {
     alertMsg: ""
   };
   async componentDidMount() {
+    await this.setState({ finished: false });
     if (!localStorage.jwtToken) {
       alert("You must login!");
       await this.setState({ home: 1 });
