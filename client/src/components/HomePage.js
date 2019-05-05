@@ -3,7 +3,6 @@ import "./heroPage.css";
 import NavBarBlue from "./NavBarBlue";
 import NavBarDashboard from "./NavBarDashboard";
 import Fab from "@material-ui/core/Fab";
-import RegisterModal from "./RegisterModal";
 import { Redirect } from "react-router-dom";
 import parseJwt from "../helpers/decryptAuthToken";
 
@@ -16,7 +15,8 @@ export default class HomePage extends Component {
     loggedIn: false,
     admin: false,
     lang: "",
-    first:0
+    first: 0,
+    register: false
   };
   handleClick = () => {
     var devID =
@@ -53,49 +53,54 @@ export default class HomePage extends Component {
       maxDistance: 27.0,
       spacing: 20.0
     });
-    await this.setState({first:document.getElementById("arrow").getClientRects()[0].y})
-    console.log(this.state.first)
+    await this.setState({
+      first: document.getElementById("arrow").getClientRects()[0].y
+    });
   }
   componentWillUnmount() {
     if (this.effect) this.effect.destroy();
+    this.setState({
+      register: false
+    });
   }
   render() {
     if (this.state.journals) {
       return <Redirect to="/ElectronicJournals" />;
     }
     let navbar;
-    if(this.loaded)
-    {
-      navbar=(  this.state.loggedIn === true ? (
-        <NavBarDashboard
-         sumergiteColor="#3480E3"
-         boxShadow="0px 3px 20px rgba(0, 0, 0, 0.16)"
-         dashboard="lighter"
-         profile="lighter"
-         homepage="bold"
-         electronicJournals="lighter"
-         DASHBOARDD={true}
-         PROFILEE={true}
-         ProfileMargin="120px"
-         HomePageMargin="0px"
-         admin={this.state.admin ? true : false}
-         first={document.getElementById("arrow").getClientRects()[0].y}
-       /> 
-      ) : (
-       <NavBarBlue
-         sumergiteColor={this.state.sumergiteColor}
-         backgroundColor={this.state.navColor}
-         loginColor={this.state.loginColor}
-          first={document.getElementById("arrow").getClientRects()[0].y}
-       />
-     ))
-
-    }  
-    return (
+    if (this.loaded) {
+      navbar =
+        this.state.loggedIn === true ? (
+          <NavBarDashboard
+            sumergiteColor="#3480E3"
+            boxShadow="0px 3px 20px rgba(0, 0, 0, 0.16)"
+            dashboard="lighter"
+            profile="lighter"
+            homepage="bold"
+            electronicJournals="lighter"
+            DASHBOARDD={true}
+            PROFILEE={true}
+            ProfileMargin="120px"
+            HomePageMargin="0px"
+            admin={this.state.admin ? true : false}
+            first={document.getElementById("arrow").getClientRects()[0].y}
+          />
+        ) : (
+          <NavBarBlue
+            sumergiteColor={this.state.sumergiteColor}
+            backgroundColor={this.state.navColor}
+            loginColor={this.state.loginColor}
+            first={document.getElementById("arrow").getClientRects()[0].y}
+          />
+        );
+    }
+    return this.state.register ? (
+      <Redirect to="/InvestorRegister" />
+    ) : (
       <div className="HeroAndHome">
         <div id="hero" style={{ height: "100vh" }}>
-        {navbar}
-           
+          {navbar}
+
           <div className="createCompany" id="first">
             <p className="createCompanySpan">
               {this.state.lang === "eng"
@@ -116,6 +121,7 @@ export default class HomePage extends Component {
               style={{ width: "100px", alignSelf: "left", marginLeft: "15vw" }}
             >
               <Fab
+                color="secondary"
                 variant="extended"
                 size="medium"
                 style={{
@@ -125,15 +131,21 @@ export default class HomePage extends Component {
                   marginTop: "7px"
                 }}
                 aria-label="Delete"
-                onClick={() => {
-                  window.location.href = "/InvestorRegister";
+                onClick={async () => {
+                  if (
+                    !this.state.register &&
+                    window.location.pathname !== "/InvestorRegister"
+                  ) {
+                    await this.setState({ register: true });
+                  }
+                  // window.location.href = "/InvestorRegister";
                 }}
               >
                 {this.state.lang === "eng" ? "Register" : "افتح حسابًا"}
               </Fab>
             </div>
           </div>
-          <div className="arrow" >
+          <div className="arrow">
             <button id="buttonArrow" onClick={this.handleClick}>
               <svg
                 className="Path_7_A1_Path_2"
@@ -147,7 +159,7 @@ export default class HomePage extends Component {
               </svg>
             </button>
           </div>
-          {this.loaded=true}
+          {(this.loaded = true)}
         </div>
         <div className="all" id="second">
           <div id="cc" />
@@ -238,8 +250,29 @@ export default class HomePage extends Component {
                     ? "You are a click away from establishing your own company!"
                     : "أنت على بعد ضغطة واحدة من تأسيس شركتك الخاصة!"}
                 </p>
+                <Fab
+                  color="secondary"
+                  variant="extended"
+                  size="medium"
+                  style={{
+                    boxShadow: "none",
+                    color: "#FFFFFF"
+                  }}
+                  aria-label="Delete"
+                  onClick={async () => {
+                    if (
+                      !this.state.register &&
+                      window.location.pathname !== "/InvestorRegister"
+                    ) {
+                      await this.setState({ register: true });
+                    }
+                    // window.location.href = "/InvestorRegister";
+                  }}
+                >
+                  {this.state.lang === "eng" ? "Register" : "افتح حسابًا"}
+                </Fab>
 
-                <RegisterModal lang={this.state.lang} />
+                {/* <RegisterModal lang={this.state.lang} /> */}
               </div>
             </div>
             <div className="SumergiteCopyRight_A0_Text_16">
