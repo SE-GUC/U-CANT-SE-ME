@@ -118,7 +118,7 @@ export default class HomePage extends Component {
             </p>
 
             <div
-              style={{ width: "100px", alignSelf: "left", marginLeft: "15vw" }}
+              style={{ width: "100px", alignSelf: "left", marginLeft: "13.8vw" }}
             >
               <Fab
                 color="secondary"
