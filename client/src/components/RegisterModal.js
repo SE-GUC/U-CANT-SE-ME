@@ -6,6 +6,7 @@ import Fab from "@material-ui/core/Fab";
 import "../components/register.scss";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import { login } from "../globalState/actions/authActions.js";
+import { Select, MenuItem, OutlinedInput, FormControl, InputLabel } from "@material-ui/core";
 
 const Joi = require("joi");
 
@@ -43,7 +44,7 @@ class RegisterModal extends React.Component {
       name: "",
       email: "",
       password: "",
-      type: "Full Time Investor",
+      type: "Single",
       gender: "Male",
       nationality: "",
       methodOfIdentification: "passport",
@@ -435,7 +436,21 @@ class RegisterModal extends React.Component {
     this.setState(state => ({ showPassword: !state.showPassword }));
   };
 
+  handleNationalityChange = eventTarget => {
+    this.setState({ nationality: eventTarget.value });
+  };
+
   render() {
+    let nationalities = require("../data/nationalities.json");
+    let nationalitiesArabic = [];
+    let nationalitiesEnglish = [];
+    let menuCounter = 1;
+    for (let atr in nationalities) {
+      nationalitiesEnglish.push(<MenuItem key={menuCounter} value={atr}> {atr} </MenuItem>);
+      nationalitiesArabic.push(
+        <MenuItem key={menuCounter++} value={atr}> {nationalities[atr]} </MenuItem>
+      );
+    }
     return this.state.canceled ? (
       <Redirect to="/" />
     ) : (
@@ -588,10 +603,8 @@ class RegisterModal extends React.Component {
                 value={this.state.type}
                 style={{ width: "100%" }}
               >
-                <option value="fullTimeInvestor">
-                  {this.props.lang === "eng"
-                    ? "Full Time Investor"
-                    : "مستثمر بدوام كامل"}
+                <option value="Single">
+                  {this.props.lang === "eng" ? "Single" : "فرد"}
                 </option>
               </select>
               <br />
@@ -612,16 +625,37 @@ class RegisterModal extends React.Component {
               </select>
               <br />
               <br />
-              <input
-                placeholder={
-                  this.props.lang === "eng" ? "Nationality" : "جنسية"
-                }
-                id="nationality"
-                type="text"
-                onChange={this.changeNat}
-                value={this.state.nationality}
-                className="form-control"
-              />
+              <FormControl
+                required
+                variant="outlined"
+                style={{ minWidth: "100%" }}
+              >
+                <InputLabel
+                  ref={ref => {
+                    this.InputLabelRef = ref;
+                  }}
+                  htmlFor="outlined-age-simple"
+                >
+                  {this.props.lang === "eng" ? "Nationality" : "جنسية"}
+                </InputLabel>
+                <Select
+                  key={0}
+                  value={this.state.nationality}
+                  onChange={ev => this.handleNationalityChange(ev.target)}
+                  input={
+                    <OutlinedInput
+                      label="Nationality"
+                      labelWidth={70}
+                      name="nationality"
+                    />
+                  }
+                >
+                  <MenuItem key = "0" value="">
+                    <em>{this.props.lang === "eng" ? "Select your Nationality" : "اختر جنسيتك"}</em>
+                  </MenuItem>
+                  {this.props.lang === "eng" ? nationalitiesEnglish : nationalitiesArabic}
+                </Select>
+              </FormControl>
               <label id="Error" className="text-danger">
                 {this.state.nationalityError === ""
                   ? ""

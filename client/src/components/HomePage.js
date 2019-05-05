@@ -112,8 +112,8 @@ export default class HomePage extends Component {
 
             <p className="createComp">
               {this.state.lang === "eng"
-                ? "You're just one click away from establishing your own company!"
-                : "أنت على بعد مجرد نقرة واحدة فقط عن تأسيس شركتك الخاصة"}
+                ? "One click away from establishing your own company"
+                : "تبعد نقرة واحدة فقط عن تأسيس شركتك الخاصة"}
               <br />
             </p>
 
