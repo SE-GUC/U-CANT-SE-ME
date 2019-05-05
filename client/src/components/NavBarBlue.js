@@ -18,7 +18,6 @@ export default class NavBarBlue extends Component {
       }
     }
     await this.setState({targetHeight:this.props.first-document.getElementById("Header").getClientRects()[0].y})
-    console.log("target "+this.state.targetHeight)
   }
   state = {
     headerHeight: 0,
@@ -164,6 +163,7 @@ export default class NavBarBlue extends Component {
                   // </Link>
                   <Fab
                     variant="extended"
+                    color="secondary"
                     size="medium"
                     style={{
                       boxShadow: "none",

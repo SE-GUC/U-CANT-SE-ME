@@ -53,7 +53,8 @@ class RegisterModal extends React.Component {
       phone: "",
       fax: "",
       lang: "",
-      clicked: false
+      clicked: false,
+      canceled: false
     };
     this.openModal = this.openModal.bind(this);
     this.afterOpenModal = this.afterOpenModal.bind(this);
@@ -330,7 +331,7 @@ class RegisterModal extends React.Component {
       fax: ""
     });
     if (this.props.fromLoginPage) {
-      window.location.href = "/";
+      this.setState({ canceled: true });
     }
   }
 
@@ -435,7 +436,9 @@ class RegisterModal extends React.Component {
   };
 
   render() {
-    return (
+    return this.state.canceled ? (
+      <Redirect to="/" />
+    ) : (
       <div>
         {this.props.fromLoginPage ? (
           <div />
@@ -443,7 +446,7 @@ class RegisterModal extends React.Component {
           <Fab
             variant="extended"
             size="medium"
-            color="primary"
+            color="secondary"
             style={{
               boxShadow: "none",
               color: "#FFFFFF"
@@ -776,7 +779,7 @@ class RegisterModal extends React.Component {
                 <Fab
                   variant="extended"
                   size="medium"
-                  color = "primary"
+                  color="primary"
                   style={{
                     boxShadow: "none",
                     marginTop: "6px",
