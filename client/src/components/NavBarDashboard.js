@@ -78,7 +78,7 @@ export default class NavBarDashboard extends Component {
         float: "left",
         al: "left",
         fontSize: "28px",
-        marginLeft: this.props.homepage==="bold"?"13vw":"1px",
+        marginLeft: this.props.homepage==="bold" ?"13vw":this.props.electronicJournals==="bold"?"13vw":"1px",
         fontFamily: "-apple-system, BlinkMacSystemFont, sans-serif",
         fontWeight: "bold"
         // marginTop: "11px"
