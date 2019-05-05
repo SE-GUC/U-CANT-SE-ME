@@ -46,7 +46,6 @@ class CreateFormTemplate extends Component {
         alertType: "error",
         alertMsg: "Error parsing the JSON file. Check the Syntax!"
       });
-      // alert(`Error parsing the JSON file. Check the Syntax!`);
       return;
     }
     axios
@@ -58,7 +57,6 @@ class CreateFormTemplate extends Component {
           alertType: "success",
           alertMsg: "Form Template Created!"
         });
-        // alert(`Form Template Created!`);
       })
       .catch(async error => {
         await this.setState({ success: false, loading: false });

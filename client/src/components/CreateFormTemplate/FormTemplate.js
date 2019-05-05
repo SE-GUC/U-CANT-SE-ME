@@ -116,13 +116,6 @@ class FormTemplate extends Component {
       })
       .catch(async error => {
         await this.setState({ success: false, loading: false });
-        alert(
-          `The Form Template doesn't match required conditions! \nError: ${
-            typeof error.response.data === "string"
-              ? error.response.data
-              : error.response.data.error
-          }`
-        );
         await this.setState({
           alerted: true,
           alertType: "error",
