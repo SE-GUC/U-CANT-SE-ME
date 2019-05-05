@@ -776,7 +776,7 @@ class RegisterModal extends React.Component {
                 <Fab
                   variant="extended"
                   size="medium"
-                  color = "primary"
+                  color="primary"
                   style={{
                     boxShadow: "none",
                     marginTop: "6px",

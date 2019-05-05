@@ -119,15 +119,15 @@ export default class HomePage extends Component {
               <Fab
                 variant="extended"
                 size="medium"
+                color="secondary"
                 style={{
                   boxShadow: "none",
-                  backgroundColor: "#E53167",
                   color: "#FFFFFF",
                   marginTop: "7px"
                 }}
                 aria-label="Delete"
                 onClick={() => {
-                  window.location.href = "/InvestorRegister";
+                  this.setState({ register: true });
                 }}
               >
                 {this.state.lang === "eng" ? "Register" : "افتح حسابًا"}
@@ -251,8 +251,6 @@ export default class HomePage extends Component {
                   aria-label="Delete"
                   onClick={() => {
                     this.setState({ register: true });
-                    // <Redirect to="/InvestorRegister" />;
-                    // window.location.href = "/InvestorRegister";
                   }}
                 >
                   {this.state.lang === "eng" ? "Register" : "تسجيل"}
