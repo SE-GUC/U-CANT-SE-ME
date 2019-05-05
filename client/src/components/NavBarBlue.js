@@ -184,11 +184,12 @@ export default class NavBarBlue extends Component {
               <li className="nav-item mr-auto">
                 <Fab
                   onClick={this.handleChangeLanguage}
-                  style={{
-                    marginLeft: "1vw",
-                    color: "default",
-                    marginTop: "7px"
-                  }}
+                  // style={{
+                  //   marginLeft: "1vw",
+                  //   color: "default",
+                  //   marginTop: "7px"
+                  // }}
+                  style={{ color: "default", marginTop: "5px", marginRight: "2vw", marginLeft: "1vw", }}
                   size="small"
                 >
                   <Language />
