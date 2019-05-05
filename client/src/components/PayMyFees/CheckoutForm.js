@@ -1,14 +1,21 @@
 import React, { Component } from "react";
 import { CardElement, injectStripe } from "react-stripe-elements";
 import axios from "axios";
+import CircularProgress from "@material-ui/core/CircularProgress";
+import SnackBar from "../snackbar";
 
 class CheckoutForm extends Component {
   constructor(props) {
     super(props);
     this.submit = this.submit.bind(this);
   }
+  state = {
+    clicked: false
+  };
 
   async submit(ev) {
+    await this.setState({ clicked: true });
+    await this.setState({ alerted: false, alertType: "", alertMsg: "" });
     let { token } = await this.props.stripe.createToken({ name: "Payment" });
     let verdict = {};
     try {
@@ -21,17 +28,38 @@ class CheckoutForm extends Component {
       verdict = { completed: false, failed: true };
     }
     this.props.submitAction(verdict);
+    await this.setState({ clicked:false });
   }
 
   render() {
+    let alertSnack;
+    if (this.state.alerted)
+      alertSnack = (
+        <SnackBar
+          message={this.state.alertMsg}
+          variant={this.state.alertType}
+        />
+      );
     return (
       <div className="checkout">
+        {alertSnack}
         <p>Would you like to complete the payment?</p>
         <CardElement />
-        <button style={btnStyle} onClick={this.submit}>
-          {"$ "}
-          Pay{" "}
-        </button>
+        {this.state.clicked ? (
+          <CircularProgress
+            style={{
+              display: "inlineBlock",
+              marginTop: "2%",
+              marginLeft: "3%",
+              marginBottom: "1%"
+            }}
+          />
+        ) : (
+          <button style={btnStyle} onClick={this.submit}>
+            {"$ "}
+            Pay{" "}
+          </button>
+        )}
       </div>
     );
   }
