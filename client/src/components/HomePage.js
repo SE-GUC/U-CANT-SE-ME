@@ -242,7 +242,7 @@ export default class HomePage extends Component {
                 <Fab
                   variant="extended"
                   size="medium"
-                  color="primary"
+                  color="secondary"
                   style={{
                     boxShadow: "none",
                     color: "#FFFFFF",
