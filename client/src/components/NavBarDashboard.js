@@ -35,9 +35,6 @@ export default class NavBarDashboard extends Component {
       }
     }
     await this.setState({targetHeight:this.props.first-document.getElementById("Header").getClientRects()[0].y})
-    await this.setState({targetHeight:this.props.first})
-    console.log(this.state.targetHeight)
-    console.log(this.props.first)
   }
 
   handleChangeLanguage = () => {
@@ -56,16 +53,16 @@ export default class NavBarDashboard extends Component {
     const opacity2 = 1;
     const styles = {
       content: {
-        backgroundColor: window.scrollY>=this.state.targetHeight? "rgba(255, 255, 255," + opacity2 + ")" : "rgba(255, 255, 255," + opacity1 + ")",
+        backgroundColor: window.scrollY>=this.state.targetHeight || this.props.homepage!=="bold" ? "rgba(255, 255, 255," + opacity2 + ")" : "rgba(255, 255, 255," + opacity1 + ")",
         background:"transparent"
       },
       buttonColor: "red",
       SumergiteLabel: {
-        color: this.props.sumergiteColor,
+        color: window.scrollY>=this.state.targetHeight || this.props.homepage!=="bold" ? "#3480e3":"#FFF" ,
         float: "left",
         al: "left",
         fontSize: "28px",
-        marginLeft: "1px",
+        marginLeft: this.props.homepage==="bold"?"13vw":"1px",
         fontFamily: "-apple-system, BlinkMacSystemFont, sans-serif",
         fontWeight: "bold"
         // marginTop: "11px"
@@ -73,7 +70,7 @@ export default class NavBarDashboard extends Component {
       Header: {
         // boxShadow: this.props.boxShadow,
         position: "fixed",
-        // backgroundColor: window.scrollY>=this.state.targetHeight? "rgba(255, 255, 255," + opacity2 + ")" : "rgba(255, 255, 255," + opacity1 + ")",
+        backgroundColor: window.scrollY>=this.state.targetHeight || this.props.homepage!=="bold"? "rgba(255, 255, 255," + opacity2 + ")" : "rgba(255, 255, 255," + opacity1 + ")",
         // backgroundColor: "rgba(255, 255, 255," + opacity + ")",
         
       },
@@ -185,7 +182,7 @@ export default class NavBarDashboard extends Component {
                   </span>
                 </button>
               </li>
-              {this.state.loggedin && !this.props.admin ? (
+              {this.state.loggedin && this.state.type.toString()!=="admin" ? (
                 <li className="nav-item mr-auto">
                   <button
                     className="button"
