@@ -4,6 +4,7 @@ import Fab from "@material-ui/core/Fab";
 import RegisterModal from "./RegisterModal";
 import Language from "@material-ui/icons/Language";
 // import { Link } from "react-router-dom";
+import { Redirect } from "react-router-dom";
 
 export default class NavBarBlue extends Component {
   async componentDidMount() {
@@ -26,7 +27,17 @@ export default class NavBarBlue extends Component {
     lang: "",
     currentScrollHeight:0,
     targetHeight:0
+    login: false,
+    register: false,
+    hero: false
   };
+  async componentWillUnmount() {
+    await this.setState({
+      login: false,
+      register: false,
+      hero: false
+    });
+  }
   handleChangeLanguage = () => {
     if (this.state.lang === "eng") {
       localStorage.setItem("lang", "ar");
@@ -71,6 +82,15 @@ export default class NavBarBlue extends Component {
 
     return (
       <div className="Header" id="Header" style={styles.Header} ref="Header">
+        {this.state.login ? (
+          <Redirect to="/Login" />
+        ) : this.state.register ? (
+          <Redirect to="/InvestorRegister" />
+        ) : this.state.hero ? (
+          <Redirect to="/" />
+        ) : (
+          <div />
+        )}
         <nav
           className="navbar navbar-expand-lg navbar-light bg-"
           id="navbarmob"
@@ -82,8 +102,11 @@ export default class NavBarBlue extends Component {
           <button
             id="logo"
             style={styles.SumergiteLabel}
-            onClick={() => {
-              window.location.href = "/";
+            onClick={async () => {
+              if (!this.state.hero && window.location.pathname !== "/") {
+                this.setState({ hero: true });
+              }
+              // window.location.href = "/";
             }}
           >
             {this.state.lang === "eng" ? "Sumergite" : "سمرجايت"}
@@ -112,7 +135,13 @@ export default class NavBarBlue extends Component {
                   data-toggle="collapse"
                   data-target=".navbar-collapse.show"
                   onClick={() => {
-                    window.location.href = "/Login";
+                    if (
+                      !this.state.login &&
+                      window.location.pathname !== "/Login"
+                    ) {
+                      this.setState({ login: true });
+                    }
+                    // window.location.href = "/Login";
                   }}
                 >
                   <span id="buttonHome" style={styles.Login}>
@@ -144,7 +173,13 @@ export default class NavBarBlue extends Component {
                     }}
                     aria-label="Delete"
                     onClick={() => {
-                      window.location.href = "/InvestorRegister";
+                      if (
+                        !this.state.register &&
+                        window.location.pathname !== "/InvestorRegister"
+                      ) {
+                        this.setState({ register: true });
+                      }
+                      // window.location.href = "/InvestorRegister";
                     }}
                   >
                     {this.state.lang === "eng" ? "Register" : "تسجيل"}
@@ -158,6 +193,7 @@ export default class NavBarBlue extends Component {
                     <RegisterModal lang={this.state.lang} />
                   </div>
                 )}
+               
               </li>
               <li className="nav-item mr-auto">
                 <Fab
