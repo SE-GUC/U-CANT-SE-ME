@@ -118,15 +118,15 @@ module.exports = {
     //Validate Case data related to the System
     var validation = Joi.validate(request, caseCreateSchema);
     if (validation.error) return validation;
-
+    
     //Validate Case data related to the Managers
     validation = module.exports.managersValidation(request.managers);
     if (validation && validation.error) return validation;
-
+    
     const formTemplate = await FormTemplate.findOne({
       formName: request.companyType
     });
-
+    
     if (!formTemplate) return errorMessage("No such Company type exist!");
 
     //Validate Case data related to the Form
