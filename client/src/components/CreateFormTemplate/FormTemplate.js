@@ -47,12 +47,12 @@ class FormTemplate extends Component {
     managersMaxNumber: 1000,
     fields: [
       {
-        fieldName: "",
-        fieldType: "",
-        isRequired: false,
-        isUnique: false,
-        minVal: 0,
-        maxVal: 1000000,
+        fieldName: "Company Name Arabic",
+        fieldType: "TEXT",
+        isRequired: true,
+        isUnique: true,
+        minVal: 3,
+        maxVal: 100,
         options: []
       },
       {
@@ -65,7 +65,7 @@ class FormTemplate extends Component {
         options: []
       }
     ],
-    specifyMinAndMaxFields: [],
+    specifyMinAndMaxFields: [true, false],
     advanced: false,
     helpModal: false,
     optionsModal: false,
