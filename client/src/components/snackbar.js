@@ -106,6 +106,7 @@ class CustomizedSnackbars extends React.Component {
     return (
       <div>
         <Snackbar
+        style={{marginLeft:"50px"}}
           anchorOrigin={{
             vertical: "bottom",
             horizontal: "left"
