@@ -8,7 +8,7 @@ import CircularProgress from "@material-ui/core/CircularProgress";
 
 class MyCompanies extends Component {
   state = {
-    MyCompanies: [],
+    cases: [],
     msg: "",
     investorid: "",
     home: 0,
@@ -36,7 +36,7 @@ class MyCompanies extends Component {
       .get(`../api/investors/myCompanies/${id}`)
       .then(res => {
         if (Array.isArray(res.data.data))
-          this.setState({ MyCompanies: res.data.data });
+          this.setState({ cases: res.data.data });
         else {
           this.setState({ msg: res.data.msg });
         }
@@ -58,7 +58,7 @@ class MyCompanies extends Component {
         </div>
       );
     } else {
-      return this.state.MyCompanies.length === 0 ? (
+      return this.state.cases.length === 0 ? (
         <h1>{this.state.msg}</h1>
       ) : (
         <CasesContainerProps

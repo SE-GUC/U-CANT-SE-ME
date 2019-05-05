@@ -18,10 +18,14 @@ class CasesContainerProps extends Component {
     loggedInType: "",
     choosenSort: "id",
     choosenOrder: "asc",
-    finished: false
+    finished: false,
+    lang: ""
   };
 
   async componentDidMount() {
+    if (localStorage.getItem("lang"))
+      this.setState({ lang: localStorage.getItem("lang") });
+    else this.setState({ lang: "eng" });
     const data = parseJwt(localStorage.jwtToken);
     await this.setState({ cases: this.props.cases, loggedInType: data.type });
     await this.setState({ finished: true });
@@ -83,7 +87,9 @@ class CasesContainerProps extends Component {
       return (
         <div>
           <CircularProgress style={{ marginTop: "50px" }} />
-          <h3>Fetching Data</h3>
+          <h3>
+            {this.state.lang === "eng" ? "Fetching Data" : "جاري جلب البيانات"}
+          </h3>
         </div>
       );
     } else {
@@ -104,10 +110,14 @@ class CasesContainerProps extends Component {
               variant="outlined"
             >
               <MenuItem key="id" value="id">
-                Sort by ID
+                {this.state.lang === "eng"
+                  ? "Sort by ID"
+                  : "رتب على رقم التعريف"}
               </MenuItem>
               <MenuItem key="date" value="date">
-                Sort by Creation Date
+                {this.state.lang === "eng"
+                  ? "Sort by Creation Date"
+                  : "رتب حسب تاريخ الإنشاء"}
               </MenuItem>
             </TextField>
             <TextField
@@ -121,10 +131,10 @@ class CasesContainerProps extends Component {
               variant="outlined"
             >
               <MenuItem key="asc" value="asc">
-                Ascending
+                {this.state.lang === "eng" ? "Ascending" : "تصاعدي"}
               </MenuItem>
               <MenuItem key="desc" value="desc">
-                Descending
+                {this.state.lang === "eng" ? "Descending" : "تنازلي"}
               </MenuItem>
             </TextField>
             <Fab
