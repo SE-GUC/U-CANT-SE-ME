@@ -4,6 +4,7 @@ import parseJwt from "../../helpers/decryptAuthToken";
 import { Redirect } from "react-router-dom";
 import CasesContainerProps from "../dCaseComponents/CasesContainerProps";
 import CircularProgress from "@material-ui/core/CircularProgress";
+import SnackBar from "../snackbar";
 
 export default class ReviewerViewTasks extends Component {
   state = {
@@ -11,7 +12,10 @@ export default class ReviewerViewTasks extends Component {
     caseid: "",
     reviwerID: "",
     home: 0,
-    finished: false
+    finished: false,
+    alerted: false,
+    alertType: "",
+    alertMsg: ""
   };
 
   async componentDidMount() {
@@ -36,8 +40,14 @@ export default class ReviewerViewTasks extends Component {
     await this.setState({ finished: true });
   }
   accept = async caseId => {
+    await this.setState({ alerted: false, alertType: "", alertMsg: "" });
     try {
       await axios.put(`api/reviewers/updateCaseStatus/${caseId}/Accepted`);
+      await this.setState({
+        alerted: true,
+        alertType: "success",
+        alertMsg: "You Have Accepted this Case"
+      });
       const newArr = this.state.cases.filter(function(value, index, arr) {
         return caseId === value._id;
       });
@@ -48,6 +58,14 @@ export default class ReviewerViewTasks extends Component {
     }
   };
   render() {
+    let alertSnack;
+    if (this.state.alerted)
+      alertSnack = (
+        <SnackBar
+          message={this.state.alertMsg}
+          variant={this.state.alertType}
+        />
+      );
     if (this.state.home === 0) return <div />;
     if (this.state.home === 1) return <Redirect to={{ pathname: "/" }} />;
     else {
@@ -68,6 +86,7 @@ export default class ReviewerViewTasks extends Component {
                 cases={this.state.cases}
                 currentUserId={this.state.reviwerID}
               />
+              {alertSnack}
             </div>
           </header>
         );
