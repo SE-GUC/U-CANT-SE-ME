@@ -98,7 +98,6 @@ export default class InvestorDashBoard extends Component {
       },
       divStyleShow: {
         marginLeft: this.state.dashboardwidth,
-        display: "flex",
         justifyContent: "center",
         marginTop: "10vh"
       },

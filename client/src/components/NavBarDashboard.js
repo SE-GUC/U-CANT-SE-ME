@@ -84,7 +84,7 @@ export default class NavBarDashboard extends Component {
         // marginTop: "11px"
       },
       Header: {
-        // boxShadow: this.props.boxShadow,
+        boxShadow: window.scrollY>=this.state.targetHeight || this.props.homepage!=="bold"? "0px 3px  20px rgba(0, 0, 0, 0.16)":"none",
         position: "fixed",
         backgroundColor: window.scrollY>=this.state.targetHeight || this.props.homepage!=="bold"? "rgba(255, 255, 255," + opacity2 + ")" : "rgba(255, 255, 255," + opacity1 + ")",
         // backgroundColor: "rgba(255, 255, 255," + opacity + ")",
