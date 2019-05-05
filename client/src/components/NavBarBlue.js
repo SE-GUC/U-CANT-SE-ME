@@ -173,6 +173,7 @@ export default class NavBarBlue extends Component {
                     <RegisterModal lang={this.state.lang} />
                   </div>
                 )}
+               
               </li>
               <li className="nav-item mr-auto">
                 <Fab

@@ -47,10 +47,10 @@ export default class HomePage extends Component {
     this.effect = window.VANTA.NET({
       el: "#hero",
       color: "#ffffff",
-      backgroundColor: "#3480e3",
-      points: 19.00,
-      maxDistance: 27.00,
-      spacing: 20.00
+      backgroundColor: "#0F80ED",
+      points: 19.0,
+      maxDistance: 27.0,
+      spacing: 20.0
     });
   }
   componentWillUnmount() {
@@ -82,9 +82,10 @@ export default class HomePage extends Component {
               ProfileMargin="120px"
               HomePageMargin="0px"
               admin={this.state.admin ? true : false}
+              first={document.getElementById("arrow").getClientRects()[0].y}
             />
           )}
-          <div className="createCompany">
+          <div className="createCompany" id="first">
             <p className="createCompanySpan">
               {this.state.lang === "eng"
                 ? "Create your company"
@@ -95,22 +96,38 @@ export default class HomePage extends Component {
 
             <p className="createComp">
               {this.state.lang === "eng"
-                ? "Create your company in less than a day"
-                : "إنشىء شركتك في أقل من يوم"}
+                ? "You're just one click away from establishing your own company!"
+                : "أنت على بعد مجرد نقرة واحدة فقط عن تأسيس شركتك الخاصة"}
               <br />
             </p>
 
             <div
               style={{ width: "100px", alignSelf: "left", marginLeft: "15vw" }}
             >
-              <RegisterModal lang={this.state.lang} />
+              <Fab
+                variant="extended"
+                size="medium"
+                style={{
+                  boxShadow: "none",
+                  backgroundColor: "#E53167",
+                  color: "#FFFFFF",
+                  marginTop: "7px"
+                }}
+                aria-label="Delete"
+                onClick={() => {
+                  window.location.href = "/InvestorRegister";
+                }}
+              >
+                {this.state.lang === "eng" ? "Register" : "افتح حسابًا"}
+              </Fab>
             </div>
           </div>
-          <div className="arrow">
+          <div className="arrow" >
             <button id="buttonArrow" onClick={this.handleClick}>
               <svg
                 className="Path_7_A1_Path_2"
                 viewBox="8.719 12.382 59.679 33.831"
+                id="arrow"
               >
                 <path
                   id="Path_7_A1_Path_2"
@@ -120,7 +137,7 @@ export default class HomePage extends Component {
             </button>
           </div>
         </div>
-        <div className="all">
+        <div className="all" id="second">
           <div id="cc" />
           <div className="homePage2">
             <div className="homePage2Div1">
