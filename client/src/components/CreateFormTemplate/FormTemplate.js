@@ -11,6 +11,7 @@ import CheckIcon from "@material-ui/icons/Check";
 import CrossIcon from "@material-ui/icons/Close";
 import green from "@material-ui/core/colors/green";
 import red from "@material-ui/core/colors/red";
+import SnackBar from "../snackbar";
 
 import {
   Typography,
@@ -47,12 +48,12 @@ class FormTemplate extends Component {
     managersMaxNumber: 1000,
     fields: [
       {
-        fieldName: "",
-        fieldType: "",
-        isRequired: false,
-        isUnique: false,
-        minVal: 0,
-        maxVal: 1000000,
+        fieldName: "Company Name Arabic",
+        fieldType: "TEXT",
+        isRequired: true,
+        isUnique: true,
+        minVal: 3,
+        maxVal: 100,
         options: []
       },
       {
@@ -65,7 +66,7 @@ class FormTemplate extends Component {
         options: []
       }
     ],
-    specifyMinAndMaxFields: [],
+    specifyMinAndMaxFields: [true, false],
     advanced: false,
     helpModal: false,
     optionsModal: false,
@@ -73,10 +74,14 @@ class FormTemplate extends Component {
     addedOption: "",
     success: false,
     loading: false,
-    clicked: false
+    clicked: false,
+    alerted: false,
+    alertType: "",
+    alertMsg: ""
   };
 
-  handleSubmit = () => {
+  handleSubmit = async () => {
+    await this.setState({ alerted: false, alertType: "", alertMsg: "" });
     if (!this.state.loading) {
       this.setState({
         success: false,
@@ -84,7 +89,10 @@ class FormTemplate extends Component {
         clicked: true
       });
     }
-    const { formName, fields, hasManagers, code } = this.state;
+    const { formName, hasManagers, code } = this.state;
+    var fields = [];
+    for(let i = 0; i < this.state.fields.length; i++) 
+      fields.push({...this.state.fields[i]});
     let formTemplate = {
       formName,
       fields,
@@ -99,8 +107,12 @@ class FormTemplate extends Component {
       .post(`api/admins/createFormTemplate/`, formTemplate)
       .then(async res => {
         await this.setState({ success: true, loading: false });
-        alert(`Form Template Created!`);
-        await this.setState({ success: true, loading: false });
+        await this.setState({
+          alerted: true,
+          alertType: "success",
+          alertMsg: "Form Template Created!"
+        });
+        // await this.setState({ success: true, loading: false });
       })
       .catch(async error => {
         await this.setState({ success: false, loading: false });
@@ -111,6 +123,15 @@ class FormTemplate extends Component {
               : error.response.data.error
           }`
         );
+        await this.setState({
+          alerted: true,
+          alertType: "error",
+          alertMsg: `The Form Template doesn't match required conditions! \nError: ${
+            typeof error.response.data === "string"
+              ? error.response.data
+              : error.response.data.error
+          }`
+        });
       });
   };
 
@@ -454,11 +475,21 @@ class FormTemplate extends Component {
           ])}
         </React.Fragment>
         <div key="div4" style={{ float: "right" }}>
-          <Fab key="fab1" color="secondary" aria-label="RemoveIcon" onClick={ev => this.handleRemoveField()}>
-            <RemoveIcon/>
+          <Fab
+            key="fab1"
+            color="secondary"
+            aria-label="RemoveIcon"
+            onClick={ev => this.handleRemoveField()}
+          >
+            <RemoveIcon />
           </Fab>{" "}
-          <Fab key="fab0" color="primary" aria-label="Add" onClick={ev => this.handleAddField()}>
-            <AddIcon  />
+          <Fab
+            key="fab0"
+            color="primary"
+            aria-label="Add"
+            onClick={ev => this.handleAddField()}
+          >
+            <AddIcon />
           </Fab>
         </div>
       </Card>
@@ -633,6 +664,14 @@ class FormTemplate extends Component {
   };
 
   render() {
+    let alertSnack;
+    if (this.state.alerted)
+      alertSnack = (
+        <SnackBar
+          message={this.state.alertMsg}
+          variant={this.state.alertType}
+        />
+      );
     const { loading, success, clicked } = this.state;
     let submitButton = (
       <div
@@ -724,6 +763,7 @@ class FormTemplate extends Component {
           this.showOptionsModal(this.state.optionsIdx),
           submitButton
         ]}{" "}
+        {alertSnack}
       </div>
     );
   }

@@ -21,6 +21,7 @@ import CrossIcon from "@material-ui/icons/Close";
 import green from "@material-ui/core/colors/green";
 import red from "@material-ui/core/colors/red";
 import Typography from "@material-ui/core/Typography";
+import SnackBar from "../snackbar";
 
 const styles = {
   root: {
@@ -80,7 +81,10 @@ class FillForm extends Component {
     finished: false,
     success: false,
     loading: false,
-    clicked: false
+    clicked: false,
+    alerted: false,
+    alertType: "",
+    alertMsg: ""
   };
 
   handleChange = async event => {
@@ -115,6 +119,7 @@ class FillForm extends Component {
     }
   };
   handleSubmit = async () => {
+    await this.setState({ alerted: false, alertType: "", alertMsg: "" });
     if (!this.state.loading) {
       await this.setState({
         success: false,
@@ -134,13 +139,18 @@ class FillForm extends Component {
         .post(`api/investors/fillForm/${this.state.creatorId}`, caseBody)
         .then(async res => {
           await this.setState({ success: true, loading: false });
-          alert(res.data.msg);
-          await this.setState({ success: true, loading: false });
+          // alert(res.data.msg);
+          await this.setState({ alerted: true, alertType:'success', alertMsg:res.data.msg });
           window.location.reload();
         })
         .catch(async err => {
           await this.setState({ success: false, loading: false });
-          alert(err.response.data.error);
+          // alert(err.response.data.error);
+          await this.setState({
+            alerted: true,
+            alertType: "error",
+            alertMsg: err.response.data.error
+          });
         });
     } else {
       if (!this.state.investorCreated) {
@@ -163,18 +173,21 @@ class FillForm extends Component {
               .post(`api/lawyers/fillForm/${this.state.creatorId}`, caseBody)
               .then(async res => {
                 await this.setState({ success: true, loading: false });
-                alert(res.data.msg);
-                await this.setState({ success: true, loading: false });
+                await this.setState({ alerted: true, alertType:'success', alertMsg:res.data.msg });
+                // alert(res.data.msg);
+                // await this.setState({ success: true, loading: false });
                 window.location.reload();
               })
               .catch(async err => {
                 await this.setState({ success: false, loading: false });
-                alert(err.response.data.error);
+                await this.setState({ alerted: true, alertType:'error', alertMsg:err.response.data.error });
+                // alert(err.response.data.error);
               });
           })
           .catch(async err => {
             await this.setState({ success: false, loading: false });
-            alert(err.response.data.error);
+            await this.setState({ alerted: true, alertType:'error', alertMsg:err.response.data.error });
+            // alert(err.response.data.error);
           });
       } else {
         const caseBody = {
@@ -189,13 +202,15 @@ class FillForm extends Component {
           .post(`api/lawyers/fillForm/${this.state.creatorId}`, caseBody)
           .then(async res => {
             await this.setState({ success: true, loading: false });
-            alert(res.data.msg);
-            await this.setState({ success: true, loading: false });
+            await this.setState({ alerted: true, alertType:'success', alertMsg:res.data.msg });
+            // alert(res.data.msg);
+            // await this.setState({ success: true, loading: false });
             window.location.reload();
           })
           .catch(async err => {
             await this.setState({ success: false, loading: false });
-            alert(err.response.data.error);
+            await this.setState({ alerted: true, alertType:'error', alertMsg:err.response.data.error });
+            // alert(err.response.data.error);
           });
       }
     }
@@ -472,6 +487,15 @@ class FillForm extends Component {
       let submitButton;
       let addMangerButton;
       let investorCard;
+      let alertSnack;
+
+      if (this.state.alerted)
+        alertSnack = (
+          <SnackBar
+            message={this.state.alertMsg}
+            variant={this.state.alertType}
+          />
+        );
       if (this.state.formName !== "None") {
         formCard = (
           <Card style={classes.card}>
@@ -978,6 +1002,7 @@ class FillForm extends Component {
             {investorCard}
             {addMangerButton}
             {submitButton}
+            {alertSnack}
           </CardContent>
         </Card>
       );

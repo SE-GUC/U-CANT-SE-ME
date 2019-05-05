@@ -270,7 +270,7 @@ exports.addCommentAsReviewer = async function(req, res) {
         return res.status(403).send({
           error: "Only assigned Reviewers to this Case can comment on it"
         });
-      if (checkCase[0].caseStatus !== "OnUpdate")
+      if (checkCase[0].caseStatus !== "OnUpdate" && checkCase[0].caseStatus !== "AssignedToReviewer")
         return res.status(403).send({
           error: "Access Denied: This Case is currently Locked for you."
         });
