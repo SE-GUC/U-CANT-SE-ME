@@ -84,7 +84,7 @@ class FillForm extends Component {
     clicked: false,
     alerted: false,
     alertType: "",
-    alertMsg: ""
+    alertMsg: "",
   };
 
   handleChange = async event => {
@@ -304,6 +304,9 @@ class FillForm extends Component {
       loading: false
     });
   };
+  handleNationalityChange = eventTarget => {
+    this.setState({ nationality: eventTarget.value });
+  };
 
   showManagers = () => {
     let i = 0;
@@ -311,6 +314,24 @@ class FillForm extends Component {
   };
 
   showManager = managerIdx => {
+    let nationalities = require("../../data/nationalities.json");
+    let nationalitiesArabic = [];
+    let nationalitiesEnglish = [];
+    let menuCounter = 1;
+    for (let atr in nationalities) {
+      nationalitiesEnglish.push(
+        <MenuItem key={menuCounter} value={atr}>
+          {" "}
+          {atr}{" "}
+        </MenuItem>
+      );
+      nationalitiesArabic.push(
+        <MenuItem key={menuCounter++} value={atr}>
+          {" "}
+          {nationalities[atr]}{" "}
+        </MenuItem>
+      );
+    }
     const classes = { ...styles };
     return (
       <Card key={managerIdx} style={classes.card}>
@@ -377,7 +398,48 @@ class FillForm extends Component {
                   Female
                 </MenuItem>
               </TextField>
-              <TextField
+              <FormControl
+                required
+                variant="outlined"
+                style={{ minWidth: "100%" }}
+              >
+                <InputLabel
+                  ref={ref => {
+                    this.InputLabelRef = ref;
+                  }}
+                  htmlFor="outlined-age-simple"
+                >
+                  {true ? "Nationality" : "جنسية"}
+                </InputLabel>
+                <Select
+                  key={0}
+                  value={this.state.nationality}
+                  onChange={ev => this.handleChangeMangerItem(
+                    managerIdx,
+                    "managerNationality",
+                    ev.target.value
+                  )}
+                  input={
+                    <OutlinedInput
+                      label="Nationality"
+                      labelWidth={70}
+                      name="nationality"
+                    />
+                  }
+                >
+                  <MenuItem key="0" value="">
+                    <em>
+                      {true
+                        ? "Select your Nationality"
+                        : "اختر جنسيتك"}
+                    </em>
+                  </MenuItem>
+                  {true
+                    ? nationalitiesEnglish
+                    : nationalitiesArabic}
+                </Select>
+              </FormControl>
+              {/* <TextField
                 fullWidth
                 key="managerNationality*"
                 id="outlined-email-input5"
@@ -393,7 +455,7 @@ class FillForm extends Component {
                 }
                 margin="normal"
                 variant="outlined"
-              />
+              /> */}
               <TextField
                 fullWidth
                 key="managerIdType*"
@@ -666,6 +728,24 @@ class FillForm extends Component {
           this.state.creatorType === "lawyer" &&
           !this.state.investorCreated
         ) {
+          let nationalities = require("../../data/nationalities.json");
+          let nationalitiesArabic = [];
+          let nationalitiesEnglish = [];
+          let menuCounter = 1;
+          for (let atr in nationalities) {
+            nationalitiesEnglish.push(
+              <MenuItem key={menuCounter} value={atr}>
+                {" "}
+                {atr}{" "}
+              </MenuItem>
+            );
+            nationalitiesArabic.push(
+              <MenuItem key={menuCounter++} value={atr}>
+                {" "}
+                {nationalities[atr]}{" "}
+              </MenuItem>
+            );
+          }
           investorCard = (
             <Card style={classes.card}>
               <CardContent>
@@ -753,7 +833,44 @@ class FillForm extends Component {
                         Female
                       </MenuItem>
                     </TextField>
-                    <TextField
+                    <FormControl
+                      required
+                      variant="outlined"
+                      style={{ minWidth: "100%" }}
+                    >
+                      <InputLabel
+                        ref={ref => {
+                          this.InputLabelRef = ref;
+                        }}
+                        htmlFor="outlined-age-simple"
+                      >
+                        {true? "Nationality" : "جنسية"}
+                      </InputLabel>
+                      <Select
+                        key={0}
+                        value={this.state.nationality}
+                        onChange={ev => this.handleChangeInvestorItem("nationality",ev.target.value)}
+                        input={
+                          <OutlinedInput
+                            label="Nationality"
+                            labelWidth={70}
+                            name="nationality"
+                          />
+                        }
+                      >
+                        <MenuItem key="0" value="">
+                          <em>
+                            {true
+                              ? "Select your Nationality"
+                              : "اختر جنسيتك"}
+                          </em>
+                        </MenuItem>
+                        {true
+                          ? nationalitiesEnglish
+                          : nationalitiesArabic}
+                      </Select>
+                    </FormControl>
+                    {/* <TextField
                       fullWidth
                       key="investornationality"
                       type="email"
@@ -767,7 +884,7 @@ class FillForm extends Component {
                       }
                       margin="normal"
                       variant="outlined"
-                    />
+                    /> */}
                     <TextField
                       fullWidth
                       key="investormethodofidentification"
