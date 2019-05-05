@@ -14,8 +14,24 @@ export default class NavBarDashboard extends Component {
     screenWidth: 0,
     type: "",
     lang: "",
-    loggedin: false
+    loggedin: false,
+    dashboard: false,
+    homepage: false,
+    profile: false,
+    electronicJournals: false,
+    logout: false
   };
+
+  async componentWillUnmount() {
+    await this.setState({
+      dashboard: false,
+      homepage: false,
+      profile: false,
+      electronicJournals: false,
+      hero: false,
+      logout: false
+    });
+  }
 
   async componentDidMount() {
     try {
@@ -26,7 +42,6 @@ export default class NavBarDashboard extends Component {
     if (localStorage.getItem("lang"))
       this.setState({ lang: localStorage.getItem("lang") });
     else this.setState({ lang: "eng" });
-    await this.setState({dashboard:false,homepage:false,profile:false,electronicJournals:false,hero:false,logout:false})
   }
 
   handleChangeLanguage = () => {
@@ -94,7 +109,29 @@ export default class NavBarDashboard extends Component {
     };
     return (
       <div className="Header" id="Header" style={styles.Header} ref="Header">
-      {this.state.homepage?<Redirect to ="/"/>:<div/>}
+        {this.state.homepage ? (
+          <Redirect to="/" />
+        ) : this.state.dashboard ? (
+          <Redirect to={`/${this.state.type.toString()}Dashboard`} />
+        ) : this.state.profile ? (
+          <Redirect
+            to={`${
+              this.state.type.toString() === "investor"
+                ? "/profile"
+                : this.state.type.toString() === "reviewer"
+                ? "/internalPortal/reviewer/profile"
+                : this.state.type.toString() === "lawyer"
+                ? "/internalPortal/lawyer/profile"
+                : "/internalPortal/admin/profile"
+            }`}
+          />
+        ) : this.state.electronicJournals ? (
+          <Redirect to="/ElectronicJournals" />
+        ) : this.state.logout ? (
+          <Redirect to="/" />
+        ) : (
+          <div />
+        )}
         <nav
           className="navbar navbar-expand-lg navbar-light bg-"
           id="navbarmob"
@@ -103,9 +140,9 @@ export default class NavBarDashboard extends Component {
             id="logo"
             style={styles.SumergiteLabel}
             onClick={async () => {
-              await this.setState({homepage:true});
-              // return <Redirect to="/" />;
-              // window.location.href = "/";
+              if (!this.state.homepage && window.location.pathname !== "/") {
+                this.setState({ homepage: true });
+              }
             }}
           >
             {this.state.lang === "eng" ? "Sumergite" : "سمرجايت"}
@@ -129,10 +166,18 @@ export default class NavBarDashboard extends Component {
                     className="button"
                     data-toggle="collapse"
                     data-target=".navbar-collapse.show"
-                    onClick={() => {
+                    onClick={async () => {
                       let redirectString =
                         "/" + this.state.type.toString() + "Dashboard";
-                      window.location.href = redirectString;
+                      if (
+                        !this.state.dashboard &&
+                        window.location.pathname !== redirectString
+                      ) {
+                        this.setState({ dashboard: true });
+                      }
+                      // let redirectString =
+                      //   "/" + this.state.type.toString() + "Dashboard";
+                      // window.location.href = redirectString;
                     }}
                   >
                     <span id="buttonHome" style={styles.Dashboard}>
@@ -148,8 +193,14 @@ export default class NavBarDashboard extends Component {
                   className="button"
                   data-toggle="collapse"
                   data-target=".navbar-collapse.show"
-                  onClick={() => {
-                    window.location.href = "/ElectronicJournals";
+                  onClick={async () => {
+                    if (
+                      !this.state.electronicJournals &&
+                      window.location.pathname !== "/ElectronicJournals"
+                    ) {
+                      this.setState({ electronicJournals: true });
+                    }
+                    // window.location.href = "/ElectronicJournals";
                   }}
                 >
                   <span id="buttonHome" style={styles.ElectronicJournals}>
@@ -164,8 +215,14 @@ export default class NavBarDashboard extends Component {
                   className="button"
                   data-toggle="collapse"
                   data-target=".navbar-collapse.show"
-                  onClick={() => {
-                    window.location.href = "/";
+                  onClick={async () => {
+                    if (
+                      !this.state.homepage &&
+                      window.location.pathname !== "/"
+                    ) {
+                      this.setState({ homepage: true });
+                    }
+                    // window.location.href = "/";
                   }}
                 >
                   <span id="buttonHome" style={styles.HomePage}>
@@ -179,7 +236,7 @@ export default class NavBarDashboard extends Component {
                     className="button"
                     data-toggle="collapse"
                     data-target=".navbar-collapse.show"
-                    onClick={() => {
+                    onClick={async () => {
                       const type = this.state.type;
                       let profileString = "";
                       if (type.toString() === "investor") {
@@ -194,7 +251,13 @@ export default class NavBarDashboard extends Component {
                       if (type.toString() === "admin") {
                         profileString = "/internalPortal/admin/profile";
                       }
-                      window.location.href = profileString;
+                      // window.location.href = profileString;
+                      if (
+                        !this.state.profile &&
+                        window.location.pathname !== profileString
+                      ) {
+                        this.setState({ profile: true });
+                      }
                     }}
                   >
                     <span id="buttonHome" style={styles.Profile}>
@@ -211,11 +274,17 @@ export default class NavBarDashboard extends Component {
                     className="button"
                     data-toggle="collapse"
                     data-target=".navbar-collapse.show"
-                    onClick={() => {
+                    onClick={async () => {
                       logout();
+                      if (
+                        !this.state.logout &&
+                        window.location.pathname !== "/logout"
+                      ) {
+                        this.setState({ homepage: true });
+                      }
                       if (window.location.pathname === "/")
                         window.location.reload();
-                      window.location.href = "/";
+                      // window.location.href = "/";
                     }}
                   >
                     <span id="buttonHome" style={styles.logout}>
