@@ -4,7 +4,6 @@ import { logout } from "../globalState/actions/authActions";
 import parseJwt from "../helpers/decryptAuthToken";
 import Language from "@material-ui/icons/Language";
 import Fab from "@material-ui/core/Fab";
-// import { Link } from "react-router-dom";
 import { Redirect } from "react-router-dom";
 
 export default class NavBarDashboard extends Component {
