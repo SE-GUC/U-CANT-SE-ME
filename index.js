@@ -52,15 +52,6 @@ app.use(
 app.use(passport.initialize());
 app.use(passport.session());
 
-//production mode
-if (process.env.NODE_ENV === "production") {
-  app.use(express.static("client/build"));
-  //Homepage
-  app.get("/", (req, res) => res.sendFile(path.resolve(__dirname, "client", "build", "index.html")));
-} else {
-  app.get("/", (req, res) => res.send("Homepage"));
-}
-
 //Connect flash
 app.use(flash());
 
@@ -82,6 +73,15 @@ app.use("/api/cases", cases);
 app.use("/api/formTemplates", formTemplates);
 app.use("/api/notifications", notifications);
 app.use("/api/externalEntities", externalEntities);
+
+//production mode
+if (process.env.NODE_ENV === "production") {
+  app.use(express.static("client/build"));
+  //Homepage
+  app.get("*", (req, res) => res.sendFile(path.resolve(__dirname, "client", "build", "index.html")));
+} else {
+  app.get("/", (req, res) => res.send("Homepage"));
+}
 
 // Handling 404
 app.use((req, res) => {
