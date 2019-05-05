@@ -43,8 +43,6 @@ const styles1 = {
 function MySnackbarContent(props) {
   const classes = { ...styles1 };
   const { message, onClose, variant } = props;
-  console.log(classes.error);
-  console.log(variant);
   return (
     <SnackbarContent
       className="MySnackbarContent-error-46"
