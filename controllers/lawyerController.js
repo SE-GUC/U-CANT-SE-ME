@@ -279,7 +279,7 @@ exports.addCommentAsLawyer = async function(req, res) {
         return res.status(403).send({
           error: "Only assigned Lawyers to this Case can comment on it"
         });
-      if (checkCase[0].caseStatus !== "OnUpdate")
+      if (checkCase[0].caseStatus !== "OnUpdate" && checkCase[0].caseStatus !== "AssignedToLawyer")
         return res.status(403).send({
           error: "Access Denied: This Case is currently Locked for you."
         });
