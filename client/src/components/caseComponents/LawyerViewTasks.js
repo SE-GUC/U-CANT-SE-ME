@@ -4,6 +4,7 @@ import parseJwt from "../../helpers/decryptAuthToken";
 import { Redirect } from "react-router-dom";
 import CasesContainerProps from "../dCaseComponents/CasesContainerProps";
 import CircularProgress from "@material-ui/core/CircularProgress";
+import SnackBar from "../snackbar";
 
 export default class LawyerViewTasks extends Component {
   state = {
@@ -11,7 +12,10 @@ export default class LawyerViewTasks extends Component {
     caseid: "",
     lawyerId: "",
     home: 0,
-    finished: false
+    finished: false,
+    alerted: false,
+    alertType: "",
+    alertMsg: ""
   };
 
   async componentDidMount() {
@@ -36,10 +40,16 @@ export default class LawyerViewTasks extends Component {
     await this.setState({ finished: true });
   }
   accept = async caseId => {
+    await this.setState({ alerted: false, alertType: "", alertMsg: "" });
     try {
       await axios.put(
         `api/lawyers/updateCaseStatus/${caseId}/WaitingForReviewer`
       );
+      await this.setState({
+        alerted: true,
+        alertType: "success",
+        alertMsg: "You Have Accepted This Case"
+      });
       const newArr = this.state.cases.filter(function(value, index, arr) {
         return caseId === value._id;
       });
@@ -51,6 +61,14 @@ export default class LawyerViewTasks extends Component {
   };
 
   render() {
+    let alertSnack;
+    if (this.state.alerted)
+      alertSnack = (
+        <SnackBar
+          message={this.state.alertMsg}
+          variant={this.state.alertType}
+        />
+      );
     if (this.state.home === 0) return <div />;
     if (this.state.home === 1) return <Redirect to={{ pathname: "/" }} />;
     else {
@@ -63,7 +81,10 @@ export default class LawyerViewTasks extends Component {
         );
       } else {
         return this.state.cases.length === 0 ? (
-          <h1>You dont have any cases.</h1>
+          <div>
+            <h1>You dont have any cases.</h1>
+            {alertSnack}
+          </div>
         ) : (
           <header className="LawyerViewTasks">
             <div>
@@ -71,6 +92,8 @@ export default class LawyerViewTasks extends Component {
                 cases={this.state.cases}
                 currentUserId={this.state.lawyerId}
               />
+
+              {alertSnack}
             </div>
           </header>
         );

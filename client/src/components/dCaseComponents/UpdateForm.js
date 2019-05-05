@@ -16,6 +16,7 @@ import CrossIcon from "@material-ui/icons/Close";
 import green from "@material-ui/core/colors/green";
 import red from "@material-ui/core/colors/red";
 import Typography from "@material-ui/core/Typography";
+import SnackBar from "../snackbar";
 
 const styles = {
   root: {
@@ -59,10 +60,14 @@ class UpdateForm extends Component {
     finished: false,
     success: false,
     loading: false,
-    clicked: false
+    clicked: false,
+    alerted: false,
+    alertType: "",
+    alertMsg: ""
   };
 
   handleUpdateButton = async () => {
+    await this.setState({ alerted: false, alertType: "", alertMsg: "" });
     if (!this.state.loading) {
       await this.setState({
         success: false,
@@ -86,13 +91,20 @@ class UpdateForm extends Component {
           await this.setState({ success: true, loading: false });
           this.props.case.form = this.state.formObject;
           await this.setState({ toUpdateProps: this.state.formObject });
-          alert("Form Updated Successfully");
-          await this.setState({ success: true, loading: false });
+          await this.setState({
+            alerted: true,
+            alertType: "success",
+            alertMsg: "Form Updated Successfully!"
+          });
           window.location.reload();
         })
         .catch(async err => {
           await this.setState({ success: false, loading: false });
-          alert(err.response.data.error);
+          await this.setState({
+            alerted: true,
+            alertType: "error",
+            alertMsg: err.response.data.error
+          });
         });
     } else {
       const caseBody = {
@@ -110,13 +122,20 @@ class UpdateForm extends Component {
           this.props.case.form = this.state.formObject;
           await this.setState({ success: true, loading: false });
           await this.setState({ toUpdateProps: this.state.formObject });
-          alert("Form Updated Successfully");
-          await this.setState({ success: true, loading: false });
+          await this.setState({
+            alerted: true,
+            alertType: "success",
+            alertMsg: "Form Updated Succesfully!"
+          });
           window.location.reload();
         })
         .catch(async err => {
           await this.setState({ success: false, loading: false });
-          alert(err.response.data.error);
+          await this.setState({
+            alerted: true,
+            alertType: "error",
+            alertMsg: err.response.data.error
+          });
         });
     }
   };
@@ -155,6 +174,14 @@ class UpdateForm extends Component {
   };
 
   render() {
+    let alertSnack;
+    if (this.state.alerted)
+      alertSnack = (
+        <SnackBar
+          message={this.state.alertMsg}
+          variant={this.state.alertType}
+        />
+      );
     if (!this.state.finished) {
       return (
         <div>
@@ -398,6 +425,7 @@ class UpdateForm extends Component {
       return (
         <div>
           <div>
+            {alertSnack}
             <Fab
               variant="extended"
               size="large"

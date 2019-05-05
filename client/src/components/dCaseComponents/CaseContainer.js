@@ -14,6 +14,7 @@ import AddComment from "./AddComment";
 import UpdateForm from "./UpdateForm";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import parseJwt from "../../helpers/decryptAuthToken";
+import SnackBar from "../snackbar";
 
 const styles = {
   card: {
@@ -59,7 +60,10 @@ class CaseContainer extends Component {
     currentUserId: this.props.currentUserId,
     commentsClicked: false,
     finished: false,
-    loggedInType: ""
+    loggedInType: "",
+    alerted: false,
+    alertType: "",
+    alertMsg: ""
   };
 
   handleCommentsBack = async () => {
@@ -79,24 +83,45 @@ class CaseContainer extends Component {
   };
 
   acceptLawyer = async caseId => {
+    await this.setState({ alerted: false, alertType: "", alertMsg: "" });
     try {
       await axios.put(
         `api/lawyers/updateCaseStatus/${caseId}/WaitingForReviewer`
       );
+      await this.setState({
+        alerted: true,
+        alertType: "success",
+        alertMsg: "You Have Accepted This Case"
+      });
       window.location.reload();
     } catch (err) {
-      alert(err.response.data.error);
+      await this.setState({
+        alerted: true,
+        alertType: "error",
+        alertMsg: err.response.data.error
+      });
     }
   };
   rejectLawyer = async caseId => {
+    await this.setState({ alerted: false, alertType: "", alertMsg: "" });
     try {
       await axios.put(`api/lawyers/updateCaseStatus/${caseId}/OnUpdate`);
+      await this.setState({
+        alerted: true,
+        alertType: "success",
+        alertMsg: "You Have Rejected This Case"
+      });
       window.location.reload();
     } catch (err) {
-      alert(err.response.data.error);
+      await this.setState({
+        alerted: true,
+        alertType: "error",
+        alertMsg: err.response.data.error
+      });
     }
   };
   takeLawyer = async caseId => {
+    await this.setState({ alerted: false, alertType: "", alertMsg: "" });
     if (
       window.confirm("Are you sure you want to assign yourself to this case ?")
     ) {
@@ -104,29 +129,59 @@ class CaseContainer extends Component {
         await axios.get(
           `api/lawyers/assigncase/${this.state.currentUserId}/${caseId}`
         );
+        await this.setState({
+          alerted: true,
+          alertType: "success",
+          alertMsg: "You Have Taken This Case"
+        });
         window.location.reload();
       } catch (err) {
-        alert(err.response.data.error);
+        await this.setState({
+          alerted: true,
+          alertType: "error",
+          alertMsg: err.response.data.error
+        });
       }
     }
   };
   acceptReviewer = async caseId => {
+    await this.setState({ alerted: false, alertType: "", alertMsg: "" });
     try {
       await axios.put(`api/reviewers/updateCaseStatus/${caseId}/Accepted`);
+      await this.setState({
+        alerted: true,
+        alertType: "success",
+        alertMsg: "You Have Accepted This Case"
+      });
       window.location.reload();
     } catch (err) {
-      alert(err.response.data.error);
+      await this.setState({
+        alerted: true,
+        alertType: "error",
+        alertMsg: err.response.data.error
+      });
     }
   };
   rejectReviewer = async caseId => {
+    await this.setState({ alerted: false, alertType: "", alertMsg: "" });
     try {
       await axios.put(`api/reviewers/updateCaseStatus/${caseId}/OnUpdate`);
+      await this.setState({
+        alerted: true,
+        alertType: "success",
+        alertMsg: "You Have Rejected This Case"
+      });
       window.location.reload();
     } catch (err) {
-      alert(err.response.data.error);
+      await this.setState({
+        alerted: true,
+        alertType: "error",
+        alertMsg: err.response.data.error
+      });
     }
   };
   takeReviewer = async caseId => {
+    await this.setState({ alerted: false, alertType: "", alertMsg: "" });
     if (
       window.confirm("Are you sure you want to assign yourself to this case ?")
     ) {
@@ -134,19 +189,33 @@ class CaseContainer extends Component {
         await axios.get(
           `api/reviewers/assigncase/${this.state.currentUserId}/${caseId}`
         );
+        await this.setState({
+          alerted: true,
+          alertType: "success",
+          alertMsg: "You Have Takes This Case"
+        });
         window.location.reload();
       } catch (err) {
-        alert(err.response.data.error);
+        await this.setState({
+          alerted: true,
+          alertType: "error",
+          alertMsg: err.response.data.error
+        });
       }
     }
   };
   viewDecision = async id => {
+    await this.setState({ alerted: false, alertType: "", alertMsg: "" });
     try {
       const decision = await axios.get(`api/lawyers/viewDecision/${id}`);
       var newWindow = window.open("_blank");
       newWindow.document.write(decision.data.data);
     } catch (err) {
-      alert(err.response.data.error);
+      await this.setState({
+        alerted: true,
+        alertType: "error",
+        alertMsg: err.response.data.error
+      });
     }
   };
   downloadDecision = async id => {
@@ -164,12 +233,17 @@ class CaseContainer extends Component {
     });
   };
   viewContract = async id => {
+    await this.setState({ alerted: false, alertType: "", alertMsg: "" });
     try {
       const contract = await axios.get(`api/lawyers/viewContract/${id}`);
       var newWindow = window.open("_blank");
       newWindow.document.write(contract.data.data);
     } catch (err) {
-      alert(err.response.data.error);
+      await this.setState({
+        alerted: true,
+        alertType: "error",
+        alertMsg: err.response.data.error
+      });
     }
   };
   downloadContract = async id => {
@@ -253,6 +327,14 @@ class CaseContainer extends Component {
   };
 
   render() {
+    let alertSnack;
+    if (this.state.alerted)
+      alertSnack = (
+        <SnackBar
+          message={this.state.alertMsg}
+          variant={this.state.alertType}
+        />
+      );
     if (!this.state.finished) {
       return (
         <div>
@@ -592,7 +674,7 @@ class CaseContainer extends Component {
         this.props.expandedCase.caseStatus === "Accepted"
       ) {
         buttonPaying = (
-          <div style = {{marginLeft: "2.5%", marginTop: "1%"}}>
+          <div style={{ marginLeft: "2.5%", marginTop: "1%" }}>
             <PayMyFees
               investorId={this.state.investor._id}
               caseId={this.props.expandedCase._id}
@@ -800,6 +882,7 @@ class CaseContainer extends Component {
               {buttonReject}
               {buttonTakeLawyer}
               {buttonTakeReviewer}
+              {alertSnack}
             </div>
           </div>
         );

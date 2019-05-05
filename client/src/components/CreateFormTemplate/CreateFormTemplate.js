@@ -13,11 +13,22 @@ import green from "@material-ui/core/colors/green";
 import red from "@material-ui/core/colors/red";
 import Typography from "@material-ui/core/Typography";
 import { Fab } from "@material-ui/core";
+import SnackBar from "../snackbar";
 
 class CreateFormTemplate extends Component {
-  state = { code: ``, home: 0, success: false, loading: false, clicked: false };
+  state = {
+    code: ``,
+    home: 0,
+    success: false,
+    loading: false,
+    clicked: false,
+    alerted: false,
+    alertType: "",
+    alertMsg: ""
+  };
 
   upload = async ev => {
+    await this.setState({ alerted: false, alertType: "", alertMsg: "" });
     if (!this.state.loading) {
       await this.setState({
         success: false,
@@ -30,28 +41,48 @@ class CreateFormTemplate extends Component {
       formTemplate = JSON.parse(this.state.code);
     } catch (error) {
       await this.setState({ success: false, loading: false });
-      alert(`Error parsing the JSON file. Check the Syntax!`);
+      await this.setState({
+        alerted: true,
+        alertType: "error",
+        alertMsg: "Error parsing the JSON file. Check the Syntax!"
+      });
+      // alert(`Error parsing the JSON file. Check the Syntax!`);
       return;
     }
     axios
       .post(`api/admins/createFormTemplate/`, formTemplate)
       .then(async res => {
         await this.setState({ success: true, loading: false });
-        alert(`Form Template Created!`);
+        await this.setState({
+          alerted: true,
+          alertType: "success",
+          alertMsg: "Form Template Created!"
+        });
+        // alert(`Form Template Created!`);
       })
       .catch(async error => {
         await this.setState({ success: false, loading: false });
-        alert(
-          `The Form Template doesn't match required conditions! \nError: ${
+        await this.setState({
+          alerted: true,
+          alertType: "success",
+          alertMsg: `The Form Template doesn't match required conditions! \nError: ${
             typeof error.response.data === "string"
               ? error.response.data
               : error.response.data.error
           }`
-        );
+        });
       });
   };
 
   render() {
+    let alertSnack;
+    if (this.state.alerted)
+      alertSnack = (
+        <SnackBar
+          message={this.state.alertMsg}
+          variant={this.state.alertType}
+        />
+      );
     const { loading, success, clicked } = this.state;
     if (this.state.home === 0) return <div> </div>;
     if (this.state.home === 1) return <Redirect to={{ pathname: "/" }} />;
@@ -139,6 +170,7 @@ class CreateFormTemplate extends Component {
                 }}
               />
             )}
+            {alertSnack}
           </div>
         </div>
         {/* <button onClick={this.upload} className="json_upload_button">
